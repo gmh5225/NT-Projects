@@ -1,0 +1,3 @@
+[autorun]
+open=acrobat\reader\acrord32.exe ecma.pdf
+icon=iconecma.bmp

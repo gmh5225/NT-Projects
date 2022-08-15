@@ -1,0 +1,27 @@
+%!Adobe-FontList 1.01
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:CMap
+CMapName:Identity-V
+Registry:Adobe
+Ordering:Identity
+UseCMap:Identity-H
+OutlineFileName:\Identity-V
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:CMap
+CMapName:Identity-H
+Registry:Adobe
+Ordering:Identity
+OutlineFileName:\Identity-H
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:\AdobeFnt.lst
+%EndFont
+

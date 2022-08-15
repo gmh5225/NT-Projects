@@ -1,0 +1,37 @@
+
+
+ADOBE SYSTEMS INCORPORATED
+ELECTRONIC END USER LICENSE AGREEMENT
+FOR ADOBE ACROBAT READER
+
+NOTICE TO USER:
+THIS IS A CONTRACT.  BY INSTALLING THIS SOFTWARE YOU ACCEPT ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
+
+This Adobe Systems Incorporated ("Adobe") End User License Agreement accompanies the Adobe(r) Acrobat(r) Reader product and related explanatory materials  ("Software").  The term "Software" also shall include any upgrades, modified versions or updates of the Software licensed to you by Adobe.  Please read this Agreement carefully.  At the end, you will be asked to accept this agreement and continue to install or, if you do not wish to accept this Agreement, to decline this agreement, in which case you will not be able to use the Software.
+
+Upon your acceptance of this Agreement, Adobe grants to you a nonexclusive license to use the Software, provided that you agree to the following:
+
+1.  Use of the Software.
+
+- You may install the Software on a hard disk or other storage device; install and use the Software on a file server for use on a network for the purposes of (i) permanent installation onto hard disks or other storage devices or (ii) use of the Software over such network; and make backup copies of the Software.
+
+- You may make and distribute unlimited copies of the Software, including copies for commercial distribution, as long as each copy that you make and distribute contains this Agreement and the same copyright and other proprietary notices pertaining to this Software that appear in the Software.  If you download the Software from the Internet or similar on-line source, you must include the Adobe copyright notice for the Software with any on-line distribution and on any media you distribute that includes the Software.
+
+2.  Copyright and Trademark Rights.  The Software is owned by Adobe and its suppliers, and its structure, organization and code are the valuable trade secrets of Adobe and its suppliers.  The Software also is protected by United States Copyright Law and International Treaty provisions. You may use trademarks only insofar as required to comply with Section 1 of this Agreement and to identify printed output produced by the Software, in accordance with accepted trademark practice, including identification of trademark owner's name.  Such use of any trademark does not give you any rights of ownership in that trademark.  Except as stated above, this Agreement does not grant you any intellectual property rights in the Software.
+
+3.  Restrictions. You agree not to modify, adapt, translate, reverse engineer, decompile, disassemble or otherwise attempt to discover the source code of the Software. Although you may customize the installer for the Software as documented on the Adobe Acrobat Reader CD-ROM (e.g., installation of additional plug-in and help files), you may not otherwise alter or modify the installer program or create a new installer for the Software.  The Software is licensed and distributed by Adobe for viewing, distributing and sharing PDF files.  Any plug-in or enhancement that permits you to save modifications to a PDF file may not be used with the Software.
+
+4.  No Warranty.  The Software is being delivered to you AS IS and Adobe makes no warranty as to its use or performance.  ADOBE AND ITS SUPPLIERS DO NOT AND CANNOT WARRANT THE PERFORMANCE OR RESULTS YOU MAY OBTAIN BY USING THE SOFTWARE OR DOCUMENTATION.  ADOBE AND ITS SUPPLIERS MAKE NO WARRANTIES, EXPRESS OR IMPLIED, AS TO NONINFRINGEMENT OF THIRD PARTY RIGHTS, MERCHANTABILITY, OR FITNESS FOR ANY PARTICULAR PURPOSE.  IN NO EVENT WILL ADOBE OR ITS SUPPLIERS BE LIABLE TO YOU FOR ANY CONSEQUENTIAL, INCIDENTAL OR SPECIAL DAMAGES, INCLUDING ANY LOST PROFITS OR LOST SAVINGS, EVEN IF AN ADOBE REPRESENTATIVE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, OR FOR ANY CLAIM BY ANY THIRD PARTY.  Some states or jurisdictions do not allow the exclusion or limitation of incidental, consequential or special damages, or the exclusion of implied warranties or limitations on how long an implied warranty may last, so the above limitations may not apply to you.
+
+5. Governing Law and General Provisions.  This Agreement will be governed by the laws of the State of California, U.S.A., excluding the application of its conflicts of law rules.  This Agreement will not be governed by the United Nations Convention on Contracts for the International Sale of Goods, the application of which is expressly excluded.  If any part of this Agreement is found void and unenforceable, it will not affect the validity of the balance of the Agreement, which shall remain valid and enforceable according to its terms.  You agree that the Software will not be shipped, transferred or exported into any country or used in any manner prohibited by the United States Export Administration Act or any other export laws, restrictions or regulations.  This Agreement shall automatically terminate upon failure by you to comply with its terms.  This Agreement may only be modified in writing signed by an authorized officer of Adobe.
+
+6. Notice to Government End Users. The Software and Documentation are "Commercial Items," as that term is defined at 48 C.F.R. §2.101, consisting of "Commercial Computer Software" and "Commercial Computer Software Documentation," as such terms are used in 48 C.F.R. §12.212 or 48 C.F.R. §227.7202, as applicable. Consistent with 48 C.F.R. §12.212 or 48 C.F.R. §§227.7202-1 through 227.7202-4, as applicable, the Commercial Computer Software and Commercial Computer Software Documentation are being licensed to U.S. Government end users (A) only as Commercial Items and (B) with only those rights as are granted to all other end users pursuant to the terms and conditions herein.
+
+Unpublished-rights reserved under the copyright laws of the United States. 
+Adobe Systems Incorporated, 345 Park Avenue, San Jose, CA  95110.
+
+Adobe, Acrobat, and Acrobat Exchange are trademarks of Adobe Systems Incorporated.
+
+
+
+
