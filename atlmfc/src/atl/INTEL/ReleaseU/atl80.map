@@ -1,0 +1,1898 @@
+ atl80
+
+ Timestamp is 62c35293 (Mon Jul 04 16:50:27 2022)
+
+ Preferred load address is 7c630000
+
+ Start         Length     Name                   Class
+ 0001:00000000 0000e1a4H .text                   CODE
+ 0001:0000e1a4 0000006cH .text$yc                CODE
+ 0001:0000e210 00000032H .text$yd                CODE
+ 0002:00000000 00000110H .idata$5                DATA
+ 0002:00000110 00000004H .CRT$XCA                DATA
+ 0002:00000114 0000000cH .CRT$XCL                DATA
+ 0002:00000120 00000004H .CRT$XCU                DATA
+ 0002:00000124 00000004H .CRT$XCZ                DATA
+ 0002:00000128 00000004H .CRT$XIA                DATA
+ 0002:0000012c 00000008H .CRT$XIC                DATA
+ 0002:00000134 00000004H .CRT$XIZ                DATA
+ 0002:00000138 00000004H .CRT$XPA                DATA
+ 0002:0000013c 00000004H .CRT$XPZ                DATA
+ 0002:00000140 00000004H .CRT$XTA                DATA
+ 0002:00000144 00000004H .CRT$XTZ                DATA
+ 0002:00000150 00003050H .rdata                  DATA
+ 0002:000031a0 0000004fH .rdata$debug            DATA
+ 0002:000031f0 0000000cH .rdata$sxdata           DATA
+ 0002:00003200 000000bcH .xdata$x                DATA
+ 0002:000032bc 00000004H ATL$__a                 DATA
+ 0002:000032c0 00000004H ATL$__z                 DATA
+ 0002:000032c4 000000a0H .didat$2                DATA
+ 0002:00003364 00000020H .didat$3                DATA
+ 0002:00003384 000001ecH .didat$4                DATA
+ 0002:00003570 00000700H .didat$6                DATA
+ 0002:00003c70 000001ecH .didat$7                DATA
+ 0002:00003e5c 00000014H .idata$2                DATA
+ 0002:00003e70 00000014H .idata$3                DATA
+ 0002:00003e84 00000110H .idata$4                DATA
+ 0002:00003f94 000004d4H .idata$6                DATA
+ 0002:00004470 000006ddH .edata                  DATA
+ 0003:00000000 000001c0H .data                   DATA
+ 0003:000001c0 000001ecH .didat$5                DATA
+ 0003:000003b0 0000052cH .bss                    DATA
+ 0004:00000000 00000128H .rsrc$01                DATA
+ 0004:00000130 00002218H .rsrc$02                DATA
+
+  Address         Publics by Value              Rva+Base       Lib:Object
+
+ 0000:00000000       __except_list              00000000     <absolute>
+ 0000:00000003       ___safe_se_handler_count   00000003     <absolute>
+ 0000:00000000       ___ImageBase               7c630000     <linker-defined>
+ 0001:00000000       _InlineIsEqualGUID         7c631000 f i RegObj.obj
+ 0001:0000002d       ?AtlThrowImpl@ATL@@YGXJ@Z  7c63102d f i RegObj.obj
+ 0001:00000051       ?AtlCrtErrorCheck@ATL@@YAHH@Z 7c631051 f i RegObj.obj
+ 0001:00000086       ?wcscpy_s@Checked@ATL@@YAXPA_WIPB_W@Z 7c631086 f i RegObj.obj
+ 0001:000000a1       ?ui64tow_s@Checked@ATL@@YAX_KPA_WIH@Z 7c6310a1 f i RegObj.obj
+ 0001:000000c3       _AtlComPtrAssign@8         7c6310c3 f i RegObj.obj
+ 0001:000000f4       ?InlineIsEqualUnknown@ATL@@YGHABU_GUID@@@Z 7c6310f4 f i RegObj.obj
+ 0001:0000011f       _AtlInternalQueryInterface@16 7c63111f f i RegObj.obj
+ 0001:000001c0       ?FormatWindowClassName@AtlModuleRegisterWndClassInfoParamW@ATL@@SAXPA_WKPAX@Z 7c6311c0 f i RegObj.obj
+ 0001:000001fc       ?InternalSetAtIndex@?$CSimpleArray@GV?$CSimpleArrayEqualHelper@G@ATL@@@ATL@@QAEXHABG@Z 7c6311fc f i RegObj.obj
+ 0001:00000216       ??1?$CComCritSecLock@VCComCriticalSection@ATL@@@ATL@@QAE@XZ 7c631216 f i RegObj.obj
+ 0001:0000022d       _AtlWinModuleAddCreateWndData@12 7c63122d f i RegObj.obj
+ 0001:0000028d       _AtlWinModuleExtractCreateWndData@4 7c63128d f i RegObj.obj
+ 0001:000002f4       ?Add@?$CSimpleArray@GV?$CSimpleArrayEqualHelper@G@ATL@@@ATL@@QAEHABG@Z 7c6312f4 f i RegObj.obj
+ 0001:00000366       _AtlWinModuleRegisterClassExW@8 7c631366 f i RegObj.obj
+ 0001:000003a1       ??$AtlModuleRegisterWndClassInfoT@VAtlModuleRegisterWndClassInfoParamW@ATL@@@ATL@@YAGPAU_ATL_BASE_MODULE70@0@PAU_ATL_WIN_MODULE70@0@PAU_ATL_WNDCLASSINFOW@0@PAP6GJPAUHWND__@@IIJ@ZVAtlModuleRegisterWndClassInfoParamW@0@@Z 7c6313a1 f i RegObj.obj
+ 0001:000004ea       _AtlWinModuleRegisterWndClassInfoW@16 7c6314ea f i RegObj.obj
+ 0001:00000508       ?GetObjectDescription@?$CComCoClass@VCDLLRegObject@@$1?CLSID_Registrar@@3U_GUID@@B@ATL@@SGPB_WXZ 7c631508 f i atl.obj
+ 0001:00000508       ?GetCategoryMap@CComObjectRootBase@ATL@@SAPBU_ATL_CATMAP_ENTRY@2@XZ 7c631508 f i atl.obj
+ 0001:0000050b       ?CreateInstance@?$CComFailCreator@$0?HPPLPOPA@@ATL@@SGJPAXABU_GUID@@PAPAX@Z 7c63150b f i atl.obj
+ 0001:00000525       ?ocscpy_s@@YA_NPA_WIPB_W@Z 7c631525 f i atl.obj
+ 0001:00000551       ??0CComCriticalSection@ATL@@QAE@XZ 7c631551 f i atl.obj
+ 0001:00000565       ?Init@CComCriticalSection@ATL@@QAEJXZ 7c631565 f i atl.obj
+ 0001:000005b0       ?AtlHresultFromLastError@ATL@@YAJXZ 7c6315b0 f i atl.obj
+ 0001:000005c5       ?AtlHresultFromWin32@ATL@@YAJK@Z 7c6315c5 f i atl.obj
+ 0001:000005d8       ?EscapeSingleQuote@CAtlModule@ATL@@SAXPA_WIPB_W@Z 7c6315d8 f i atl.obj
+ 0001:00000620       ?Init@CComModule@ATL@@QAEJPAU_ATL_OBJMAP_ENTRY30@2@PAUHINSTANCE__@@PBU_GUID@@@Z 7c631620 f i atl.obj
+ 0001:0000067c       _AtlCallTermFunc@4         7c63167c f i atl.obj
+ 0001:000006bc       ?FinalConstruct@CRegObject@ATL@@QAEJXZ 7c6316bc f i atl.obj
+ 0001:000006d1       ??1?$CAtlSafeAllocBufferManager@VCCRTAllocator@ATL@@@_ATL_SAFE_ALLOCA_IMPL@ATL@@QAE@XZ 7c6316d1 f i atl.obj
+ 0001:000006ea       ??1?$CComObjectRootEx@VCComMultiThreadModel@ATL@@@ATL@@QAE@XZ 7c6316ea f i atl.obj
+ 0001:000006ff       ?RemoveAll@?$CSimpleMap@PA_WPA_WVCExpansionVectorEqualHelper@ATL@@@ATL@@QAEXXZ 7c6316ff f i atl.obj
+ 0001:0000072a       ?GetKeyAt@?$CSimpleMap@PA_WPA_WVCExpansionVectorEqualHelper@ATL@@@ATL@@QBEAAPA_WH@Z 7c63172a f i atl.obj
+ 0001:00000751       ?GetValueAt@?$CSimpleMap@PA_WPA_WVCExpansionVectorEqualHelper@ATL@@@ATL@@QBEAAPA_WH@Z 7c631751 f i atl.obj
+ 0001:00000779       ?_AtlInitialConstruct@?$CComObjectRootEx@VCComMultiThreadModel@ATL@@@ATL@@QAEJXZ 7c631779 f i atl.obj
+ 0001:0000078e       ??0CAtlModule@ATL@@QAE@XZ  7c63178e f i atl.obj
+ 0001:000007d0       ?Term@CAtlModule@ATL@@QAEXXZ 7c6317d0 f i atl.obj
+ 0001:00000809       ?Term@CComModule@ATL@@QAEXXZ 7c631809 f i atl.obj
+ 0001:0000085b       ?CreateInstance@CComClassFactory@ATL@@UAGJPAUIUnknown@@ABU_GUID@@PAPAX@Z 7c63185b f i atl.obj
+ 0001:00000899       ?LockServer@CComClassFactory@ATL@@UAGJH@Z 7c631899 f i atl.obj
+ 0001:000008b5       ?ClearReplacements@CExpansionVector@ATL@@QAEJXZ 7c6318b5 f i atl.obj
+ 0001:000008f2       ?ClearReplacements@CRegObject@ATL@@UAGJXZ 7c6318f2 f i atl.obj
+ 0001:0000091a       ?AtlAxWinTerm@ATL@@YAHXZ   7c63191a f i atl.obj
+ 0001:00000940       ??0?$CComObjectRootEx@VCComMultiThreadModel@ATL@@@ATL@@QAE@XZ 7c631940 f i atl.obj
+ 0001:0000095a       _DllMain@12                7c63195a f   atl.obj
+ 0001:00000a08       ??1?$CComObjectCached@VCComClassFactory@ATL@@@ATL@@QAE@XZ 7c631a08 f i atl.obj
+ 0001:00000a1e       ??0CComClassFactory@ATL@@QAE@XZ 7c631a1e f i atl.obj
+ 0001:00000a33       ?Lock@CAtlModule@ATL@@UAEJXZ 7c631a33 f i atl.obj
+ 0001:00000a3e       ?Unlock@CAtlModule@ATL@@UAEJXZ 7c631a3e f i atl.obj
+ 0001:00000a49       ?GetLockCount@CAtlModule@ATL@@UAEJXZ 7c631a49 f i atl.obj
+ 0001:00000a4d       ?GetGITPtr@CAtlModule@ATL@@UAEJPAPAUIGlobalInterfaceTable@@@Z 7c631a4d f i atl.obj
+ 0001:00000a96       ?AddCommonRGSReplacements@?$CAtlModuleT@VCComModule@ATL@@@ATL@@UAEJPAUIRegistrarBase@@@Z 7c631a96 f i atl.obj
+ 0001:00000aad       ??_GCComModule@ATL@@UAEPAXI@Z 7c631aad f i atl.obj
+ 0001:00000aad       ??_ECComModule@ATL@@UAEPAXI@Z 7c631aad f i atl.obj
+ 0001:00000acf       ??1CRegObject@ATL@@UAE@XZ  7c631acf f i atl.obj
+ 0001:00000afe       ??1CDLLRegObject@@UAE@XZ   7c631afe f i atl.obj
+ 0001:00000b1f       ??0CRegObject@ATL@@QAE@XZ  7c631b1f f i atl.obj
+ 0001:00000b42       ?AddRef@?$CComObjectCached@VCComClassFactory@ATL@@@ATL@@UAGKXZ 7c631b42 f i atl.obj
+ 0001:00000b69       ?QueryInterface@?$CComObjectCached@VCComClassFactory@ATL@@@ATL@@UAGJABU_GUID@@PAPAX@Z 7c631b69 f i atl.obj
+ 0001:00000b82       ?Release@?$CComObjectCached@VCComClassFactory@ATL@@@ATL@@UAGKXZ 7c631b82 f i atl.obj
+ 0001:00000bc3       ??0CDLLRegObject@@QAE@XZ   7c631bc3 f i atl.obj
+ 0001:00000bd7       ?CreateInstance@?$CComCreator@V?$CComObjectCached@VCComClassFactory@ATL@@@ATL@@@ATL@@SGJPAXABU_GUID@@PAPAX@Z 7c631bd7 f i atl.obj
+ 0001:00000c55       ??0?$CComObject@VCDLLRegObject@@@ATL@@QAE@PAX@Z 7c631c55 f i atl.obj
+ 0001:00000c74       ??$AtlMultiply@I@ATL@@YAJPAIII@Z 7c631c74 f i atl.obj
+ 0001:00000c74       ??$AtlMultiply@K@ATL@@YAJPAKKK@Z 7c631c74 f i atl.obj
+ 0001:00000c94       ?AtlCoTaskMemCAlloc@ATL@@YAPAXKK@Z 7c631c94 f i atl.obj
+ 0001:00000cc1       ?AtlCoTaskMemRecalloc@ATL@@YAPAXPAXKK@Z 7c631cc1 f i atl.obj
+ 0001:00000cf1       ?memcpy_s@Checked@ATL@@YAXPAXIPBXI@Z 7c631cf1 f i atl.obj
+ 0001:00000d10       ?Close@CRegKey@ATL@@QAEJXZ 7c631d10 f i atl.obj
+ 0001:00000d27       ?Create@CRegKey@ATL@@QAEJPAUHKEY__@@PB_WPA_WKKPAU_SECURITY_ATTRIBUTES@@PAK@Z 7c631d27 f i atl.obj
+ 0001:00000d75       ?Open@CRegKey@ATL@@QAEJPAUHKEY__@@PB_WK@Z 7c631d75 f i atl.obj
+ 0001:00000daa       ?SetDWORDValue@CRegKey@ATL@@QAEJPB_WK@Z 7c631daa f i atl.obj
+ 0001:00000dc4       ?SetStringValue@CRegKey@ATL@@QAEJPB_W0K@Z 7c631dc4 f i atl.obj
+ 0001:00000e00       ?SetMultiStringValue@CRegKey@ATL@@QAEJPB_W0@Z 7c631e00 f i atl.obj
+ 0001:00000e48       ?IsEqualKey@CExpansionVectorEqualHelper@ATL@@SA_NQA_W0@Z 7c631e48 f i atl.obj
+ 0001:00000e5d       ?EndOfVar@CRegParser@ATL@@IAEHXZ 7c631e5d f i atl.obj
+ 0001:00000e79       ??0CParseBuffer@CRegParser@ATL@@QAE@H@Z 7c631e79 f i atl.obj
+ 0001:00000eab       ?Append@CParseBuffer@CRegParser@ATL@@QAEHPB_WH@Z 7c631eab f i atl.obj
+ 0001:00000f36       ?VTFromRegType@CRegParser@ATL@@KAHPB_WAAG@Z 7c631f36 f i atl.obj
+ 0001:00000fc8       ?ChToByte@CRegParser@ATL@@KAE_W@Z 7c631fc8 f i atl.obj
+ 0001:00000ff8       ?HKeyFromString@CRegParser@ATL@@KAPAUHKEY__@@PA_W@Z 7c631ff8 f i atl.obj
+ 0001:00001023       ?StrChrW@CRegParser@ATL@@KAPA_WPA_W_W@Z 7c632023 f i atl.obj
+ 0001:0000104e       ?IsSpace@CRegParser@ATL@@IAEH_W@Z 7c63204e f i atl.obj
+ 0001:00001071       ?SkipWhiteSpace@CRegParser@ATL@@IAEXXZ 7c632071 f i atl.obj
+ 0001:00001093       ?NextToken@CRegParser@ATL@@IAEJPA_W@Z 7c632093 f i atl.obj
+ 0001:00001196       ?CanForceRemoveKey@CRegParser@ATL@@IAEHPB_W@Z 7c632196 f i atl.obj
+ 0001:000011c2       ?HasSubKeys@CRegParser@ATL@@IAEHPAUHKEY__@@@Z 7c6321c2 f i atl.obj
+ 0001:000011f7       ?SkipAssignment@CRegParser@ATL@@IAEJPA_W@Z 7c6321f7 f i atl.obj
+ 0001:0000125c       ?FindKey@?$CSimpleMap@PA_WPA_WVCExpansionVectorEqualHelper@ATL@@@ATL@@QBEHABQA_W@Z 7c63225c f i atl.obj
+ 0001:0000128f       ?FreeHeap@?$CTempBuffer@_W$0EAA@VCCRTAllocator@ATL@@@ATL@@AAEXXZ 7c63228f f i atl.obj
+ 0001:0000128f       ?FreeHeap@?$CTempBuffer@E$0BAA@VCCRTAllocator@ATL@@@ATL@@AAEXXZ 7c63228f f i atl.obj
+ 0001:0000128f       ?FreeHeap@?$CTempBuffer@_W$0BAA@VCCRTAllocator@ATL@@@ATL@@AAEXXZ 7c63228f f i atl.obj
+ 0001:0000128f       ?FreeHeap@?$CTempBuffer@D$0EAA@VCCRTAllocator@ATL@@@ATL@@AAEXXZ 7c63228f f i atl.obj
+ 0001:00001298       ?AllocateHeap@?$CTempBuffer@D$0EAA@VCCRTAllocator@ATL@@@ATL@@AAEXI@Z 7c632298 f i atl.obj
+ 0001:00001298       ?AllocateHeap@?$CTempBuffer@_W$0BAA@VCCRTAllocator@ATL@@@ATL@@AAEXI@Z 7c632298 f i atl.obj
+ 0001:00001298       ?AllocateHeap@?$CTempBuffer@E$0BAA@VCCRTAllocator@ATL@@@ATL@@AAEXI@Z 7c632298 f i atl.obj
+ 0001:00001298       ?AllocateHeap@?$CTempBuffer@_W$0EAA@VCCRTAllocator@ATL@@@ATL@@AAEXI@Z 7c632298 f i atl.obj
+ 0001:000012b9       ??$AtlMultiplyThrow@I@ATL@@YAIII@Z 7c6322b9 f i atl.obj
+ 0001:000012de       ?AddRef@?$CComObject@VCDLLRegObject@@@ATL@@UAGKXZ 7c6322de f i atl.obj
+ 0001:000012ef       ?Release@?$CComObject@VCDLLRegObject@@@ATL@@UAGKXZ 7c6322ef f i atl.obj
+ 0001:00001319       ?QueryInterface@?$CComObject@VCDLLRegObject@@@ATL@@UAGJABU_GUID@@PAPAX@Z 7c632319 f i atl.obj
+ 0001:00001332       ?RecurseDeleteKey@CRegKey@ATL@@QAEJPB_W@Z 7c632332 f i atl.obj
+ 0001:000013f3       ?AddString@CParseBuffer@CRegParser@ATL@@QAEHPB_W@Z 7c6323f3 f i atl.obj
+ 0001:00001433       ?Lookup@?$CSimpleMap@PA_WPA_WVCExpansionVectorEqualHelper@ATL@@@ATL@@QBEPA_WABQA_W@Z 7c632433 f i atl.obj
+ 0001:00001456       ?InternalSetAtIndex@?$CSimpleMap@PA_WPA_WVCExpansionVectorEqualHelper@ATL@@@ATL@@QAEXHABQA_W0@Z 7c632456 f i atl.obj
+ 0001:0000147f       ?AllocateBytes@?$CTempBuffer@_W$0EAA@VCCRTAllocator@ATL@@@ATL@@QAEPA_WI@Z 7c63247f f i atl.obj
+ 0001:0000147f       ?AllocateBytes@?$CTempBuffer@D$0EAA@VCCRTAllocator@ATL@@@ATL@@QAEPADI@Z 7c63247f f i atl.obj
+ 0001:000014a2       ?AllocateBytes@?$CTempBuffer@E$0BAA@VCCRTAllocator@ATL@@@ATL@@QAEPAEI@Z 7c6324a2 f i atl.obj
+ 0001:000014a2       ?AllocateBytes@?$CTempBuffer@_W$0BAA@VCCRTAllocator@ATL@@@ATL@@QAEPA_WI@Z 7c6324a2 f i atl.obj
+ 0001:000014c5       ?StrFromMap@CRegObject@ATL@@QAEPB_WPA_W@Z 7c6324c5 f i atl.obj
+ 0001:000014f0       ?PreProcessBuffer@CRegParser@ATL@@QAEJPA_WPAPA_W@Z 7c6324f0 f i atl.obj
+ 0001:0000163d       ?Add@?$CSimpleMap@PA_WPA_WVCExpansionVectorEqualHelper@ATL@@@ATL@@QAEHABQA_W0@Z 7c63263d f i atl.obj
+ 0001:00001690       ?Allocate@?$CTempBuffer@_W$0EAA@VCCRTAllocator@ATL@@@ATL@@QAEPA_WI@Z 7c632690 f i atl.obj
+ 0001:000016ac       ?Allocate@?$CTempBuffer@D$0EAA@VCCRTAllocator@ATL@@@ATL@@QAEPADI@Z 7c6326ac f i atl.obj
+ 0001:000016c8       ?Allocate@?$CTempBuffer@_W$0BAA@VCCRTAllocator@ATL@@@ATL@@QAEPA_WI@Z 7c6326c8 f i atl.obj
+ 0001:000016e4       ?Allocate@?$CTempBuffer@E$0BAA@VCCRTAllocator@ATL@@@ATL@@QAEPAEI@Z 7c6326e4 f i atl.obj
+ 0001:00001700       ??1?$CComObject@VCDLLRegObject@@@ATL@@UAE@XZ 7c632700 f i atl.obj
+ 0001:00001723       ??_E?$CComObject@VCDLLRegObject@@@ATL@@UAEPAXI@Z 7c632723 f i atl.obj
+ 0001:00001723       ??_G?$CComObject@VCDLLRegObject@@@ATL@@UAEPAXI@Z 7c632723 f i atl.obj
+ 0001:0000173f       ?Add@CExpansionVector@ATL@@QAEHPB_W0@Z 7c63273f f i atl.obj
+ 0001:00001823       ?AddReplacement@CRegObject@ATL@@UAGJPB_W0@Z 7c632823 f i atl.obj
+ 0001:00001887       ?AddValue@CRegParser@ATL@@IAEJAAVCRegKey@2@PB_WPA_W@Z 7c632887 f i atl.obj
+ 0001:00001b1e       ?RegisterSubkeys@CRegParser@ATL@@IAEJPA_WPAUHKEY__@@HH@Z 7c632b1e f i atl.obj
+ 0001:00001ff5       ?CreateInstance@?$CComObject@VCDLLRegObject@@@ATL@@SGJPAPAV12@@Z 7c632ff5 f i atl.obj
+ 0001:00002064       ?RegisterBuffer@CRegParser@ATL@@QAEJPA_WH@Z 7c633064 f i atl.obj
+ 0001:00002185       ?CreateInstance@?$CComCreator@V?$CComObject@VCDLLRegObject@@@ATL@@@ATL@@SGJPAXABU_GUID@@PAPAX@Z 7c633185 f i atl.obj
+ 0001:000021ff       ?RegisterFromResource@CRegObject@ATL@@IAEJPB_W00H@Z 7c6331ff f i atl.obj
+ 0001:0000234f       ?ResourceRegister@CRegObject@ATL@@UAGJPB_WI0@Z 7c63334f f i atl.obj
+ 0001:00002384       ?ResourceRegisterSz@CRegObject@ATL@@UAGJPB_W00@Z 7c633384 f i atl.obj
+ 0001:000023d1       ?ResourceUnregister@CRegObject@ATL@@UAGJPB_WI0@Z 7c6333d1 f i atl.obj
+ 0001:00002406       ?ResourceUnregisterSz@CRegObject@ATL@@UAGJPB_W00@Z 7c633406 f i atl.obj
+ 0001:00002452       ?RegisterWithString@CRegObject@ATL@@IAEJPB_WH@Z 7c633452 f i atl.obj
+ 0001:0000248b       ?CommonFileRegister@CRegObject@ATL@@IAEJPB_WH@Z 7c63348b f i atl.obj
+ 0001:000025ff       ?CreateInstance@?$CComCreator2@V?$CComCreator@V?$CComObject@VCDLLRegObject@@@ATL@@@ATL@@V?$CComFailCreator@$0?HPPLPOPA@@2@@ATL@@SGJPAXABU_GUID@@PAPAX@Z 7c6335ff f i atl.obj
+ 0001:0000261f       ?FileRegister@CRegObject@ATL@@UAGJPB_W@Z 7c63361f f i atl.obj
+ 0001:00002631       ?FileUnregister@CRegObject@ATL@@UAGJPB_W@Z 7c633631 f i atl.obj
+ 0001:00002643       ?StringRegister@CRegObject@ATL@@UAGJPB_W@Z 7c633643 f i atl.obj
+ 0001:00002655       ?StringUnregister@CRegObject@ATL@@UAGJPB_W@Z 7c633655 f i atl.obj
+ 0001:00002667       _AtlCreateRegistrar@4      7c633667 f   atl.obj
+ 0001:00002689       _AtlUpdateRegistryFromResourceD@20 7c633689 f i atl.obj
+ 0001:000028b3       ?UpdateRegistryFromResourceDHelper@CAtlModule@ATL@@QAGJPB_WHPAU_ATL_REGMAP_ENTRY@2@@Z 7c6338b3 f i atl.obj
+ 0001:00002927       ?UpdateRegistry@CDLLRegObject@@SGJH@Z 7c633927 f i atl.obj
+ 0001:00002998       ?UpdateRegistryFromResourceD@CAtlModule@ATL@@QAGJPB_WHPAU_ATL_REGMAP_ENTRY@2@@Z 7c633998 f i atl.obj
+ 0001:000029d6       ?UpdateRegistryFromResourceD@CAtlModule@ATL@@QAGJIHPAU_ATL_REGMAP_ENTRY@2@@Z 7c6339d6 f i atl.obj
+ 0001:000029f0       ?UpdateRegistryFromResourceD@CComModule@ATL@@UAGJPB_WHPAU_ATL_REGMAP_ENTRY@2@@Z 7c6339f0 f i atl.obj
+ 0001:000029f5       ?UpdateRegistryFromResourceD@CComModule@ATL@@UAGJIHPAU_ATL_REGMAP_ENTRY@2@@Z 7c6339f5 f i atl.obj
+ 0001:000029fa       __freea                    7c6339fa f i stdafx.obj
+ 0001:00002a15       _IsEqualGUID               7c633a15 f i stdafx.obj
+ 0001:00002a2d       ?AtlW2AHelper@@YGPADPADPB_WHI@Z 7c633a2d f i stdafx.obj
+ 0001:00002a65       ?strcpy_s@Checked@ATL@@YAXPADIPBD@Z 7c633a65 f i stdafx.obj
+ 0001:00002a80       ?tcsncpy_s@Checked@ATL@@YAHPA_WIPB_WI@Z 7c633a80 f i atl.obj
+ 0001:00002a80       ?wcsncpy_s@Checked@ATL@@YAHPA_WIPB_WI@Z 7c633a80 f i stdafx.obj
+ 0001:00002a9f       ?ui64toa_s@Checked@ATL@@YAX_KPADIH@Z 7c633a9f f i stdafx.obj
+ 0001:00002ac1       _AtlComQIPtrAssign@12      7c633ac1 f i stdafx.obj
+ 0001:00002af7       ?PutProperty@?$CComPtr@UIDispatch@@@ATL@@SAJPAUIDispatch@@JPAUtagVARIANT@@@Z 7c633af7 f i stdafx.obj
+ 0001:00002b89       ?GetProperty@?$CComPtr@UIDispatch@@@ATL@@SAJPAUIDispatch@@JPAUtagVARIANT@@@Z 7c633b89 f i stdafx.obj
+ 0001:00002bd7       ?Attach@CComBSTR@ATL@@QAEXPA_W@Z 7c633bd7 f i stdafx.obj
+ 0001:00002bf3       ?ReadFromStream@CComBSTR@ATL@@QAEJPAUIStream@@@Z 7c633bf3 f i stdafx.obj
+ 0001:00002d11       ?GetStreamSize@CComBSTR@ATL@@SAKPA_W@Z 7c633d11 f i stdafx.obj
+ 0001:00002d29       ?ClearToZero@CComVariant@ATL@@QAEJXZ 7c633d29 f i stdafx.obj
+ 0001:00002d50       ?ChangeType@CComVariant@ATL@@QAEJGPBUtagVARIANT@@@Z 7c633d50 f i stdafx.obj
+ 0001:00002d6b       ?ReadFromStream@CComVariant@ATL@@QAEJPAUIStream@@GTClassesAllowedInStream@2@K@Z 7c633d6b f i stdafx.obj
+ 0001:00002ef5       ??_I@YGXPAXIHP6EX0@Z@Z     7c633ef5 f i stdafx.obj
+ 0001:00002f19       ?RevokeClassObject@_ATL_OBJMAP_ENTRY30@ATL@@QAGJXZ 7c633f19 f i stdafx.obj
+ 0001:00002f2e       ?RegisterClassObject@_ATL_OBJMAP_ENTRY30@ATL@@QAGJKK@Z 7c633f2e f i stdafx.obj
+ 0001:00002f82       _AtlFreeMarshalStream@4    7c633f82 f i stdafx.obj
+ 0001:00002fb2       _AtlMarshalPtrInProc@12    7c633fb2 f i stdafx.obj
+ 0001:00003002       _AtlUnmarshalPtr@12        7c634002 f i stdafx.obj
+ 0001:00003041       _AtlComModuleRegisterClassObjects@12 7c634041 f i stdafx.obj
+ 0001:0000307f       _AtlComModuleRevokeClassObjects@4 7c63407f f i stdafx.obj
+ 0001:000030b4       _AtlWaitWithMessageLoop@4  7c6340b4 f i stdafx.obj
+ 0001:00003166       _AtlGetVersion@4           7c634166 f i stdafx.obj
+ 0001:0000316e       ??0CComTypeInfoHolder@ATL@@QAE@PBU_GUID@@0GG@Z 7c63416e f i stdafx.obj
+ 0001:000031a0       ??1stringdispid@CComTypeInfoHolder@ATL@@QAE@XZ 7c6341a0 f i stdafx.obj
+ 0001:000031a9       ?DlgTemplateItemCount@_DialogSplitHelper@ATL@@SAAAGPAUDLGTEMPLATE@@@Z 7c6341a9 f i stdafx.obj
+ 0001:000031bd       ?FindFirstDlgItem@_DialogSplitHelper@ATL@@SAPAUDLGITEMTEMPLATE@@PBUDLGTEMPLATE@@@Z 7c6341bd f i stdafx.obj
+ 0001:0000323d       ?FindNextDlgItem@_DialogSplitHelper@ATL@@SAPAUDLGITEMTEMPLATE@@PAU3@H@Z 7c63423d f i stdafx.obj
+ 0001:0000329e       ?SplitDialogTemplate@_DialogSplitHelper@ATL@@SAPAUDLGTEMPLATE@@PAU3@PAE@Z 7c63429e f i stdafx.obj
+ 0001:000033d2       _AtlAxGetControl@8         7c6343d2 f i stdafx.obj
+ 0001:0000340a       _AtlAxGetHost@8            7c63440a f i stdafx.obj
+ 0001:00003442       ?FormatWindowClassName@AtlModuleRegisterWndClassInfoParamA@ATL@@SAXPADKPAX@Z 7c634442 f i stdafx.obj
+ 0001:0000347d       _AtlHiMetricToPixel@8      7c63447d f i stdafx.obj
+ 0001:000034fa       _AtlPixelToHiMetric@8      7c6344fa f i stdafx.obj
+ 0001:00003577       ?RemoveAll@?$CSimpleArray@GV?$CSimpleArrayEqualHelper@G@ATL@@@ATL@@QAEXXZ 7c634577 f i stdafx.obj
+ 0001:00003577       ?RemoveAll@?$CSimpleArray@PAUHINSTANCE__@@V?$CSimpleArrayEqualHelper@PAUHINSTANCE__@@@ATL@@@ATL@@QAEXXZ 7c634577 f i atls:atlbase.obj
+ 0001:00003594       ??A?$CSimpleArray@GV?$CSimpleArrayEqualHelper@G@ATL@@@ATL@@QAEAAGH@Z 7c634594 f i stdafx.obj
+ 0001:000035bb       _AtlDevModeW2A@8           7c6345bb f i stdafx.obj
+ 0001:0000367a       ??0CComBSTR@ATL@@QAE@H@Z   7c63467a f i stdafx.obj
+ 0001:000036aa       ??0CComBSTR@ATL@@QAE@PB_W@Z 7c6346aa f i stdafx.obj
+ 0001:000036d8       ?WriteToStream@CComBSTR@ATL@@QAEJPAUIStream@@@Z 7c6346d8 f i stdafx.obj
+ 0001:0000372f       _AtlLoadTypeLib@16         7c63472f f i stdafx.obj
+ 0001:000038f4       _AtlWinModuleTerm@8        7c6348f4 f i stdafx.obj
+ 0001:00003954       ??_Estringdispid@CComTypeInfoHolder@ATL@@QAEPAXI@Z 7c634954 f i stdafx.obj
+ 0001:000039a0       _AtlIPersistPropertyBag_Load@20 7c6349a0 f i stdafx.obj
+ 0001:00003bc7       _AtlIPersistPropertyBag_Save@24 7c634bc7 f i stdafx.obj
+ 0001:00003e12       ?ParseInitData@_DialogSplitHelper@ATL@@SAJPAUIStream@@PAPA_W@Z 7c634e12 f i stdafx.obj
+ 0001:00003f78       _AtlCreateTargetDC@8       7c634f78 f i stdafx.obj
+ 0001:00003feb       ?WriteToStream@CComVariant@ATL@@QAEJPAUIStream@@@Z 7c634feb f i stdafx.obj
+ 0001:0000414d       _AtlUnRegisterTypeLib@8    7c63514d f i stdafx.obj
+ 0001:000041cc       _AtlRegisterTypeLib@8      7c6351cc f i stdafx.obj
+ 0001:000042ea       _AtlRegisterClassCategoriesHelper@12 7c6352ea f i stdafx.obj
+ 0001:0000456c       _AtlAdvise@16              7c63556c f i stdafx.obj
+ 0001:000045e3       _AtlUnadvise@12            7c6355e3 f i stdafx.obj
+ 0001:00004657       _AtlComModuleGetClassObject@16 7c635657 f i stdafx.obj
+ 0001:0000472e       _AtlModuleAddTermFunc@12   7c63572e f i stdafx.obj
+ 0001:00004791       ??1CComTypeInfoHolder@ATL@@QAE@XZ 7c635791 f i stdafx.obj
+ 0001:000047b9       _AtlSetErrorInfo@28        7c6357b9 f i stdafx.obj
+ 0001:00004949       _AtlIPersistStreamInit_Load@16 7c635949 f i stdafx.obj
+ 0001:00004b04       _AtlGetObjectSourceInterface@20 7c635b04 f i stdafx.obj
+ 0001:00004dc4       ?WriteToStream@CComVariant@ATL@@QAEJPAUIStream@@G@Z 7c635dc4 f i stdafx.obj
+ 0001:00004e1e       _AtlComModuleRegisterServer@12 7c635e1e f i stdafx.obj
+ 0001:00004ea4       _AtlComModuleUnregisterServer@12 7c635ea4 f i stdafx.obj
+ 0001:00004f2b       _AtlIPersistStreamInit_Save@20 7c635f2b f i stdafx.obj
+ 0001:000050bb       ??1CAxHostWindow@ATL@@UAE@XZ 7c6360bb f i stdafx.obj
+ 0001:00005198       _AtlWinModuleRegisterClassExA@8 7c636198 f i stdafx.obj
+ 0001:000051d3       ??0?$IDispatchImpl@UIAxWinAmbientDispatchEx@@$1?_GUID_b2d0778b_ac99_4c58_a5c8_e7724e5316b5@@3U__s_GUID@@B$1?m_libid@CAtlModule@ATL@@2U_GUID@@A$0PPPP@$0PPPP@VCComTypeInfoHolder@ATL@@@ATL@@QAE@XZ 7c6361d3 f i stdafx.obj
+ 0001:000051f3       ??0CAxHostWindow@ATL@@QAE@XZ 7c6361f3 f i stdafx.obj
+ 0001:000052d9       ??0?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@QAE@PAX@Z 7c6362d9 f i stdafx.obj
+ 0001:0000533a       ?FindOneOf@CAtlModule@ATL@@SAPB_WPB_W0@Z 7c63633a f i stdafx.obj
+ 0001:0000537d       ?Init@_stdcallthunk@ATL@@QAEHKPAX@Z 7c63637d f i stdafx.obj
+ 0001:000053b0       ?Init@CDynamicStdCallThunk@ATL@@QAEHKPAX@Z 7c6363b0 f i stdafx.obj
+ 0001:000053d6       ??0_ATL_MSG@ATL@@QAE@PAUHWND__@@IIJH@Z 7c6363d6 f i stdafx.obj
+ 0001:0000540e       ?MoveWindow@CWindow@ATL@@QAEHPBUtagRECT@@H@Z 7c63640e f i stdafx.obj
+ 0001:00005438       ?ClientToScreen@CWindow@ATL@@QBEHPAUtagRECT@@@Z 7c636438 f i stdafx.obj
+ 0001:0000545e       ?ScreenToClient@CWindow@ATL@@QBEHPAUtagRECT@@@Z 7c63645e f i stdafx.obj
+ 0001:00005484       ?IsParentDialog@CWindow@ATL@@QAEHXZ 7c636484 f i stdafx.obj
+ 0001:000054cf       ?OnFinalMessage@CAxHostWindow@ATL@@UAEXPAUHWND__@@@Z 7c6364cf f i stdafx.obj
+ 0001:000054dd       ?CreateControlEx@CAxHostWindow@ATL@@UAGJPB_WPAUHWND__@@PAUIStream@@PAPAUIUnknown@@ABU_GUID@@PAU5@@Z 7c6364dd f i stdafx.obj
+ 0001:00005501       ?put_AllowWindowlessActivation@CAxHostWindow@ATL@@UAGJF@Z 7c636501 f i stdafx.obj
+ 0001:0000551a       ?get_AllowWindowlessActivation@CAxHostWindow@ATL@@UAGJPAF@Z 7c63651a f i stdafx.obj
+ 0001:00005542       ?get_BackColor@CAxHostWindow@ATL@@UAGJPAK@Z 7c636542 f i stdafx.obj
+ 0001:00005562       ?get_ForeColor@CAxHostWindow@ATL@@UAGJPAK@Z 7c636562 f i stdafx.obj
+ 0001:00005582       ?get_LocaleID@CAxHostWindow@ATL@@UAGJPAK@Z 7c636582 f i stdafx.obj
+ 0001:000055a2       ?get_UserMode@CAxHostWindow@ATL@@UAGJPAF@Z 7c6365a2 f i stdafx.obj
+ 0001:000055ca       ?get_DisplayAsDefault@CAxHostWindow@ATL@@UAGJPAF@Z 7c6365ca f i stdafx.obj
+ 0001:000055f2       ?get_MessageReflect@CAxHostWindow@ATL@@UAGJPAF@Z 7c6365f2 f i stdafx.obj
+ 0001:0000561a       ?get_ShowGrabHandles@CAxHostWindow@ATL@@UAGJPAF@Z 7c63661a f i stdafx.obj
+ 0001:00005627       ?get_ShowHatching@CAxHostWindow@ATL@@UAGJPAF@Z 7c636627 f i stdafx.obj
+ 0001:0000563f       ?get_DocHostFlags@CAxHostWindow@ATL@@UAGJPAK@Z 7c63663f f i stdafx.obj
+ 0001:0000565f       ?put_DocHostDoubleClickFlags@CAxHostWindow@ATL@@UAGJK@Z 7c63665f f i stdafx.obj
+ 0001:00005672       ?get_DocHostDoubleClickFlags@CAxHostWindow@ATL@@UAGJPAK@Z 7c636672 f i stdafx.obj
+ 0001:00005692       ?put_AllowContextMenu@CAxHostWindow@ATL@@UAGJF@Z 7c636692 f i stdafx.obj
+ 0001:000056af       ?get_AllowContextMenu@CAxHostWindow@ATL@@UAGJPAF@Z 7c6366af f i stdafx.obj
+ 0001:000056d7       ?put_AllowShowUI@CAxHostWindow@ATL@@UAGJF@Z 7c6366d7 f i stdafx.obj
+ 0001:000056f4       ?get_AllowShowUI@CAxHostWindow@ATL@@UAGJPAF@Z 7c6366f4 f i stdafx.obj
+ 0001:0000571c       ?get_OptionKeyPath@CAxHostWindow@ATL@@UAGJPAPA_W@Z 7c63671c f i stdafx.obj
+ 0001:0000573c       ?GetWindow@CAxHostWindow@ATL@@UAGJPAPAUHWND__@@@Z 7c63673c f i stdafx.obj
+ 0001:00005759       ?OnUIActivate@CAxHostWindow@ATL@@UAGJXZ 7c636759 f i stdafx.obj
+ 0001:00005769       ?OnUIDeactivate@CAxHostWindow@ATL@@UAGJH@Z 7c636769 f i stdafx.obj
+ 0001:00005779       ?OnPosRectChange@CAxHostWindow@ATL@@UAGJPBUtagRECT@@@Z 7c636779 f i stdafx.obj
+ 0001:000057d7       ?UpdateRegistry@CAxHostWindow@ATL@@SGJH@Z 7c6367d7 f i atl.obj
+ 0001:000057d7       ?OnControlInfoChanged@CAxHostWindow@ATL@@UAGJXZ 7c6367d7 f i stdafx.obj
+ 0001:000057d7       ?RequestUIActivate@CAxHostWindow@ATL@@UAGJXZ 7c6367d7 f i stdafx.obj
+ 0001:000057d7       ?CanInPlaceActivate@CAxHostWindow@ATL@@UAGJXZ 7c6367d7 f i stdafx.obj
+ 0001:000057dc       ?CanWindowlessActivate@CAxHostWindow@ATL@@UAGJXZ 7c6367dc f i stdafx.obj
+ 0001:000057ee       ?GetCapture@CAxHostWindow@ATL@@UAGJXZ 7c6367ee f i stdafx.obj
+ 0001:00005803       ?SetCapture@CAxHostWindow@ATL@@UAGJH@Z 7c636803 f i stdafx.obj
+ 0001:00005838       ?GetFocus@CAxHostWindow@ATL@@UAGJXZ 7c636838 f i stdafx.obj
+ 0001:0000584d       ?SetFocus@CAxHostWindow@ATL@@UAGJH@Z 7c63684d f i stdafx.obj
+ 0001:00005869       ?GetDC@CAxHostWindow@ATL@@UAGJPBUtagRECT@@KPAPAUHDC__@@@Z 7c636869 f i stdafx.obj
+ 0001:0000593a       ?ReleaseDC@CAxHostWindow@ATL@@UAGJPAUHDC__@@@Z 7c63693a f i stdafx.obj
+ 0001:000059a6       ?InvalidateRect@CAxHostWindow@ATL@@UAGJPBUtagRECT@@H@Z 7c6369a6 f i stdafx.obj
+ 0001:000059c0       ?InvalidateRgn@CAxHostWindow@ATL@@UAGJPAUHRGN__@@H@Z 7c6369c0 f i stdafx.obj
+ 0001:000059da       ?OnFocus@CAxHostWindow@ATL@@UAGJH@Z 7c6369da f i stdafx.obj
+ 0001:000059f6       ?OnViewChange@CAxHostWindow@ATL@@UAGXKJ@Z 7c6369f6 f i stdafx.obj
+ 0001:000059f6       ?OnDataChange@CAxHostWindow@ATL@@UAGXPAUtagFORMATETC@@PAUtagSTGMEDIUM@@@Z 7c6369f6 f i stdafx.obj
+ 0001:000059f9       ?OnRename@CAxHostWindow@ATL@@UAGXPAUIMoniker@@@Z 7c6369f9 f i stdafx.obj
+ 0001:000059fc       ?OnSave@CAxHostWindow@ATL@@UAGXXZ 7c6369fc f i stdafx.obj
+ 0001:000059fc       ?ObjectMain@CComObjectRootBase@ATL@@SGX_N@Z 7c6369fc f i atl.obj
+ 0001:000059fc       ?OnClose@CAxHostWindow@ATL@@UAGXXZ 7c6369fc f i stdafx.obj
+ 0001:000059fc       ?OnFinalMessage@?$CWindowImplBaseT@VCWindow@ATL@@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@UAEXPAUHWND__@@@Z 7c6369fc f i stdafx.obj
+ 0001:000059ff       ?LockContainer@CAxHostWindow@ATL@@UAGJH@Z 7c6369ff f i stdafx.obj
+ 0001:00005a1e       ?DefWindowProcW@?$CWindowImplBaseT@VCWindow@ATL@@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@QAEJIIJ@Z 7c636a1e f i stdafx.obj
+ 0001:00005a39       ?GetSite@?$IObjectWithSiteImpl@VCAxHostWindow@ATL@@@ATL@@UAGJABU_GUID@@PAPAX@Z 7c636a39 f i stdafx.obj
+ 0001:00005a71       ?GetTypeInfoCount@?$IDispatchImpl@UIAxWinAmbientDispatchEx@@$1?_GUID_b2d0778b_ac99_4c58_a5c8_e7724e5316b5@@3U__s_GUID@@B$1?m_libid@CAtlModule@ATL@@2U_GUID@@A$0PPPP@$0PPPP@VCComTypeInfoHolder@ATL@@@ATL@@UAGJPAI@Z 7c636a71 f i stdafx.obj
+ 0001:00005a8b       ?CopyTo@?$CComPtrBase@UIOleInPlaceFrame@@@ATL@@QAEJPAPAUIOleInPlaceFrame@@@Z 7c636a8b f i stdafx.obj
+ 0001:00005a8b       ?CopyTo@?$CComPtrBase@UIOleInPlaceUIWindow@@@ATL@@QAEJPAPAUIOleInPlaceUIWindow@@@Z 7c636a8b f i stdafx.obj
+ 0001:00005a8b       ?CopyTo@?$CComPtrBase@UIDispatch@@@ATL@@QAEJPAPAUIDispatch@@@Z 7c636a8b f i stdafx.obj
+ 0001:00005a8b       ?CopyTo@?$CComPtrBase@UIFontDisp@@@ATL@@QAEJPAPAUIFontDisp@@@Z 7c636a8b f i stdafx.obj
+ 0001:00005aaf       ??0?$CComPtrBase@UIUnknown@@@ATL@@IAE@PAUIUnknown@@@Z 7c636aaf f i stdafx.obj
+ 0001:00005aaf       ??0?$CComPtrBase@UITypeInfo@@@ATL@@IAE@PAUITypeInfo@@@Z 7c636aaf f i stdafx.obj
+ 0001:00005ac8       ?AddRef@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@UAGKXZ 7c636ac8 f i stdafx.obj
+ 0001:00005ad8       ?Release@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@UAGKXZ 7c636ad8 f i stdafx.obj
+ 0001:00005ae8       ?QueryInterface@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@UAGJABU_GUID@@PAPAX@Z 7c636ae8 f i stdafx.obj
+ 0001:00005aff       ?GetControllingUnknown@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@UAEPAUIUnknown@@XZ 7c636aff f i stdafx.obj
+ 0001:00005b03       ?WindowProc@?$CWindowImplBaseT@VCWindow@ATL@@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@SGJPAUHWND__@@IIJ@Z 7c636b03 f i stdafx.obj
+ 0001:00005beb       ?SubclassWindow@?$CWindowImplBaseT@VCWindow@ATL@@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@QAEHPAUHWND__@@@Z 7c636beb f i stdafx.obj
+ 0001:00005c29       ?UnsubclassWindow@?$CWindowImplBaseT@VCWindow@ATL@@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@QAEPAUHWND__@@H@Z 7c636c29 f i stdafx.obj
+ 0001:00005c72       ?Release@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@W7AGKXZ 7c636c72 f i stdafx.obj
+ 0001:00005c7c       ?Release@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WCI@AGKXZ 7c636c7c f i stdafx.obj
+ 0001:00005c86       ?AddRef@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@W7AGKXZ 7c636c86 f i stdafx.obj
+ 0001:00005c90       ?AddRef@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WCI@AGKXZ 7c636c90 f i stdafx.obj
+ 0001:00005c9a       ?QueryInterface@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WBE@AGJABU_GUID@@PAPAX@Z 7c636c9a f i stdafx.obj
+ 0001:00005ca4       ?Release@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WM@AGKXZ 7c636ca4 f i stdafx.obj
+ 0001:00005cae       ?AddRef@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WM@AGKXZ 7c636cae f i stdafx.obj
+ 0001:00005cb8       ?Release@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WBA@AGKXZ 7c636cb8 f i stdafx.obj
+ 0001:00005cc2       ?AddRef@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WBA@AGKXZ 7c636cc2 f i stdafx.obj
+ 0001:00005ccc       ??_E?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WEM@AEPAXI@Z 7c636ccc f i stdafx.obj
+ 0001:00005cd4       ?QueryInterface@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WBM@AGJABU_GUID@@PAPAX@Z 7c636cd4 f i stdafx.obj
+ 0001:00005cde       ?Release@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WBE@AGKXZ 7c636cde f i stdafx.obj
+ 0001:00005ce8       ?AddRef@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WBE@AGKXZ 7c636ce8 f i stdafx.obj
+ 0001:00005cf2       ?QueryInterface@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WCA@AGJABU_GUID@@PAPAX@Z 7c636cf2 f i stdafx.obj
+ 0001:00005cfc       ?QueryInterface@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@W3AGJABU_GUID@@PAPAX@Z 7c636cfc f i stdafx.obj
+ 0001:00005d06       ?QueryInterface@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WCE@AGJABU_GUID@@PAPAX@Z 7c636d06 f i stdafx.obj
+ 0001:00005d10       ?Release@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WBM@AGKXZ 7c636d10 f i stdafx.obj
+ 0001:00005d1a       ?AddRef@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WBM@AGKXZ 7c636d1a f i stdafx.obj
+ 0001:00005d24       ??_E?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WDI@AEPAXI@Z 7c636d24 f i stdafx.obj
+ 0001:00005d2c       ?QueryInterface@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@W7AGJABU_GUID@@PAPAX@Z 7c636d2c f i stdafx.obj
+ 0001:00005d36       ?QueryInterface@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WCI@AGJABU_GUID@@PAPAX@Z 7c636d36 f i stdafx.obj
+ 0001:00005d40       ?Release@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WCA@AGKXZ 7c636d40 f i stdafx.obj
+ 0001:00005d4a       ?AddRef@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WCA@AGKXZ 7c636d4a f i stdafx.obj
+ 0001:00005d54       ?QueryInterface@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WM@AGJABU_GUID@@PAPAX@Z 7c636d54 f i stdafx.obj
+ 0001:00005d5e       ?Release@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@W3AGKXZ 7c636d5e f i stdafx.obj
+ 0001:00005d68       ?Release@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WCE@AGKXZ 7c636d68 f i stdafx.obj
+ 0001:00005d72       ?AddRef@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@W3AGKXZ 7c636d72 f i stdafx.obj
+ 0001:00005d7c       ?AddRef@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WCE@AGKXZ 7c636d7c f i stdafx.obj
+ 0001:00005d86       ?QueryInterface@?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@WBA@AGJABU_GUID@@PAPAX@Z 7c636d86 f i stdafx.obj
+ 0001:00005d90       ?copy@?$_CopyInterface@UIUnknown@@@ATL@@SAJPAPAUIUnknown@@PBQAU3@@Z 7c636d90 f i stdafx.obj
+ 0001:00005dbb       ??0CComBSTR@ATL@@QAE@ABU_GUID@@@Z 7c636dbb f i stdafx.obj
+ 0001:00005e12       ??4CComBSTR@ATL@@QAEAAV01@PB_W@Z 7c636e12 f i stdafx.obj
+ 0001:00005e4c       ??4CComVariant@ATL@@QAEAAV01@PB_W@Z 7c636e4c f i stdafx.obj
+ 0001:00005e8b       ?LoadNameCache@CComTypeInfoHolder@ATL@@QAEJPAUITypeInfo@@@Z 7c636e8b f i stdafx.obj
+ 0001:00005fc2       ?OnSize@CAxHostWindow@ATL@@QAEJIIJAAH@Z 7c636fc2 f i stdafx.obj
+ 0001:0000605f       ?OnWindowMessage@CAxHostWindow@ATL@@QAEJIIJAAH@Z 7c63705f f i stdafx.obj
+ 0001:000060a4       ?OnWindowlessMouseMessage@CAxHostWindow@ATL@@QAEJIIJAAH@Z 7c6370a4 f i stdafx.obj
+ 0001:000060e4       ?OnPaint@CAxHostWindow@ATL@@QAEJIIJAAH@Z 7c6370e4 f i stdafx.obj
+ 0001:00006266       ?QueryControl@CAxHostWindow@ATL@@UAGJABU_GUID@@PAPAX@Z 7c637266 f i stdafx.obj
+ 0001:00006295       ?get_Font@CAxHostWindow@ATL@@UAGJPAPAUIFontDisp@@@Z 7c637295 f i stdafx.obj
+ 0001:000063fd       ?put_OptionKeyPath@CAxHostWindow@ATL@@UAGJPA_W@Z 7c6373fd f i stdafx.obj
+ 0001:00006415       ?GetContainer@CAxHostWindow@ATL@@UAGJPAPAUIOleContainer@@@Z 7c637415 f i stdafx.obj
+ 0001:00006453       ?ShowObject@CAxHostWindow@ATL@@UAGJXZ 7c637453 f i stdafx.obj
+ 0001:000064a3       ?OnInPlaceActivate@CAxHostWindow@ATL@@UAGJXZ 7c6374a3 f i stdafx.obj
+ 0001:000064da       ?OnInPlaceDeactivate@CAxHostWindow@ATL@@UAGJXZ 7c6374da f i stdafx.obj
+ 0001:000064fb       ?OnInPlaceActivateEx@CAxHostWindow@ATL@@UAGJPAHK@Z 7c6374fb f i stdafx.obj
+ 0001:0000656b       ?OnInPlaceDeactivateEx@CAxHostWindow@ATL@@UAGJH@Z 7c63756b f i stdafx.obj
+ 0001:0000658c       ?OnDefWindowMessage@CAxHostWindow@ATL@@UAGJIIJPAJ@Z 7c63758c f i stdafx.obj
+ 0001:000065ae       ?GetExtendedControl@CAxHostWindow@ATL@@UAGJPAPAUIDispatch@@@Z 7c6375ae f i stdafx.obj
+ 0001:000065d4       ?SubclassWindow@CAxHostWindow@ATL@@QAEXPAUHWND__@@@Z 7c6375d4 f i stdafx.obj
+ 0001:000065f4       ?ReleaseWindow@CAxHostWindow@ATL@@QAEXXZ 7c6375f4 f i stdafx.obj
+ 0001:0000661b       ?QueryService@CAxHostWindow@ATL@@UAGJABU_GUID@@0PAPAX@Z 7c63761b f i stdafx.obj
+ 0001:00006652       ?GetWindowProc@?$CWindowImplBaseT@VCWindow@ATL@@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@UAEP6GJPAUHWND__@@IIJ@ZXZ 7c637652 f i stdafx.obj
+ 0001:00006658       ?DefWindowProcW@?$CWindowImplBaseT@VCWindow@ATL@@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@QAEJXZ 7c637658 f i stdafx.obj
+ 0001:00006670       ??4?$CComPtr@UIUnknown@@@ATL@@QAEPAUIUnknown@@PAU2@@Z 7c637670 f i stdafx.obj
+ 0001:00006670       ??4?$CComPtr@UIOleInPlaceActiveObject@@@ATL@@QAEPAUIOleInPlaceActiveObject@@PAU2@@Z 7c637670 f i stdafx.obj
+ 0001:00006670       ??4?$CComPtr@UIDispatch@@@ATL@@QAEPAUIDispatch@@PAU2@@Z 7c637670 f i stdafx.obj
+ 0001:00006670       ??4?$CComPtr@UIDocHostUIHandlerDispatch@@@ATL@@QAEPAUIDocHostUIHandlerDispatch@@PAU2@@Z 7c637670 f i stdafx.obj
+ 0001:00006670       ??4?$CComPtr@UIFontDisp@@@ATL@@QAEPAUIFontDisp@@PAU2@@Z 7c637670 f i stdafx.obj
+ 0001:00006685       ??0?$CComQIPtr@UIOleInPlaceActiveObject@@$1?_GUID_00000117_0000_0000_c000_000000000046@@3U__s_GUID@@B@ATL@@QAE@PAUIUnknown@@@Z 7c637685 f i stdafx.obj
+ 0001:000066a4       ??0?$CComQIPtr@UIOleClientSite@@$1?_GUID_00000118_0000_0000_c000_000000000046@@3U__s_GUID@@B@ATL@@QAE@PAUIUnknown@@@Z 7c6376a4 f i stdafx.obj
+ 0001:000066c3       ??0?$CComQIPtr@UIPersistStreamInit@@$1?_GUID_7fd52380_4e07_101b_ae2d_08002b2ec713@@3U__s_GUID@@B@ATL@@QAE@PAUIUnknown@@@Z 7c6376c3 f i stdafx.obj
+ 0001:000066e2       ??0?$CComQIPtr@UIPersistStream@@$1?_GUID_00000109_0000_0000_c000_000000000046@@3U__s_GUID@@B@ATL@@QAE@PAUIUnknown@@@Z 7c6376e2 f i stdafx.obj
+ 0001:00006701       ??1?$CComEnumImpl@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@@ATL@@UAE@XZ 7c637701 f i stdafx.obj
+ 0001:0000673d       ?IsEqualObject@?$CComPtrBase@UITypeInfo@@@ATL@@QAE_NPAUIUnknown@@@Z 7c63773d f i stdafx.obj
+ 0001:0000693d       ??1CAxFrameWindow@ATL@@UAE@XZ 7c63793d f i stdafx.obj
+ 0001:0000693d       ??1CAxUIWindow@ATL@@UAE@XZ 7c63793d f i stdafx.obj
+ 0001:0000696b       ?OnForwardMsg@CAxHostWindow@ATL@@QAEJIIJAAH@Z 7c63796b f i stdafx.obj
+ 0001:000069b0       ?ReleaseAll@CAxHostWindow@ATL@@QAEXXZ 7c6379b0 f i stdafx.obj
+ 0001:00006b0e       ?OnSetFocus@CAxHostWindow@ATL@@QAEJIIJAAH@Z 7c637b0e f i stdafx.obj
+ 0001:00006bbf       ?OnDestroy@CAxHostWindow@ATL@@QAEJIIJAAH@Z 7c637bbf f i stdafx.obj
+ 0001:00006bf4       ?CreateControl@CAxHostWindow@ATL@@UAGJPB_WPAUHWND__@@PAUIStream@@@Z 7c637bf4 f i stdafx.obj
+ 0001:00006c32       ?SetExternalDispatch@CAxHostWindow@ATL@@UAGJPAUIDispatch@@@Z 7c637c32 f i stdafx.obj
+ 0001:00006c47       ?CreateControlLic@CAxHostWindow@ATL@@UAGJPB_WPAUHWND__@@PAUIStream@@PA_W@Z 7c637c47 f i stdafx.obj
+ 0001:00006c86       ?ShowContextMenu@CAxHostWindow@ATL@@UAGJKPAUtagPOINT@@PAUIUnknown@@PAUIDispatch@@@Z 7c637c86 f i stdafx.obj
+ 0001:00006cc4       ?GetHostInfo@CAxHostWindow@ATL@@UAGJPAU_DOCHOSTUIINFO@@@Z 7c637cc4 f i stdafx.obj
+ 0001:00006d07       ?ShowUI@CAxHostWindow@ATL@@UAGJKPAUIOleInPlaceActiveObject@@PAUIOleCommandTarget@@PAUIOleInPlaceFrame@@PAUIOleInPlaceUIWindow@@@Z 7c637d07 f i stdafx.obj
+ 0001:00006d43       ?HideUI@CAxHostWindow@ATL@@UAGJXZ 7c637d43 f i stdafx.obj
+ 0001:00006d59       ?UpdateUI@CAxHostWindow@ATL@@UAGJXZ 7c637d59 f i stdafx.obj
+ 0001:00006d6f       ?EnableModeless@CAxHostWindow@ATL@@UAGJH@Z 7c637d6f f i stdafx.obj
+ 0001:00006d8e       ?OnDocWindowActivate@CAxHostWindow@ATL@@UAGJH@Z 7c637d8e f i stdafx.obj
+ 0001:00006dad       ?OnFrameWindowActivate@CAxHostWindow@ATL@@UAGJH@Z 7c637dad f i stdafx.obj
+ 0001:00006dcc       ?ResizeBorder@CAxHostWindow@ATL@@UAGJPBUtagRECT@@PAUIOleInPlaceUIWindow@@H@Z 7c637dcc f i stdafx.obj
+ 0001:00006dfe       ?TranslateAcceleratorW@CAxHostWindow@ATL@@UAGJPAUtagMSG@@PBU_GUID@@K@Z 7c637dfe f i stdafx.obj
+ 0001:00006e4d       ?GetOptionKeyPath@CAxHostWindow@ATL@@UAGJPAPA_WK@Z 7c637e4d f i stdafx.obj
+ 0001:00006eee       ?GetDropTarget@CAxHostWindow@ATL@@UAGJPAUIDropTarget@@PAPAU3@@Z 7c637eee f i stdafx.obj
+ 0001:00006f60       ?GetExternal@CAxHostWindow@ATL@@UAGJPAPAUIDispatch@@@Z 7c637f60 f i stdafx.obj
+ 0001:00006fa1       ?TranslateUrl@CAxHostWindow@ATL@@UAGJKPA_WPAPA_W@Z 7c637fa1 f i stdafx.obj
+ 0001:0000705b       ?FilterDataObject@CAxHostWindow@ATL@@UAGJPAUIDataObject@@PAPAU3@@Z 7c63805b f i stdafx.obj
+ 0001:000070ca       ?SetAmbientDispatch@CAxHostWindow@ATL@@UAGJPAUIDispatch@@@Z 7c6380ca f i stdafx.obj
+ 0001:000070df       ?ReflectNotifications@CAxHostWindow@ATL@@QAEJIIJAAH@Z 7c6380df f i stdafx.obj
+ 0001:00007204       ?SetSite@?$IObjectWithSiteImpl@VCAxHostWindow@ATL@@@ATL@@UAGJPAUIUnknown@@@Z 7c638204 f i stdafx.obj
+ 0001:00007222       ??0?$CComQIPtr@UIOleControl@@$1?_GUID_b196b288_bab4_101a_b69c_00aa00341d07@@3U__s_GUID@@B@ATL@@QAE@PAUIUnknown@@@Z 7c638222 f i stdafx.obj
+ 0001:00007241       ??0?$CComQIPtr@UIAdviseSink@@$1?_GUID_0000010f_0000_0000_c000_000000000046@@3U__s_GUID@@B@ATL@@QAE@PAUIUnknown@@@Z 7c638241 f i stdafx.obj
+ 0001:00007260       ??0?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@QAE@XZ 7c638260 f i stdafx.obj
+ 0001:00007280       ??1?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@UAE@XZ 7c638280 f i stdafx.obj
+ 0001:00007299       ??$?4UITypeInfo2@@@?$CComPtr@UITypeInfo@@@ATL@@QAEPAUITypeInfo@@ABV?$CComPtr@UITypeInfo2@@@1@@Z 7c638299 f i stdafx.obj
+ 0001:000072c3       ?Init@?$CComEnumImpl@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@@ATL@@QAEJPAPAUIUnknown@@0PAU3@W4CComEnumFlags@2@@Z 7c6382c3 f i stdafx.obj
+ 0001:0000738c       ?GetTI@CComTypeInfoHolder@ATL@@QAEJK@Z 7c63838c f i stdafx.obj
+ 0001:0000753f       ?OnMouseActivate@CAxHostWindow@ATL@@QAEJIIJAAH@Z 7c63853f f i stdafx.obj
+ 0001:000075c4       ?SetExternalUIHandler@CAxHostWindow@ATL@@UAGJPAUIDocHostUIHandlerDispatch@@@Z 7c6385c4 f i stdafx.obj
+ 0001:000075d9       ?FireAmbientPropertyChange@CAxHostWindow@ATL@@QAEJJ@Z 7c6385d9 f i stdafx.obj
+ 0001:00007611       ?put_BackColor@CAxHostWindow@ATL@@UAGJK@Z 7c638611 f i stdafx.obj
+ 0001:00007640       ?put_ForeColor@CAxHostWindow@ATL@@UAGJK@Z 7c638640 f i stdafx.obj
+ 0001:00007660       ?put_LocaleID@CAxHostWindow@ATL@@UAGJK@Z 7c638660 f i stdafx.obj
+ 0001:00007680       ?put_UserMode@CAxHostWindow@ATL@@UAGJF@Z 7c638680 f i stdafx.obj
+ 0001:000076aa       ?put_DisplayAsDefault@CAxHostWindow@ATL@@UAGJF@Z 7c6386aa f i stdafx.obj
+ 0001:000076d5       ?put_Font@CAxHostWindow@ATL@@UAGJPAUIFontDisp@@@Z 7c6386d5 f i stdafx.obj
+ 0001:000076fc       ?put_MessageReflect@CAxHostWindow@ATL@@UAGJF@Z 7c6386fc f i stdafx.obj
+ 0001:00007727       ?put_DocHostFlags@CAxHostWindow@ATL@@UAGJK@Z 7c638727 f i stdafx.obj
+ 0001:00007744       ?SetSite@CAxHostWindow@ATL@@UAGJPAUIUnknown@@@Z 7c638744 f i stdafx.obj
+ 0001:00007797       ?ActivateAx@CAxHostWindow@ATL@@QAEJPAUIUnknown@@_NPAUIStream@@@Z 7c638797 f i stdafx.obj
+ 0001:00007aea       ??0?$CComObject@V?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@@ATL@@QAE@PAX@Z 7c638aea f i stdafx.obj
+ 0001:00007b09       ?Reset@?$CComEnumImpl@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@@ATL@@UAGJXZ 7c638b09 f i stdafx.obj
+ 0001:00007b18       ?Skip@?$CComEnumImpl@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@@ATL@@UAGJK@Z 7c638b18 f i stdafx.obj
+ 0001:00007b50       ?AddRef@?$CComObject@V?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@@ATL@@UAGKXZ 7c638b50 f i stdafx.obj
+ 0001:00007b61       ?Release@?$CComObject@V?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@@ATL@@UAGKXZ 7c638b61 f i stdafx.obj
+ 0001:00007b8b       ?Next@?$CComEnumImpl@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@@ATL@@UAGJKPAPAUIUnknown@@PAK@Z 7c638b8b f i stdafx.obj
+ 0001:00007c57       ?QueryInterface@?$CComObject@V?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@@ATL@@UAGJABU_GUID@@PAPAX@Z 7c638c57 f i stdafx.obj
+ 0001:00007c70       ??1?$CComObject@V?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@@ATL@@UAE@XZ 7c638c70 f i stdafx.obj
+ 0001:00007c93       ??_E?$CComObject@V?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@@ATL@@UAEPAXI@Z 7c638c93 f i stdafx.obj
+ 0001:00007c93       ??_G?$CComObject@V?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@@ATL@@UAEPAXI@Z 7c638c93 f i stdafx.obj
+ 0001:00007caf       ??_E?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@UAEPAXI@Z 7c638caf f i stdafx.obj
+ 0001:00007caf       ??_G?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@UAEPAXI@Z 7c638caf f i stdafx.obj
+ 0001:00007ccb       ?CreateInstance@?$CComObject@V?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@@ATL@@SGJPAPAV12@@Z 7c638ccb f i stdafx.obj
+ 0001:00007d2d       ?GetTI@CComTypeInfoHolder@ATL@@QAEJKPAPAUITypeInfo@@@Z 7c638d2d f i stdafx.obj
+ 0001:00007d6b       ?GetIDsOfNames@CComTypeInfoHolder@ATL@@QAEJABU_GUID@@PAPA_WIKPAJ@Z 7c638d6b f i stdafx.obj
+ 0001:00007e0e       ?Invoke@CComTypeInfoHolder@ATL@@QAEJPAUIDispatch@@JABU_GUID@@KGPAUtagDISPPARAMS@@PAUtagVARIANT@@PAUtagEXCEPINFO@@PAI@Z 7c638e0e f i stdafx.obj
+ 0001:00007e51       ??0CAxUIWindow@ATL@@QAE@XZ 7c638e51 f i stdafx.obj
+ 0001:00007e51       ??0CAxFrameWindow@ATL@@QAE@XZ 7c638e51 f i stdafx.obj
+ 0001:00007e7a       ?ProcessWindowMessage@CAxHostWindow@ATL@@UAEHPAUHWND__@@IIJAAJK@Z 7c638e7a f i stdafx.obj
+ 0001:0000824c       ?AttachControl@CAxHostWindow@ATL@@UAGJPAUIUnknown@@PAUHWND__@@@Z 7c63924c f i stdafx.obj
+ 0001:000082fe       ?CreateControlLicEx@CAxHostWindow@ATL@@UAGJPB_WPAUHWND__@@PAUIStream@@PAPAUIUnknown@@ABU_GUID@@PAU5@PA_W@Z 7c6392fe f i stdafx.obj
+ 0001:00008673       ?EnumObjects@CAxHostWindow@ATL@@UAGJKPAPAUIEnumUnknown@@@Z 7c639673 f i stdafx.obj
+ 0001:000086fc       ?GetTypeInfo@?$IDispatchImpl@UIAxWinAmbientDispatchEx@@$1?_GUID_b2d0778b_ac99_4c58_a5c8_e7724e5316b5@@3U__s_GUID@@B$1?m_libid@CAtlModule@ATL@@2U_GUID@@A$0PPPP@$0PPPP@VCComTypeInfoHolder@ATL@@@ATL@@UAGJIKPAPAUITypeInfo@@@Z 7c6396fc f i stdafx.obj
+ 0001:00008713       ?GetIDsOfNames@?$IDispatchImpl@UIAxWinAmbientDispatchEx@@$1?_GUID_b2d0778b_ac99_4c58_a5c8_e7724e5316b5@@3U__s_GUID@@B$1?m_libid@CAtlModule@ATL@@2U_GUID@@A$0PPPP@$0PPPP@VCComTypeInfoHolder@ATL@@@ATL@@UAGJABU_GUID@@PAPA_WIKPAJ@Z 7c639713 f i stdafx.obj
+ 0001:00008734       ?Invoke@?$IDispatchImpl@UIAxWinAmbientDispatchEx@@$1?_GUID_b2d0778b_ac99_4c58_a5c8_e7724e5316b5@@3U__s_GUID@@B$1?m_libid@CAtlModule@ATL@@2U_GUID@@A$0PPPP@$0PPPP@VCComTypeInfoHolder@ATL@@@ATL@@UAGJJABU_GUID@@KGPAUtagDISPPARAMS@@PAUtagVARIANT@@PAUtagEXCEPINFO@@PAI@Z 7c639734 f i stdafx.obj
+ 0001:0000875f       ?Clone@?$CComEnumImpl@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@@ATL@@UAGJPAPAUIEnumUnknown@@@Z 7c63975f f i stdafx.obj
+ 0001:00008810       ??$AtlModuleRegisterWndClassInfoT@VAtlModuleRegisterWndClassInfoParamA@ATL@@@ATL@@YAGPAU_ATL_BASE_MODULE70@0@PAU_ATL_WIN_MODULE70@0@PAU_ATL_WNDCLASSINFOA@0@PAP6GJPAUHWND__@@IIJ@ZVAtlModuleRegisterWndClassInfoParamA@0@@Z 7c639810 f i stdafx.obj
+ 0001:00008959       ??0?$CComObject@VCAxFrameWindow@ATL@@@ATL@@QAE@PAX@Z 7c639959 f i stdafx.obj
+ 0001:0000897f       ?ProcessWindowMessage@CAxFrameWindow@ATL@@UAEHPAUHWND__@@IIJAAJK@Z 7c63997f f i stdafx.obj
+ 0001:0000897f       ?ProcessWindowMessage@CAxUIWindow@ATL@@UAEHPAUHWND__@@IIJAAJK@Z 7c63997f f i stdafx.obj
+ 0001:00008984       ?TranslateAcceleratorW@CAxFrameWindow@ATL@@UAGJPAUtagMSG@@G@Z 7c639984 f i stdafx.obj
+ 0001:00008984       ?TranslateAcceleratorW@CAxHostWindow@ATL@@UAGJPAUtagMSG@@K@Z 7c639984 f i stdafx.obj
+ 0001:0000898a       ?QueryInterface@?$CComObject@VCAxFrameWindow@ATL@@@ATL@@UAGJABU_GUID@@PAPAX@Z 7c63998a f i stdafx.obj
+ 0001:000089a7       ?SetActiveObject@CAxFrameWindow@ATL@@UAGJPAUIOleInPlaceActiveObject@@PB_W@Z 7c6399a7 f i stdafx.obj
+ 0001:000089a7       ?SetActiveObject@CAxUIWindow@ATL@@UAGJPAUIOleInPlaceActiveObject@@PB_W@Z 7c6399a7 f i stdafx.obj
+ 0001:000089bc       ??1?$CComObject@VCAxFrameWindow@ATL@@@ATL@@UAE@XZ 7c6399bc f i stdafx.obj
+ 0001:000089eb       ??_G?$CComObject@VCAxFrameWindow@ATL@@@ATL@@UAEPAXI@Z 7c6399eb f i stdafx.obj
+ 0001:000089eb       ??_E?$CComObject@VCAxFrameWindow@ATL@@@ATL@@UAEPAXI@Z 7c6399eb f i stdafx.obj
+ 0001:00008a07       ?StartWindowProc@?$CWindowImplBaseT@VCWindow@ATL@@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@SGJPAUHWND__@@IIJ@Z 7c639a07 f i stdafx.obj
+ 0001:00008a55       ?Create@?$CWindowImplBaseT@VCWindow@ATL@@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@QAEPAUHWND__@@PAU3@V_U_RECT@2@PB_WKKV_U_MENUorID@2@GPAX@Z 7c639a55 f i stdafx.obj
+ 0001:00008ae6       ??0?$CComObject@VCAxUIWindow@ATL@@@ATL@@QAE@PAX@Z 7c639ae6 f i stdafx.obj
+ 0001:00008b0c       ?RequestBorderSpace@CAxFrameWindow@ATL@@UAGJPBUtagRECT@@@Z 7c639b0c f i stdafx.obj
+ 0001:00008b0c       ?RequestBorderSpace@CAxUIWindow@ATL@@UAGJPBUtagRECT@@@Z 7c639b0c f i stdafx.obj
+ 0001:00008b14       ?FinalRelease@CAxFrameWindow@ATL@@QAEXXZ 7c639b14 f i stdafx.obj
+ 0001:00008b14       ?FinalRelease@CAxUIWindow@ATL@@QAEXXZ 7c639b14 f i stdafx.obj
+ 0001:00008b38       ?AddRef@?$CComObject@VCAxUIWindow@ATL@@@ATL@@UAGKXZ 7c639b38 f i stdafx.obj
+ 0001:00008b38       ?AddRef@?$CComObject@VCAxFrameWindow@ATL@@@ATL@@UAGKXZ 7c639b38 f i stdafx.obj
+ 0001:00008b49       ?Release@?$CComObject@VCAxFrameWindow@ATL@@@ATL@@UAGKXZ 7c639b49 f i stdafx.obj
+ 0001:00008b49       ?Release@?$CComObject@VCAxUIWindow@ATL@@@ATL@@UAGKXZ 7c639b49 f i stdafx.obj
+ 0001:00008b74       ?QueryInterface@?$CComObject@VCAxUIWindow@ATL@@@ATL@@UAGJABU_GUID@@PAPAX@Z 7c639b74 f i stdafx.obj
+ 0001:00008b91       ??1?$CComObject@VCAxUIWindow@ATL@@@ATL@@UAE@XZ 7c639b91 f i stdafx.obj
+ 0001:00008bc0       ??_E?$CComObject@VCAxUIWindow@ATL@@@ATL@@UAEPAXI@Z 7c639bc0 f i stdafx.obj
+ 0001:00008bc0       ??_G?$CComObject@VCAxUIWindow@ATL@@@ATL@@UAEPAXI@Z 7c639bc0 f i stdafx.obj
+ 0001:00008bdc       ?Invoke@CAxHostWindow@ATL@@UAGJJABU_GUID@@KGPAUtagDISPPARAMS@@PAUtagVARIANT@@PAUtagEXCEPINFO@@PAI@Z 7c639bdc f i stdafx.obj
+ 0001:00008c4e       _AtlWinModuleRegisterWndClassInfoA@16 7c639c4e f i stdafx.obj
+ 0001:00008c6c       ??0?$CComPolyObject@VCAxHostWindow@ATL@@@ATL@@QAE@PAX@Z 7c639c6c f i stdafx.obj
+ 0001:00008c9d       ?AddRef@?$CComPolyObject@VCAxHostWindow@ATL@@@ATL@@UAGKXZ 7c639c9d f i stdafx.obj
+ 0001:00008caa       ?Release@?$CComPolyObject@VCAxHostWindow@ATL@@@ATL@@UAGKXZ 7c639caa f i stdafx.obj
+ 0001:00008cc8       ?QueryInterface@?$CComPolyObject@VCAxHostWindow@ATL@@@ATL@@UAGJABU_GUID@@PAPAX@Z 7c639cc8 f i stdafx.obj
+ 0001:00008d14       ??1?$CComPolyObject@VCAxHostWindow@ATL@@@ATL@@UAE@XZ 7c639d14 f i stdafx.obj
+ 0001:00008d3f       ??_E?$CComPolyObject@VCAxHostWindow@ATL@@@ATL@@UAEPAXI@Z 7c639d3f f i stdafx.obj
+ 0001:00008d3f       ??_G?$CComPolyObject@VCAxHostWindow@ATL@@@ATL@@UAEPAXI@Z 7c639d3f f i stdafx.obj
+ 0001:00008d5b       ?CreateInstance@?$CComObject@VCAxFrameWindow@ATL@@@ATL@@SGJPAPAV12@@Z 7c639d5b f i stdafx.obj
+ 0001:00008dbd       ?CreateInstance@?$CComObject@VCAxUIWindow@ATL@@@ATL@@SGJPAPAV12@@Z 7c639dbd f i stdafx.obj
+ 0001:00008e1f       ?Register@_ATL_WNDCLASSINFOW@ATL@@QAEGPAP6GJPAUHWND__@@IIJ@Z@Z 7c639e1f f i stdafx.obj
+ 0001:00008e3f       ?GetWindowContext@CAxHostWindow@ATL@@UAGJPAPAUIOleInPlaceFrame@@PAPAUIOleInPlaceUIWindow@@PAUtagRECT@@2PAUtagOIFI@@@Z 7c639e3f f i stdafx.obj
+ 0001:00008f71       ?Create@?$CWindowImpl@VCAxFrameWindow@ATL@@VCWindow@2@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@QAEPAUHWND__@@PAU3@V_U_RECT@2@PB_WKKV_U_MENUorID@2@PAX@Z 7c639f71 f i stdafx.obj
+ 0001:00008fd0       ?Create@?$CWindowImpl@VCAxUIWindow@ATL@@VCWindow@2@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@QAEPAUHWND__@@PAU3@V_U_RECT@2@PB_WKKV_U_MENUorID@2@PAX@Z 7c639fd0 f i stdafx.obj
+ 0001:0000902f       ?CreateInstance@?$CComCreator@V?$CComPolyObject@VCAxHostWindow@ATL@@@ATL@@@ATL@@SGJPAXABU_GUID@@PAPAX@Z 7c63a02f f i stdafx.obj
+ 0001:00009091       ?GetWindow@CAxFrameWindow@ATL@@UAGJPAPAUHWND__@@@Z 7c63a091 f i stdafx.obj
+ 0001:000090d8       ?GetWindow@CAxUIWindow@ATL@@UAGJPAPAUHWND__@@@Z 7c63a0d8 f i stdafx.obj
+ 0001:00009126       _AtlAxCreateControlLicEx@32 7c63a126 f i stdafx.obj
+ 0001:000091f6       _AtlAxCreateControlEx@28   7c63a1f6 f i stdafx.obj
+ 0001:00009219       _AtlAxCreateControlLic@20  7c63a219 f i stdafx.obj
+ 0001:0000969f       _AtlAxCreateControl@16     7c63a69f f i stdafx.obj
+ 0001:000096c1       _AtlAxWinInit@0            7c63a6c1 f i stdafx.obj
+ 0001:0000983a       ??$AtlAxDialogCreateT@PB_WV_AtlDialogBoxIndirectParamHelper@ATL@@$1?DialogBoxIndirectParamW@@YGHPAUHINSTANCE__@@PBUDLGTEMPLATE@@PAUHWND__@@P6GH2IIJ@ZJ@Z@ATL@@YAHPAUHINSTANCE__@@PB_WPAUHWND__@@P6GH2IIJ@ZJ@Z 7c63a83a f i stdafx.obj
+ 0001:0000990f       ??$AtlAxDialogCreateT@PBDV_AtlDialogBoxIndirectParamHelper@ATL@@$1?DialogBoxIndirectParamA@@YGHPAUHINSTANCE__@@PBUDLGTEMPLATE@@PAUHWND__@@P6GH2IIJ@ZJ@Z@ATL@@YAHPAUHINSTANCE__@@PBDPAUHWND__@@P6GH2IIJ@ZJ@Z 7c63a90f f i stdafx.obj
+ 0001:000099e4       ??$AtlAxDialogCreateT@PB_WV_AtlCreateDialogIndirectParamHelper@ATL@@$1?CreateDialogIndirectParamW@@YGPAUHWND__@@PAUHINSTANCE__@@PBUDLGTEMPLATE@@PAU4@P6GH2IIJ@ZJ@Z@ATL@@YAPAUHWND__@@PAUHINSTANCE__@@PB_WPAU1@P6GH2IIJ@ZJ@Z 7c63a9e4 f i stdafx.obj
+ 0001:00009abf       ??$AtlAxDialogCreateT@PBDV_AtlCreateDialogIndirectParamHelper@ATL@@$1?CreateDialogIndirectParamA@@YGPAUHWND__@@PAUHINSTANCE__@@PBUDLGTEMPLATE@@PAU4@P6GH2IIJ@ZJ@Z@ATL@@YAPAUHWND__@@PAUHINSTANCE__@@PBDPAU1@P6GH2IIJ@ZJ@Z 7c63aabf f i stdafx.obj
+ 0001:00009b9a       _AtlAxDialogBoxW@20        7c63ab9a f i stdafx.obj
+ 0001:00009bb8       _AtlAxDialogBoxA@20        7c63abb8 f i stdafx.obj
+ 0001:00009bd6       _AtlAxCreateDialogW@20     7c63abd6 f i stdafx.obj
+ 0001:00009bf4       _AtlAxCreateDialogA@20     7c63abf4 f i stdafx.obj
+ 0001:00009c12       _AtlAxAttachControl@12     7c63ac12 f i stdafx.obj
+ 0001:00009ca8       _Downlevel_DelayLoadFailureHook@8 7c63aca8 f   atldload:downlevel_dload.obj
+ 0001:00009d29       _DelayLoadFailureHook@8    7c63ad29 f   atldload:dload.obj
+ 0001:00009d32       _AtlStrLower@4             7c63ad32 f   atldload:lookup.obj
+ 0001:00009d5a       _FindDll@4                 7c63ad5a f   atldload:lookup.obj
+ 0001:00009e49       _LookupHandlerByName@8     7c63ae49 f   atldload:lookup.obj
+ 0001:00009ebf       _LookupHandlerByOrdinal@8  7c63aebf f   atldload:lookup.obj
+ 0001:00009f01       _LookupHandler@8           7c63af01 f   atldload:lookup.obj
+ 0001:00009fdb       ?InsertMenus@CAxFrameWindow@ATL@@UAGJPAUHMENU__@@PAUtagOleMenuGroupWidths@@@Z 7c63afdb f   stdafx.obj
+ 0001:0000a000       ?SetMenu@CAxFrameWindow@ATL@@UAGJPAUHMENU__@@PAXPAUHWND__@@@Z 7c63b000 f   stdafx.obj
+ 0001:0000a03b       ?DiscardUndoState@CAxHostWindow@ATL@@UAGJXZ 7c63b03b f   stdafx.obj
+ 0001:0000a03b       ?DeactivateAndUndo@CAxHostWindow@ATL@@UAGJXZ 7c63b03b f   stdafx.obj
+ 0001:0000a03b       ?RequestNewObjectLayout@CAxHostWindow@ATL@@UAGJXZ 7c63b03b f   stdafx.obj
+ 0001:0000a03b       ?ShowPropertyFrame@CAxHostWindow@ATL@@UAGJXZ 7c63b03b f   stdafx.obj
+ 0001:0000a03b       ?SaveObject@CAxHostWindow@ATL@@UAGJXZ 7c63b03b f   stdafx.obj
+ 0001:0000a043       ?Scroll@CAxHostWindow@ATL@@UAGJUtagSIZE@@@Z 7c63b043 f   stdafx.obj
+ 0001:0000a04b       ?TransformCoords@CAxHostWindow@ATL@@UAGJPAU_POINTL@@PAUtagPOINTF@@K@Z 7c63b04b f   stdafx.obj
+ 0001:0000a04b       ?GetMoniker@CAxHostWindow@ATL@@UAGJKKPAPAUIMoniker@@@Z 7c63b04b f   stdafx.obj
+ 0001:0000a053       ?ParseDisplayName@CAxHostWindow@ATL@@UAGJPAUIBindCtx@@PA_WPAKPAPAUIMoniker@@@Z 7c63b053 f   stdafx.obj
+ 0001:0000a077       ?ContextSensitiveHelp@CAxUIWindow@ATL@@UAGJH@Z 7c63b077 f   stdafx.obj
+ 0001:0000a077       ?RemoveMenus@CAxFrameWindow@ATL@@UAGJPAUHMENU__@@@Z 7c63b077 f   stdafx.obj
+ 0001:0000a077       ?ContextSensitiveHelp@CAxFrameWindow@ATL@@UAGJH@Z 7c63b077 f   stdafx.obj
+ 0001:0000a077       ?SetBorderSpace@CAxFrameWindow@ATL@@UAGJPBUtagRECT@@@Z 7c63b077 f   stdafx.obj
+ 0001:0000a077       ?SetBorderSpace@CAxUIWindow@ATL@@UAGJPBUtagRECT@@@Z 7c63b077 f   stdafx.obj
+ 0001:0000a077       ?GetBorder@CAxUIWindow@ATL@@UAGJPAUtagRECT@@@Z 7c63b077 f   stdafx.obj
+ 0001:0000a077       ?SetStatusText@CAxFrameWindow@ATL@@UAGJPB_W@Z 7c63b077 f   stdafx.obj
+ 0001:0000a077       ?AdjustRect@CAxHostWindow@ATL@@UAGJPAUtagRECT@@@Z 7c63b077 f   stdafx.obj
+ 0001:0000a077       ?LockInPlaceActive@CAxHostWindow@ATL@@UAGJH@Z 7c63b077 f   stdafx.obj
+ 0001:0000a077       ?GetBorder@CAxFrameWindow@ATL@@UAGJPAUtagRECT@@@Z 7c63b077 f   stdafx.obj
+ 0001:0000a077       ?EnableModeless@CAxFrameWindow@ATL@@UAGJH@Z 7c63b077 f   stdafx.obj
+ 0001:0000a0b2       ?UpdateRegistryFromResourceS@CComModule@ATL@@UAGJPB_WHPAU_ATL_REGMAP_ENTRY@2@@Z 7c63b0b2 f   atl.obj
+ 0001:0000a0b2       ?UpdateRegistryFromResourceS@CComModule@ATL@@UAGJIHPAU_ATL_REGMAP_ENTRY@2@@Z 7c63b0b2 f   atl.obj
+ 0001:0000a148       ?OnShowWindow@CAxHostWindow@ATL@@UAGJH@Z 7c63b148 f   stdafx.obj
+ 0001:0000a148       ?ContextSensitiveHelp@CAxHostWindow@ATL@@UAGJH@Z 7c63b148 f   stdafx.obj
+ 0001:0000a24d       ?ScrollRect@CAxHostWindow@ATL@@UAGJHHPBUtagRECT@@0@Z 7c63b24d f   stdafx.obj
+ 0001:0000a276       __imp_load__CoCreateInstance@20 7c63b276     ole32:ole32.dll
+ 0001:0000a280       __tailMerge_ole32_dll      7c63b280     ole32:ole32.dll
+ 0001:0000a291       __imp_load__CoTaskMemAlloc@4 7c63b291     ole32:ole32.dll
+ 0001:0000a29b       __imp_load__CoTaskMemRealloc@8 7c63b29b     ole32:ole32.dll
+ 0001:0000a2a5       __imp_load__CoTaskMemFree@4 7c63b2a5     ole32:ole32.dll
+ 0001:0000a2af       __imp_load__OleLoadFromStream@12 7c63b2af     ole32:ole32.dll
+ 0001:0000a2b9       __imp_load__CoRevokeClassObject@4 7c63b2b9     ole32:ole32.dll
+ 0001:0000a2c3       __imp_load__CoRegisterClassObject@20 7c63b2c3     ole32:ole32.dll
+ 0001:0000a2cd       __imp_load__CoReleaseMarshalData@4 7c63b2cd     ole32:ole32.dll
+ 0001:0000a2d7       __imp_load__CoMarshalInterface@24 7c63b2d7     ole32:ole32.dll
+ 0001:0000a2e1       __imp_load__CreateStreamOnHGlobal@12 7c63b2e1     ole32:ole32.dll
+ 0001:0000a2eb       __imp_load__CoUnmarshalInterface@12 7c63b2eb     ole32:ole32.dll
+ 0001:0000a2f5       __imp_load__WriteClassStm@8 7c63b2f5     ole32:ole32.dll
+ 0001:0000a2ff       __imp_load__OleSaveToStream@8 7c63b2ff     ole32:ole32.dll
+ 0001:0000a309       __imp_load__StringFromGUID2@12 7c63b309     ole32:ole32.dll
+ 0001:0000a313       __imp_load__ProgIDFromCLSID@8 7c63b313     ole32:ole32.dll
+ 0001:0000a31d       __imp_load__OleLockRunning@12 7c63b31d     ole32:ole32.dll
+ 0001:0000a327       __imp_load__CoGetClassObject@20 7c63b327     ole32:ole32.dll
+ 0001:0000a331       __imp_load__CLSIDFromProgID@8 7c63b331     ole32:ole32.dll
+ 0001:0000a33b       __imp_load__CLSIDFromString@8 7c63b33b     ole32:ole32.dll
+ 0001:0000a345       __imp_load__OleInitialize@4 7c63b345     ole32:ole32.dll
+ 0001:0000a34f       __imp_load__OleUninitialize@0 7c63b34f     ole32:ole32.dll
+ 0001:0000a359       __imp_load__VarUI4FromStr@16 7c63b359     oleaut32:OLEAUT32.dll
+ 0001:0000a363       __tailMerge_OLEAUT32_dll   7c63b363     oleaut32:OLEAUT32.dll
+ 0001:0000a374       __imp_load__SysStringLen@4 7c63b374     oleaut32:OLEAUT32.dll
+ 0001:0000a37e       __imp_load__SysFreeString@4 7c63b37e     oleaut32:OLEAUT32.dll
+ 0001:0000a388       __imp_load__SysAllocStringByteLen@8 7c63b388     oleaut32:OLEAUT32.dll
+ 0001:0000a392       __imp_load__SysStringByteLen@4 7c63b392     oleaut32:OLEAUT32.dll
+ 0001:0000a39c       __imp_load__VariantInit@4  7c63b39c     oleaut32:OLEAUT32.dll
+ 0001:0000a3a6       __imp_load__VariantClear@4 7c63b3a6     oleaut32:OLEAUT32.dll
+ 0001:0000a3b0       __imp_load__VariantChangeType@16 7c63b3b0     oleaut32:OLEAUT32.dll
+ 0001:0000a3ba       __imp_load__SysAllocStringLen@8 7c63b3ba     oleaut32:OLEAUT32.dll
+ 0001:0000a3c4       __imp_load__SysAllocString@4 7c63b3c4     oleaut32:OLEAUT32.dll
+ 0001:0000a3ce       __imp_load__LoadTypeLib@8  7c63b3ce     oleaut32:OLEAUT32.dll
+ 0001:0000a3d8       __imp_load__UnRegisterTypeLib@20 7c63b3d8     oleaut32:OLEAUT32.dll
+ 0001:0000a3e2       __imp_load__RegisterTypeLib@12 7c63b3e2     oleaut32:OLEAUT32.dll
+ 0001:0000a3ec       __imp_load__SetErrorInfo@8 7c63b3ec     oleaut32:OLEAUT32.dll
+ 0001:0000a3f6       __imp_load__CreateErrorInfo@4 7c63b3f6     oleaut32:OLEAUT32.dll
+ 0001:0000a400       __imp_load__OleCreateFontIndirect@12 7c63b400     oleaut32:OLEAUT32.dll
+ 0001:0000a40a       __imp_load__LoadRegTypeLib@20 7c63b40a     oleaut32:OLEAUT32.dll
+ 0001:0000a414       __imp_load__RegDeleteKeyW@8 7c63b414     advapi32:ADVAPI32.dll
+ 0001:0000a41e       __tailMerge_ADVAPI32_dll   7c63b41e     advapi32:ADVAPI32.dll
+ 0001:0000a42f       __imp_load__RegDeleteValueW@8 7c63b42f     advapi32:ADVAPI32.dll
+ 0001:0000a439       __imp_load__RegCloseKey@4  7c63b439     advapi32:ADVAPI32.dll
+ 0001:0000a443       __imp_load__RegCreateKeyExW@36 7c63b443     advapi32:ADVAPI32.dll
+ 0001:0000a44d       __imp_load__RegOpenKeyExW@20 7c63b44d     advapi32:ADVAPI32.dll
+ 0001:0000a457       __imp_load__RegSetValueExW@24 7c63b457     advapi32:ADVAPI32.dll
+ 0001:0000a461       __imp_load__RegQueryInfoKeyW@48 7c63b461     advapi32:ADVAPI32.dll
+ 0001:0000a46b       __imp_load__RegEnumKeyExW@32 7c63b46b     advapi32:ADVAPI32.dll
+ 0001:0000a475       __imp_load__GetClassInfoExW@12 7c63b475     user32:USER32.dll
+ 0001:0000a47f       __tailMerge_USER32_dll     7c63b47f     user32:USER32.dll
+ 0001:0000a490       __imp_load__LoadCursorW@8  7c63b490     user32:USER32.dll
+ 0001:0000a49a       __imp_load__RegisterClassExW@4 7c63b49a     user32:USER32.dll
+ 0001:0000a4a4       __imp_load__UnregisterClassW@8 7c63b4a4     user32:USER32.dll
+ 0001:0000a4ae       __imp_load__MessageBoxA@16 7c63b4ae     user32:USER32.dll
+ 0001:0000a4b8       __imp_load__CharNextW@4    7c63b4b8     user32:USER32.dll
+ 0001:0000a4c2       __imp_load__PeekMessageW@20 7c63b4c2     user32:USER32.dll
+ 0001:0000a4cc       __imp_load__DispatchMessageA@4 7c63b4cc     user32:USER32.dll
+ 0001:0000a4d6       __imp_load__DispatchMessageW@4 7c63b4d6     user32:USER32.dll
+ 0001:0000a4e0       __imp_load__TranslateMessage@4 7c63b4e0     user32:USER32.dll
+ 0001:0000a4ea       __imp_load__GetMessageA@16 7c63b4ea     user32:USER32.dll
+ 0001:0000a4f4       __imp_load__GetMessageW@16 7c63b4f4     user32:USER32.dll
+ 0001:0000a4fe       __imp_load__IsWindowUnicode@4 7c63b4fe     user32:USER32.dll
+ 0001:0000a508       __imp_load__MsgWaitForMultipleObjects@20 7c63b508     user32:USER32.dll
+ 0001:0000a512       __imp_load__SetWindowLongW@12 7c63b512     user32:USER32.dll
+ 0001:0000a51c       __imp_load__GetWindowLongW@8 7c63b51c     user32:USER32.dll
+ 0001:0000a526       __imp_load__SendMessageW@16 7c63b526     user32:USER32.dll
+ 0001:0000a530       __imp_load__GetClassInfoExA@12 7c63b530     user32:USER32.dll
+ 0001:0000a53a       __imp_load__LoadCursorA@8  7c63b53a     user32:USER32.dll
+ 0001:0000a544       __imp_load__ReleaseDC@8    7c63b544     user32:USER32.dll
+ 0001:0000a54e       __imp_load__GetDC@4        7c63b54e     user32:USER32.dll
+ 0001:0000a558       __imp_load__LoadStringW@16 7c63b558     user32:USER32.dll
+ 0001:0000a562       __imp_load__DefWindowProcW@16 7c63b562     user32:USER32.dll
+ 0001:0000a56c       __imp_load__RegisterClassExA@4 7c63b56c     user32:USER32.dll
+ 0001:0000a576       __imp_load__GetSysColor@4  7c63b576     user32:USER32.dll
+ 0001:0000a580       __imp_load__MoveWindow@24  7c63b580     user32:USER32.dll
+ 0001:0000a58a       __imp_load__SetWindowPos@28 7c63b58a     user32:USER32.dll
+ 0001:0000a594       __imp_load__GetClientRect@8 7c63b594     user32:USER32.dll
+ 0001:0000a59e       __imp_load__ClientToScreen@8 7c63b59e     user32:USER32.dll
+ 0001:0000a5a8       __imp_load__ScreenToClient@8 7c63b5a8     user32:USER32.dll
+ 0001:0000a5b2       __imp_load__InvalidateRect@12 7c63b5b2     user32:USER32.dll
+ 0001:0000a5bc       __imp_load__InvalidateRgn@12 7c63b5bc     user32:USER32.dll
+ 0001:0000a5c6       __imp_load__RedrawWindow@16 7c63b5c6     user32:USER32.dll
+ 0001:0000a5d0       __imp_load__SetCapture@4   7c63b5d0     user32:USER32.dll
+ 0001:0000a5da       __imp_load__IsChild@8      7c63b5da     user32:USER32.dll
+ 0001:0000a5e4       __imp_load__GetParent@4    7c63b5e4     user32:USER32.dll
+ 0001:0000a5ee       __imp_load__GetDlgItem@8   7c63b5ee     user32:USER32.dll
+ 0001:0000a5f8       __imp_load__GetClassNameW@12 7c63b5f8     user32:USER32.dll
+ 0001:0000a602       __imp_load__ReleaseCapture@0 7c63b602     user32:USER32.dll
+ 0001:0000a60c       __imp_load__FillRect@12    7c63b60c     user32:USER32.dll
+ 0001:0000a616       __imp_load__DestroyWindow@4 7c63b616     user32:USER32.dll
+ 0001:0000a620       __imp_load__CallWindowProcW@20 7c63b620     user32:USER32.dll
+ 0001:0000a62a       __imp_load__EndPaint@8     7c63b62a     user32:USER32.dll
+ 0001:0000a634       __imp_load__BeginPaint@8   7c63b634     user32:USER32.dll
+ 0001:0000a63e       __imp_load__GetDesktopWindow@0 7c63b63e     user32:USER32.dll
+ 0001:0000a648       __imp_load__DestroyAcceleratorTable@4 7c63b648     user32:USER32.dll
+ 0001:0000a652       __imp_load__SetFocus@4     7c63b652     user32:USER32.dll
+ 0001:0000a65c       __imp_load__GetWindow@8    7c63b65c     user32:USER32.dll
+ 0001:0000a666       __imp_load__GetFocus@0     7c63b666     user32:USER32.dll
+ 0001:0000a670       __imp_load__IsWindow@4     7c63b670     user32:USER32.dll
+ 0001:0000a67a       __imp_load__CreateWindowExW@48 7c63b67a     user32:USER32.dll
+ 0001:0000a684       __imp_load__CreateAcceleratorTableW@8 7c63b684     user32:USER32.dll
+ 0001:0000a68e       __imp_load__SetWindowTextW@8 7c63b68e     user32:USER32.dll
+ 0001:0000a698       __imp_load__GetWindowTextW@12 7c63b698     user32:USER32.dll
+ 0001:0000a6a2       __imp_load__GetWindowTextLengthW@4 7c63b6a2     user32:USER32.dll
+ 0001:0000a6ac       __imp_load__RegisterWindowMessageW@4 7c63b6ac     user32:USER32.dll
+ 0001:0000a6b6       __imp_load__DialogBoxIndirectParamW@20 7c63b6b6     user32:USER32.dll
+ 0001:0000a6c0       __imp_load__DialogBoxIndirectParamA@20 7c63b6c0     user32:USER32.dll
+ 0001:0000a6ca       __imp_load__CreateDialogIndirectParamW@20 7c63b6ca     user32:USER32.dll
+ 0001:0000a6d4       __imp_load__CreateDialogIndirectParamA@20 7c63b6d4     user32:USER32.dll
+ 0001:0000a6de       __imp_load__GetDeviceCaps@8 7c63b6de     gdi32:GDI32.dll
+ 0001:0000a6e8       __tailMerge_GDI32_dll      7c63b6e8     gdi32:GDI32.dll
+ 0001:0000a6f9       __imp_load__CreateDCW@16   7c63b6f9     gdi32:GDI32.dll
+ 0001:0000a703       __imp_load__DeleteDC@4     7c63b703     gdi32:GDI32.dll
+ 0001:0000a70d       __imp_load__DeleteObject@4 7c63b70d     gdi32:GDI32.dll
+ 0001:0000a717       __imp_load__SelectObject@8 7c63b717     gdi32:GDI32.dll
+ 0001:0000a721       __imp_load__CreateCompatibleBitmap@12 7c63b721     gdi32:GDI32.dll
+ 0001:0000a72b       __imp_load__CreateCompatibleDC@4 7c63b72b     gdi32:GDI32.dll
+ 0001:0000a735       __imp_load__BitBlt@36      7c63b735     gdi32:GDI32.dll
+ 0001:0000a73f       __imp_load__CreateSolidBrush@4 7c63b73f     gdi32:GDI32.dll
+ 0001:0000a749       __imp_load__GetObjectW@12  7c63b749     gdi32:GDI32.dll
+ 0001:0000a753       __imp_load__GetStockObject@4 7c63b753     gdi32:GDI32.dll
+ 0001:0000a75e       _SetLastError@4            7c63b75e f   kernel32:KERNEL32.dll
+ 0001:0000a764       _lstrcmpA@8                7c63b764 f   kernel32:KERNEL32.dll
+ 0001:0000a76a       _GetModuleHandleA@4        7c63b76a f   kernel32:KERNEL32.dll
+ 0001:0000a770       _GetTickCount@0            7c63b770 f   kernel32:KERNEL32.dll
+ 0001:0000a776       ?_AtlGetThreadACPFake@ATL@@YGIXZ 7c63b776 f i atls:atltrace.obj
+ 0001:0000a7db       ?_AtlGetThreadACPReal@ATL@@YGIXZ 7c63b7db f i atls:atltrace.obj
+ 0001:0000a7df       ?_AtlGetThreadACPThunk@ATL@@YGIXZ 7c63b7df f i atls:atltrace.obj
+ 0001:0000a843       ?Term@CAtlComModule@ATL@@QAEXXZ 7c63b843 f i atls:atlcommodule.obj
+ 0001:0000a885       ??0CAtlComModule@ATL@@QAE@XZ 7c63b885 f i atls:atlcommodule.obj
+ 0001:0000a8ca       _AtlWinModuleInit@4        7c63b8ca f i stdafx.obj
+ 0001:0000a8ca       ?AtlWinModuleInit@ATL@@YGJPAU_ATL_WIN_MODULE70@1@@Z 7c63b8ca f i atls:atlbase.obj
+ 0001:0000a8ed       ??0_ATL_WIN_MODULE70@ATL@@QAE@XZ 7c63b8ed f i atls:atlbase.obj
+ 0001:0000a907       ?AtlWinModuleTerm@ATL@@YGJPAU_ATL_WIN_MODULE70@1@PAUHINSTANCE__@@@Z 7c63b907 f i atls:atlbase.obj
+ 0001:0000a967       ??0_ATL_BASE_MODULE70@ATL@@QAE@XZ 7c63b967 f i atls:atlbase.obj
+ 0001:0000a981       ??1CAtlBaseModule@ATL@@QAE@XZ 7c63b981 f   atls:atlbase.obj
+ 0001:0000a997       ??0CAtlWinModule@ATL@@QAE@XZ 7c63b997 f i atls:atlbase.obj
+ 0001:0000a9bd       ??0CAtlBaseModule@ATL@@QAE@XZ 7c63b9bd f   atls:atlbase.obj
+ 0001:0000aa6c       ??1CAtlWinModule@ATL@@QAE@XZ 7c63ba6c f i atls:atlbase.obj
+ 0001:0000aa84       ?__FreeStdCallThunk_cmn@@YAXPAX@Z 7c63ba84 f   atls:atlthunk.obj
+ 0001:0000ab5f       ?__FreeStdCallThunk@ATL@@YGXPAX@Z 7c63bb5f f   atls:atlthunk.obj
+ 0001:0000ab6c       ?__AllocStdCallThunk_cmn@@YAPAXXZ 7c63bb6c f   atls:atlthunk.obj
+ 0001:0000ac0c       ?__AllocStdCallThunk@ATL@@YGPAXXZ 7c63bc0c f   atls:atlthunk.obj
+ 0001:0000ac11       _DoInitialization          7c63bc11 f   atlmincrt:atlinit.obj
+ 0001:0000acc1       _malloc                    7c63bcc1 f   atlmincrt:atlinit.obj
+ 0001:0000acd4       _calloc                    7c63bcd4 f   atlmincrt:atlinit.obj
+ 0001:0000ad12       __msize                    7c63bd12 f   atlmincrt:atlinit.obj
+ 0001:0000ad25       _free                      7c63bd25 f   atlmincrt:atlinit.obj
+ 0001:0000ad3f       ??2@YAPAXI@Z               7c63bd3f f   atlmincrt:atlinit.obj
+ 0001:0000ad3f       ??_U@YAPAXI@Z              7c63bd3f f   atlmincrt:atlinit.obj
+ 0001:0000ad44       ??_V@YAXPAX@Z              7c63bd44 f   atlmincrt:atlinit.obj
+ 0001:0000ad44       ??3@YAXPAX@Z               7c63bd44 f   atlmincrt:atlinit.obj
+ 0001:0000ad49       __purecall                 7c63bd49 f   atlmincrt:atlinit.obj
+ 0001:0000ad52       __errno                    7c63bd52 f   atlmincrt:atlinit.obj
+ 0001:0000ad58       _memcpy_s                  7c63bd58 f   atlmincrt:atlinit.obj
+ 0001:0000adad       __decode_pointer           7c63bdad f   atlmincrt:atlinit.obj
+ 0001:0000addb       ??$strcpy_s@D@?A0xcb21b391@@YAHPADIPBD@Z 7c63bddb f i atlmincrt:atlinit.obj
+ 0001:0000ae20       ??$strcpy_s@_W@?A0xcb21b391@@YAHPA_WIPB_W@Z 7c63be20 f i atlmincrt:atlinit.obj
+ 0001:0000ae6b       ??$strcat_s@_W@?A0xcb21b391@@YAHPA_WIPB_W@Z 7c63be6b f i atlmincrt:atlinit.obj
+ 0001:0000aec6       ??$_tcsncpy_s@_W@?A0xcb21b391@@YAHPA_WIPB_WI@Z 7c63bec6 f i atlmincrt:atlinit.obj
+ 0001:0000af68       _DoCleanup                 7c63bf68 f   atlmincrt:atlinit.obj
+ 0001:0000b020       _realloc                   7c63c020 f   atlmincrt:atlinit.obj
+ 0001:0000b05c       __recalloc                 7c63c05c f   atlmincrt:atlinit.obj
+ 0001:0000b086       _atexit                    7c63c086 f   atlmincrt:atlinit.obj
+ 0001:0000b144       _strcpy_s                  7c63c144 f   atlmincrt:atlinit.obj
+ 0001:0000b149       _wcscpy_s                  7c63c149 f   atlmincrt:atlinit.obj
+ 0001:0000b14e       _wcscat_s                  7c63c14e f   atlmincrt:atlinit.obj
+ 0001:0000b153       _wcsncpy_s                 7c63c153 f   atlmincrt:atlinit.obj
+ 0001:0000b158       ___DllMainCRTStartup       7c63c158 f   atlmincrt:atlinitdll.obj
+ 0001:0000b1c6       __DllMainCRTStartup@12     7c63c1c6 f   atlmincrt:atlinitdll.obj
+ 0001:0000b2e7       __ui64tow_s                7c63c2e7 f   libcmt:xtows.obj
+ 0001:0000b304       _wcslen                    7c63c304 f   libcmt:wcslen.obj
+ 0001:0000b320       _memset                    7c63c320 f   libcmt:memset.obj
+ 0001:0000b39c       __SEH_prolog4              7c63c39c f   libcmt:sehprolg4.obj
+ 0001:0000b3e1       __SEH_epilog4              7c63c3e1 f   libcmt:sehprolg4.obj
+ 0001:0000b400       __except_handler4          7c63c400 f   libcmt:chandler4.obj
+ 0001:0000b596       @__security_check_cookie@4 7c63c596 f   libcmt:secchk.obj
+ 0001:0000b5b0       __chkstk                   7c63c5b0 f   libcmt:chkstk.obj
+ 0001:0000b5b0       __alloca_probe             7c63c5b0     libcmt:chkstk.obj
+ 0001:0000b5db       _memcmp                    7c63c5db f   libcmt:memcmp.obj
+ 0001:0000cd51       __ui64toa_s                7c63dd51 f   libcmt:xtoas.obj
+ 0001:0000cd70       _strlen                    7c63dd70 f   libcmt:strlen.obj
+ 0001:0000ce00       __alloca_probe_16          7c63de00 f   libcmt:alloca16.obj
+ 0001:0000ce16       __alloca_probe_8           7c63de16     libcmt:alloca16.obj
+ 0001:0000ce30       _memcpy                    7c63de30 f   libcmt:memcpy.obj
+ 0001:0000d1a0       _memmove                   7c63e1a0 f   libcmt:memmove.obj
+ 0001:0000d505       ___security_init_cookie    7c63e505 f   libcmt:gs_support.obj
+ 0001:0000d599       __invoke_watson            7c63e599 f   libcmt:invarg.obj
+ 0001:0000d695       __invalid_parameter        7c63e695 f   libcmt:invarg.obj
+ 0001:0000d6c0       __aulldvrm                 7c63e6c0 f   libcmt:ulldvrm.obj
+ 0001:0000d7ac       __VEC_memzero              7c63e7ac f   libcmt:p4_memset.obj
+ 0001:0000d83b       __sse2_mathfcns_init       7c63e83b f   libcmt:mathfcns.obj
+ 0001:0000d850       __local_unwind4            7c63e850 f   libcmt:exsup4.obj
+ 0001:0000d926       __seh_longjmp_unwind4@4    7c63e926 f   libcmt:exsup4.obj
+ 0001:0000d942       @_EH4_CallFilterFunc@8     7c63e942 f   libcmt:exsup4.obj
+ 0001:0000d959       @_EH4_TransferToHandler@8  7c63e959 f   libcmt:exsup4.obj
+ 0001:0000d972       @_EH4_GlobalUnwind@4       7c63e972 f   libcmt:exsup4.obj
+ 0001:0000d98c       @_EH4_LocalUnwind@16       7c63e98c f   libcmt:exsup4.obj
+ 0001:0000d9b0       __ValidateImageBase        7c63e9b0 f   libcmt:pesect.obj
+ 0001:0000d9e0       __FindPESection            7c63e9e0 f   libcmt:pesect.obj
+ 0001:0000da30       __IsNonwritableInCurrentImage 7c63ea30 f   libcmt:pesect.obj
+ 0001:0000daeb       ___report_gsfailure        7c63eaeb f   libcmt:gs_report.obj
+ 0001:0000dc76       __VEC_memcpy               7c63ec76 f   libcmt:p4_memcpy.obj
+ 0001:0000dd59       __crt_debugger_hook        7c63ed59 f   libcmt:dbghook.obj
+ 0001:0000ddb1       __get_sse2_info            7c63edb1 f   libcmt:cpu_disp.obj
+ 0001:0000de11       ___sse2_available_init     7c63ee11 f   libcmt:cpu_disp.obj
+ 0001:0000de20       __global_unwind2           7c63ee20 f   libcmt:exsup.obj
+ 0001:0000de85       __local_unwind2            7c63ee85 f   libcmt:exsup.obj
+ 0001:0000df09       __abnormal_termination     7c63ef09 f   libcmt:exsup.obj
+ 0001:0000df2c       __NLG_Notify1              7c63ef2c f   libcmt:exsup.obj
+ 0001:0000df35       __NLG_Notify               7c63ef35 f   libcmt:exsup.obj
+ 0001:0000df4c       __NLG_Dispatch             7c63ef4c     libcmt:exsup.obj
+ 0001:0000df4c       __NLG_Dispatch2            7c63ef4c     libcmt:exsup.obj
+ 0001:0000df54       __NLG_Call                 7c63ef54 f   libcmt:exsup.obj
+ 0001:0000df56       __NLG_Return2              7c63ef56     libcmt:exsup.obj
+ 0001:0000df57       ___delayLoadHelper2@8      7c63ef57 f   delayimp:delayhlp.obj
+ 0001:0000e194       __imp_load__UnregisterClassA@8 7c63f194     user32:USER32.dll
+ 0001:0000e19e       _RtlUnwind@16              7c63f19e f   kernel32:KERNEL32.dll
+ 0002:00000000       __imp__RaiseException@16   7c640000     kernel32:KERNEL32.dll
+ 0002:00000004       __imp__EnterCriticalSection@4 7c640004     kernel32:KERNEL32.dll
+ 0002:00000008       __imp__LeaveCriticalSection@4 7c640008     kernel32:KERNEL32.dll
+ 0002:0000000c       __imp__GetCurrentThreadId@0 7c64000c     kernel32:KERNEL32.dll
+ 0002:00000010       __imp__lstrlenW@4          7c640010     kernel32:KERNEL32.dll
+ 0002:00000014       __imp__InitializeCriticalSection@4 7c640014     kernel32:KERNEL32.dll
+ 0002:00000018       __imp__DeleteCriticalSection@4 7c640018     kernel32:KERNEL32.dll
+ 0002:0000001c       __imp__GetLastError@0      7c64001c     kernel32:KERNEL32.dll
+ 0002:00000020       __imp__DisableThreadLibraryCalls@4 7c640020     kernel32:KERNEL32.dll
+ 0002:00000024       __imp__GetVersionExA@4     7c640024     kernel32:KERNEL32.dll
+ 0002:00000028       __imp__InterlockedIncrement@4 7c640028     kernel32:KERNEL32.dll
+ 0002:0000002c       __imp__InterlockedDecrement@4 7c64002c     kernel32:KERNEL32.dll
+ 0002:00000030       __imp__lstrcmpiW@8         7c640030     kernel32:KERNEL32.dll
+ 0002:00000034       __imp__FreeLibrary@4       7c640034     kernel32:KERNEL32.dll
+ 0002:00000038       __imp__MultiByteToWideChar@24 7c640038     kernel32:KERNEL32.dll
+ 0002:0000003c       __imp__SizeofResource@8    7c64003c     kernel32:KERNEL32.dll
+ 0002:00000040       __imp__LoadResource@8      7c640040     kernel32:KERNEL32.dll
+ 0002:00000044       __imp__FindResourceW@12    7c640044     kernel32:KERNEL32.dll
+ 0002:00000048       __imp__LoadLibraryExW@12   7c640048     kernel32:KERNEL32.dll
+ 0002:0000004c       __imp__CloseHandle@4       7c64004c     kernel32:KERNEL32.dll
+ 0002:00000050       __imp__ReadFile@20         7c640050     kernel32:KERNEL32.dll
+ 0002:00000054       __imp__GetFileSize@8       7c640054     kernel32:KERNEL32.dll
+ 0002:00000058       __imp__CreateFileW@28      7c640058     kernel32:KERNEL32.dll
+ 0002:0000005c       __imp__GetModuleHandleW@4  7c64005c     kernel32:KERNEL32.dll
+ 0002:00000060       __imp__GetModuleFileNameW@12 7c640060     kernel32:KERNEL32.dll
+ 0002:00000064       __imp__WideCharToMultiByte@32 7c640064     kernel32:KERNEL32.dll
+ 0002:00000068       __imp__WaitForSingleObject@8 7c640068     kernel32:KERNEL32.dll
+ 0002:0000006c       __imp__GlobalAlloc@8       7c64006c     kernel32:KERNEL32.dll
+ 0002:00000070       __imp__FindResourceA@12    7c640070     kernel32:KERNEL32.dll
+ 0002:00000074       __imp__MulDiv@12           7c640074     kernel32:KERNEL32.dll
+ 0002:00000078       __imp__FlushInstructionCache@12 7c640078     kernel32:KERNEL32.dll
+ 0002:0000007c       __imp__GetCurrentProcess@0 7c64007c     kernel32:KERNEL32.dll
+ 0002:00000080       __imp__lstrcmpW@8          7c640080     kernel32:KERNEL32.dll
+ 0002:00000084       __imp__GlobalUnlock@4      7c640084     kernel32:KERNEL32.dll
+ 0002:00000088       __imp__GlobalLock@4        7c640088     kernel32:KERNEL32.dll
+ 0002:0000008c       __imp__SetLastError@4      7c64008c     kernel32:KERNEL32.dll
+ 0002:00000090       __imp__GlobalFree@4        7c640090     kernel32:KERNEL32.dll
+ 0002:00000094       __imp__GlobalHandle@4      7c640094     kernel32:KERNEL32.dll
+ 0002:00000098       __imp__LockResource@4      7c640098     kernel32:KERNEL32.dll
+ 0002:0000009c       __imp__lstrcmpA@8          7c64009c     kernel32:KERNEL32.dll
+ 0002:000000a0       __imp__GetModuleHandleA@4  7c6400a0     kernel32:KERNEL32.dll
+ 0002:000000a4       __imp__GetTickCount@0      7c6400a4     kernel32:KERNEL32.dll
+ 0002:000000a8       __imp__InterlockedExchange@8 7c6400a8     kernel32:KERNEL32.dll
+ 0002:000000ac       __imp__GetACP@0            7c6400ac     kernel32:KERNEL32.dll
+ 0002:000000b0       __imp__GetLocaleInfoA@16   7c6400b0     kernel32:KERNEL32.dll
+ 0002:000000b4       __imp__GetThreadLocale@0   7c6400b4     kernel32:KERNEL32.dll
+ 0002:000000b8       __imp__InterlockedCompareExchange@12 7c6400b8     kernel32:KERNEL32.dll
+ 0002:000000bc       __imp__HeapFree@12         7c6400bc     kernel32:KERNEL32.dll
+ 0002:000000c0       __imp__GetProcessHeap@0    7c6400c0     kernel32:KERNEL32.dll
+ 0002:000000c4       __imp__HeapAlloc@12        7c6400c4     kernel32:KERNEL32.dll
+ 0002:000000c8       __imp__GetProcAddress@8    7c6400c8     kernel32:KERNEL32.dll
+ 0002:000000cc       __imp__LoadLibraryA@4      7c6400cc     kernel32:KERNEL32.dll
+ 0002:000000d0       __imp__IsProcessorFeaturePresent@4 7c6400d0     kernel32:KERNEL32.dll
+ 0002:000000d4       __imp__VirtualFree@12      7c6400d4     kernel32:KERNEL32.dll
+ 0002:000000d8       __imp__VirtualAlloc@16     7c6400d8     kernel32:KERNEL32.dll
+ 0002:000000dc       __imp__HeapSize@12         7c6400dc     kernel32:KERNEL32.dll
+ 0002:000000e0       __imp__DebugBreak@0        7c6400e0     kernel32:KERNEL32.dll
+ 0002:000000e4       __imp__HeapReAlloc@16      7c6400e4     kernel32:KERNEL32.dll
+ 0002:000000e8       __imp__QueryPerformanceCounter@4 7c6400e8     kernel32:KERNEL32.dll
+ 0002:000000ec       __imp__GetCurrentProcessId@0 7c6400ec     kernel32:KERNEL32.dll
+ 0002:000000f0       __imp__GetSystemTimeAsFileTime@4 7c6400f0     kernel32:KERNEL32.dll
+ 0002:000000f4       __imp__TerminateProcess@8  7c6400f4     kernel32:KERNEL32.dll
+ 0002:000000f8       __imp__UnhandledExceptionFilter@4 7c6400f8     kernel32:KERNEL32.dll
+ 0002:000000fc       __imp__SetUnhandledExceptionFilter@4 7c6400fc     kernel32:KERNEL32.dll
+ 0002:00000100       __imp__IsDebuggerPresent@0 7c640100     kernel32:KERNEL32.dll
+ 0002:00000104       __imp__RtlUnwind@16        7c640104     kernel32:KERNEL32.dll
+ 0002:00000108       __imp__LocalAlloc@8        7c640108     kernel32:KERNEL32.dll
+ 0002:0000010c       \177KERNEL32_NULL_THUNK_DATA 7c64010c     kernel32:KERNEL32.dll
+ 0002:00000110       ___xc_a                    7c640110     libcmt:crt0init.obj
+ 0002:00000124       ___xc_z                    7c640124     libcmt:crt0init.obj
+ 0002:00000128       ___xi_a                    7c640128     libcmt:crt0init.obj
+ 0002:00000134       ___xi_z                    7c640134     libcmt:crt0init.obj
+ 0002:00000138       ___xp_a                    7c640138     libcmt:crt0init.obj
+ 0002:0000013c       ___xp_z                    7c64013c     libcmt:crt0init.obj
+ 0002:00000140       ___xt_a                    7c640140     libcmt:crt0init.obj
+ 0002:00000144       ___xt_z                    7c640144     libcmt:crt0init.obj
+ 0002:0000016c       ??_C@_1BA@JIHHIEDE@?$AAT?$AAy?$AAp?$AAe?$AAL?$AAi?$AAb?$AA?$AA@ 7c64016c     RegObj.obj
+ 0002:0000017c       ??_C@_1BC@EAHCMADO@?$AAS?$AAo?$AAf?$AAt?$AAw?$AAa?$AAr?$AAe?$AA?$AA@ 7c64017c     RegObj.obj
+ 0002:00000190       ??_C@_1O@GBFINDKL@?$AAS?$AAY?$AAS?$AAT?$AAE?$AAM?$AA?$AA@ 7c640190     RegObj.obj
+ 0002:000001a0       ??_C@_1BC@IBECJAAI@?$AAS?$AAE?$AAC?$AAU?$AAR?$AAI?$AAT?$AAY?$AA?$AA@ 7c6401a0     RegObj.obj
+ 0002:000001b4       ??_C@_17OMAOINJK@?$AAS?$AAA?$AAM?$AA?$AA@ 7c6401b4     RegObj.obj
+ 0002:000001bc       ??_C@_19HLLLM@?$AAM?$AAi?$AAm?$AAe?$AA?$AA@ 7c6401bc     RegObj.obj
+ 0002:000001c8       ??_C@_1BC@MAICEHGI@?$AAH?$AAa?$AAr?$AAd?$AAw?$AAa?$AAr?$AAe?$AA?$AA@ 7c6401c8     RegObj.obj
+ 0002:000001dc       ??_C@_1BE@EKPAFMCP@?$AAI?$AAn?$AAt?$AAe?$AAr?$AAf?$AAa?$AAc?$AAe?$AA?$AA@ 7c6401dc     RegObj.obj
+ 0002:000001f0       ??_C@_1BC@NKMMNMGL@?$AAF?$AAi?$AAl?$AAe?$AAT?$AAy?$AAp?$AAe?$AA?$AA@ 7c6401f0     RegObj.obj
+ 0002:00000204       ??_C@_1CK@OEKPKBNA@?$AAC?$AAo?$AAm?$AAp?$AAo?$AAn?$AAe?$AAn?$AAt?$AA?5?$AAC?$AAa?$AAt?$AAe?$AAg?$AAo?$AAr?$AAi?$AAe?$AAs?$AA?$AA@ 7c640204     RegObj.obj
+ 0002:00000230       ??_C@_1M@KANJNLFF@?$AAC?$AAL?$AAS?$AAI?$AAD?$AA?$AA@ 7c640230     RegObj.obj
+ 0002:0000023c       ??_C@_1M@EJNEECMJ@?$AAA?$AAp?$AAp?$AAI?$AAD?$AA?$AA@ 7c64023c     RegObj.obj
+ 0002:00000248       ??_C@_1O@JDLOHAN@?$AAD?$AAe?$AAl?$AAe?$AAt?$AAe?$AA?$AA@ 7c640248     RegObj.obj
+ 0002:00000258       ??_C@_1BC@GCKHIPE@?$AAN?$AAo?$AAR?$AAe?$AAm?$AAo?$AAv?$AAe?$AA?$AA@ 7c640258     RegObj.obj
+ 0002:0000026c       ??_C@_1BI@JFAIJMHL@?$AAF?$AAo?$AAr?$AAc?$AAe?$AAR?$AAe?$AAm?$AAo?$AAv?$AAe?$AA?$AA@ 7c64026c     RegObj.obj
+ 0002:00000284       ??_C@_17LLMMEOJD@?$AAV?$AAa?$AAl?$AA?$AA@ 7c640284     RegObj.obj
+ 0002:0000028c       ??_C@_13OPKGLAFF@?$AAB?$AA?$AA@ 7c64028c     RegObj.obj
+ 0002:00000290       ??_C@_13MKMNOPIJ@?$AAD?$AA?$AA@ 7c640290     RegObj.obj
+ 0002:00000294       ??_C@_13LHMFKAAD@?$AAM?$AA?$AA@ 7c640294     RegObj.obj
+ 0002:00000298       ??_C@_13HADIAKP@?$AAS?$AA?$AA@ 7c640298     RegObj.obj
+ 0002:0000029c       _IID_IRegistrar            7c64029c     RegObj.obj
+ 0002:000002cc       ?rgszNeverDelete@CRegParser@ATL@@1QBQB_WB 7c6402cc     RegObj.obj
+ 0002:000002fc       ??_C@_19FLGNNEPJ@?$AAA?$AAT?$AAL?$AA?3?$AA?$AA@ 7c6402fc     RegObj.obj
+ 0002:00000308       _CLSID_Registrar           7c640308     atl.obj
+ 0002:00000318       _LIBID_ATLLib              7c640318     atl.obj
+ 0002:00000348       ??_C@_1BG@BBPPJBOK@?$AAA?$AAt?$AAl?$AAA?$AAx?$AAW?$AAi?$AAn?$AA8?$AA0?$AA?$AA@ 7c640348     atl.obj
+ 0002:00000360       ??_C@_1BM@LMHDDEMC@?$AAA?$AAt?$AAl?$AAA?$AAx?$AAW?$AAi?$AAn?$AAL?$AAi?$AAc?$AA8?$AA0?$AA?$AA@ 7c640360     atl.obj
+ 0002:0000037c       ??_7CComClassFactory@ATL@@6B@ 7c64037c     atl.obj
+ 0002:00000390       ??_C@_0HC@JEPFPPLL@Can?5not?5run?5Unicode?5version?5of?5A@ 7c640390     atl.obj
+ 0002:00000404       ??_C@_03MKGKJJNO@ATL?$AA@  7c640404     atl.obj
+ 0002:00000408       ??_7CComModule@ATL@@6B@    7c640408     atl.obj
+ 0002:00000430       __GUID_00000146_0000_0000_c000_000000000046 7c640430     atl.obj
+ 0002:00000440       ??_C@_11LOCGONAA@?$AA?$AA@ 7c640440     atl.obj
+ 0002:00000444       ??_C@_1M@PPPPCDEP@?$AAA?$AAP?$AAP?$AAI?$AAD?$AA?$AA@ 7c640444     atl.obj
+ 0002:00000450       ??_7?$CComObjectCached@VCComClassFactory@ATL@@@ATL@@6B@ 7c640450     atl.obj
+ 0002:00000464       ?_entries@?1??_GetEntries@CComClassFactory@ATL@@SGPBU_ATL_INTMAP_ENTRY@3@XZ@4QBU43@B 7c640464     atl.obj
+ 0002:0000047c       __GUID_00000001_0000_0000_c000_000000000046 7c64047c     atl.obj
+ 0002:0000048c       ??_7?$CComObject@VCDLLRegObject@@@ATL@@6B@ 7c64048c     atl.obj
+ 0002:000004c4       ?_entries@?1??_GetEntries@CDLLRegObject@@SGPBU_ATL_INTMAP_ENTRY@ATL@@XZ@4QBU34@B 7c6404c4     atl.obj
+ 0002:000004dc       __GUID_44ec053b_400f_11d0_9dcd_00a0c90391d3 7c6404dc     atl.obj
+ 0002:000004f0       ?map@?2??HKeyFromString@CRegParser@ATL@@KAPAUHKEY__@@PA_W@Z@4QBUkeymap@?1??123@KAPAU4@0@Z@B 7c6404f0     atl.obj
+ 0002:00000560       ??_C@_19NCHLBIN@?$AAH?$AAK?$AAC?$AAR?$AA?$AA@ 7c640560     atl.obj
+ 0002:0000056c       ??_C@_19JAPAIJDE@?$AAH?$AAK?$AAC?$AAU?$AA?$AA@ 7c64056c     atl.obj
+ 0002:00000578       ??_C@_19PEALEEJB@?$AAH?$AAK?$AAL?$AAM?$AA?$AA@ 7c640578     atl.obj
+ 0002:00000584       ??_C@_17PJOJPMPB@?$AAH?$AAK?$AAU?$AA?$AA@ 7c640584     atl.obj
+ 0002:0000058c       ??_C@_19PNBHMJPL@?$AAH?$AAK?$AAP?$AAD?$AA?$AA@ 7c64058c     atl.obj
+ 0002:00000598       ??_C@_19GFFAIJHG@?$AAH?$AAK?$AAD?$AAD?$AA?$AA@ 7c640598     atl.obj
+ 0002:000005a4       ??_C@_19OFICIBHH@?$AAH?$AAK?$AAC?$AAC?$AA?$AA@ 7c6405a4     atl.obj
+ 0002:000005b0       ??_C@_1CE@PACHPJFI@?$AAH?$AAK?$AAE?$AAY?$AA_?$AAC?$AAL?$AAA?$AAS?$AAS?$AAE?$AAS?$AA_?$AAR?$AAO?$AAO?$AAT?$AA?$AA@ 7c6405b0     atl.obj
+ 0002:000005d4       ??_C@_1CE@HLHNCBPM@?$AAH?$AAK?$AAE?$AAY?$AA_?$AAC?$AAU?$AAR?$AAR?$AAE?$AAN?$AAT?$AA_?$AAU?$AAS?$AAE?$AAR?$AA?$AA@ 7c6405d4     atl.obj
+ 0002:000005f8       ??_C@_1CG@GFBEANJL@?$AAH?$AAK?$AAE?$AAY?$AA_?$AAL?$AAO?$AAC?$AAA?$AAL?$AA_?$AAM?$AAA?$AAC?$AAH?$AAI?$AAN?$AAE?$AA?$AA@ 7c6405f8     atl.obj
+ 0002:00000620       ??_C@_1BG@BGODANIO@?$AAH?$AAK?$AAE?$AAY?$AA_?$AAU?$AAS?$AAE?$AAR?$AAS?$AA?$AA@ 7c640620     atl.obj
+ 0002:00000638       ??_C@_1CM@KHNNAOIC@?$AAH?$AAK?$AAE?$AAY?$AA_?$AAP?$AAE?$AAR?$AAF?$AAO?$AAR?$AAM?$AAA?$AAN?$AAC?$AAE?$AA_?$AAD?$AAA?$AAT?$AAA?$AA?$AA@ 7c640638     atl.obj
+ 0002:00000664       ??_C@_1BM@HAGMMHIA@?$AAH?$AAK?$AAE?$AAY?$AA_?$AAD?$AAY?$AAN?$AA_?$AAD?$AAA?$AAT?$AAA?$AA?$AA@ 7c640664     atl.obj
+ 0002:00000680       ??_C@_1CI@BBJOACGG@?$AAH?$AAK?$AAE?$AAY?$AA_?$AAC?$AAU?$AAR?$AAR?$AAE?$AAN?$AAT?$AA_?$AAC?$AAO?$AAN?$AAF?$AAI?$AAG?$AA?$AA@ 7c640680     atl.obj
+ 0002:000006a8       ??_C@_1BC@KAILKFFG@?$AAR?$AAE?$AAG?$AAI?$AAS?$AAT?$AAR?$AAY?$AA?$AA@ 7c6406a8     atl.obj
+ 0002:000006bc       ??_C@_1BG@JBACFMF@?$AAM?$AAo?$AAd?$AAu?$AAl?$AAe?$AA_?$AAR?$AAa?$AAw?$AA?$AA@ 7c6406bc     atl.obj
+ 0002:000006d4       ??_C@_1O@MNLDABAF@?$AAM?$AAo?$AAd?$AAu?$AAl?$AAe?$AA?$AA@ 7c6406d4     atl.obj
+ 0002:00000704       __GUID_00020400_0000_0000_c000_000000000046 7c640704     stdafx.obj
+ 0002:00000714       __GUID_00000000_0000_0000_c000_000000000046 7c640714     stdafx.obj
+ 0002:00000724       ??_C@_04EEAIELDD@ATL?3?$AA@ 7c640724     stdafx.obj
+ 0002:0000072c       __GUID_b6ea2050_048a_11d1_82b9_00c04fb9942e 7c64072c     stdafx.obj
+ 0002:0000073c       ??_C@_19ILOCMLCJ@?$AA?4?$AAt?$AAl?$AAb?$AA?$AA@ 7c64073c     stdafx.obj
+ 0002:00000748       ??_C@_1BA@PICGEGJB@?$AAD?$AAI?$AAS?$AAP?$AAL?$AAA?$AAY?$AA?$AA@ 7c640748     stdafx.obj
+ 0002:00000758       __GUID_7fd52380_4e07_101b_ae2d_08002b2ec713 7c640758     stdafx.obj
+ 0002:00000768       __GUID_00000109_0000_0000_c000_000000000046 7c640768     stdafx.obj
+ 0002:00000778       ??_C@_1DA@BIHALFED@?$AA?2?$AAI?$AAm?$AAp?$AAl?$AAe?$AAm?$AAe?$AAn?$AAt?$AAe?$AAd?$AA?5?$AAC?$AAa?$AAt?$AAe?$AAg?$AAo?$AAr?$AAi?$AAe?$AAs?$AA?$AA@ 7c640778     stdafx.obj
+ 0002:000007a8       ??_C@_1CK@IFBKBFAA@?$AA?2?$AAR?$AAe?$AAq?$AAu?$AAi?$AAr?$AAe?$AAd?$AA?5?$AAC?$AAa?$AAt?$AAe?$AAg?$AAo?$AAr?$AAi?$AAe?$AAs?$AA?$AA@ 7c6407a8     stdafx.obj
+ 0002:000007d4       ??_C@_1O@FHBGLCIO@?$AAC?$AAL?$AAS?$AAI?$AAD?$AA?2?$AA?$AA@ 7c6407d4     stdafx.obj
+ 0002:000007e4       __GUID_0002e012_0000_0000_c000_000000000046 7c6407e4     stdafx.obj
+ 0002:000007f4       __GUID_b196b284_bab4_101a_b69c_00aa00341d07 7c6407f4     stdafx.obj
+ 0002:00000804       __GUID_1cf2b120_547d_101b_8e65_08002b2bd119 7c640804     stdafx.obj
+ 0002:00000814       ??_C@_1BM@NHKIKHHJ@?$AAU?$AAn?$AAk?$AAn?$AAo?$AAw?$AAn?$AA?5?$AAE?$AAr?$AAr?$AAo?$AAr?$AA?$AA@ 7c640814     stdafx.obj
+ 0002:00000830       __GUID_0000010c_0000_0000_c000_000000000046 7c640830     stdafx.obj
+ 0002:00000840       __GUID_a6bc3ac0_dbaa_11ce_9de3_00aa004bb851 7c640840     stdafx.obj
+ 0002:00000850       __GUID_b2d0778b_ac99_4c58_a5c8_e7724e5316b5 7c640850     stdafx.obj
+ 0002:00000860       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6B?$IDispatchImpl@UIAxWinAmbientDispatchEx@@$1?_GUID_b2d0778b_ac99_4c58_a5c8_e7724e5316b5@@3U__s_GUID@@B$1?m_libid@CAtlModule@ATL@@2U_GUID@@A$0PPPP@$0PPPP@VCComTypeInfoHolder@ATL@@@1@@ 7c640860     stdafx.obj
+ 0002:000008f8       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6BIDocHostUIHandler@@@ 7c6408f8     stdafx.obj
+ 0002:00000940       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6BIAdviseSink@@@ 7c640940     stdafx.obj
+ 0002:00000960       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6BIServiceProvider@@@ 7c640960     stdafx.obj
+ 0002:00000970       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6B?$IObjectWithSiteImpl@VCAxHostWindow@ATL@@@1@@ 7c640970     stdafx.obj
+ 0002:00000988       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6BIOleContainer@@@ 7c640988     stdafx.obj
+ 0002:000009a0       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6BIOleControlSite@@@ 7c6409a0     stdafx.obj
+ 0002:000009c8       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6BIOleInPlaceSiteWindowless@@@ 7c6409c8     stdafx.obj
+ 0002:00000a40       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6BIOleClientSite@@@ 7c640a40     stdafx.obj
+ 0002:00000a64       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6BIAxWinHostWindowLic@@@ 7c640a64     stdafx.obj
+ 0002:00000a90       ??_7?$CComContainedObject@VCAxHostWindow@ATL@@@ATL@@6B?$CWindowImpl@VCAxHostWindow@ATL@@VCWindow@2@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@1@@ 7c640a90     stdafx.obj
+ 0002:00000aa4       ??_C@_1O@PGKMPIBK@?$AA?$CD?$AA3?$AA2?$AA7?$AA7?$AA0?$AA?$AA@ 7c640aa4     stdafx.obj
+ 0002:00000ab4       __GUID_00020412_0000_0000_c000_000000000046 7c640ab4     stdafx.obj
+ 0002:00000ac4       __GUID_bef6e003_a874_101a_8bba_00aa00300cab 7c640ac4     stdafx.obj
+ 0002:00000ad4       __GUID_0000011b_0000_0000_c000_000000000046 7c640ad4     stdafx.obj
+ 0002:00000ae4       __GUID_00000113_0000_0000_c000_000000000046 7c640ae4     stdafx.obj
+ 0002:00000af4       __GUID_1c2056cc_5ef4_101b_8bc8_00aa003e3b29 7c640af4     stdafx.obj
+ 0002:00000b04       __GUID_00000117_0000_0000_c000_000000000046 7c640b04     stdafx.obj
+ 0002:00000b14       __GUID_00000118_0000_0000_c000_000000000046 7c640b14     stdafx.obj
+ 0002:00000b24       __GUID_b196b28f_bab4_101a_b69c_00aa00341d07 7c640b24     stdafx.obj
+ 0002:00000b34       __GUID_8856f961_340a_11d0_a96b_00c04fd705a2 7c640b34     stdafx.obj
+ 0002:00000b44       ??_C@_13EBCNDICG@?$AA?3?$AA?$AA@ 7c640b44     stdafx.obj
+ 0002:00000b48       __GUID_25336920_03f9_11cf_8fd0_00aa00686f13 7c640b48     stdafx.obj
+ 0002:00000b58       __GUID_fc4801a3_2ba9_11cf_a229_00aa003d7352 7c640b58     stdafx.obj
+ 0002:00000b68       __GUID_00000122_0000_0000_c000_000000000046 7c640b68     stdafx.obj
+ 0002:00000b78       __GUID_0000010e_0000_0000_c000_000000000046 7c640b78     stdafx.obj
+ 0002:00000b88       __GUID_b196b288_bab4_101a_b69c_00aa00341d07 7c640b88     stdafx.obj
+ 0002:00000b98       __GUID_0000010f_0000_0000_c000_000000000046 7c640b98     stdafx.obj
+ 0002:00000ba8       __GUID_00020401_0000_0000_c000_000000000046 7c640ba8     stdafx.obj
+ 0002:00000bb8       __GUID_6d5140c1_7436_11ce_8034_00aa006009fa 7c640bb8     stdafx.obj
+ 0002:00000bc8       ??_C@_1M@IJFAIKMG@?$AAA?$AAX?$AAW?$AAI?$AAN?$AA?$AA@ 7c640bc8     stdafx.obj
+ 0002:00000bd4       __GUID_0000010d_0000_0000_c000_000000000046 7c640bd4     stdafx.obj
+ 0002:00000be4       __GUID_00000127_0000_0000_c000_000000000046 7c640be4     stdafx.obj
+ 0002:00000bf4       __GUID_3af24292_0c96_11ce_a0cf_00aa00600ab8 7c640bf4     stdafx.obj
+ 0002:00000c04       __GUID_00000112_0000_0000_c000_000000000046 7c640c04     stdafx.obj
+ 0002:00000c14       ??_7?$CComObject@V?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@@ATL@@6B@ 7c640c14     stdafx.obj
+ 0002:00000c34       ?_entries@?1??_GetEntries@?$CComEnum@UIEnumUnknown@@$1?_GUID_00000100_0000_0000_c000_000000000046@@3U__s_GUID@@BPAUIUnknown@@V?$_CopyInterface@UIUnknown@@@ATL@@VCComMultiThreadModel@6@@ATL@@SGPBU_ATL_INTMAP_ENTRY@3@XZ@4QBU43@B 7c640c34     stdafx.obj
+ 0002:00000c4c       __GUID_00000100_0000_0000_c000_000000000046 7c640c4c     stdafx.obj
+ 0002:00000c5c       __GUID_d30c1661_cdaf_11d0_8a3e_00c04fc9e26e 7c640c5c     stdafx.obj
+ 0002:00000c6c       ??_7?$CComObject@VCAxFrameWindow@ATL@@@ATL@@6BIOleInPlaceFrame@@@ 7c640c6c     stdafx.obj
+ 0002:00000ca8       ??_7?$CComObject@VCAxFrameWindow@ATL@@@ATL@@6B?$CWindowImpl@VCAxFrameWindow@ATL@@VCWindow@2@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@1@@ 7c640ca8     stdafx.obj
+ 0002:00000cb8       ?_entries@?1??_GetEntries@CAxFrameWindow@ATL@@SGPBU_ATL_INTMAP_ENTRY@3@XZ@4QBU43@B 7c640cb8     stdafx.obj
+ 0002:00000ce8       __GUID_00000116_0000_0000_c000_000000000046 7c640ce8     stdafx.obj
+ 0002:00000cf8       __GUID_00000115_0000_0000_c000_000000000046 7c640cf8     stdafx.obj
+ 0002:00000d08       __GUID_00000114_0000_0000_c000_000000000046 7c640d08     stdafx.obj
+ 0002:00000d18       ??_7?$CComObject@VCAxUIWindow@ATL@@@ATL@@6BIOleInPlaceUIWindow@@@ 7c640d18     stdafx.obj
+ 0002:00000d3c       ??_7?$CComObject@VCAxUIWindow@ATL@@@ATL@@6B?$CWindowImpl@VCAxUIWindow@ATL@@VCWindow@2@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@1@@ 7c640d3c     stdafx.obj
+ 0002:00000d4c       ?_entries@?1??_GetEntries@CAxUIWindow@ATL@@SGPBU_ATL_INTMAP_ENTRY@3@XZ@4QBU43@B 7c640d4c     stdafx.obj
+ 0002:00000d70       ??_7?$CComPolyObject@VCAxHostWindow@ATL@@@ATL@@6B@ 7c640d70     stdafx.obj
+ 0002:00000d80       ?_entries@?1??_GetEntries@CAxHostWindow@ATL@@SGPBU_ATL_INTMAP_ENTRY@3@XZ@4QBU43@B 7c640d80     stdafx.obj
+ 0002:00000e4c       __GUID_3935bda8_4ed9_495c_8650_e01fc1e38a4b 7c640e4c     stdafx.obj
+ 0002:00000e5c       __GUID_922eada0_3424_11cf_b670_00aa004cd6d8 7c640e5c     stdafx.obj
+ 0002:00000e6c       __GUID_9c2cad80_3424_11cf_b670_00aa004cd6d8 7c640e6c     stdafx.obj
+ 0002:00000e7c       __GUID_00000119_0000_0000_c000_000000000046 7c640e7c     stdafx.obj
+ 0002:00000e8c       __GUID_b196b289_bab4_101a_b69c_00aa00341d07 7c640e8c     stdafx.obj
+ 0002:00000e9c       __GUID_b6ea2051_048a_11d1_82b9_00c04fb9942e 7c640e9c     stdafx.obj
+ 0002:00000eac       __GUID_bd3f23c0_d43e_11cf_893b_00aa00bdce1a 7c640eac     stdafx.obj
+ 0002:00000ebc       ??_C@_1CG@HJNEDPEL@?$AAA?$AAX?$AAW?$AAI?$AAN?$AA?5?$AAF?$AAr?$AAa?$AAm?$AAe?$AA?5?$AAW?$AAi?$AAn?$AAd?$AAo?$AAw?$AA?$AA@ 7c640ebc     stdafx.obj
+ 0002:00000ee4       ??_C@_1CA@DCFIAPHF@?$AAA?$AAX?$AAW?$AAI?$AAN?$AA?5?$AAU?$AAI?$AA?5?$AAW?$AAi?$AAn?$AAd?$AAo?$AAw?$AA?$AA@ 7c640ee4     stdafx.obj
+ 0002:00000f04       ??_C@_1CC@NLKMIAFC@?$AAW?$AAM?$AA_?$AAA?$AAT?$AAL?$AAG?$AAE?$AAT?$AAC?$AAO?$AAN?$AAT?$AAR?$AAO?$AAL?$AA?$AA@ 7c640f04     stdafx.obj
+ 0002:00000f28       ??_C@_1BM@JBPKDEJM@?$AAW?$AAM?$AA_?$AAA?$AAT?$AAL?$AAG?$AAE?$AAT?$AAH?$AAO?$AAS?$AAT?$AA?$AA@ 7c640f28     stdafx.obj
+ 0002:00000f44       ??_C@_0CE@EFPFDKPN@ThisProcedureMustNotExistInKerne@ 7c640f44     atldload:downlevel_dload.obj
+ 0002:00000f68       ??_C@_0N@MDJJJHMB@kernel32?4dll?$AA@ 7c640f68     atldload:downlevel_dload.obj
+ 0002:00000f78       ??_C@_0L@GMPLCCII@user32?4dll?$AA@ 7c640f78     atldload:atldload.obj
+ 0002:00000f84       ??_C@_0N@OLNBCFOM@oleaut32?4dll?$AA@ 7c640f84     atldload:atldload.obj
+ 0002:00000f94       ??_C@_09IMMMOKKM@ole32?4dll?$AA@ 7c640f94     atldload:atldload.obj
+ 0002:00000fa0       ??_C@_09HDGMBNAP@gdi32?4dll?$AA@ 7c640fa0     atldload:atldload.obj
+ 0002:00000fac       ??_C@_0N@INAGJMNN@advapi32?4dll?$AA@ 7c640fac     atldload:atldload.obj
+ 0002:00000fbc       _g_DllEntries              7c640fbc     atldload:atldload.obj
+ 0002:00000ff8       _g_DllMap                  7c640ff8     atldload:atldload.obj
+ 0002:00001000       ??_C@_09ECGNHKJO@wsprintfW?$AA@ 7c641000     atldload:user32.obj
+ 0002:0000100c       ??_C@_09FOPFMPEJ@wsprintfA?$AA@ 7c64100c     atldload:user32.obj
+ 0002:00001018       ??_C@_0M@EOGKGGKK@mouse_event?$AA@ 7c641018     atldload:user32.obj
+ 0002:00001024       ??_C@_0N@NBLAALBE@WindowFromDC?$AA@ 7c641024     atldload:user32.obj
+ 0002:00001034       ??_C@_0N@IPBGBCLO@ValidateRect?$AA@ 7c641034     atldload:user32.obj
+ 0002:00001044       ??_C@_0BB@OFBGMKEL@UnregisterClassW?$AA@ 7c641044     atldload:user32.obj
+ 0002:00001058       ??_C@_0BB@PJIOHPJM@UnregisterClassA?$AA@ 7c641058     atldload:user32.obj
+ 0002:0000106c       ??_C@_0BB@DHHKBNMB@TranslateMessage?$AA@ 7c64106c     atldload:user32.obj
+ 0002:00001080       ??_C@_0BG@MBJCIDC@SystemParametersInfoW?$AA@ 7c641080     atldload:user32.obj
+ 0002:00001098       ??_C@_0L@OKGBCELB@ShowWindow?$AA@ 7c641098     atldload:user32.obj
+ 0002:000010a4       ??_C@_0L@BIENLPGM@ShowCursor?$AA@ 7c6410a4     atldload:user32.obj
+ 0002:000010b0       ??_C@_0P@IGGABHFC@SetWindowTextW?$AA@ 7c6410b0     atldload:user32.obj
+ 0002:000010c0       ??_C@_0N@JFJFIAMA@SetWindowPos?$AA@ 7c6410c0     atldload:user32.obj
+ 0002:000010d0       ??_C@_0P@EIEHJKGP@SetWindowLongW?$AA@ 7c6410d0     atldload:user32.obj
+ 0002:000010e0       ??_C@_0P@FENPCPLI@SetWindowLongA?$AA@ 7c6410e0     atldload:user32.obj
+ 0002:000010f0       ??_C@_0BB@MDEOMFBF@SetThreadDesktop?$AA@ 7c6410f0     atldload:user32.obj
+ 0002:00001104       ??_C@_0BA@DCGCFHGD@SetSystemCursor?$AA@ 7c641104     atldload:user32.obj
+ 0002:00001114       ??_C@_07EHKAKKDH@SetRect?$AA@ 7c641114     atldload:user32.obj
+ 0002:0000111c       ??_C@_0BI@CDMMLKPG@SetProcessWindowStation?$AA@ 7c64111c     atldload:user32.obj
+ 0002:00001134       ??_C@_0BE@CGIBJMLM@SetForegroundWindow?$AA@ 7c641134     atldload:user32.obj
+ 0002:00001148       ??_C@_08GPNNBNIL@SetFocus?$AA@ 7c641148     atldload:user32.obj
+ 0002:00001154       ??_C@_0L@HBBIBCDI@SetCapture?$AA@ 7c641154     atldload:user32.obj
+ 0002:00001160       ??_C@_0N@HADBEMKH@SendMessageW?$AA@ 7c641160     atldload:user32.obj
+ 0002:00001170       ??_C@_09DEEPKLKK@ReleaseDC?$AA@ 7c641170     atldload:user32.obj
+ 0002:0000117c       ??_C@_0P@CGJIDJCJ@ReleaseCapture?$AA@ 7c64117c     atldload:user32.obj
+ 0002:0000118c       ??_C@_0BH@BHMECBNF@RegisterWindowMessageW?$AA@ 7c64118c     atldload:user32.obj
+ 0002:000011a4       ??_C@_0BB@JOFGLPHA@RegisterClassExW?$AA@ 7c6411a4     atldload:user32.obj
+ 0002:000011b8       ??_C@_0BB@ICMOAKKH@RegisterClassExA?$AA@ 7c6411b8     atldload:user32.obj
+ 0002:000011cc       ??_C@_0P@MIANNIHB@RegisterClassA?$AA@ 7c6411cc     atldload:user32.obj
+ 0002:000011dc       ??_C@_0N@KOKKNONB@RedrawWindow?$AA@ 7c6411dc     atldload:user32.obj
+ 0002:000011ec       ??_C@_0N@HJJIHFPL@PostMessageA?$AA@ 7c6411ec     atldload:user32.obj
+ 0002:000011fc       ??_C@_0N@BPNBPMKA@PeekMessageW?$AA@ 7c6411fc     atldload:user32.obj
+ 0002:0000120c       ??_C@_0N@DEJEJHH@PeekMessageA?$AA@ 7c64120c     atldload:user32.obj
+ 0002:0000121c       ??_C@_0BD@MBJAHOAP@OpenWindowStationA?$AA@ 7c64121c     atldload:user32.obj
+ 0002:00001230       ??_C@_0N@NGNDAMBL@OpenDesktopA?$AA@ 7c641230     atldload:user32.obj
+ 0002:00001240       ??_C@_0P@DGPIEHPI@OemToCharBuffA?$AA@ 7c641240     atldload:user32.obj
+ 0002:00001250       ??_C@_0BK@LPJAAOIP@MsgWaitForMultipleObjects?$AA@ 7c641250     atldload:user32.obj
+ 0002:0000126c       ??_C@_0M@CHKKJDAI@MessageBoxA?$AA@ 7c64126c     atldload:user32.obj
+ 0002:00001278       ??_C@_0M@DPBIDBBE@LoadStringW?$AA@ 7c641278     atldload:user32.obj
+ 0002:00001284       ??_C@_0M@CDIAIEMD@LoadStringA?$AA@ 7c641284     atldload:user32.obj
+ 0002:00001290       ??_C@_0M@GNNFICFG@LoadCursorW?$AA@ 7c641290     atldload:user32.obj
+ 0002:0000129c       ??_C@_0M@HBENDHIB@LoadCursorA?$AA@ 7c64129c     atldload:user32.obj
+ 0002:000012a8       ??_C@_0BA@PFBLONPH@IsWindowVisible?$AA@ 7c6412a8     atldload:user32.obj
+ 0002:000012b8       ??_C@_0BA@KKLHGEKD@IsWindowUnicode?$AA@ 7c6412b8     atldload:user32.obj
+ 0002:000012c8       ??_C@_08DBCCILIB@IsWindow?$AA@ 7c6412c8     atldload:user32.obj
+ 0002:000012d4       ??_C@_07FHHDFDMG@IsChild?$AA@ 7c6412d4     atldload:user32.obj
+ 0002:000012dc       ??_C@_0N@ILMNBIMG@IsCharAlphaA?$AA@ 7c6412dc     atldload:user32.obj
+ 0002:000012ec       ??_C@_0O@DLGLOENF@InvalidateRgn?$AA@ 7c6412ec     atldload:user32.obj
+ 0002:000012fc       ??_C@_0P@BPAAKKJF@InvalidateRect?$AA@ 7c6412fc     atldload:user32.obj
+ 0002:0000130c       ??_C@_0O@PFOMJHEC@IntersectRect?$AA@ 7c64130c     atldload:user32.obj
+ 0002:0000131c       ??_C@_0P@EIHOONHO@GetWindowTextW?$AA@ 7c64131c     atldload:user32.obj
+ 0002:0000132c       ??_C@_0BF@KCNFIJIA@GetWindowTextLengthW?$AA@ 7c64132c     atldload:user32.obj
+ 0002:00001344       ??_C@_0P@FEOGFIKJ@GetWindowTextA?$AA@ 7c641344     atldload:user32.obj
+ 0002:00001354       ??_C@_0O@KGOHEIMB@GetWindowRect?$AA@ 7c641354     atldload:user32.obj
+ 0002:00001364       ??_C@_0P@IGFJGAED@GetWindowLongW?$AA@ 7c641364     atldload:user32.obj
+ 0002:00001374       ??_C@_0P@JKMBNFJE@GetWindowLongA?$AA@ 7c641374     atldload:user32.obj
+ 0002:00001384       ??_C@_09CGMHJDCO@GetWindow?$AA@ 7c641384     atldload:user32.obj
+ 0002:00001390       ??_C@_0O@NDDJLEHM@GetUpdateRect?$AA@ 7c641390     atldload:user32.obj
+ 0002:000013a0       ??_C@_0BB@KHBHHLKH@GetThreadDesktop?$AA@ 7c6413a0     atldload:user32.obj
+ 0002:000013b4       ??_C@_0BB@BFCABEPI@GetSystemMetrics?$AA@ 7c6413b4     atldload:user32.obj
+ 0002:000013c8       ??_C@_0M@IGGMACEF@GetSysColor?$AA@ 7c6413c8     atldload:user32.obj
+ 0002:000013d4       ??_C@_0BI@DFKBFLJE@GetProcessWindowStation?$AA@ 7c6413d4     atldload:user32.obj
+ 0002:000013ec       ??_C@_09DIHAALNP@GetParent?$AA@ 7c6413ec     atldload:user32.obj
+ 0002:000013f8       ??_C@_0M@EAFFNEDO@GetMessageW?$AA@ 7c6413f8     atldload:user32.obj
+ 0002:00001404       ??_C@_0M@FMMNGBOJ@GetMessageA?$AA@ 7c641404     atldload:user32.obj
+ 0002:00001410       ??_C@_0BE@IIKKNMMA@GetForegroundWindow?$AA@ 7c641410     atldload:user32.obj
+ 0002:00001424       ??_C@_08JOPBAOPG@GetFocus?$AA@ 7c641424     atldload:user32.obj
+ 0002:00001430       ??_C@_0L@CKELNLCE@GetDlgItem?$AA@ 7c641430     atldload:user32.obj
+ 0002:0000143c       ??_C@_0BB@EHAGBCIE@GetDesktopWindow?$AA@ 7c64143c     atldload:user32.obj
+ 0002:00001450       ??_C@_05EFCIJCKE@GetDC?$AA@ 7c641450     atldload:user32.obj
+ 0002:00001458       ??_C@_0O@NGMJCAIB@GetClientRect?$AA@ 7c641458     atldload:user32.obj
+ 0002:00001468       ??_C@_0O@ONDMICJK@GetClassNameW?$AA@ 7c641468     atldload:user32.obj
+ 0002:00001478       ??_C@_0BA@BOKJBFN@GetClassInfoExW?$AA@ 7c641478     atldload:user32.obj
+ 0002:00001488       ??_C@_0BA@BNHCCEIK@GetClassInfoExA?$AA@ 7c641488     atldload:user32.obj
+ 0002:00001498       ??_C@_0O@LEGHJCPD@GetClassInfoA?$AA@ 7c641498     atldload:user32.obj
+ 0002:000014a8       ??_C@_0BA@HNOPNCHB@GetActiveWindow?$AA@ 7c6414a8     atldload:user32.obj
+ 0002:000014b8       ??_C@_0M@HKFEMMNM@FindWindowA?$AA@ 7c6414b8     atldload:user32.obj
+ 0002:000014c4       ??_C@_08HBDJBON@FillRect?$AA@ 7c6414c4     atldload:user32.obj
+ 0002:000014d0       ??_C@_09HKJAMJGO@EqualRect?$AA@ 7c6414d0     atldload:user32.obj
+ 0002:000014dc       ??_C@_0BF@EOKFFKMH@EnumDisplaySettingsW?$AA@ 7c6414dc     atldload:user32.obj
+ 0002:000014f4       ??_C@_0BF@FCDNOPBA@EnumDisplaySettingsA?$AA@ 7c6414f4     atldload:user32.obj
+ 0002:0000150c       ??_C@_0BD@KJFJAFEO@EnumDesktopWindows?$AA@ 7c64150c     atldload:user32.obj
+ 0002:00001520       ??_C@_08NAIDMDDN@EndPaint?$AA@ 7c641520     atldload:user32.obj
+ 0002:0000152c       ??_C@_0BB@KAKAGNBE@DispatchMessageW?$AA@ 7c64152c     atldload:user32.obj
+ 0002:00001540       ??_C@_0BB@LMDINIMD@DispatchMessageA?$AA@ 7c641540     atldload:user32.obj
+ 0002:00001554       ??_C@_0BI@FDLCEMOM@DialogBoxIndirectParamW?$AA@ 7c641554     atldload:user32.obj
+ 0002:0000156c       ??_C@_0BI@EPCKPJDL@DialogBoxIndirectParamA?$AA@ 7c64156c     atldload:user32.obj
+ 0002:00001584       ??_C@_0O@MCOBDHHO@DestroyWindow?$AA@ 7c641584     atldload:user32.obj
+ 0002:00001594       ??_C@_0O@DAMNKMKD@DestroyCursor?$AA@ 7c641594     atldload:user32.obj
+ 0002:000015a4       ??_C@_0BI@HCCLEIGB@DestroyAcceleratorTable?$AA@ 7c6415a4     atldload:user32.obj
+ 0002:000015bc       ??_C@_0P@BAKOEHMB@DefWindowProcW?$AA@ 7c6415bc     atldload:user32.obj
+ 0002:000015cc       ??_C@_0P@MDGPCBG@DefWindowProcA?$AA@ 7c6415cc     atldload:user32.obj
+ 0002:000015dc       ??_C@_0BA@MHOOFEGE@CreateWindowExW?$AA@ 7c6415dc     atldload:user32.obj
+ 0002:000015ec       ??_C@_0BA@NLHGOBLD@CreateWindowExA?$AA@ 7c6415ec     atldload:user32.obj
+ 0002:000015fc       ??_C@_0BL@NMPMLKG@CreateDialogIndirectParamW?$AA@ 7c6415fc     atldload:user32.obj
+ 0002:00001618       ??_C@_0BL@BBFHHOHB@CreateDialogIndirectParamA?$AA@ 7c641618     atldload:user32.obj
+ 0002:00001634       ??_C@_0BI@LPCBEHPI@CreateAcceleratorTableW?$AA@ 7c641634     atldload:user32.obj
+ 0002:0000164c       ??_C@_08PDOCECEH@CopyIcon?$AA@ 7c64164c     atldload:user32.obj
+ 0002:00001658       ??_C@_0BD@KOKEIHOF@CloseWindowStation?$AA@ 7c641658     atldload:user32.obj
+ 0002:0000166c       ??_C@_0N@IKNGKJFJ@CloseDesktop?$AA@ 7c64166c     atldload:user32.obj
+ 0002:0000167c       ??_C@_0P@ECHHLBF@CharToOemBuffA?$AA@ 7c64167c     atldload:user32.obj
+ 0002:0000168c       ??_C@_09IFPMHJPM@CharNextW?$AA@ 7c64168c     atldload:user32.obj
+ 0002:00001698       ??_C@_09JJGEMMCL@CharNextA?$AA@ 7c641698     atldload:user32.obj
+ 0002:000016a4       ??_C@_0BJ@HFOHINJB@ChangeDisplaySettingsExW?$AA@ 7c6416a4     atldload:user32.obj
+ 0002:000016c0       ??_C@_0BH@BMLCALEC@ChangeDisplaySettingsA?$AA@ 7c6416c0     atldload:user32.obj
+ 0002:000016d8       ??_C@_0BA@DDLFEAI@CallWindowProcW?$AA@ 7c6416d8     atldload:user32.obj
+ 0002:000016e8       ??_C@_0BA@BPKDOBNP@CallWindowProcA?$AA@ 7c6416e8     atldload:user32.obj
+ 0002:000016f8       ??_C@_0P@GDEMGIMP@CallNextHookEx?$AA@ 7c6416f8     atldload:user32.obj
+ 0002:00001708       ??_C@_0L@OGFFPFBH@BeginPaint?$AA@ 7c641708     atldload:user32.obj
+ 0002:00001718       _c_PmapEntries_user32      7c641718     atldload:user32.obj
+ 0002:00001a80       _c_Pmap_user32             7c641a80     atldload:user32.obj
+ 0002:00001a88       _c_OmapEntries_oleaut32    7c641a88     atldload:oleaut32.obj
+ 0002:00001c70       _c_Omap_oleaut32           7c641c70     atldload:oleaut32.obj
+ 0002:00001c78       ??_C@_0BE@FCDOHMHL@WriteFmtUserTypeStg?$AA@ 7c641c78     atldload:ole32.obj
+ 0002:00001c8c       ??_C@_0O@FOKJMLEL@WriteClassStm?$AA@ 7c641c8c     atldload:ole32.obj
+ 0002:00001c9c       ??_C@_0O@KEEGCDMB@WriteClassStg?$AA@ 7c641c9c     atldload:ole32.obj
+ 0002:00001cac       ??_C@_0BA@HEBEPDDD@StringFromGUID2?$AA@ 7c641cac     atldload:ole32.obj
+ 0002:00001cbc       ??_C@_0BA@MMGMLOAO@StringFromCLSID?$AA@ 7c641cbc     atldload:ole32.obj
+ 0002:00001ccc       ??_C@_0BL@OMAAGLKL@StgOpenStorageOnILockBytes?$AA@ 7c641ccc     atldload:ole32.obj
+ 0002:00001ce8       ??_C@_0BB@BKNKJFEM@StgOpenStorageEx?$AA@ 7c641ce8     atldload:ole32.obj
+ 0002:00001cfc       ??_C@_0P@EHIHKBGH@StgOpenStorage?$AA@ 7c641cfc     atldload:ole32.obj
+ 0002:00001d0c       ??_C@_0BB@CMDAONJB@StgIsStorageFile?$AA@ 7c641d0c     atldload:ole32.obj
+ 0002:00001d20       ??_C@_0BN@HEAMIKNE@StgCreateDocfileOnILockBytes?$AA@ 7c641d20     atldload:ole32.obj
+ 0002:00001d40       ??_C@_0BB@IFCKKOAJ@StgCreateDocfile?$AA@ 7c641d40     atldload:ole32.obj
+ 0002:00001d54       ??_C@_0O@ODKMENKN@SetConvertStg?$AA@ 7c641d54     atldload:ole32.obj
+ 0002:00001d64       ??_C@_0P@FHGLBJLH@RevokeDragDrop?$AA@ 7c641d64     atldload:ole32.obj
+ 0002:00001d74       ??_C@_0BB@LFPGAPEO@ReleaseStgMedium?$AA@ 7c641d74     atldload:ole32.obj
+ 0002:00001d88       ??_C@_0BB@LGBABCDD@RegisterDragDrop?$AA@ 7c641d88     atldload:ole32.obj
+ 0002:00001d9c       ??_C@_0BD@MEHDGIEH@ReadFmtUserTypeStg?$AA@ 7c641d9c     atldload:ole32.obj
+ 0002:00001db0       ??_C@_0N@EELHJAJA@ReadClassStm?$AA@ 7c641db0     atldload:ole32.obj
+ 0002:00001dc0       ??_C@_0N@LOFIHIBK@ReadClassStg?$AA@ 7c641dc0     atldload:ole32.obj
+ 0002:00001dd0       ??_C@_0BA@NEHLDDIP@PropVariantCopy?$AA@ 7c641dd0     atldload:ole32.obj
+ 0002:00001de0       ??_C@_0BB@FCIINBED@PropVariantClear?$AA@ 7c641de0     atldload:ole32.obj
+ 0002:00001df4       ??_C@_0BA@JPCHEFCI@ProgIDFromCLSID?$AA@ 7c641df4     atldload:ole32.obj
+ 0002:00001e04       ??_C@_0BA@NDEIKCNO@OleUninitialize?$AA@ 7c641e04     atldload:ole32.obj
+ 0002:00001e14       ??_C@_0BI@IHPDDHGI@OleTranslateAccelerator?$AA@ 7c641e14     atldload:ole32.obj
+ 0002:00001e2c       ??_C@_0BF@PKOMHNAO@OleSetMenuDescriptor?$AA@ 7c641e2c     atldload:ole32.obj
+ 0002:00001e44       ??_C@_0BG@OIOGPFBH@OleSetContainedObject?$AA@ 7c641e44     atldload:ole32.obj
+ 0002:00001e5c       ??_C@_0BA@JBBJCAGB@OleSetClipboard?$AA@ 7c641e5c     atldload:ole32.obj
+ 0002:00001e6c       ??_C@_0BA@CINMBKIG@OleSaveToStream?$AA@ 7c641e6c     atldload:ole32.obj
+ 0002:00001e7c       ??_C@_07MKJAOGNC@OleSave?$AA@ 7c641e7c     atldload:ole32.obj
+ 0002:00001e84       ??_C@_06DGHEDJLG@OleRun?$AA@ 7c641e84     atldload:ole32.obj
+ 0002:00001e8c       ??_C@_0BC@KEGJIOBP@OleRegGetUserType?$AA@ 7c641e8c     atldload:ole32.obj
+ 0002:00001ea0       ??_C@_0BE@BGBMBJCH@OleRegGetMiscStatus?$AA@ 7c641ea0     atldload:ole32.obj
+ 0002:00001eb4       ??_C@_0BA@PLDMFIAI@OleRegEnumVerbs?$AA@ 7c641eb4     atldload:ole32.obj
+ 0002:00001ec4       ??_C@_0BF@NPFBOJAJ@OleQueryLinkFromData?$AA@ 7c641ec4     atldload:ole32.obj
+ 0002:00001edc       ??_C@_0BH@HCBCFNNI@OleQueryCreateFromData?$AA@ 7c641edc     atldload:ole32.obj
+ 0002:00001ef4       ??_C@_0P@ICHMAEMG@OleLockRunning?$AA@ 7c641ef4     atldload:ole32.obj
+ 0002:00001f04       ??_C@_0BC@EMNCPHBG@OleLoadFromStream?$AA@ 7c641f04     atldload:ole32.obj
+ 0002:00001f18       ??_C@_07MIINBFAG@OleLoad?$AA@ 7c641f18     atldload:ole32.obj
+ 0002:00001f20       ??_C@_0N@FOFIDKJI@OleIsRunning?$AA@ 7c641f20     atldload:ole32.obj
+ 0002:00001f30       ??_C@_0BG@FEEBNKLP@OleIsCurrentClipboard?$AA@ 7c641f30     atldload:ole32.obj
+ 0002:00001f48       ??_C@_0O@CBKGIDNG@OleInitialize?$AA@ 7c641f48     atldload:ole32.obj
+ 0002:00001f58       ??_C@_0BC@JOGBFHJM@OleGetIconOfClass?$AA@ 7c641f58     atldload:ole32.obj
+ 0002:00001f6c       ??_C@_0BA@OFKHOMCN@OleGetClipboard?$AA@ 7c641f6c     atldload:ole32.obj
+ 0002:00001f7c       ??_C@_0BC@EGPELIIP@OleFlushClipboard?$AA@ 7c641f7c     atldload:ole32.obj
+ 0002:00001f90       ??_C@_0BB@NGPAGDJI@OleDuplicateData?$AA@ 7c641f90     atldload:ole32.obj
+ 0002:00001fa4       ??_C@_07DLGBJABH@OleDraw?$AA@ 7c641fa4     atldload:ole32.obj
+ 0002:00001fac       ??_C@_0BJ@OFMKNELO@OleDestroyMenuDescriptor?$AA@ 7c641fac     atldload:ole32.obj
+ 0002:00001fc8       ??_C@_0BI@BGHEGDCA@OleCreateStaticFromData?$AA@ 7c641fc8     atldload:ole32.obj
+ 0002:00001fe0       ??_C@_0BI@LDMOKNBF@OleCreateMenuDescriptor?$AA@ 7c641fe0     atldload:ole32.obj
+ 0002:00001ff8       ??_C@_0BE@MDJGCNDK@OleCreateLinkToFile?$AA@ 7c641ff8     atldload:ole32.obj
+ 0002:0000200c       ??_C@_0BG@JFIHFIDG@OleCreateLinkFromData?$AA@ 7c64200c     atldload:ole32.obj
+ 0002:00002024       ??_C@_0BC@DKNJDONJ@OleCreateFromFile?$AA@ 7c642024     atldload:ole32.obj
+ 0002:00002038       ??_C@_0BC@PDPEHCJK@OleCreateFromData?$AA@ 7c642038     atldload:ole32.obj
+ 0002:0000204c       ??_C@_09PLKLODNA@OleCreate?$AA@ 7c64204c     atldload:ole32.obj
+ 0002:00002058       ??_C@_0BD@PMKLEDMH@MkParseDisplayName?$AA@ 7c642058     atldload:ole32.obj
+ 0002:0000206c       ??_C@_0O@IOOMGKNO@IsAccelerator?$AA@ 7c64206c     atldload:ole32.obj
+ 0002:0000207c       ??_C@_0BG@JMJICKGG@GetRunningObjectTable?$AA@ 7c64207c     atldload:ole32.obj
+ 0002:00002094       ??_C@_0BF@ONNBMKLH@GetHGlobalFromStream?$AA@ 7c642094     atldload:ole32.obj
+ 0002:000020ac       ??_C@_0BJ@POIDIDCK@GetHGlobalFromILockBytes?$AA@ 7c6420ac     atldload:ole32.obj
+ 0002:000020c8       ??_C@_0N@IFAIHHMO@GetClassFile?$AA@ 7c6420c8     atldload:ole32.obj
+ 0002:000020d8       ??_C@_0BF@DHKGAAMC@FreePropVariantArray?$AA@ 7c6420d8     atldload:ole32.obj
+ 0002:000020f0       ??_C@_0L@IHMPKEKD@DoDragDrop?$AA@ 7c6420f0     atldload:ole32.obj
+ 0002:000020fc       ??_C@_0BG@DNLLFOBD@CreateStreamOnHGlobal?$AA@ 7c6420fc     atldload:ole32.obj
+ 0002:00002114       ??_C@_0BG@COHJHCKD@CreateOleAdviseHolder?$AA@ 7c642114     atldload:ole32.obj
+ 0002:0000212c       ??_C@_0BC@IPPOKPMB@CreateItemMoniker?$AA@ 7c64212c     atldload:ole32.obj
+ 0002:00002140       ??_C@_0BK@BMBKFBIL@CreateILockBytesOnHGlobal?$AA@ 7c642140     atldload:ole32.obj
+ 0002:0000215c       ??_C@_0BH@CJDPCFDE@CreateGenericComposite?$AA@ 7c64215c     atldload:ole32.obj
+ 0002:00002174       ??_C@_0BC@NPMFDAKO@CreateFileMoniker?$AA@ 7c642174     atldload:ole32.obj
+ 0002:00002188       ??_C@_0BA@OECNGOFP@CreateDataCache?$AA@ 7c642188     atldload:ole32.obj
+ 0002:00002198       ??_C@_0BH@DNLHPAFA@CreateDataAdviseHolder?$AA@ 7c642198     atldload:ole32.obj
+ 0002:000021b0       ??_C@_0BD@CNLEPMMB@CreateClassMoniker?$AA@ 7c6421b0     atldload:ole32.obj
+ 0002:000021c4       ??_C@_0O@BHKMJJJE@CreateBindCtx?$AA@ 7c6421c4     atldload:ole32.obj
+ 0002:000021d4       ??_C@_0BJ@EHKGDANL@CoWaitForMultipleHandles?$AA@ 7c6421d4     atldload:ole32.obj
+ 0002:000021f0       ??_C@_0BF@JFFBDLH@CoUnmarshalInterface?$AA@ 7c6421f0     atldload:ole32.obj
+ 0002:00002208       ??_C@_0P@EGMOFMDE@CoUninitialize?$AA@ 7c642208     atldload:ole32.obj
+ 0002:00002218       ??_C@_0P@KGMONFLD@CoTreatAsClass?$AA@ 7c642218     atldload:ole32.obj
+ 0002:00002228       ??_C@_0BB@GONMDNGK@CoTaskMemRealloc?$AA@ 7c642228     atldload:ole32.obj
+ 0002:0000223c       ??_C@_0O@MIBPKJDN@CoTaskMemFree?$AA@ 7c64223c     atldload:ole32.obj
+ 0002:0000224c       ??_C@_0P@KEDKLINL@CoTaskMemAlloc?$AA@ 7c64224c     atldload:ole32.obj
+ 0002:0000225c       ??_C@_0BE@OKJCLAJD@CoSwitchCallContext?$AA@ 7c64225c     atldload:ole32.obj
+ 0002:00002270       ??_C@_0BG@ILDEHIMB@CoSuspendClassObjects?$AA@ 7c642270     atldload:ole32.obj
+ 0002:00002288       ??_C@_0BC@IOEGILCE@CoSetProxyBlanket?$AA@ 7c642288     atldload:ole32.obj
+ 0002:0000229c       ??_C@_0BE@PPIBJFGK@CoRevokeClassObject?$AA@ 7c64229c     atldload:ole32.obj
+ 0002:000022b0       ??_C@_0P@IMLFADI@CoRevertToSelf?$AA@ 7c6422b0     atldload:ole32.obj
+ 0002:000022c0       ??_C@_0BF@GNEKJPCK@CoResumeClassObjects?$AA@ 7c6422c0     atldload:ole32.obj
+ 0002:000022d8       ??_C@_0BF@MEKIJBIA@CoReleaseMarshalData?$AA@ 7c6422d8     atldload:ole32.obj
+ 0002:000022f0       ??_C@_0BI@POCCCIDJ@CoRegisterMessageFilter?$AA@ 7c6422f0     atldload:ole32.obj
+ 0002:00002308       ??_C@_0BG@JMOEKBKL@CoRegisterClassObject?$AA@ 7c642308     atldload:ole32.obj
+ 0002:00002320       ??_C@_0CG@DNMFLAOH@CoMarshalInterThreadInterfaceInS@ 7c642320     atldload:ole32.obj
+ 0002:00002348       ??_C@_0BD@BFCOEHP@CoMarshalInterface?$AA@ 7c642348     atldload:ole32.obj
+ 0002:0000235c       ??_C@_0BF@KPBONONN@CoLockObjectExternal?$AA@ 7c64235c     atldload:ole32.obj
+ 0002:00002374       ??_C@_0BF@GDAFCOOE@CoInitializeSecurity?$AA@ 7c642374     atldload:ole32.obj
+ 0002:0000238c       ??_C@_0P@KHOCNDJK@CoInitializeEx?$AA@ 7c64238c     atldload:ole32.obj
+ 0002:0000239c       ??_C@_0N@JGHNIJDF@CoInitialize?$AA@ 7c64239c     atldload:ole32.obj
+ 0002:000023ac       ??_C@_0BE@LENMDAB@CoImpersonateClient?$AA@ 7c6423ac     atldload:ole32.obj
+ 0002:000023c0       ??_C@_0M@IEGONHPO@CoGetMalloc?$AA@ 7c6423c0     atldload:ole32.obj
+ 0002:000023cc       ??_C@_0BP@JHBANKGB@CoGetInterfaceAndReleaseStream?$AA@ 7c6423cc     atldload:ole32.obj
+ 0002:000023ec       ??_C@_0BB@ENIODEPL@CoGetClassObject?$AA@ 7c6423ec     atldload:ole32.obj
+ 0002:00002400       ??_C@_0BG@EHKBJGLI@CoFreeUnusedLibraries?$AA@ 7c642400     atldload:ole32.obj
+ 0002:00002418       ??_C@_0O@GBDDJNFA@CoFileTimeNow?$AA@ 7c642418     atldload:ole32.obj
+ 0002:00002428       ??_C@_0BJ@HKHHLCAM@CoEnableCallCancellation?$AA@ 7c642428     atldload:ole32.obj
+ 0002:00002444       ??_C@_0BD@EOELABIH@CoDisconnectObject?$AA@ 7c642444     atldload:ole32.obj
+ 0002:00002458       ??_C@_0BK@EALJABLK@CoDisableCallCancellation?$AA@ 7c642458     atldload:ole32.obj
+ 0002:00002474       ??_C@_0BB@FBCNKNOO@CoCreateInstance?$AA@ 7c642474     atldload:ole32.obj
+ 0002:00002488       ??_C@_0N@KNBCBJMO@CoCreateGuid?$AA@ 7c642488     atldload:ole32.obj
+ 0002:00002498       ??_C@_0BO@CPHBJCPF@CoCreateFreeThreadedMarshaler?$AA@ 7c642498     atldload:ole32.obj
+ 0002:000024b8       ??_C@_0N@KDLEFCNM@CoCancelCall?$AA@ 7c6424b8     atldload:ole32.obj
+ 0002:000024c8       ??_C@_0BL@EBPAFNEB@CoAllowSetForegroundWindow?$AA@ 7c6424c8     atldload:ole32.obj
+ 0002:000024e4       ??_C@_0BA@OCNJAMDG@CLSIDFromString?$AA@ 7c6424e4     atldload:ole32.obj
+ 0002:000024f4       ??_C@_0BA@POGMPGLC@CLSIDFromProgID?$AA@ 7c6424f4     atldload:ole32.obj
+ 0002:00002508       _c_PmapEntries_ole32       7c642508     atldload:ole32.obj
+ 0002:00002870       _c_Pmap_ole32              7c642870     atldload:ole32.obj
+ 0002:00002878       ??_C@_0P@KLPJJNCN@SetWindowExtEx?$AA@ 7c642878     atldload:gdi32.obj
+ 0002:00002888       ??_C@_0BB@BIHJJLKF@SetViewportOrgEx?$AA@ 7c642888     atldload:gdi32.obj
+ 0002:0000289c       ??_C@_0BB@LBPOFIBD@SetViewportExtEx?$AA@ 7c64289c     atldload:gdi32.obj
+ 0002:000028b0       ??_C@_0BE@EIEHHPAF@SetSystemPaletteUse?$AA@ 7c6428b0     atldload:gdi32.obj
+ 0002:000028c4       ??_C@_0L@OPKMLCME@SetMapMode?$AA@ 7c6428c4     atldload:gdi32.obj
+ 0002:000028d0       ??_C@_0O@EJKNMEE@SelectPalette?$AA@ 7c6428d0     atldload:gdi32.obj
+ 0002:000028e0       ??_C@_0N@PNAJBKIN@SelectObject?$AA@ 7c6428e0     atldload:gdi32.obj
+ 0002:000028f0       ??_C@_0P@NNFKPIIE@RealizePalette?$AA@ 7c6428f0     atldload:gdi32.obj
+ 0002:00002900       ??_C@_0BI@IECLBLJO@GetSystemPaletteEntries?$AA@ 7c642900     atldload:gdi32.obj
+ 0002:00002918       ??_C@_0P@OPLPICEC@GetStockObject?$AA@ 7c642918     atldload:gdi32.obj
+ 0002:00002928       ??_C@_0L@GKDCBFOM@GetObjectW?$AA@ 7c642928     atldload:gdi32.obj
+ 0002:00002934       ??_C@_0O@ECHGPMEO@GetObjectType?$AA@ 7c642934     atldload:gdi32.obj
+ 0002:00002944       ??_C@_0O@NKPJEFC@GetDeviceCaps?$AA@ 7c642944     atldload:gdi32.obj
+ 0002:00002954       ??_C@_0N@EMMNKEAC@DeleteObject?$AA@ 7c642954     atldload:gdi32.obj
+ 0002:00002964       ??_C@_08LKMBNHBJ@DeleteDC?$AA@ 7c642964     atldload:gdi32.obj
+ 0002:00002970       ??_C@_0BB@GHJHAELL@CreateSolidBrush?$AA@ 7c642970     atldload:gdi32.obj
+ 0002:00002984       ??_C@_0O@PIOFMFBK@CreatePalette?$AA@ 7c642984     atldload:gdi32.obj
+ 0002:00002994       ??_C@_0BB@EAEJINNC@CreateDIBSection?$AA@ 7c642994     atldload:gdi32.obj
+ 0002:000029a8       ??_C@_09FAFGKJHN@CreateDCW?$AA@ 7c6429a8     atldload:gdi32.obj
+ 0002:000029b4       ??_C@_0BD@GAEMADDD@CreateCompatibleDC?$AA@ 7c6429b4     atldload:gdi32.obj
+ 0002:000029c8       ??_C@_0BH@JHHFCKBN@CreateCompatibleBitmap?$AA@ 7c6429c8     atldload:gdi32.obj
+ 0002:000029e0       ??_C@_06KJCNECEM@BitBlt?$AA@ 7c6429e0     atldload:gdi32.obj
+ 0002:000029e8       _c_PmapEntries_gdi32       7c6429e8     atldload:gdi32.obj
+ 0002:00002a98       _c_Pmap_gdi32              7c642a98     atldload:gdi32.obj
+ 0002:00002aa0       ??_C@_0P@ECFJFPAL@SetThreadToken?$AA@ 7c642aa0     atldload:advapi.obj
+ 0002:00002ab0       ??_C@_0BB@OAMPIGBG@SetFileSecurityW?$AA@ 7c642ab0     atldload:advapi.obj
+ 0002:00002ac4       ??_C@_0BB@PMFHDDMB@SetFileSecurityA?$AA@ 7c642ac4     atldload:advapi.obj
+ 0002:00002ad8       ??_C@_0N@NBKDDPIG@RevertToSelf?$AA@ 7c642ad8     atldload:advapi.obj
+ 0002:00002ae8       ??_C@_0N@OGEMJOHI@ReportEventW?$AA@ 7c642ae8     atldload:advapi.obj
+ 0002:00002af8       ??_C@_0BF@FNOHIELI@RegisterEventSourceW?$AA@ 7c642af8     atldload:advapi.obj
+ 0002:00002b10       ??_C@_0N@EOGMNOG@RegSetValueW?$AA@ 7c642b10     atldload:advapi.obj
+ 0002:00002b20       ??_C@_0P@LIPJIDOO@RegSetValueExW?$AA@ 7c642b20     atldload:advapi.obj
+ 0002:00002b30       ??_C@_0P@KEGBDGDJ@RegSetValueExA?$AA@ 7c642b30     atldload:advapi.obj
+ 0002:00002b40       ??_C@_0N@BIHOHIDB@RegSetValueA?$AA@ 7c642b40     atldload:advapi.obj
+ 0002:00002b50       ??_C@_0P@DPIKNKDP@RegQueryValueW?$AA@ 7c642b50     atldload:advapi.obj
+ 0002:00002b60       ??_C@_0BB@GLNAEDBD@RegQueryValueExW?$AA@ 7c642b60     atldload:advapi.obj
+ 0002:00002b74       ??_C@_0BB@HHEIPGME@RegQueryValueExA?$AA@ 7c642b74     atldload:advapi.obj
+ 0002:00002b88       ??_C@_0P@CDBCGPOI@RegQueryValueA?$AA@ 7c642b88     atldload:advapi.obj
+ 0002:00002b98       ??_C@_0BB@BILFPGMA@RegQueryInfoKeyW?$AA@ 7c642b98     atldload:advapi.obj
+ 0002:00002bac       ??_C@_0M@INNIHOHL@RegOpenKeyW?$AA@ 7c642bac     atldload:advapi.obj
+ 0002:00002bb8       ??_C@_0O@COHOBMLB@RegOpenKeyExW?$AA@ 7c642bb8     atldload:advapi.obj
+ 0002:00002bc8       ??_C@_0O@DCOGKJGG@RegOpenKeyExA?$AA@ 7c642bc8     atldload:advapi.obj
+ 0002:00002bd8       ??_C@_0M@JBEAMLKM@RegOpenKeyA?$AA@ 7c642bd8     atldload:advapi.obj
+ 0002:00002be4       ??_C@_0BI@ILHBFDHH@RegNotifyChangeKeyValue?$AA@ 7c642be4     atldload:advapi.obj
+ 0002:00002bfc       ??_C@_0O@GLENPJE@RegEnumValueW?$AA@ 7c642bfc     atldload:advapi.obj
+ 0002:00002c0c       ??_C@_0M@JAINDJJM@RegEnumKeyW?$AA@ 7c642c0c     atldload:advapi.obj
+ 0002:00002c18       ??_C@_0O@NHPJLAPM@RegEnumKeyExW?$AA@ 7c642c18     atldload:advapi.obj
+ 0002:00002c28       ??_C@_0M@IMBFIMEL@RegEnumKeyA?$AA@ 7c642c28     atldload:advapi.obj
+ 0002:00002c34       ??_C@_0BA@GJPNJIAM@RegDeleteValueW?$AA@ 7c642c34     atldload:advapi.obj
+ 0002:00002c44       ??_C@_0BA@HFGFCNNL@RegDeleteValueA?$AA@ 7c642c44     atldload:advapi.obj
+ 0002:00002c54       ??_C@_0O@BJCLIAAA@RegDeleteKeyW?$AA@ 7c642c54     atldload:advapi.obj
+ 0002:00002c64       ??_C@_0O@FLDDFNH@RegDeleteKeyA?$AA@ 7c642c64     atldload:advapi.obj
+ 0002:00002c74       ??_C@_0O@NNILLHLD@RegCreateKeyW?$AA@ 7c642c74     atldload:advapi.obj
+ 0002:00002c84       ??_C@_0BA@MPOFGLLA@RegCreateKeyExW?$AA@ 7c642c84     atldload:advapi.obj
+ 0002:00002c94       ??_C@_0BA@NDHNNOGH@RegCreateKeyExA?$AA@ 7c642c94     atldload:advapi.obj
+ 0002:00002ca4       ??_C@_0O@MBBDACGE@RegCreateKeyA?$AA@ 7c642ca4     atldload:advapi.obj
+ 0002:00002cb4       ??_C@_0M@HLOHPNFA@RegCloseKey?$AA@ 7c642cb4     atldload:advapi.obj
+ 0002:00002cc0       ??_C@_0BD@PMIABNOP@QueryServiceStatus?$AA@ 7c642cc0     atldload:advapi.obj
+ 0002:00002cd4       ??_C@_0BA@MOEFBCGC@OpenThreadToken?$AA@ 7c642cd4     atldload:advapi.obj
+ 0002:00002ce4       ??_C@_0BB@EANJDCJP@OpenProcessToken?$AA@ 7c642ce4     atldload:advapi.obj
+ 0002:00002cf8       ??_C@_0BG@JCADCCGO@LookupPrivilegeValueW?$AA@ 7c642cf8     atldload:advapi.obj
+ 0002:00002d10       ??_C@_0BG@IOJLJHLJ@LookupPrivilegeValueA?$AA@ 7c642d10     atldload:advapi.obj
+ 0002:00002d28       ??_C@_0O@JDINBACB@IsTextUnicode?$AA@ 7c642d28     atldload:advapi.obj
+ 0002:00002d38       ??_C@_0N@FIDKBBEB@GetUserNameW?$AA@ 7c642d38     atldload:advapi.obj
+ 0002:00002d48       ??_C@_0BE@JIDLIKOL@GetTokenInformation?$AA@ 7c642d48     atldload:advapi.obj
+ 0002:00002d5c       ??_C@_0BB@IEJGDIKE@GetFileSecurityW?$AA@ 7c642d5c     atldload:advapi.obj
+ 0002:00002d70       ??_C@_0BB@JIAOINHD@GetFileSecurityA?$AA@ 7c642d70     atldload:advapi.obj
+ 0002:00002d84       ??_C@_07JIBMLCGK@FreeSid?$AA@ 7c642d84     atldload:advapi.obj
+ 0002:00002d8c       ??_C@_0BG@LPHFFLAA@DeregisterEventSource?$AA@ 7c642d8c     atldload:advapi.obj
+ 0002:00002da4       ??_C@_0BE@FBIJLPPP@CryptReleaseContext?$AA@ 7c642da4     atldload:advapi.obj
+ 0002:00002db8       ??_C@_0O@DAIMODJH@CryptHashData?$AA@ 7c642db8     atldload:advapi.obj
+ 0002:00002dc8       ??_C@_0BC@BNEOPJAJ@CryptGetHashParam?$AA@ 7c642dc8     atldload:advapi.obj
+ 0002:00002ddc       ??_C@_0P@PLHBLCCF@CryptExportKey?$AA@ 7c642ddc     atldload:advapi.obj
+ 0002:00002dec       ??_C@_0BA@FJKBDIMN@CryptDestroyKey?$AA@ 7c642dec     atldload:advapi.obj
+ 0002:00002dfc       ??_C@_0BB@INPNJGML@CryptDestroyHash?$AA@ 7c642dfc     atldload:advapi.obj
+ 0002:00002e10       ??_C@_0BA@IEJOIHIJ@CryptCreateHash?$AA@ 7c642e10     atldload:advapi.obj
+ 0002:00002e20       ??_C@_0BF@JHHBLAOM@CryptAcquireContextW?$AA@ 7c642e20     atldload:advapi.obj
+ 0002:00002e38       ??_C@_0BF@KEDGKLKA@CheckTokenMembership?$AA@ 7c642e38     atldload:advapi.obj
+ 0002:00002e50       ??_C@_0BJ@ECIKFEOL@AllocateAndInitializeSid?$AA@ 7c642e50     atldload:advapi.obj
+ 0002:00002e6c       ??_C@_0BG@CGCLCMLG@AdjustTokenPrivileges?$AA@ 7c642e6c     atldload:advapi.obj
+ 0002:00002e88       _c_PmapEntries_advapi32    7c642e88     atldload:advapi.obj
+ 0002:00003048       _c_Pmap_advapi32           7c643048     atldload:advapi.obj
+ 0002:00003050       __sz_ole32_dll             7c643050     ole32:ole32.dll
+ 0002:00003060       __sz_OLEAUT32_dll          7c643060     oleaut32:OLEAUT32.dll
+ 0002:00003070       __sz_ADVAPI32_dll          7c643070     advapi32:ADVAPI32.dll
+ 0002:00003080       __sz_USER32_dll            7c643080     user32:USER32.dll
+ 0002:00003090       __sz_GDI32_dll             7c643090     gdi32:GDI32.dll
+ 0002:0000309c       _GUID_ATLVer30             7c64309c     atls:atlbase.obj
+ 0002:000030ac       _GUID_ATLVer70             7c6430ac     atls:atlbase.obj
+ 0002:000030bc       ??_C@_0BJ@PNEEKDOK@InterlockedPopEntrySList?$AA@ 7c6430bc     atls:atlthunk.obj
+ 0002:000030d8       ??_C@_0BK@JFGGAIOA@InterlockedPushEntrySList?$AA@ 7c6430d8     atls:atlthunk.obj
+ 0002:000030f4       __fltused                  7c6430f4     atlmincrt:atlinit.obj
+ 0002:000030f8       ??_C@_0N@HAOHNMDE@Kernel32?4dll?$AA@ 7c6430f8     atlmincrt:atlinit.obj
+ 0002:00003108       ??_C@_0O@KBPMFGHI@DecodePointer?$AA@ 7c643108     atlmincrt:atlinit.obj
+ 0002:00003118       __pDefaultRawDllMain       7c643118     atlmincrt:atlinitdll.obj
+ 0002:00003118       __pRawDllMain              7c643118     atlmincrt:atlinitdll.obj
+ 0002:00003124       _CLSID_StdGlobalInterfaceTable 7c643124     uuid:cguid_i.obj
+ 0002:00003134       _GUID_NULL                 7c643134     uuid:cguid_i.obj
+ 0002:00003144       _CLSID_StdComponentCategoriesMgr 7c643144     uuid:ieguids.obj
+ 0002:00003158       __load_config_used         7c643158     atlmincrt:atlloadcfg.obj
+ 0002:000031f0       ___safe_se_handler_table   7c6431f0     <linker-defined>
+ 0002:000032bc       ___pobjMapEntryFirst       7c6432bc     stdafx.obj
+ 0002:000032c0       ___pobjMapEntryLast        7c6432c0     stdafx.obj
+ 0002:000032c4       __DELAY_IMPORT_DESCRIPTOR_ole32_dll 7c6432c4     ole32:ole32.dll
+ 0002:000032e4       __DELAY_IMPORT_DESCRIPTOR_OLEAUT32_dll 7c6432e4     oleaut32:OLEAUT32.dll
+ 0002:00003304       __DELAY_IMPORT_DESCRIPTOR_ADVAPI32_dll 7c643304     advapi32:ADVAPI32.dll
+ 0002:00003324       __DELAY_IMPORT_DESCRIPTOR_USER32_dll 7c643324     user32:USER32.dll
+ 0002:00003344       __DELAY_IMPORT_DESCRIPTOR_GDI32_dll 7c643344     gdi32:GDI32.dll
+ 0002:00003364       __NULL_DELAY_IMPORT_DESCRIPTOR 7c643364     ole32:ole32.dll
+ 0002:000033a4       \177ADVAPI32_NULL_THUNK_DATA_DLN 7c6433a4     advapi32:ADVAPI32.dll
+ 0002:000033d4       \177GDI32_NULL_THUNK_DATA_DLN 7c6433d4     gdi32:GDI32.dll
+ 0002:0000341c       \177OLEAUT32_NULL_THUNK_DATA_DLN 7c64341c     oleaut32:OLEAUT32.dll
+ 0002:00003514       \177USER32_NULL_THUNK_DATA_DLN 7c643514     user32:USER32.dll
+ 0002:0000356c       \177ole32_NULL_THUNK_DATA_DLN 7c64356c     ole32:ole32.dll
+ 0002:00003c74       \177ole32_NULL_THUNK_DATA_DLB 7c643c74     ole32:ole32.dll
+ 0002:00003ccc       \177OLEAUT32_NULL_THUNK_DATA_DLB 7c643ccc     oleaut32:OLEAUT32.dll
+ 0002:00003d14       \177ADVAPI32_NULL_THUNK_DATA_DLB 7c643d14     advapi32:ADVAPI32.dll
+ 0002:00003d38       \177USER32_NULL_THUNK_DATA_DLB 7c643d38     user32:USER32.dll
+ 0002:00003e2c       \177GDI32_NULL_THUNK_DATA_DLB 7c643e2c     gdi32:GDI32.dll
+ 0002:00003e5c       __IMPORT_DESCRIPTOR_KERNEL32 7c643e5c     kernel32:KERNEL32.dll
+ 0002:00003e70       __NULL_IMPORT_DESCRIPTOR   7c643e70     kernel32:KERNEL32.dll
+ 0003:00000000       ?rcDefault@CWindow@ATL@@2UtagRECT@@A 7c645000     RegObj.obj
+ 0003:0000007c       ___pfnDliFailureHook2      7c64507c     atl.obj
+ 0003:00000080       ?wc@?1??GetWndClassInfo@?$CWindowImpl@VCAxFrameWindow@ATL@@VCWindow@2@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@SAAAU_ATL_WNDCLASSINFOW@3@XZ@4U43@A 7c645080     stdafx.obj
+ 0003:00000110       ?wc@?1??GetWndClassInfo@?$CWindowImpl@VCAxUIWindow@ATL@@VCWindow@2@V?$CWinTraits@$0FGAAAAAA@$0A@@2@@ATL@@SAAAU_ATL_WNDCLASSINFOW@3@XZ@4U43@A 7c645110     stdafx.obj
+ 0003:0000019c       ?g_pfnGetThreadACP@ATL@@3P6GIXZA 7c64519c     atls:atltrace.obj
+ 0003:000001a0       ___security_cookie         7c6451a0     libcmt:gs_cookie.obj
+ 0003:000001a4       ___security_cookie_complement 7c6451a4     libcmt:gs_cookie.obj
+ 0003:000001b0       __NLG_Destination          7c6451b0     libcmt:exsup.obj
+ 0003:000001c0       __imp__RegEnumKeyExW@32    7c6451c0     advapi32:ADVAPI32.dll
+ 0003:000001c4       __imp__RegDeleteValueW@8   7c6451c4     advapi32:ADVAPI32.dll
+ 0003:000001c8       __imp__RegCloseKey@4       7c6451c8     advapi32:ADVAPI32.dll
+ 0003:000001cc       __imp__RegCreateKeyExW@36  7c6451cc     advapi32:ADVAPI32.dll
+ 0003:000001d0       __imp__RegOpenKeyExW@20    7c6451d0     advapi32:ADVAPI32.dll
+ 0003:000001d4       __imp__RegSetValueExW@24   7c6451d4     advapi32:ADVAPI32.dll
+ 0003:000001d8       __imp__RegQueryInfoKeyW@48 7c6451d8     advapi32:ADVAPI32.dll
+ 0003:000001dc       __imp__RegDeleteKeyW@8     7c6451dc     advapi32:ADVAPI32.dll
+ 0003:000001e0       \177ADVAPI32_NULL_THUNK_DATA_DLA 7c6451e0     advapi32:ADVAPI32.dll
+ 0003:000001e4       __imp__DeleteDC@4          7c6451e4     gdi32:GDI32.dll
+ 0003:000001e8       __imp__DeleteObject@4      7c6451e8     gdi32:GDI32.dll
+ 0003:000001ec       __imp__GetDeviceCaps@8     7c6451ec     gdi32:GDI32.dll
+ 0003:000001f0       __imp__SelectObject@8      7c6451f0     gdi32:GDI32.dll
+ 0003:000001f4       __imp__CreateCompatibleBitmap@12 7c6451f4     gdi32:GDI32.dll
+ 0003:000001f8       __imp__CreateCompatibleDC@4 7c6451f8     gdi32:GDI32.dll
+ 0003:000001fc       __imp__BitBlt@36           7c6451fc     gdi32:GDI32.dll
+ 0003:00000200       __imp__CreateSolidBrush@4  7c645200     gdi32:GDI32.dll
+ 0003:00000204       __imp__GetObjectW@12       7c645204     gdi32:GDI32.dll
+ 0003:00000208       __imp__GetStockObject@4    7c645208     gdi32:GDI32.dll
+ 0003:0000020c       __imp__CreateDCW@16        7c64520c     gdi32:GDI32.dll
+ 0003:00000210       \177GDI32_NULL_THUNK_DATA_DLA 7c645210     gdi32:GDI32.dll
+ 0003:00000214       __imp__LoadRegTypeLib@20   7c645214     oleaut32:OLEAUT32.dll
+ 0003:00000218       __imp__VarUI4FromStr@16    7c645218     oleaut32:OLEAUT32.dll
+ 0003:0000021c       __imp__SysStringLen@4      7c64521c     oleaut32:OLEAUT32.dll
+ 0003:00000220       __imp__SysFreeString@4     7c645220     oleaut32:OLEAUT32.dll
+ 0003:00000224       __imp__SysAllocStringByteLen@8 7c645224     oleaut32:OLEAUT32.dll
+ 0003:00000228       __imp__SysStringByteLen@4  7c645228     oleaut32:OLEAUT32.dll
+ 0003:0000022c       __imp__VariantInit@4       7c64522c     oleaut32:OLEAUT32.dll
+ 0003:00000230       __imp__VariantClear@4      7c645230     oleaut32:OLEAUT32.dll
+ 0003:00000234       __imp__VariantChangeType@16 7c645234     oleaut32:OLEAUT32.dll
+ 0003:00000238       __imp__SysAllocStringLen@8 7c645238     oleaut32:OLEAUT32.dll
+ 0003:0000023c       __imp__SysAllocString@4    7c64523c     oleaut32:OLEAUT32.dll
+ 0003:00000240       __imp__LoadTypeLib@8       7c645240     oleaut32:OLEAUT32.dll
+ 0003:00000244       __imp__UnRegisterTypeLib@20 7c645244     oleaut32:OLEAUT32.dll
+ 0003:00000248       __imp__RegisterTypeLib@12  7c645248     oleaut32:OLEAUT32.dll
+ 0003:0000024c       __imp__SetErrorInfo@8      7c64524c     oleaut32:OLEAUT32.dll
+ 0003:00000250       __imp__CreateErrorInfo@4   7c645250     oleaut32:OLEAUT32.dll
+ 0003:00000254       __imp__OleCreateFontIndirect@12 7c645254     oleaut32:OLEAUT32.dll
+ 0003:00000258       \177OLEAUT32_NULL_THUNK_DATA_DLA 7c645258     oleaut32:OLEAUT32.dll
+ 0003:0000025c       __imp__CreateAcceleratorTableW@8 7c64525c     user32:USER32.dll
+ 0003:00000260       __imp__SetWindowTextW@8    7c645260     user32:USER32.dll
+ 0003:00000264       __imp__GetWindowTextW@12   7c645264     user32:USER32.dll
+ 0003:00000268       __imp__GetWindowTextLengthW@4 7c645268     user32:USER32.dll
+ 0003:0000026c       __imp__RegisterWindowMessageW@4 7c64526c     user32:USER32.dll
+ 0003:00000270       __imp__DialogBoxIndirectParamW@20 7c645270     user32:USER32.dll
+ 0003:00000274       __imp__DialogBoxIndirectParamA@20 7c645274     user32:USER32.dll
+ 0003:00000278       __imp__CreateDialogIndirectParamW@20 7c645278     user32:USER32.dll
+ 0003:0000027c       __imp__CreateDialogIndirectParamA@20 7c64527c     user32:USER32.dll
+ 0003:00000280       __imp__GetMessageW@16      7c645280     user32:USER32.dll
+ 0003:00000284       __imp__GetClassInfoExW@12  7c645284     user32:USER32.dll
+ 0003:00000288       __imp__LoadCursorW@8       7c645288     user32:USER32.dll
+ 0003:0000028c       __imp__RegisterClassExW@4  7c64528c     user32:USER32.dll
+ 0003:00000290       __imp__UnregisterClassW@8  7c645290     user32:USER32.dll
+ 0003:00000294       __imp__MessageBoxA@16      7c645294     user32:USER32.dll
+ 0003:00000298       __imp__CharNextW@4         7c645298     user32:USER32.dll
+ 0003:0000029c       __imp__PeekMessageW@20     7c64529c     user32:USER32.dll
+ 0003:000002a0       __imp__DispatchMessageA@4  7c6452a0     user32:USER32.dll
+ 0003:000002a4       __imp__DispatchMessageW@4  7c6452a4     user32:USER32.dll
+ 0003:000002a8       __imp__TranslateMessage@4  7c6452a8     user32:USER32.dll
+ 0003:000002ac       __imp__GetMessageA@16      7c6452ac     user32:USER32.dll
+ 0003:000002b0       __imp__UnregisterClassA@8  7c6452b0     user32:USER32.dll
+ 0003:000002b4       __imp__IsWindowUnicode@4   7c6452b4     user32:USER32.dll
+ 0003:000002b8       __imp__MsgWaitForMultipleObjects@20 7c6452b8     user32:USER32.dll
+ 0003:000002bc       __imp__SetWindowLongW@12   7c6452bc     user32:USER32.dll
+ 0003:000002c0       __imp__GetWindowLongW@8    7c6452c0     user32:USER32.dll
+ 0003:000002c4       __imp__SendMessageW@16     7c6452c4     user32:USER32.dll
+ 0003:000002c8       __imp__GetClassInfoExA@12  7c6452c8     user32:USER32.dll
+ 0003:000002cc       __imp__LoadCursorA@8       7c6452cc     user32:USER32.dll
+ 0003:000002d0       __imp__ReleaseDC@8         7c6452d0     user32:USER32.dll
+ 0003:000002d4       __imp__GetDC@4             7c6452d4     user32:USER32.dll
+ 0003:000002d8       __imp__LoadStringW@16      7c6452d8     user32:USER32.dll
+ 0003:000002dc       __imp__DefWindowProcW@16   7c6452dc     user32:USER32.dll
+ 0003:000002e0       __imp__RegisterClassExA@4  7c6452e0     user32:USER32.dll
+ 0003:000002e4       __imp__GetSysColor@4       7c6452e4     user32:USER32.dll
+ 0003:000002e8       __imp__MoveWindow@24       7c6452e8     user32:USER32.dll
+ 0003:000002ec       __imp__SetWindowPos@28     7c6452ec     user32:USER32.dll
+ 0003:000002f0       __imp__GetClientRect@8     7c6452f0     user32:USER32.dll
+ 0003:000002f4       __imp__ClientToScreen@8    7c6452f4     user32:USER32.dll
+ 0003:000002f8       __imp__ScreenToClient@8    7c6452f8     user32:USER32.dll
+ 0003:000002fc       __imp__InvalidateRect@12   7c6452fc     user32:USER32.dll
+ 0003:00000300       __imp__InvalidateRgn@12    7c645300     user32:USER32.dll
+ 0003:00000304       __imp__RedrawWindow@16     7c645304     user32:USER32.dll
+ 0003:00000308       __imp__SetCapture@4        7c645308     user32:USER32.dll
+ 0003:0000030c       __imp__IsChild@8           7c64530c     user32:USER32.dll
+ 0003:00000310       __imp__GetParent@4         7c645310     user32:USER32.dll
+ 0003:00000314       __imp__GetDlgItem@8        7c645314     user32:USER32.dll
+ 0003:00000318       __imp__GetClassNameW@12    7c645318     user32:USER32.dll
+ 0003:0000031c       __imp__ReleaseCapture@0    7c64531c     user32:USER32.dll
+ 0003:00000320       __imp__FillRect@12         7c645320     user32:USER32.dll
+ 0003:00000324       __imp__DestroyWindow@4     7c645324     user32:USER32.dll
+ 0003:00000328       __imp__CallWindowProcW@20  7c645328     user32:USER32.dll
+ 0003:0000032c       __imp__EndPaint@8          7c64532c     user32:USER32.dll
+ 0003:00000330       __imp__BeginPaint@8        7c645330     user32:USER32.dll
+ 0003:00000334       __imp__GetDesktopWindow@0  7c645334     user32:USER32.dll
+ 0003:00000338       __imp__DestroyAcceleratorTable@4 7c645338     user32:USER32.dll
+ 0003:0000033c       __imp__SetFocus@4          7c64533c     user32:USER32.dll
+ 0003:00000340       __imp__GetWindow@8         7c645340     user32:USER32.dll
+ 0003:00000344       __imp__GetFocus@0          7c645344     user32:USER32.dll
+ 0003:00000348       __imp__IsWindow@4          7c645348     user32:USER32.dll
+ 0003:0000034c       __imp__CreateWindowExW@48  7c64534c     user32:USER32.dll
+ 0003:00000350       \177USER32_NULL_THUNK_DATA_DLA 7c645350     user32:USER32.dll
+ 0003:00000354       __imp__OleUninitialize@0   7c645354     ole32:ole32.dll
+ 0003:00000358       __imp__OleInitialize@4     7c645358     ole32:ole32.dll
+ 0003:0000035c       __imp__CLSIDFromString@8   7c64535c     ole32:ole32.dll
+ 0003:00000360       __imp__CLSIDFromProgID@8   7c645360     ole32:ole32.dll
+ 0003:00000364       __imp__CoGetClassObject@20 7c645364     ole32:ole32.dll
+ 0003:00000368       __imp__OleLockRunning@12   7c645368     ole32:ole32.dll
+ 0003:0000036c       __imp__ProgIDFromCLSID@8   7c64536c     ole32:ole32.dll
+ 0003:00000370       __imp__StringFromGUID2@12  7c645370     ole32:ole32.dll
+ 0003:00000374       __imp__OleSaveToStream@8   7c645374     ole32:ole32.dll
+ 0003:00000378       __imp__WriteClassStm@8     7c645378     ole32:ole32.dll
+ 0003:0000037c       __imp__CoUnmarshalInterface@12 7c64537c     ole32:ole32.dll
+ 0003:00000380       __imp__CreateStreamOnHGlobal@12 7c645380     ole32:ole32.dll
+ 0003:00000384       __imp__CoMarshalInterface@24 7c645384     ole32:ole32.dll
+ 0003:00000388       __imp__CoReleaseMarshalData@4 7c645388     ole32:ole32.dll
+ 0003:0000038c       __imp__CoRegisterClassObject@20 7c64538c     ole32:ole32.dll
+ 0003:00000390       __imp__CoRevokeClassObject@4 7c645390     ole32:ole32.dll
+ 0003:00000394       __imp__OleLoadFromStream@12 7c645394     ole32:ole32.dll
+ 0003:00000398       __imp__CoTaskMemFree@4     7c645398     ole32:ole32.dll
+ 0003:0000039c       __imp__CoTaskMemRealloc@8  7c64539c     ole32:ole32.dll
+ 0003:000003a0       __imp__CoTaskMemAlloc@4    7c6453a0     ole32:ole32.dll
+ 0003:000003a4       __imp__CoCreateInstance@20 7c6453a4     ole32:ole32.dll
+ 0003:000003a8       \177ole32_NULL_THUNK_DATA_DLA 7c6453a8     ole32:ole32.dll
+ 0003:000003b0       ?_pAtlModule@ATL@@3PAVCAtlModule@1@A 7c6453b0     RegObj.obj
+ 0003:000003b4       ?bAtlAxWinInitialized@ATL@@3_NA 7c6453b4     atl.obj
+ 0003:000003b5       ?m_bInitFailed@CAtlBaseModule@ATL@@2_NA 7c6453b5     atl.obj
+ 0003:000003b8       ?m_libid@CAtlModule@ATL@@2U_GUID@@A 7c6453b8     atl.obj
+ 0003:000003c8       ?_pModule@ATL@@3PAVCComModule@1@A 7c6453c8     atl.obj
+ 0003:000003cc       ?map@?2??VTFromRegType@CRegParser@ATL@@KAHPB_WAAG@Z@4QBUtypemap@?1??123@KAH01@Z@B 7c6453cc     atl.obj
+ 0003:000003ec       ??_B?2??VTFromRegType@CRegParser@ATL@@KAHPB_WAAG@Z@52 7c6453ec     atl.obj
+ 0003:000003f0       ?_Module@@3VCComModule@ATL@@A 7c6453f0     atl.obj
+ 0003:00000420       ?WM_ATLGETHOST@ATL@@3IA    7c645420     stdafx.obj
+ 0003:00000424       ?WM_ATLGETCONTROL@ATL@@3IA 7c645424     stdafx.obj
+ 0003:00000428       __hmod__ole32_dll          7c645428     ole32:ole32.dll
+ 0003:0000042c       __hmod__OLEAUT32_dll       7c64542c     oleaut32:OLEAUT32.dll
+ 0003:00000430       __hmod__ADVAPI32_dll       7c645430     advapi32:ADVAPI32.dll
+ 0003:00000434       __hmod__USER32_dll         7c645434     user32:USER32.dll
+ 0003:00000438       __hmod__GDI32_dll          7c645438     gdi32:GDI32.dll
+ 0003:0000043c       ?_AtlComModule@ATL@@3VCAtlComModule@1@A 7c64543c     atls:atlcommodule.obj
+ 0003:00000464       ?_AtlBaseModule@ATL@@3VCAtlBaseModule@1@A 7c645464     atls:atlbase.obj
+ 0003:000004a0       ?_AtlWinModule@ATL@@3VCAtlWinModule@1@A 7c6454a0     atls:atlbase.obj
+ 0003:000004cc       ?__AtlThunkPool@@3PAT_SLIST_HEADER@@A 7c6454cc     atls:atlthunk.obj
+ 0003:000004d0       ?__AtlInterlockedPushEntrySList@@3P6GPAU_SINGLE_LIST_ENTRY@@PAT_SLIST_HEADER@@PAU1@@ZA 7c6454d0     atls:atlthunk.obj
+ 0003:000004d4       ?__AtlInterlockedPopEntrySList@@3P6GPAU_SINGLE_LIST_ENTRY@@PAT_SLIST_HEADER@@@ZA 7c6454d4     atls:atlthunk.obj
+ 0003:000004d8       ?errno@@3HA                7c6454d8     atlmincrt:atlinit.obj
+ 0003:000004dc       __osplatform               7c6454dc     atlmincrt:atlinit.obj
+ 0003:00000590       ___onexitbegin             7c645590     atlmincrt:atlinit.obj
+ 0003:00000594       ___onexitend               7c645594     atlmincrt:atlinit.obj
+ 0003:00000598       ___pInvalidArgHandler      7c645598     libcmt:invarg.obj
+ 0003:000008c4       ___puiHead                 7c6458c4     delayimp:delayhlp.obj
+ 0003:000008c8       ___pfnDliNotifyHook2       7c6458c8     delayimp:delayhk2.obj
+ 0003:000008cc       __debugger_hook_dummy      7c6458cc     <common>
+ 0003:000008d0       ___use_sse2_mathfcns       7c6458d0     <common>
+ 0003:000008d4       ___sse2_available          7c6458d4     <common>
+ 0003:000008d8       __pDestructExceptionObject 7c6458d8     <common>
+
+ entry point at        0001:0000b1c6
+
+ Static symbols
+
+ 0001:000057d7       _DispatchMessageA@4        7c6367d7 f i stdafx.obj
+ 0001:000057d7       _SysAllocString@4          7c6367d7 f i stdafx.obj
+ 0001:000057d7       _CryptDestroyKey@4         7c6367d7 f i stdafx.obj
+ 0001:000057d7       _SafeArrayGetDim@4         7c6367d7 f i stdafx.obj
+ 0001:000057d7       _SysStringByteLen@4        7c6367d7 f i stdafx.obj
+ 0001:000057d7       _SysStringLen@4            7c6367d7 f i stdafx.obj
+ 0001:000057d7       _SafeArrayGetElemsize@4    7c6367d7 f i stdafx.obj
+ 0001:000057d7       _CryptDestroyHash@4        7c6367d7 f i stdafx.obj
+ 0001:000057d7       _IsWindow@4                7c6367d7 f i stdafx.obj
+ 0001:000057d7       _CoTaskMemAlloc@4          7c6367d7 f i stdafx.obj
+ 0001:000059fc       _ReleaseStgMedium@4        7c6369fc f i stdafx.obj
+ 0001:000059fc       _SysFreeString@4           7c6369fc f i stdafx.obj
+ 0001:000059fc       _CoTaskMemFree@4           7c6369fc f i stdafx.obj
+ 0001:000067a9       ?CreateNormalizedObject@ATL@@YAJPB_WABU_GUID@@PAPAXAA_NPA_W@Z 7c6377a9 f   stdafx.obj
+ 0001:0000897f       _CryptExportKey@24         7c63997f f i stdafx.obj
+ 0001:0000923d       ?AtlAxWindowProc@ATL@@YGJPAUHWND__@@IIJ@Z 7c63a23d f   stdafx.obj
+ 0001:00009457       ?AtlAxWindowProc2@ATL@@YGJPAUHWND__@@IIJ@Z 7c63a457 f   stdafx.obj
+ 0001:00009f47       _ReleaseCapture@0          7c63af47 f   atldload:user32.obj
+ 0001:00009f47       _RevertToSelf@0            7c63af47 f   atldload:user32.obj
+ 0001:00009f47       _GetForegroundWindow@0     7c63af47 f   atldload:user32.obj
+ 0001:00009f47       _GetFocus@0                7c63af47 f   atldload:user32.obj
+ 0001:00009f47       _GetActiveWindow@0         7c63af47 f   atldload:user32.obj
+ 0001:00009f47       _GetDesktopWindow@0        7c63af47 f   atldload:user32.obj
+ 0001:00009f47       _GetProcessWindowStation@0 7c63af47 f   atldload:user32.obj
+ 0001:00009f51       _wsprintfW                 7c63af51 f   atldload:user32.obj
+ 0001:00009f51       _wsprintfA                 7c63af51 f   atldload:user32.obj
+ 0001:00009f55       _CharNextA@4               7c63af55 f   atldload:user32.obj
+ 0001:00009f55       _CharNextW@4               7c63af55 f   atldload:user32.obj
+ 0001:00009f66       _mouse_event@20            7c63af66 f   atldload:user32.obj
+ 0001:00009f70       _EnumDisplaySettingsA@12   7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _EnumDisplaySettingsW@12   7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _CreateCompatibleBitmap@12 7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _GetClassNameW@12          7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _InvalidateRgn@12          7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _GetWindowTextW@12         7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _LookupPrivilegeValueA@12  7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _LookupPrivilegeValueW@12  7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _SetWindowLongW@12         7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _CheckTokenMembership@12   7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _EnumDesktopWindows@12     7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _OpenProcessToken@12       7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _GetWindowTextA@12         7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _SelectPalette@12          7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _SetWindowLongA@12         7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _GetUpdateRect@12          7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _FillRect@12               7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _InvalidateRect@12         7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _GetObjectW@12             7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _IntersectRect@12          7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _OpenWindowStationA@12     7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _GetClassInfoExW@12        7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _GetClassInfoExA@12        7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _SetFileSecurityA@12       7c63af70 f   atldload:user32.obj
+ 0001:00009f70       _GetClassInfoA@12          7c63af70 f   atldload:user32.obj
+ 0001:00009f7c       _WindowFromDC@4            7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _GetStockObject@4          7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _CopyIcon@4                7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _DestroyCursor@4           7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _DeleteDC@4                7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _GetObjectType@4           7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _GetDC@4                   7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _GetSystemMetrics@4        7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _RegisterWindowMessageW@4  7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _ShowCursor@4              7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _DestroyWindow@4           7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _FreeSid@4                 7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _GetWindowTextLengthW@4    7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _IsWindowUnicode@4         7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _GetSysColor@4             7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _IsCharAlphaA@4            7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _CreateSolidBrush@4        7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _DeregisterEventSource@4   7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _CreatePalette@4           7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _SetFocus@4                7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _SetForegroundWindow@4     7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _IsWindowVisible@4         7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _RealizePalette@4          7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _DispatchMessageW@4        7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _TranslateMessage@4        7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _SetThreadDesktop@4        7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _SetProcessWindowStation@4 7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _DeleteObject@4            7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _CloseWindowStation@4      7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _SetCapture@4              7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _GetParent@4               7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _CloseDesktop@4            7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _GetThreadDesktop@4        7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _CreateCompatibleDC@4      7c63af7c f   atldload:user32.obj
+ 0001:00009f7c       _DestroyAcceleratorTable@4 7c63af7c f   atldload:user32.obj
+ 0001:00009f88       _CreateWindowExW@48        7c63af88 f   atldload:user32.obj
+ 0001:00009f88       _CreateWindowExA@48        7c63af88 f   atldload:user32.obj
+ 0001:00009f94       _DialogBoxIndirectParamW@20 7c63af94 f   atldload:user32.obj
+ 0001:00009f94       _DialogBoxIndirectParamA@20 7c63af94 f   atldload:user32.obj
+ 0001:00009f94       _MsgWaitForMultipleObjects@20 7c63af94 f   atldload:user32.obj
+ 0001:00009fa1       _RegisterClassA@4          7c63afa1 f   atldload:user32.obj
+ 0001:00009fa1       _RegisterClassExW@4        7c63afa1 f   atldload:user32.obj
+ 0001:00009fa1       _RegisterClassExA@4        7c63afa1 f   atldload:user32.obj
+ 0001:00009fae       _SetWindowPos@28           7c63afae f   atldload:user32.obj
+ 0001:00009fba       _VariantInit@4             7c63afba f   atldload:oleaut32.obj
+ 0001:00009fc8       _VariantClear@4            7c63afc8 f   atldload:oleaut32.obj
+ 0001:00009fdb       _CharToOemBuffA@12         7c63afdb f   atldload:oleaut32.obj
+ 0001:00009fdb       _DosDateTimeToVariantTime@12 7c63afdb f   atldload:oleaut32.obj
+ 0001:00009fdb       _VariantTimeToSystemTime@12 7c63afdb f   atldload:oleaut32.obj
+ 0001:00009fdb       _SafeArrayCreateVector@12  7c63afdb f   atldload:oleaut32.obj
+ 0001:00009fdb       _StringFromGUID2@12        7c63afdb f   atldload:oleaut32.obj
+ 0001:00009fdb       _SafeArrayCreate@12        7c63afdb f   atldload:oleaut32.obj
+ 0001:00009fdb       _OemToCharBuffA@12         7c63afdb f   atldload:oleaut32.obj
+ 0001:00009fe0       _CreateErrorInfo@4         7c63afe0 f   atldload:oleaut32.obj
+ 0001:00009fe0       _SafeArrayUnaccessData@4   7c63afe0 f   atldload:oleaut32.obj
+ 0001:00009fe0       _OleCreatePropertyFrameIndirect@4 7c63afe0 f   atldload:oleaut32.obj
+ 0001:00009fe0       _SafeArrayDestroy@4        7c63afe0 f   atldload:oleaut32.obj
+ 0001:00009fe8       _OleCreatePropertyFrame@44 7c63afe8 f   atldload:oleaut32.obj
+ 0001:00009ff0       _LoadRegTypeLib@20         7c63aff0 f   atldload:oleaut32.obj
+ 0001:00009ff8       _SetErrorInfo@8            7c63aff8 f   atldload:oleaut32.obj
+ 0001:00009ff8       _SafeArrayAccessData@8     7c63aff8 f   atldload:oleaut32.obj
+ 0001:00009ff8       _SafeArrayCopy@8           7c63aff8 f   atldload:oleaut32.obj
+ 0001:00009ff8       _LoadTypeLib@8             7c63aff8 f   atldload:oleaut32.obj
+ 0001:0000a000       _VariantTimeToDosDateTime@16 7c63b000 f   atldload:oleaut32.obj
+ 0001:0000a000       _CryptHashData@16          7c63b000 f   atldload:oleaut32.obj
+ 0001:0000a005       _VarCmp@16                 7c63b005 f   atldload:oleaut32.obj
+ 0001:0000a00b       _SafeArrayGetLBound@12     7c63b00b f   atldload:oleaut32.obj
+ 0001:0000a00b       _SafeArrayPutElement@12    7c63b00b f   atldload:oleaut32.obj
+ 0001:0000a00b       _SafeArrayGetUBound@12     7c63b00b f   atldload:oleaut32.obj
+ 0001:0000a00b       _RegisterTypeLib@12        7c63b00b f   atldload:oleaut32.obj
+ 0001:0000a013       _DispInvoke@32             7c63b013 f   atldload:oleaut32.obj
+ 0001:0000a01b       _DispGetIDsOfNames@16      7c63b01b f   atldload:oleaut32.obj
+ 0001:0000a01b       _OleDraw@16                7c63b01b f   atldload:oleaut32.obj
+ 0001:0000a023       _SafeArrayGetElement@12    7c63b023 f   atldload:oleaut32.obj
+ 0001:0000a02b       _GetHGlobalFromStream@8    7c63b02b f   atldload:oleaut32.obj
+ 0001:0000a02b       _VariantCopy@8             7c63b02b f   atldload:oleaut32.obj
+ 0001:0000a02b       _VariantCopyInd@8          7c63b02b f   atldload:oleaut32.obj
+ 0001:0000a033       _VariantChangeType@16      7c63b033 f   atldload:oleaut32.obj
+ 0001:0000a033       _VarUI4FromStr@16          7c63b033 f   atldload:oleaut32.obj
+ 0001:0000a03b       _SafeArrayLock@4           7c63b03b f   atldload:oleaut32.obj
+ 0001:0000a03b       _OleIsCurrentClipboard@4   7c63b03b f   atldload:oleaut32.obj
+ 0001:0000a03b       _SafeArrayDestroyData@4    7c63b03b f   atldload:oleaut32.obj
+ 0001:0000a03b       _StgIsStorageFile@4        7c63b03b f   atldload:oleaut32.obj
+ 0001:0000a03b       _SafeArrayDestroyDescriptor@4 7c63b03b f   atldload:oleaut32.obj
+ 0001:0000a03b       _SafeArrayAllocData@4      7c63b03b f   atldload:oleaut32.obj
+ 0001:0000a03b       _SafeArrayUnlock@4         7c63b03b f   atldload:oleaut32.obj
+ 0001:0000a03b       _OleDestroyMenuDescriptor@4 7c63b03b f   atldload:oleaut32.obj
+ 0001:0000a043       _OleCreateFontIndirect@12  7c63b043 f   atldload:oleaut32.obj
+ 0001:0000a043       _CoLockObjectExternal@12   7c63b043 f   atldload:oleaut32.obj
+ 0001:0000a043       _OleTranslateAccelerator@12 7c63b043 f   atldload:oleaut32.obj
+ 0001:0000a043       _OleTranslateColor@12      7c63b043 f   atldload:oleaut32.obj
+ 0001:0000a043       _SafeArrayPtrOfIndex@12    7c63b043 f   atldload:oleaut32.obj
+ 0001:0000a043       _CreateGenericComposite@12 7c63b043 f   atldload:oleaut32.obj
+ 0001:0000a043       _SysReAllocStringLen@12    7c63b043 f   atldload:oleaut32.obj
+ 0001:0000a043       _ReadFmtUserTypeStg@12     7c63b043 f   atldload:oleaut32.obj
+ 0001:0000a043       _WriteFmtUserTypeStg@12    7c63b043 f   atldload:oleaut32.obj
+ 0001:0000a04b       _VarBstrFromDec@16         7c63b04b f   atldload:oleaut32.obj
+ 0001:0000a04b       _OleCreatePictureIndirect@16 7c63b04b f   atldload:oleaut32.obj
+ 0001:0000a04b       _VarDecFromStr@16          7c63b04b f   atldload:oleaut32.obj
+ 0001:0000a04b       _OleLoad@16                7c63b04b f   atldload:oleaut32.obj
+ 0001:0000a04b       _CreateDataCache@16        7c63b04b f   atldload:oleaut32.obj
+ 0001:0000a04b       _VarDateFromStr@16         7c63b04b f   atldload:oleaut32.obj
+ 0001:0000a04b       _VarCyFromStr@16           7c63b04b f   atldload:oleaut32.obj
+ 0001:0000a04b       _VarBstrCmp@16             7c63b04b f   atldload:oleaut32.obj
+ 0001:0000a053       _VarBstrFromCy@20          7c63b053 f   atldload:oleaut32.obj
+ 0001:0000a053       _OleLoadPicture@20         7c63b053 f   atldload:oleaut32.obj
+ 0001:0000a053       _VarParseNumFromStr@20     7c63b053 f   atldload:oleaut32.obj
+ 0001:0000a053       _VarBstrFromDate@20        7c63b053 f   atldload:oleaut32.obj
+ 0001:0000a053       _UnRegisterTypeLib@20      7c63b053 f   atldload:oleaut32.obj
+ 0001:0000a05b       _CoCreateGuid@4            7c63b05b f   atldload:ole32.obj
+ 0001:0000a061       _CoInitializeSecurity@36   7c63b061 f   atldload:ole32.obj
+ 0001:0000a069       _CoRevertToSelf@0          7c63b069 f   atldload:ole32.obj
+ 0001:0000a069       _CoSuspendClassObjects@0   7c63b069 f   atldload:ole32.obj
+ 0001:0000a069       _CoImpersonateClient@0     7c63b069 f   atldload:ole32.obj
+ 0001:0000a069       _OleFlushClipboard@0       7c63b069 f   atldload:ole32.obj
+ 0001:0000a069       _CoResumeClassObjects@0    7c63b069 f   atldload:ole32.obj
+ 0001:0000a06f       _CoSetProxyBlanket@32      7c63b06f f   atldload:ole32.obj
+ 0001:0000a06f       _StgOpenStorageEx@32       7c63b06f f   atldload:ole32.obj
+ 0001:0000a077       _SystemTimeToVariantTime@8 7c63b077 f   atldload:ole32.obj
+ 0001:0000a077       _CryptReleaseContext@8     7c63b077 f   atldload:ole32.obj
+ 0001:0000a077       _SysAllocStringByteLen@8   7c63b077 f   atldload:ole32.obj
+ 0001:0000a077       _CoTaskMemRealloc@8        7c63b077 f   atldload:ole32.obj
+ 0001:0000a077       _SysAllocStringLen@8       7c63b077 f   atldload:ole32.obj
+ 0001:0000a07c       _CoCreateFreeThreadedMarshaler@8 7c63b07c f   atldload:ole32.obj
+ 0001:0000a07c       _GetRunningObjectTable@8   7c63b07c f   atldload:ole32.obj
+ 0001:0000a07c       _CreateClassMoniker@8      7c63b07c f   atldload:ole32.obj
+ 0001:0000a08e       _CreateItemMoniker@12      7c63b08e f   atldload:ole32.obj
+ 0001:0000a0a0       _MkParseDisplayName@16     7c63b0a0 f   atldload:ole32.obj
+ 0001:0000a0b2       _DoDragDrop@16             7c63b0b2 f   atldload:ole32.obj
+ 0001:0000a0b2       _StgCreateDocfile@16       7c63b0b2 f   atldload:ole32.obj
+ 0001:0000a0b2       _StgCreateDocfileOnILockBytes@16 7c63b0b2 f   atldload:ole32.obj
+ 0001:0000a0ba       _CreateStreamOnHGlobal@12  7c63b0ba f   atldload:ole32.obj
+ 0001:0000a0ba       _OleLockRunning@12         7c63b0ba f   atldload:ole32.obj
+ 0001:0000a0ba       _OleRegGetUserType@12      7c63b0ba f   atldload:ole32.obj
+ 0001:0000a0ba       _CoGetInterfaceAndReleaseStream@12 7c63b0ba f   atldload:ole32.obj
+ 0001:0000a0ba       _OleRegGetMiscStatus@12    7c63b0ba f   atldload:ole32.obj
+ 0001:0000a0ba       _CoMarshalInterThreadInterfaceInStream@12 7c63b0ba f   atldload:ole32.obj
+ 0001:0000a0ba       _CreateILockBytesOnHGlobal@12 7c63b0ba f   atldload:ole32.obj
+ 0001:0000a0ba       _CoUnmarshalInterface@12   7c63b0ba f   atldload:ole32.obj
+ 0001:0000a0ba       _OleLoadFromStream@12      7c63b0ba f   atldload:ole32.obj
+ 0001:0000a0ba       _OleSave@12                7c63b0ba f   atldload:ole32.obj
+ 0001:0000a0c2       _CoMarshalInterface@24     7c63b0c2 f   atldload:ole32.obj
+ 0001:0000a0c2       _StgOpenStorage@24         7c63b0c2 f   atldload:ole32.obj
+ 0001:0000a0ca       _PropVariantClear@4        7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _CoRevokeClassObject@4     7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _CoDisableCallCancellation@4 7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _CoEnableCallCancellation@4 7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _CoReleaseMarshalData@4    7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _CoInitialize@4            7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _RevokeDragDrop@4          7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _OleRun@4                  7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _CreateDataAdviseHolder@4  7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _CreateOleAdviseHolder@4   7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _OleQueryCreateFromData@4  7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _OleQueryLinkFromData@4    7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _OleGetClipboard@4         7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _OleSetClipboard@4         7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0ca       _OleInitialize@4           7c63b0ca f   atldload:ole32.obj
+ 0001:0000a0d2       _CoFreeUnusedLibraries@0   7c63b0d2 f   atldload:ole32.obj
+ 0001:0000a0d2       _CoUninitialize@0          7c63b0d2 f   atldload:ole32.obj
+ 0001:0000a0d2       _OleUninitialize@0         7c63b0d2 f   atldload:ole32.obj
+ 0001:0000a0d3       _CoGetClassObject@20       7c63b0d3 f   atldload:ole32.obj
+ 0001:0000a0d3       _CoCreateInstance@20       7c63b0d3 f   atldload:ole32.obj
+ 0001:0000a0e5       _OleCreateFromData@28      7c63b0e5 f   atldload:ole32.obj
+ 0001:0000a0f7       _OleSetMenuDescriptor@20   7c63b0f7 f   atldload:ole32.obj
+ 0001:0000a0f7       _CoRegisterClassObject@20  7c63b0f7 f   atldload:ole32.obj
+ 0001:0000a0f7       _CoWaitForMultipleHandles@20 7c63b0f7 f   atldload:ole32.obj
+ 0001:0000a0ff       _CoFileTimeNow@4           7c63b0ff f   atldload:ole32.obj
+ 0001:0000a118       _OleRegEnumVerbs@8         7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _CoSwitchCallContext@8     7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _CLSIDFromString@8         7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _CLSIDFromProgID@8         7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _FreePropVariantArray@8    7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _GetClassFile@8            7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _CoInitializeEx@8          7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _CreateBindCtx@8           7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _StringFromCLSID@8         7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _ProgIDFromCLSID@8         7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _OleSaveToStream@8         7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _CoGetMalloc@8             7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _CoCancelCall@8            7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _CoRegisterMessageFilter@8 7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _RegisterDragDrop@8        7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _PropVariantCopy@8         7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _CoAllowSetForegroundWindow@8 7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _CreateFileMoniker@8       7c63b118 f   atldload:ole32.obj
+ 0001:0000a118       _WriteClassStm@8           7c63b118 f   atldload:ole32.obj
+ 0001:0000a120       _OleCreateMenuDescriptor@8 7c63b120 f   atldload:ole32.obj
+ 0001:0000a12c       _OleCreateFromFile@32      7c63b12c f   atldload:ole32.obj
+ 0001:0000a12c       _DispCallFunc@32           7c63b12c f   atldload:ole32.obj
+ 0001:0000a134       _OleIsRunning@4            7c63b134 f   atldload:ole32.obj
+ 0001:0000a140       _OleCreate@28              7c63b140 f   atldload:ole32.obj
+ 0001:0000a140       _OleCreateLinkToFile@28    7c63b140 f   atldload:ole32.obj
+ 0001:0000a140       _OleCreateStaticFromData@28 7c63b140 f   atldload:ole32.obj
+ 0001:0000a140       _OleCreateLinkFromData@28  7c63b140 f   atldload:ole32.obj
+ 0001:0000a148       _OleSetContainedObject@8   7c63b148 f   atldload:ole32.obj
+ 0001:0000a148       _CoDisconnectObject@8      7c63b148 f   atldload:ole32.obj
+ 0001:0000a148       _CoTreatAsClass@8          7c63b148 f   atldload:ole32.obj
+ 0001:0000a148       _ReadClassStg@8            7c63b148 f   atldload:ole32.obj
+ 0001:0000a148       _WriteClassStg@8           7c63b148 f   atldload:ole32.obj
+ 0001:0000a148       _GetHGlobalFromILockBytes@8 7c63b148 f   atldload:ole32.obj
+ 0001:0000a148       _SetConvertStg@8           7c63b148 f   atldload:ole32.obj
+ 0001:0000a148       _SafeArrayRedim@8          7c63b148 f   atldload:ole32.obj
+ 0001:0000a148       _ReadClassStm@8            7c63b148 f   atldload:ole32.obj
+ 0001:0000a148       _SafeArrayAllocDescriptor@8 7c63b148 f   atldload:ole32.obj
+ 0001:0000a150       _StgOpenStorageOnILockBytes@24 7c63b150 f   atldload:ole32.obj
+ 0001:0000a158       _CreateAcceleratorTableW@8 7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _FindWindowA@8             7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _GetDlgItem@8              7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _SetWindowTextW@8          7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _QueryServiceStatus@8      7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _IsChild@8                 7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _ValidateRect@8            7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _ChangeDisplaySettingsA@8  7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _SelectObject@8            7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _BeginPaint@8              7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _EndPaint@8                7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _UnregisterClassW@8        7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _GetWindowLongA@8          7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _GetWindowLongW@8          7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _ReleaseDC@8               7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _SetThreadToken@8          7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _GetWindowRect@8           7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _SetMapMode@8              7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _SetSystemPaletteUse@8     7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _GetUserNameW@8            7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _LoadCursorA@8             7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _LoadCursorW@8             7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _SetSystemCursor@8         7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _EqualRect@8               7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _GetDeviceCaps@8           7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _ShowWindow@8              7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _GetWindow@8               7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _GetClientRect@8           7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _UnregisterClassA@8        7c63b158 f   atldload:gdi32.obj
+ 0001:0000a158       _RegisterEventSourceW@8    7c63b158 f   atldload:gdi32.obj
+ 0001:0000a164       _BitBlt@36                 7c63b164 f   atldload:gdi32.obj
+ 0001:0000a164       _ReportEventW@36           7c63b164 f   atldload:gdi32.obj
+ 0001:0000a170       _SetViewportOrgEx@16       7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _SetViewportExtEx@16       7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _SetWindowExtEx@16         7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _CallNextHookEx@16         7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _SendMessageW@16           7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _GetSystemPaletteEntries@16 7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _SystemParametersInfoW@16  7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _MessageBoxA@16            7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _LoadStringA@16            7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _LoadStringW@16            7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _OpenDesktopA@16           7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _GetMessageW@16            7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _PostMessageA@16           7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _OpenThreadToken@16        7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _RedrawWindow@16           7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _DefWindowProcW@16         7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _CreateDCW@16              7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _GetMessageA@16            7c63b170 f   atldload:gdi32.obj
+ 0001:0000a170       _DefWindowProcA@16         7c63b170 f   atldload:gdi32.obj
+ 0001:0000a17c       _RegCreateKeyExA@36        7c63b17c f   atldload:advapi.obj
+ 0001:0000a182       _RegCreateKeyExW@36        7c63b182 f   atldload:advapi.obj
+ 0001:0000a1a0       _RegOpenKeyExW@20          7c63b1a0 f   atldload:advapi.obj
+ 0001:0000a1b4       _RegQueryValueExA@24       7c63b1b4 f   atldload:advapi.obj
+ 0001:0000a1b4       _RegSetValueExW@24         7c63b1b4 f   atldload:advapi.obj
+ 0001:0000a1b4       _RegSetValueExA@24         7c63b1b4 f   atldload:advapi.obj
+ 0001:0000a1ba       _RegQueryValueExW@24       7c63b1ba f   atldload:advapi.obj
+ 0001:0000a1d8       _RegCloseKey@4             7c63b1d8 f   atldload:advapi.obj
+ 0001:0000a1de       _RegDeleteKeyW@8           7c63b1de f   atldload:advapi.obj
+ 0001:0000a1de       _RegDeleteValueA@8         7c63b1de f   atldload:advapi.obj
+ 0001:0000a1de       _RegDeleteValueW@8         7c63b1de f   atldload:advapi.obj
+ 0001:0000a1de       _RegDeleteKeyA@8           7c63b1de f   atldload:advapi.obj
+ 0001:0000a1e4       _RegOpenKeyExA@20          7c63b1e4 f   atldload:advapi.obj
+ 0001:0000a1e4       _RegNotifyChangeKeyValue@20 7c63b1e4 f   atldload:advapi.obj
+ 0001:0000a1e4       _RegSetValueA@20           7c63b1e4 f   atldload:advapi.obj
+ 0001:0000a1ea       _RegCreateKeyW@12          7c63b1ea f   atldload:advapi.obj
+ 0001:0000a1ea       _RegOpenKeyA@12            7c63b1ea f   atldload:advapi.obj
+ 0001:0000a1ea       _RegOpenKeyW@12            7c63b1ea f   atldload:advapi.obj
+ 0001:0000a1ea       _RegCreateKeyA@12          7c63b1ea f   atldload:advapi.obj
+ 0001:0000a1f0       _RegEnumKeyA@16            7c63b1f0 f   atldload:advapi.obj
+ 0001:0000a1f0       _RegQueryValueA@16         7c63b1f0 f   atldload:advapi.obj
+ 0001:0000a1f0       _RegEnumKeyW@16            7c63b1f0 f   atldload:advapi.obj
+ 0001:0000a1f6       _RegEnumKeyExW@32          7c63b1f6 f   atldload:advapi.obj
+ 0001:0000a20a       _RegQueryInfoKeyW@48       7c63b20a f   atldload:advapi.obj
+ 0001:0000a210       _CreateDIBSection@24       7c63b210 f   atldload:advapi.obj
+ 0001:0000a210       _AdjustTokenPrivileges@24  7c63b210 f   atldload:advapi.obj
+ 0001:0000a21c       _AllocateAndInitializeSid@44 7c63b21c f   atldload:advapi.obj
+ 0001:0000a228       _GetFileSecurityA@20       7c63b228 f   atldload:advapi.obj
+ 0001:0000a228       _CallWindowProcA@20        7c63b228 f   atldload:advapi.obj
+ 0001:0000a228       _CallWindowProcW@20        7c63b228 f   atldload:advapi.obj
+ 0001:0000a228       _SetRect@20                7c63b228 f   atldload:advapi.obj
+ 0001:0000a228       _GetTokenInformation@20    7c63b228 f   atldload:advapi.obj
+ 0001:0000a228       _CreateDialogIndirectParamA@20 7c63b228 f   atldload:advapi.obj
+ 0001:0000a228       _PeekMessageW@20           7c63b228 f   atldload:advapi.obj
+ 0001:0000a228       _PeekMessageA@20           7c63b228 f   atldload:advapi.obj
+ 0001:0000a228       _CreateDialogIndirectParamW@20 7c63b228 f   atldload:advapi.obj
+ 0001:0000a228       _ChangeDisplaySettingsExW@20 7c63b228 f   atldload:advapi.obj
+ 0001:0000a234       _RegEnumValueW@32          7c63b234 f   atldload:advapi.obj
+ 0001:0000a23a       _CryptGetHashParam@20      7c63b23a f   atldload:advapi.obj
+ 0001:0000a24d       _CryptAcquireContextW@20   7c63b24d f   atldload:advapi.obj
+ 0001:0000a24d       _CryptCreateHash@20        7c63b24d f   atldload:advapi.obj
+ 0001:0000a252       _IsAccelerator@16          7c63b252 f   atldload:advapi.obj
+ 0001:0000a252       _RegQueryValueW@16         7c63b252 f   atldload:advapi.obj
+ 0001:0000a25e       _GetFileSecurityW@20       7c63b25e f   atldload:advapi.obj
+ 0001:0000a25e       _RegSetValueW@20           7c63b25e f   atldload:advapi.obj
+ 0001:0000a26a       _OleDuplicateData@12       7c63b26a f   atldload:advapi.obj
+ 0001:0000a26a       _OleGetIconOfClass@12      7c63b26a f   atldload:advapi.obj
+ 0001:0000a26a       _IsTextUnicode@12          7c63b26a f   atldload:advapi.obj
+ 0001:0000a26a       _SetFileSecurityW@12       7c63b26a f   atldload:advapi.obj
+ 0001:0000aaaa       ?__InitializeThunkPool@@YAHXZ 7c63baaa f   atls:atlthunk.obj
+ 0001:0000b1e9       @x64tow_s@24               7c63c1e9 f   libcmt:xtows.obj
+ 0001:0000cc5b       @x64toa_s@24               7c63dc5b f   libcmt:xtoas.obj
+ 0001:0000d755       _fastzero_I                7c63e755 f   libcmt:p4_memset.obj
+ 0001:0000d8e0       __unwind_handler4          7c63e8e0 f   libcmt:exsup4.obj
+ 0001:0000dbef       _fastcopy_I                7c63ebef f   libcmt:p4_memcpy.obj
+ 0001:0000dd61       _has_osfxsr_set            7c63ed61 f   libcmt:cpu_disp.obj
+ 0001:0000de40       __unwind_handler           7c63ee40 f   libcmt:exsup.obj
+ 0001:0000e1a4       ??__E_Module@@YAXXZ        7c63f1a4 f   atl.obj
+ 0001:0000e1ce       ??__E_AtlComModule@ATL@@YAXXZ 7c63f1ce f   atls:atlcommodule.obj
+ 0001:0000e1e4       ??__E_AtlBaseModule@ATL@@YAXXZ 7c63f1e4 f   atls:atlbase.obj
+ 0001:0000e1fa       ??__E_AtlWinModule@ATL@@YAXXZ 7c63f1fa f   atls:atlbase.obj
+ 0001:0000e210       ??__F_Module@@YAXXZ        7c63f210 f   atl.obj
+ 0001:0000e224       ??__F_AtlComModule@ATL@@YAXXZ 7c63f224 f   atls:atlcommodule.obj
+ 0001:0000e22e       ??__F_AtlBaseModule@ATL@@YAXXZ 7c63f22e f   atls:atlbase.obj
+ 0001:0000e238       ??__F_AtlWinModule@ATL@@YAXXZ 7c63f238 f   atls:atlbase.obj
