@@ -1,0 +1,134 @@
+This file contains information about this release of the Fnord! Server
+with modifications for running over the Microsoft Research IP Version 6
+(MSRIPv6) stack.  Released with MSRIPv6 1.4, January 2000.
+
+This release contains:
+    Fnord! Server version 1.0.0.23 (Feb 10 97) sources to which we have
+        made MSRIPv6 modifications.
+    A new Makefile for building Fnord! Server in the MSRIPv6 environment.
+    Precompiled compressed executables (fnord.ex_ and fnordnt.ex_) built
+        with MSRIPv6 defined.
+
+All of the IPv6 related Microsoft Research modifications to the Fnord!
+Server sources are contained within #ifdef MSRIPv6 contructs.  In addition,
+we made a few minor changes to allow the sources to compile using Microsoft
+Visual C++ and wrote a Makefile for building the executable (the original
+author apparantly used the Borland IDE).  The Makefile we've included
+defines MSRIPv6.  If MSRIPv6 is NOT defined, these sources will build a
+IPv4 version of Fnord! Server.
+
+
+ORIENTATION:
+
+The Fnord! Server distribution includes both a server (either fnord.exe or
+fnordnt.exe, the latter runs as an NT service) and a configuration/control
+program (fnordctl.exe).  The server itself is written in C++ (source in
+.\Source\Server), while the control program is written in Visual Basic
+(source in .\Source\Control).  We only needed to modify the server to
+support IPv6, the control program is included here exactly as we found it.
+
+Precompiled compressed executable versions of these programs, as well as
+everything else you need to install Fnord! Server can be found in the
+.\Install directory.  If you don't wish to build your own executables
+from sources, you can skip down to INSTALLATION.
+
+
+BUILDING THE SERVER:
+
+To build the server sources for MSRIPv6 yourself, first set up a build
+environment as described under "BUILDING" in the MSRIPv6 release ReadMe.htm
+file.  Place the fnord tree in the same directory as the msripv6 tree
+(i.e. you should have one directory which contains subdirectories named
+"msripv6" and "fnord").  If for some reason you must place these directories
+in a different relation to one another, you will need to modify the indirect
+paths given in the fnord Makefile.
+
+There are two different versions of the fnord server which you may build.
+One (fnord.exe) is launched by hand and puts a nice little icon up in the
+explorer tray which you can use to monitor/modify the server's behavior.
+The other (fnordnt.exe) is designed to run as a regular NT system service.
+The former is built by default.  To build the latter, uncomment the line
+//#define BUILD_SRV    //Make as an NT Service
+in fnord\Source\Server\build.h, or define this value in the Makefile.
+
+In the fnord\Source\Server directory, type "nmake" to perform a normal build
+or "nmake DEBUG=" to perform a debug build.  This will create a fnord.exe in
+that directory.  If you defined BUILD_SRV, type "nmake fnordnt" to create
+fnordnt.exe.
+
+To update the Install kit to contain the version you just built, type
+"nmake kit".  This will take the fnord.exe and fnordnt.exe files, compress
+them, and insert them into the Install directory for installation onto a
+new machine.  Alternatively, if you already have Fnord! Server installed
+on a machine, you might find it more expedient to just copy over the sever
+executable by hand.
+
+To build the control program from sources, start the Visual Basic IDE and
+open the project file fnord\Source\Control\fnordctl.vbp.  On the File menu,
+choose "Make fnordctl.exe..." and a fnordctl.exe will be created. 
+
+
+INSTALLATION:
+
+Copy (or share out over the network) the fnord\Install directory to the
+machine you want to run as a v6 web server.  This machine should already
+have the MSRIPv6 protocol stack installed.  Run the setup.exe contained
+in the Install directory.  This will install the various pieces of Fnord!
+Server to a location you specify (default is "C:\Program Files\fnordctl").
+
+
+CONFIGURATION:
+
+Go to the directory into which you installed Fnord! Server and read the
+author's original readme.txt file.  Run fnordctl.exe and follow along
+with the readme.  The only difference for our version of the server is
+that you need to specify your server's DNS name in the "Server Address"
+box of the "General" tab -- our version does't autodetect this.
+
+The regular version (fnord.exe) is now ready to run.  The NT service
+version needs to install itself as an NT service first.  You do this
+with something like:
+    "c:\program files\fnordctl\fnordnt.exe" install
+Having to give the full pathname when performing the install is required,
+as it stores the pathname you give it in the registry for subsequent launch.
+We haven't bothered to fix this quirk.  You can then start the fnord service
+either by "fnordnt start" or via the standard NT Control Panel's "Services"
+applet.  Since the fnord service is installed as an automatic service, it
+will also restart itself on reboot.
+
+
+KNOWN ISSUES:
+
+We haven't tested Fnord! Server without the various fixes described in the
+MSRIPv6 ReadMe section titled "Fixes for NT 4.0".  So if you're having
+trouble getting it to work correctly and haven't applied those fixes,
+you might try applying them.
+
+The IPv4 version of Fnord! Server has a feature to autodetect it's own
+name.  We #ifdef'd out the code that implements this feature when
+porting to IPv6 because it was expedient to do so.  This means you need to
+enter your server's DNS name in the "Server Address" box of the "General"
+tab of the fnordctl utility.  Otherwise the server will fail to start.
+
+The IPv4 version of Fnord! Server has a feature where you can configure it
+to perform a (weak) security check based on matching the client's address
+to an IPv4 address mask before serving certain pages.  We #ifdef'd out the
+code that implements this feature when porting to IPv6 because it was
+expedient to do so.
+
+
+DOWNLOAD SITES:
+
+Unfortunately, the original author's download and informational site
+(http://www.wpi.edu/~bmorin/fnord/) no longer appears to be operating.
+It apparently was once listed on the tucows site, but it is no longer
+there either.  However, we did manage to find the distribuiton in several
+tucows mirror/archive sites.  If you want the author's original release for
+some reason, you can find it (at the time of this writing) at
+ftp:ftp.tuwien.ac.at/pc/winsock-l/Windows95/Daemons/HTTPD/fnord.zip
+or search the net for "fnord.zip".
+
+
+THANKS:
+To Brian Morin for writing Fnord! Server and making it publically available
+(for the GNU Public License, see the "license.txt" file in this directory).

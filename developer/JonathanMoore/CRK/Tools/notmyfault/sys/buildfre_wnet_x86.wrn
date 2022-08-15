@@ -1,0 +1,2 @@
+1>d:\winddk\3790\bin\makefile.new(1028) : warning  U1050: Setting TARGETPATH= d:\WINDDK\3790\lib in .\sources is not valid - please use obj.
+1>d:\winddk\3790\bin\makefile.new(1028) : warning  U1050: Setting TARGETPATH= d:\WINDDK\3790\lib in .\sources is not valid - please use obj.

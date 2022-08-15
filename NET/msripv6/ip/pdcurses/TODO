@@ -1,0 +1,22 @@
+This file describes the features of PDCurses for X that are still to
+be completed.
+
+- add newterm() function and have it create a new X window
+
+- add X selection to allow PDCurses programs to provide an X selection
+
+- provide for all outstanding curses functions
+
+- add complete mouse support (but which convention - System VR4 or ncurses ?)
+
+- provide a command line parsing function to enable X command line
+  arguments to be parsed and stripped from the arguments passed back
+  to the calling procedure.
+
+- add proper 'flash' behaviour
+
+- document how resizing works
+
+- document how to use mouse functions that do exist
+
+- tuidemo will dump core when exiting - need to determine why

@@ -1,0 +1,24 @@
+These are instructions for building ncftp on Win32 platforms (WindowsNT
+and Windows95) using Visual C++ 2.0-5.0 or Borland C++ 4.x.
+
+1.  Copy either Makefile.vc or Makefile.bcc to Makefile.
+
+2.  Edit the makefile and change the include paths in CFLAGS and
+    the location of the pdcurses library.  You need to have the pdcurses
+    main header file available as "pdcurses.h". You may also have to change
+    compile flags if you did not build the pdcurses library with
+    static C-runtime libs.
+
+3.  Type:
+
+        nmake                                   (VC++, normal build)
+        nmake DEBUG=                            (VC++, debug build)
+        make                                    (BCC, normal build)
+        make -DDEBUG                            (BCC, debug build)
+
+4.  Copy ncftp.exe into someplace in your path.  The plaintext
+    manpage is available in ncftp.man.
+
+pdcurses versions 2.3 or later are known to work.  You can get
+pdcurses from "http://www.lighlink.com/hessling".
+

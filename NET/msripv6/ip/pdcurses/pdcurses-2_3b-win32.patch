@@ -1,0 +1,609 @@
+Message-Id: <199704302333.TAA28928@aatma.engin.umich.edu>
+To: M.Hessling@qut.edu.au
+cc: szurgot@itribe.net, gsar@engin.umich.edu
+Subject: win32 enhancements to pdcurses-2.3beta
+Date: Wed, 30 Apr 1997 19:33:08 -0400
+From: Gurusamy Sarathy <gsar@engin.umich.edu>
+
+
+I have a few fixes for pdcurses on win32.  I started using
+Chris Szurgot's port of ncftp and found a few deficiencies
+that led me to hack pdcurses itself.  The changes are:
+
+   * the ability to restore the console screen to its old
+     contents.  I find this invaluable (since I'm accustomed
+     to similar behavior from 'te' termcap init/deinit).
+     People who want to retain the old behavior can compile
+     with -DDONT_RESTORE_SCREEN.
+   * having a private console has removed the improper behavior
+     when there is scrollback (ie. console size is bigger than
+     window size).
+   * support for compiling with Visual C++ 2.x - 5.x
+   * added cursor size reporting
+   * fixed a coredumper in the demos
+   * fixed a coredump problem caused due to incorrect
+     prototype and va_list handling in PDC_vsscanf()
+   * a few fixes to the Borland makefile to make it compatible
+     with BCC 4.5x
+   * #ifdef-ed out debug code in pdckbd.c.
+
+Hope you can incorporate these changes before releasing
+2.3 for good.
+
+Thanks for developing pdcurses, and for supporting free
+software!
+
+ - Sarathy.
+   gsar@engin.umich.edu
+--------------------------------8<------------------------------
+diff -ur pdcurses.dist/curses.h pdcurses/curses.h
+--- pdcurses.dist/curses.h	Tue Sep 17 16:36:40 1996
++++ pdcurses/curses.h	Sun Apr 27 21:41:04 1997
+@@ -253,10 +253,23 @@
+ #    define FARKeyword far
+ #    define APIRET USHORT
+ #  else                            /* no __OS2__ define, so assume DOS */
+-#    define DOS 6                    /* Major release of DOS supported */
+-#    include <bios.h>
+-#    include <dos.h>
+-#    undef  HAVE_VSSCANF          /* vsscanf() function NOT in library */
++#    ifdef _WIN32	
++#      ifndef WIN32
++#        define WIN32 
++#      endif
++#      include <windows.h>
++#      ifndef HAVE_MEMORY_H
++#        define HAVE_MEMORY_H                           /* have <memory.h> */
++#      endif
++#      ifndef HAVE_STDARG_H
++#        define HAVE_STDARG_H                           /* have <stdarg.h> */
++#      endif
++#    else	
++#      define DOS 6                    /* Major release of DOS supported */
++#      include <bios.h>
++#      include <dos.h>
++#      undef  HAVE_VSSCANF          /* vsscanf() function NOT in library */
++#    endif
+ #  endif
+ #  ifndef HAVE_LIMITS_H
+ #    define HAVE_LIMITS_H                           /* have <limits.h> */
+diff -ur pdcurses.dist/demos/tuidemo.c pdcurses/demos/tuidemo.c
+--- pdcurses.dist/demos/tuidemo.c	Fri Apr 26 10:12:56 1996
++++ pdcurses/demos/tuidemo.c	Mon Apr 28 02:23:12 1997
+@@ -102,18 +102,10 @@
+ int field;
+ #endif
+ {
+-#ifdef __STDC__
+-  char *fieldname[2] = { 0, 0 };
+-#else
+   char *fieldname[2];
+-#endif
+   char *fieldbuf[1];
+ 
+-#ifndef __STDC__
+-  *fieldname[0] = 0;
+-  *fieldname[1] = 0;
+-#endif
+-  fieldname[0] = desc; fieldbuf[0] = fname;
++  fieldname[0] = desc; fieldname[1] = 0; fieldbuf[0] = fname;
+   return (getstrings (fieldname, fieldbuf, field) == KEY_ESC) ? NULL : fname;
+ }
+ 
+diff -ur pdcurses.dist/pdcurses/initscr.c pdcurses/pdcurses/initscr.c
+--- pdcurses.dist/pdcurses/initscr.c	Tue Sep 17 17:49:50 1996
++++ pdcurses/pdcurses/initscr.c	Mon Apr 28 05:40:44 1997
+@@ -408,7 +408,7 @@
+ 	if (trace_on) PDC_debug("endwin() - called\n");
+ #endif
+ 
+-#ifdef ORIGINAL_PDCURSES_BEHAVIOUR
++#if defined(ORIGINAL_PDCURSES_BEHAVIOUR) || defined(WIN32)
+ 	PDC_scr_close();
+ /*	resetty();*/
+ 	if (SP->orig_font != SP->font)  /* screen has not been resized */
+diff -ur pdcurses.dist/pdcurses/pdcutil.c pdcurses/pdcurses/pdcutil.c
+--- pdcurses.dist/pdcurses/pdcutil.c	Tue Sep 10 17:02:34 1996
++++ pdcurses/pdcurses/pdcutil.c	Mon Apr 28 01:45:08 1997
+@@ -249,16 +249,15 @@
+ 
+ /***********************************************************************/
+ #ifdef HAVE_STDARG_H_HAVE_PROTO
+-int PDC_vsscanf ( char *buf, const char *fmt, ...)
++int PDC_vsscanf ( char *buf, const char *fmt, va_list arg_ptr)
+ #else
+-int PDC_vsscanf (buf,fmt,va_alist)
++int PDC_vsscanf (buf,fmt,arg_ptr)
+ char *buf;
+ char *fmt;
+-va_dcl
++va_list arg_ptr;
+ #endif
+ /***********************************************************************/
+ {
+-	va_list arg_ptr;
+ 	int count, chars, c, width, radix, d, i;
+ 	int *int_ptr;
+ 	long *long_ptr;
+@@ -277,11 +276,6 @@
+ 	if (trace_on) PDC_debug("PDC_vsscanf() - called\n");
+ #endif
+ 
+-#ifdef HAVE_STDARG_H_HAVE_PROTO
+-	va_start(arg_ptr, fmt);
+-#else
+-	va_start(arg_ptr);
+-#endif
+ 
+   count = 0; chars = 0; c = 0;
+   while ((f = *fmt) != 0)
+diff -ur pdcurses.dist/win32/bccwin32.mak pdcurses/win32/bccwin32.mak
+--- pdcurses.dist/win32/bccwin32.mak	Sat Apr 13 10:57:34 1996
++++ pdcurses/win32/bccwin32.mak	Sun Apr 27 20:37:06 1997
+@@ -12,8 +12,8 @@
+ # Change these for your environment...
+ #
+ ################################################################################
+-PDCURSES_HOME		=c:\curses
+-CC_HOME		=f:\apps\bc4
++PDCURSES_HOME		=e:\build\pdcurses
++CC_HOME		=d:\bc45
+ ################################################################################
+ # Nothing below here should required changing.
+ ################################################################################
+@@ -23,8 +23,7 @@
+ PDCURSES_HEADERS		=$(PDCURSES_CURSES_H) $(PDCURSES_CURSPRIV_H)
+ PANEL_HEADER		=$(PDCURSES_HOME)\panel.h
+ 
+-#CCLIBDIR		=$(CC_HOME)\lib
+-CCLIBDIR		=f:lib
++CCLIBDIR		=$(CC_HOME)\lib
+ CCINCDIR		=$(CC_HOME)\include
+ 
+ srcdir		= $(PDCURSES_HOME)\pdcurses
+@@ -129,7 +128,7 @@
+ 	$(LIBEXE) $@ @$(osdir)\bccwin32.lrf
+ 
+ panel.lib : $(PANOBJS)
+-	$(LIBEXE) $@ -+$(PANOBJS);
++	$(LIBEXE) $@ -+$(PANOBJS)
+ 
+ addch.obj: $(srcdir)\addch.c $(PDCURSES_HEADERS)
+ 	$(CC) $(CCFLAGS) -o$@ $(srcdir)\addch.c
+diff -ur pdcurses.dist/win32/pdcgetsc.c pdcurses/win32/pdcgetsc.c
+--- pdcurses.dist/win32/pdcgetsc.c	Sun Apr 14 17:19:42 1996
++++ pdcurses/win32/pdcgetsc.c	Sun Apr 27 22:22:14 1997
+@@ -217,12 +217,15 @@
+ 
+ int	PDC_get_cursor_mode(void)
+ {
++    CONSOLE_CURSOR_INFO ci;
++    
+ #ifdef PDCDEBUG
+ 	if (trace_on) PDC_debug("PDC_get_cursor_mode() - called\n");
+ #endif
+ 
+-   GetConsoleScreenBufferInfo(hConOut, &scr);
+-//   return (scr.dwSize.X);
++    GetConsoleCursorInfo(hConOut, &ci);
++    /* size is between 1 and 100, so convert it */
++    return ((ci.dwSize * 32 / 100) - 1);
+ }
+ 
+ /*man-start*********************************************************************
+diff -ur pdcurses.dist/win32/pdcscrn.c pdcurses/win32/pdcscrn.c
+--- pdcurses.dist/win32/pdcscrn.c	Tue Sep 17 17:26:40 1996
++++ pdcurses/win32/pdcscrn.c	Tue Apr 29 14:11:20 1997
+@@ -24,8 +24,13 @@
+ char *rcsid_PDCscrn  = "$Id$";
+ #endif
+ 
+-HANDLE hConOut, hConIn;
++HANDLE hConOut = INVALID_HANDLE_VALUE;
++HANDLE hConIn = INVALID_HANDLE_VALUE;
+ 
++#ifndef DONT_RESTORE_SCREEN
++static HANDLE hConOutSaved = INVALID_HANDLE_VALUE;
++#endif
++
+ /*man-start*********************************************************************
+ 
+   PDC_scr_close()	- Internal low-level binding to close the physical screen
+@@ -57,7 +62,14 @@
+ #ifdef PDCDEBUG
+ 	if (trace_on) PDC_debug("PDC_scr_close() - called\n");
+ #endif
+-
++#ifndef DONT_RESTORE_SCREEN
++        if (hConOutSaved == INVALID_HANDLE_VALUE)
++                return( OK );
++        SetConsoleActiveScreenBuffer(hConOutSaved);
++        (void) CloseHandle(hConOut);
++        hConOut = hConOutSaved;
++	hConOutSaved = INVALID_HANDLE_VALUE;
++#endif
+ 	return( OK );
+ }
+ 
+@@ -126,7 +138,34 @@
+ 	hConOut = GetStdHandle(STD_OUTPUT_HANDLE);
+ 	hConIn = GetStdHandle(STD_INPUT_HANDLE);
+ 
+-	SetConsoleMode(hConIn,ENABLE_MOUSE_INPUT|ENABLE_WINDOW_INPUT);
++#ifndef DONT_RESTORE_SCREEN
++	/* do this only when we haven't already */
++	if (hConOutSaved == INVALID_HANDLE_VALUE) {
++	    COORD size;
++	    CONSOLE_SCREEN_BUFFER_INFO scr;
++
++	    hConOutSaved = hConOut;
++	    GetConsoleScreenBufferInfo(hConOutSaved, &scr);
++
++	    /*
++	     * Create our own screen buffer, so that we
++	     * may restore the original when done.
++	     */
++	    hConOut = CreateConsoleScreenBuffer(
++		GENERIC_WRITE | GENERIC_READ,
++		FILE_SHARE_WRITE | FILE_SHARE_READ,
++		(LPSECURITY_ATTRIBUTES) NULL,
++		CONSOLE_TEXTMODE_BUFFER,
++		(LPVOID) NULL);
++	    size.X = scr.srWindow.Right - scr.srWindow.Left + 1;
++	    size.Y = scr.srWindow.Bottom - scr.srWindow.Top + 1;
++	    SetConsoleScreenBufferSize(hConOut, size);
++	    SetConsoleActiveScreenBuffer(hConOut);
++	}
++#endif
++	SetConsoleMode(hConIn, ENABLE_PROCESSED_INPUT |
++			       ENABLE_MOUSE_INPUT |
++			       ENABLE_WINDOW_INPUT);
+ 
+ 	FlushConsoleInputBuffer(hConIn);
+ 
+--- /dev/null	Mon Apr 28 06:12:00 1997
++++ pdcurses/win32/vcwin32.mak	Mon Apr 28 06:12:00 1997
+@@ -0,0 +1,321 @@
++################################################################################
++#
++# Visual C++ NMakefile for PDCurses library - Win32 VC++ 2.0+
++#
++# Usage: nmake -f [path\]vcwin32.mak [DEBUG=] [target]
++#
++# where target can be any of:
++# [all|demos|pdcurses.lib|panel.lib|testcurs.exe...]
++#
++################################################################################
++#
++# Change these for your environment...
++#
++################################################################################
++PDCURSES_HOME		=e:\build\pdcurses
++CC_HOME		=f:\msvc20
++################################################################################
++# Nothing below here should required changing.
++################################################################################
++
++PDCURSES_CURSES_H		=$(PDCURSES_HOME)\curses.h
++PDCURSES_CURSPRIV_H		=$(PDCURSES_HOME)\curspriv.h
++PDCURSES_HEADERS		=$(PDCURSES_CURSES_H) $(PDCURSES_CURSPRIV_H)
++PANEL_HEADER		=$(PDCURSES_HOME)\panel.h
++
++CCLIBDIR		=$(CC_HOME)\lib
++CCINCDIR		=$(CC_HOME)\include
++
++srcdir		= $(PDCURSES_HOME)\pdcurses
++osdir		= $(PDCURSES_HOME)\win32
++pandir		= $(PDCURSES_HOME)\panel
++demodir		= $(PDCURSES_HOME)\demos
++
++CC		= cl.exe -nologo
++
++!ifdef DEBUG
++CFLAGS  = -Z7 -DPDCDEBUG
++LDFLAGS = -debug -pdb:none
++!else
++CFLAGS  =  -O
++LDFLAGS = 
++!endif
++
++CPPFLAGS	= -I$(PDCURSES_HOME) -I$(CCINCDIR)
++
++CCFLAGS		= -c $(CFLAGS) $(CPPFLAGS)
++
++LINK		= link.exe -nologo
++
++CCLIBS		= user32.lib
++# may need to add msvcrt.lib for VC 2.x, VC 5.0 doesn't want it
++#CCLIBS		= msvcrt.lib user32.lib
++STARTUP		=
++
++LIBEXE		= lib -nologo
++
++LIBCURSES	= pdcurses.lib
++LIBPANEL	= panel.lib
++
++PDCLIBS	= $(LIBCURSES) $(LIBPANEL)
++DEMOS	=testcurs.exe newdemo.exe xmas.exe tuidemo.exe firework.exe
++
++################################################################################
++all:	$(PDCLIBS) $(DEMOS)
++
++clean:
++	-del *.obj
++	-del curses.lib
++	-del panel.lib
++	-del *.exe
++
++demos:	$(DEMOS)
++
++#------------------------------------------------------------------------
++
++LIBOBJS =     \
++addch.obj     \
++addchstr.obj  \
++addstr.obj    \
++attr.obj      \
++beep.obj      \
++bkgd.obj      \
++border.obj    \
++clear.obj     \
++color.obj     \
++delch.obj     \
++deleteln.obj  \
++getch.obj     \
++getstr.obj    \
++getyx.obj     \
++inch.obj      \
++inchstr.obj   \
++initscr.obj   \
++inopts.obj    \
++insch.obj     \
++insstr.obj    \
++instr.obj     \
++kernel.obj    \
++mouse.obj     \
++move.obj      \
++outopts.obj   \
++overlay.obj   \
++pad.obj       \
++printw.obj    \
++refresh.obj   \
++scanw.obj     \
++scroll.obj    \
++slk.obj       \
++termattr.obj  \
++terminfo.obj  \
++touch.obj     \
++util.obj      \
++window.obj
++
++PDCOBJS =     \
++pdcdebug.obj  \
++pdcdisp.obj   \
++pdcgetsc.obj  \
++pdckbd.obj    \
++pdcprint.obj  \
++pdcscrn.obj   \
++pdcsetsc.obj  \
++pdcutil.obj   \
++pdcwin.obj
++
++PANOBJS =     \
++panel.obj
++
++pdcurses.lib : $(LIBOBJS) $(PDCOBJS)
++	$(LIBEXE) -out:$@ @<<
++	$(LIBOBJS) $(PDCOBJS)
++<<
++
++panel.lib : $(PANOBJS)
++	$(LIBEXE) -out:$@ $(PANOBJS)
++
++addch.obj: $(srcdir)\addch.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\addch.c
++
++addchstr.obj: $(srcdir)\addchstr.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\addchstr.c
++
++addstr.obj: $(srcdir)\addstr.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\addstr.c
++
++attr.obj: $(srcdir)\attr.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\attr.c
++
++beep.obj: $(srcdir)\beep.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\beep.c
++
++bkgd.obj: $(srcdir)\bkgd.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\bkgd.c
++
++border.obj: $(srcdir)\border.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\border.c
++
++clear.obj: $(srcdir)\clear.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\clear.c
++
++color.obj: $(srcdir)\color.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\color.c
++
++delch.obj: $(srcdir)\delch.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\delch.c
++
++deleteln.obj: $(srcdir)\deleteln.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\deleteln.c
++
++getch.obj: $(srcdir)\getch.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\getch.c
++
++getstr.obj: $(srcdir)\getstr.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\getstr.c
++
++getyx.obj: $(srcdir)\getyx.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\getyx.c
++
++inch.obj: $(srcdir)\inch.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\inch.c
++
++inchstr.obj: $(srcdir)\inchstr.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\inchstr.c
++
++initscr.obj: $(srcdir)\initscr.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\initscr.c
++
++inopts.obj: $(srcdir)\inopts.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\inopts.c
++
++insch.obj: $(srcdir)\insch.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\insch.c
++
++insstr.obj: $(srcdir)\insstr.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\insstr.c
++
++instr.obj: $(srcdir)\instr.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\instr.c
++
++kernel.obj: $(srcdir)\kernel.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\kernel.c
++
++mouse.obj: $(srcdir)\mouse.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\mouse.c
++
++move.obj: $(srcdir)\move.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\move.c
++
++outopts.obj: $(srcdir)\outopts.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\outopts.c
++
++overlay.obj: $(srcdir)\overlay.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\overlay.c
++
++pad.obj: $(srcdir)\pad.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\pad.c
++
++printw.obj: $(srcdir)\printw.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\printw.c
++
++refresh.obj: $(srcdir)\refresh.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\refresh.c
++
++scanw.obj: $(srcdir)\scanw.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\scanw.c
++
++scroll.obj: $(srcdir)\scroll.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\scroll.c
++
++slk.obj: $(srcdir)\slk.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\slk.c
++
++termattr.obj: $(srcdir)\termattr.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\termattr.c
++
++terminfo.obj: $(srcdir)\terminfo.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\terminfo.c
++
++touch.obj: $(srcdir)\touch.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\touch.c
++
++util.obj: $(srcdir)\util.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\util.c
++
++window.obj: $(srcdir)\window.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\window.c
++
++
++pdcdebug.obj: $(srcdir)\pdcdebug.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\pdcdebug.c
++
++pdcdisp.obj: $(osdir)\pdcdisp.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(osdir)\pdcdisp.c
++
++pdcgetsc.obj: $(osdir)\pdcgetsc.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(osdir)\pdcgetsc.c
++
++pdckbd.obj: $(osdir)\pdckbd.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(osdir)\pdckbd.c
++
++pdcprint.obj: $(osdir)\pdcprint.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(osdir)\pdcprint.c
++
++pdcscrn.obj: $(osdir)\pdcscrn.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(osdir)\pdcscrn.c
++
++pdcsetsc.obj: $(osdir)\pdcsetsc.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(osdir)\pdcsetsc.c
++
++pdcutil.obj: $(srcdir)\pdcutil.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\pdcutil.c
++
++pdcwin.obj: $(srcdir)\pdcwin.c $(PDCURSES_HEADERS)
++	$(CC) $(CCFLAGS) -Fo$@ $(srcdir)\pdcwin.c
++
++#------------------------------------------------------------------------
++
++panel.obj: $(pandir)\panel.c $(PDCURSES_HEADERS) $(PANEL_HEADER)
++	$(CC) $(CCFLAGS) -Fo$@ $(pandir)\panel.c
++
++#------------------------------------------------------------------------
++
++firework.exe:	firework.obj $(LIBCURSES)
++	$(LINK) $(LDFLAGS) $(STARTUP) -out:$@ $*.obj $(LIBCURSES) $(CCLIBS)
++
++newdemo.exe:	newdemo.obj $(LIBCURSES)
++	$(LINK) $(LDFLAGS) $(STARTUP) -out:$@ $*.obj $(LIBCURSES) $(CCLIBS)
++
++ptest.exe:	ptest.obj $(LIBCURSES) $(LIBPANEL)
++	$(LINK) $(LDFLAGS) $(STARTUP) -out:$@ $*.obj $(LIBPANEL) $(LIBCURSES) $(CCLIBS)
++
++testcurs.exe:	testcurs.obj $(LIBCURSES)
++	$(LINK) $(LDFLAGS) $(STARTUP) -out:$@ $*.obj $(LIBCURSES) $(CCLIBS)
++
++tuidemo.exe:	tuidemo.obj tui.obj $(LIBCURSES)
++	$(LINK) $(LDFLAGS) $(STARTUP) -out:$@ tui.obj $*.obj $(LIBCURSES) $(CCLIBS)
++
++xmas.exe:	xmas.obj $(LIBCURSES)
++	$(LINK) $(LDFLAGS) $(STARTUP) -out:$@ $*.obj $(LIBCURSES) $(CCLIBS)
++
++
++firework.obj: $(demodir)\firework.c $(PDCURSES_CURSES_H)
++	$(CC) $(CCFLAGS) -Fo$@ $(demodir)\firework.c
++
++newdemo.obj: $(demodir)\newdemo.c $(PDCURSES_CURSES_H)
++	$(CC) $(CCFLAGS) -Fo$@ $(demodir)\newdemo.c
++
++ptest.obj: $(demodir)\ptest.c $(PDCURSES_HOME)\panel.h $(PDCURSES_CURSES_H)
++	$(CC) $(CCFLAGS) -Fo$@ $(demodir)\ptest.c
++
++testcurs.obj: $(demodir)\testcurs.c $(PDCURSES_CURSES_H)
++	$(CC) $(CCFLAGS) -Fo$@ $(demodir)\testcurs.c
++
++tui.obj: $(demodir)\tui.c $(demodir)\tui.h $(PDCURSES_CURSES_H)
++	$(CC) $(CCFLAGS) -I$(demodir) -Fo$@ $(demodir)\tui.c
++
++tuidemo.obj: $(demodir)\tuidemo.c $(PDCURSES_CURSES_H)
++	$(CC) $(CCFLAGS) -I$(demodir) -Fo$@ $(demodir)\tuidemo.c
++
++xmas.obj: $(demodir)\xmas.c $(PDCURSES_CURSES_H)
++	$(CC) $(CCFLAGS) -Fo$@ $(demodir)\xmas.c
+--- pdcurses/INSTALL.dist	Tue Sep 17 20:09:58 1996
++++ pdcurses/INSTALL	Wed Apr 30 11:12:57 1997
+@@ -81,6 +81,7 @@
+ 
+          gccwin32.mak   - Cygnus GNU Compiler
+          bccwin32.mak   - Borland C++ 4.0.2+
++         vcwin32.mak    - Visual C++ 2.0+
+          wccwin32.mak   - Watcom 10.6
+ 
+  . Create a directory somewhere in which you want the object, library
+--- pdcurses/win32/pdckbd.c.dist	Fri Jan 10 21:39:36 1997
++++ pdcurses/win32\pdckbd.c	Wed Apr 30 18:27:51 1997
+@@ -422,7 +422,7 @@
+     switch(save_ip.EventType)
+       {
+        case KEY_EVENT:
+-#if 1
++#if 0
+             fprintf(stderr,"uChar: %d KeyCode: %d ScanCode: %d State: %x\n",
+                     save_ip.Event.KeyEvent.uChar.AsciiChar,
+                     save_ip.Event.KeyEvent.wVirtualKeyCode,
+

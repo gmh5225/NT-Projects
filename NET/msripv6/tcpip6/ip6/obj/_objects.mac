@@ -1,0 +1,84 @@
+ALPHA_OBJECTS= \
+    $(_OBJ_DIR)\alpha\ntip.obj \
+    $(_OBJ_DIR)\alpha\ntirp.obj \
+    $(_OBJ_DIR)\alpha\ntreg.obj \
+    $(_OBJ_DIR)\alpha\init.obj \
+    $(_OBJ_DIR)\alpha\loopback.obj \
+    $(_OBJ_DIR)\alpha\send.obj \
+    $(_OBJ_DIR)\alpha\receive.obj \
+    $(_OBJ_DIR)\alpha\lan.obj \
+    $(_OBJ_DIR)\alpha\prototab.obj \
+    $(_OBJ_DIR)\alpha\icmp.obj \
+    $(_OBJ_DIR)\alpha\mld.obj \
+    $(_OBJ_DIR)\alpha\neighbor.obj \
+    $(_OBJ_DIR)\alpha\route.obj \
+    $(_OBJ_DIR)\alpha\subr.obj \
+    $(_OBJ_DIR)\alpha\tunnel.obj \
+    $(_OBJ_DIR)\alpha\security.obj \
+    $(_OBJ_DIR)\alpha\mobile.obj
+
+PASS0_ALPHA_OBJECTS=
+
+AXP64_OBJECTS= \
+    $(_OBJ_DIR)\axp64\ntip.obj \
+    $(_OBJ_DIR)\axp64\ntirp.obj \
+    $(_OBJ_DIR)\axp64\ntreg.obj \
+    $(_OBJ_DIR)\axp64\init.obj \
+    $(_OBJ_DIR)\axp64\loopback.obj \
+    $(_OBJ_DIR)\axp64\send.obj \
+    $(_OBJ_DIR)\axp64\receive.obj \
+    $(_OBJ_DIR)\axp64\lan.obj \
+    $(_OBJ_DIR)\axp64\prototab.obj \
+    $(_OBJ_DIR)\axp64\icmp.obj \
+    $(_OBJ_DIR)\axp64\mld.obj \
+    $(_OBJ_DIR)\axp64\neighbor.obj \
+    $(_OBJ_DIR)\axp64\route.obj \
+    $(_OBJ_DIR)\axp64\subr.obj \
+    $(_OBJ_DIR)\axp64\tunnel.obj \
+    $(_OBJ_DIR)\axp64\security.obj \
+    $(_OBJ_DIR)\axp64\mobile.obj
+
+PASS0_AXP64_OBJECTS=
+
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\ntip.obj \
+    $(_OBJ_DIR)\i386\ntirp.obj \
+    $(_OBJ_DIR)\i386\ntreg.obj \
+    $(_OBJ_DIR)\i386\init.obj \
+    $(_OBJ_DIR)\i386\loopback.obj \
+    $(_OBJ_DIR)\i386\send.obj \
+    $(_OBJ_DIR)\i386\receive.obj \
+    $(_OBJ_DIR)\i386\lan.obj \
+    $(_OBJ_DIR)\i386\prototab.obj \
+    $(_OBJ_DIR)\i386\icmp.obj \
+    $(_OBJ_DIR)\i386\mld.obj \
+    $(_OBJ_DIR)\i386\neighbor.obj \
+    $(_OBJ_DIR)\i386\route.obj \
+    $(_OBJ_DIR)\i386\subr.obj \
+    $(_OBJ_DIR)\i386\tunnel.obj \
+    $(_OBJ_DIR)\i386\security.obj \
+    $(_OBJ_DIR)\i386\mobile.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\ntip.obj \
+    $(_OBJ_DIR)\ia64\ntirp.obj \
+    $(_OBJ_DIR)\ia64\ntreg.obj \
+    $(_OBJ_DIR)\ia64\init.obj \
+    $(_OBJ_DIR)\ia64\loopback.obj \
+    $(_OBJ_DIR)\ia64\send.obj \
+    $(_OBJ_DIR)\ia64\receive.obj \
+    $(_OBJ_DIR)\ia64\lan.obj \
+    $(_OBJ_DIR)\ia64\prototab.obj \
+    $(_OBJ_DIR)\ia64\icmp.obj \
+    $(_OBJ_DIR)\ia64\mld.obj \
+    $(_OBJ_DIR)\ia64\neighbor.obj \
+    $(_OBJ_DIR)\ia64\route.obj \
+    $(_OBJ_DIR)\ia64\subr.obj \
+    $(_OBJ_DIR)\ia64\tunnel.obj \
+    $(_OBJ_DIR)\ia64\security.obj \
+    $(_OBJ_DIR)\ia64\mobile.obj
+
+PASS0_IA64_OBJECTS=
+

@@ -1,0 +1,46 @@
+ALPHA_OBJECTS= \
+    $(_OBJ_DIR)\alpha\tcpip6.res \
+    $(_OBJ_DIR)\alpha\addr.obj \
+    $(_OBJ_DIR)\alpha\info.obj \
+    $(_OBJ_DIR)\alpha\init.obj \
+    $(_OBJ_DIR)\alpha\ntdisp.obj \
+    $(_OBJ_DIR)\alpha\ntinit.obj \
+    $(_OBJ_DIR)\alpha\transprt.obj
+
+PASS0_ALPHA_OBJECTS=
+
+AXP64_OBJECTS= \
+    $(_OBJ_DIR)\axp64\tcpip6.res \
+    $(_OBJ_DIR)\axp64\addr.obj \
+    $(_OBJ_DIR)\axp64\info.obj \
+    $(_OBJ_DIR)\axp64\init.obj \
+    $(_OBJ_DIR)\axp64\ntdisp.obj \
+    $(_OBJ_DIR)\axp64\ntinit.obj \
+    $(_OBJ_DIR)\axp64\transprt.obj
+
+PASS0_AXP64_OBJECTS=
+
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\tcpip6.res \
+    $(_OBJ_DIR)\i386\xsum.obj \
+    $(_OBJ_DIR)\i386\alloca.obj \
+    $(_OBJ_DIR)\i386\addr.obj \
+    $(_OBJ_DIR)\i386\info.obj \
+    $(_OBJ_DIR)\i386\init.obj \
+    $(_OBJ_DIR)\i386\ntdisp.obj \
+    $(_OBJ_DIR)\i386\ntinit.obj \
+    $(_OBJ_DIR)\i386\transprt.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\tcpip6.res \
+    $(_OBJ_DIR)\ia64\addr.obj \
+    $(_OBJ_DIR)\ia64\info.obj \
+    $(_OBJ_DIR)\ia64\init.obj \
+    $(_OBJ_DIR)\ia64\ntdisp.obj \
+    $(_OBJ_DIR)\ia64\ntinit.obj \
+    $(_OBJ_DIR)\ia64\transprt.obj
+
+PASS0_IA64_OBJECTS=
+

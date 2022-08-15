@@ -1,0 +1,28 @@
+ALPHA_OBJECTS= \
+    $(_OBJ_DIR)\alpha\6to4cfg.obj \
+    $(_OBJ_DIR)\alpha\echo.obj \
+    $(_OBJ_DIR)\alpha\ipv6.obj
+
+PASS0_ALPHA_OBJECTS=
+
+AXP64_OBJECTS= \
+    $(_OBJ_DIR)\axp64\6to4cfg.obj \
+    $(_OBJ_DIR)\axp64\echo.obj \
+    $(_OBJ_DIR)\axp64\ipv6.obj
+
+PASS0_AXP64_OBJECTS=
+
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\6to4cfg.obj \
+    $(_OBJ_DIR)\i386\echo.obj \
+    $(_OBJ_DIR)\i386\ipv6.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\6to4cfg.obj \
+    $(_OBJ_DIR)\ia64\echo.obj \
+    $(_OBJ_DIR)\ia64\ipv6.obj
+
+PASS0_IA64_OBJECTS=
+

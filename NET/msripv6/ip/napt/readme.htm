@@ -1,0 +1,631 @@
+<HTML>
+<HEAD>
+<TITLE>NAPT Installation and Configuration</TITLE>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+<P>
+<H1>NAPT Installation and Configuration</H1>
+<P>
+<font size="+1"><B>January 13th, 2000</B></font>
+<font size="-1">(Check
+<a href="http://www.research.microsoft.com/msripv6/napt.htm">here</a>
+for the latest version.)</font>
+
+<P>
+This document describes the installation and configuration of the Network
+Address and Procotol Translator (NAPT), which we will refer to as
+'translator' from hereon.
+The purpose of the translator is to convert packets as they cross the
+boundary between IPv4 and IPv6 networks.
+It achieves this by translating the various protocol fields from one version
+of IP to the other.
+The translator behaves as a router, receiving IPv4 packets from one network
+and transmitting IPv6 packets on the other (and vice-versa).
+
+<P>
+This document describes the system requirements of the translator, how to
+build it, a brief description of its implementation, how to configure it
+for translation, an example scenario, and finally a list of limitations.
+
+<P>
+<H3>System Requirements</H3>
+Our implementation <I>should</I> work on any version of NT that supports the
+<CODE>AO_OPTION_IP_HDRINCL</CODE> TDI option to send 'raw' IPv4 packets.
+This is currently available only on Windows 2000 Beta 2 and later systems.
+However, even in those systems it is not possible to send IPv4 fragments
+(i.e., IPv4 packets with the offset field set to non-zero values).
+This capability may become available in the future.
+
+<P>
+The translator is linked with the MSRIPv6 driver in order to receive and
+send IPv6 packets.
+It is necessary that a version of the MSRIPv6 driver is installed that
+exports the required symbols.
+For this version of the translator, this is MSRIPv6 version 1.4.
+
+<P>
+<H3>Building</H3>
+(We include a binary with this release, so you only need to build your own
+if you change the translator in some way)
+
+<P>
+The translator is built as a regular device driver for Windows 2000.
+For further instructions on how to build Windows 2000 drivers, please
+consult the "Building" instructions in the MSRIPv6 readme.
+
+<P>
+Most of our development has occurred on Windows NT 4.0 machines using
+Visual C++ 5.0, Platform SDK of Oct 1997 and the NT DDK Version 4.0,
+as well as the September 1998 Windows 2000 Beta 2 releases of the
+Platform SDK and NT DDK Version 5.0.
+We've also successfully compiled the translator with Visual C++ 6.0
+and later releases of the SDK and DDK.
+
+<P>
+<H3>Implementation</H3>
+The translator is implemented as a Windows 2000 device driver.
+The driver is designed to be dynamically loaded and unloaded without
+having to restart Windows 2000.
+
+<P>
+The translator uses the MSRIPv6 driver to send and receive IPv6 packets.
+To receive packets it installs itself as an 'Interface' in the MSRIPv6
+stack and registers routes for packets that should be forwarded to the
+translator for conversion from IPv6 to IPv4.
+It uses the MSRIPv6 <CODE>IPv6Send0()</CODE> function to send fully
+formed IPv6 packets.
+
+<P>
+To receive IPv4 packets the translator installs itself as an NDIS protocol
+driver and filters out those that it should translate to IPv6 packets.
+The code that implements this is in <CODE>lan.c</CODE>.
+(Ideally the translator would install itself as an interface to the IPv4
+stack, similar to how it works with the IPv6 stack.)
+The translator sends IPv4 packets using TDI and setting the
+<CODE>IPHDRINCL</CODE> option.
+The code that implements this is in <CODE>ippub.c</CODE>.
+
+<P>
+The bulk of the translation code is in <CODE>napt.c</CODE>.
+In particular, the IPv4/IPv6 protocol field conversion is done in the
+<CODE>NaptIP4toIP6()</CODE> and <CODE>NaptIP6toIP4()</CODE> functions.
+Similarly, ICMPv4/ICMPv6 conversion is done in <CODE>NaptIcmp4toIcmp6()</CODE>
+and <CODE>NaptIcmp6toIcmp4()</CODE>.
+Note that these functions may call each other recursively when translating
+an ICMP error message.
+
+<P>
+The protocol conversion rules implemented by these functions are spelled
+out in the documents listed in the reference section at the end of this page.
+(Unfortunately, there is no RFC on how exactly the translation should occur.
+<I>Update - the two referenced drafts were recently approved for Proposed
+Standard - Ed</I>)
+For the most up-to-date conversion rules see sections 3 & 4 in Nordmark's
+SIIT Internet Draft <A HREF="#Nordmark">[1]</A>.
+
+<P>
+<H3>Installation</H3>
+Unfortunately, the translator driver (<CODE>napt.sys</CODE>) is not as
+easily installable as the MSRIPv6 stack.
+To install it you need to run the provided <CODE>napt.reg</CODE> file to
+install some registry keys the translator uses.
+You will also need to place napt.sys into your
+<CODE>%SystemRoot%\system32\drivers</CODE> directory.
+Once you do that, it is necessary to reboot the system.
+And while you will only need to edit the registry once to configure the
+translator (see "Configuration" below), you will need to start the driver
+manually using the command "<CODE>net start napt</CODE>" whenever you reboot
+the system.
+
+<P>
+<H3>Operation</H3>
+<P>
+The translator can perform two types of address translation: stateless
+and stateful.
+It can be configured to perform either or both of these methods.
+
+<P>
+<H5>Stateless Translation</H5>
+<P>
+For stateless address translation, the translator maintains no information
+as to which IPv4 address a given IPv6 address corresponds to (and vice-versa).
+All the information the translator needs to convert addresses from one
+protocol to the other is provided in the packets themselves through the use
+of IPv4-mapped and IPv4-translated addresses on the IPv6 side.
+That is to say, an IPv4 packet will be translated into an IPv6 packet with
+addresses composed of a special prefix and an embedded IPv4 address.
+The IPv6-only hosts must have a valid IPv4-translated address (i.e.,
+an IPv6 address with the ::ffff:0:0:0/96 prefix), and they will
+communicate with IPv4-only hosts by addressing them using IPv4-mapped
+addresses (i.e. an IPv6 address with the ::ffff:0:0/96 prefix).
+You can not use arbitrary IPv6 addresses with stateless translation.
+
+<P>
+The following illustration shows how addresses are translated when an
+IPv6-only host with an (IPv4-translated) address of ::ffff:0:131.107.65.121
+is communicating with an IPv4-only host with an address of 207.46.130.14.
+The IPv4-only host thinks it is talking to another IPv4 host (with an address
+of 131.107.65.121), while the IPv6-only thinks it is talking to another IPv6
+host (with an IPv4-mapped address of ::ffff:207.46.130.14).
+
+<P>
+<TABLE>
+<CAPTION>Stateless translation of a packet from IPv6 to IPv4</CAPTION>
+<TR>
+<TD>
+<TABLE BORDER>
+<THEAD>
+<TR><TH COLSPAN=2>IPv6 Packet</TH></TR>
+</THEAD>
+<TBODY>
+<TR><TH>Source</TH><TD><CODE>0:0:0:0:ffff:0:131.107.65.121</CODE></TD></TR>
+<TR><TH>Destination</TH><TD><CODE>0:0:0:0:0:ffff:207.46.130.14</CODE></TD></TR>
+</TBODY>
+</TABLE>
+</TD>
+<TD>----></TD>
+<TD>
+<TABLE BORDER>
+<THEAD>
+<TR><TH COLSPAN=2>IPv4 Packet</TH></TR>
+</THEAD>
+<TBODY>
+<TR><TH>Source</TH><TD><CODE>131.107.65.121</CODE></TD></TR>
+<TR><TH>Destination</TH><TD><CODE>207.46.130.14</CODE></TD></TR>
+</TBODY>
+</TABLE>
+</TD>
+</TR>
+</TABLE>
+
+<P>
+<TABLE>
+<CAPTION>Stateless translation of a packet from IPv4 to IPv6</CAPTION>
+<TR>
+<TD>
+<TABLE BORDER>
+<THEAD>
+<TR><TH COLSPAN=2>IPv4 Packet</TH></TR>
+</THEAD>
+<TBODY>
+<TR><TH>Source</TH><TD><CODE>207.46.130.14</CODE></TD></TR>
+<TR><TH>Destination</TH><TD><CODE>131.107.65.121</CODE></TD></TR>
+</TBODY>
+</TABLE>
+</TD>
+<TD>----></TD>
+<TD>
+<TABLE BORDER>
+<THEAD>
+<TR><TH COLSPAN=2>IPv6 Packet</TH></TR>
+</THEAD>
+<TBODY>
+<TR><TH>Source</TH><TD><CODE>0:0:0:0:0:ffff:207.46.130.14</CODE></TD></TR>
+<TR><TH>Destination</TH><TD><CODE>0:0:0:0:ffff:0:131.107.65.121</CODE></TD></TR>
+</TBODY>
+</TABLE>
+</TD>
+</TR>
+</TABLE>
+
+<P>
+<H5>Stateful Translation</H5>
+<P>
+For stateful address translation, the translator maintains explicit mappings
+between arbitrary IPv4 and IPv6 addresses.
+The use of IPv4-mapped and IPv4-translated addresses is not required.
+When converting addresses, the translator simply consults its pre-configured
+table to determine the corresponding address to use with the other protocol.
+
+<P>
+The following illustration shows how addresses are translated when an
+IPv6-only host with an address of 2002:836b:4179:0:0:0:836b:4179 is
+communicating with an IPv4-only host with an address of 207.46.130.14.
+The IPv4-only host thinks it is talking to another IPv4 host (with an address
+of 131.107.65.121), while the IPv6-only thinks it is talking to another IPv6
+host (with an address of fec0::cf2e:820e).
+The translator keeps an internal mapping between 2002:836b:4179:0:0:0:836b:4179
+and 131.107.65.121 and between fec0::cf2e:820e and 207.46.130.14.
+Note that unlike the stateless translation case, the address values used on
+the IPv6 side to represent IPv4 nodes are completely arbitrary - there is no
+requirement that they be related to their corresponding IPv4 address.
+
+<P>
+<TABLE>
+<CAPTION>Stateful translation of a packet from IPv6 to IPv4</CAPTION>
+<TR>
+<TD>
+<TABLE BORDER>
+<THEAD>
+<TR><TH COLSPAN=2>IPv6 Packet</TH></TR>
+</THEAD>
+<TBODY>
+<TR><TH>Source</TH><TD><CODE>2002:836b:4179:0:0:0:836b:4179</CODE></TD></TR>
+<TR><TH>Destination</TH><TD><CODE>fec0::cf2e:820e</CODE></TD></TR>
+</TBODY>
+</TABLE>
+</TD>
+<TD>----></TD>
+<TD>
+<TABLE BORDER>
+<THEAD>
+<TR><TH COLSPAN=2>IPv4 Packet</TH></TR>
+</THEAD>
+<TBODY>
+<TR><TH>Source</TH><TD><CODE>131.107.65.121</CODE></TD></TR>
+<TR><TH>Destination</TH><TD><CODE>207.46.130.14</CODE></TD></TR>
+</TBODY>
+</TABLE>
+</TD>
+</TR>
+</TABLE>
+
+<P>
+<TABLE>
+<CAPTION>Stateful translation of a packet from IPv4 to IPv6</CAPTION>
+<TR>
+<TD>
+<TABLE BORDER>
+<THEAD>
+<TR><TH COLSPAN=2>IPv4 Packet</TH></TR>
+</THEAD>
+<TBODY>
+<TR><TH>Source</TH><TD><CODE>207.46.130.14</CODE></TD></TR>
+<TR><TH>Destination</TH><TD><CODE>131.107.65.121</CODE></TD></TR>
+</TBODY>
+</TABLE>
+</TD>
+<TD>----></TD>
+<TD>
+<TABLE BORDER>
+<THEAD>
+<TR><TH COLSPAN=2>IPv6 Packet</TH></TR>
+</THEAD>
+<TBODY>
+<TR><TH>Source</TH><TD><CODE>fec0::cf2e:820e</CODE></TD></TR>
+<TR><TH>Destination</TH><TD><CODE>2002:836b:4179:0:0:0:836b:4179</CODE></TD></TR>
+</TBODY>
+</TABLE>
+</TD>
+</TR>
+</TABLE>
+
+<P>
+<H3>Configuration</H3>
+<P>
+For either stateless or stateful translation, in order for packet
+translation to occur, such packets need to be routed
+via a translating-router that is configured to reach the IPv4 and
+IPv6 networks specified in the packet.
+Our translator implements such a translating-router between an IPv4 and
+an IPv6 network.
+However, with our current implementation, the translator does not participate
+in routing protocols.
+Everything must be statically configured.
+
+<P>
+On the IPv4 side, routes to the translator must be established for the IPv4
+address(es) or address ranges you wish it to translate.
+So set these routes on every IPv4 client or on the IPv4 subnet's default
+router.
+Similarly, on the IPv6 side, routes to the translating-router must be
+established for the IPv6 prefixes or specific host addresses it translates
+(the translating-router can be configured to advertise these routes so you
+don't have to set them manually, see next paragraph).
+Also, once IPv6 packets are received by the translating-router, they need to
+be forwarded to the translation interface proper (the translation interface
+will only appear once Napt is started, and will typically be the highest
+numbered interface).
+These routes are installed automatically when Napt starts based on
+information entered in the registry as part of the configuration procedure
+discussed below.
+However, in order for the translating-router to invoke those routes on
+packets received from elsewhere, the receiving interface on the IPv6 side
+must be marked as "forwarding".
+Determine the interface index of the interface on the IPv6 side of the
+translating-router and run "<CODE>ipv6 ifc </CODE><I>ifindex</I>
+<CODE> forwards</CODE>".
+Finally, routes <em>from</em> the translator to the IPv4 and IPv6 networks must
+be added to the translating machine's routing tables.
+These will cause the successfully translated packets to leave the
+translating-router in the right direction.
+
+<P>
+As mentioned above, the translator is capable of sending out
+'IPv6 Router Advertisements' with a new type of prefix option that contains
+a prefix that is routable via the translating-router.
+(Implementation note: this is accomplished by setting the
+<CODE>ND_PREFIX_FLAG_ROUTE</CODE> prefix option flag to indicate this special
+prefix option - see <CODE>icmp6.h</CODE> and <CODE>neighbor.c</CODE> in
+the MSRIPv6 sources)
+Currently, only MSRIPv6 machines handle this special prefix option flag.
+(NOTE: We have yet to write an Internet Draft for this)
+The translator will advertise these routes on any interface marked to do so;
+determine the interface index of the interface on the IPv6 side of the
+translating-router and run "<CODE>ipv6 ifc </CODE><I>ifindex</I>
+<CODE> advertises</CODE>".
+Unfortunately, IPv4 routes to the translating-router still need to be
+manually configured.
+
+<P>
+Additionally, if using stateless address translation, it is necessary to
+manually configure IPv6 clients with their IPv4-translated address.
+This is done using the "<CODE>ipv6 adu</CODE>" command.
+For example, if you wish interface 3 on a particular IPv6 host to appear to
+the IPv4 network as if it had an IPv4 address of 171.31.43.13, then you
+would run "<CODE>ipv6 adu 3/::ffff:0:171.31.43.13</CODE>" to set that address.
+
+<P>
+There are two registry entries that are used in configuring the translator
+proper, one for each type of translation desired.
+These are:
+
+<UL>
+<LI>StatelessV4RangeFilters: a list of IPv4 address ranges which the router
+will translate to IPv6.
+<LI>StatefulTranslation: a list of explicit mappings between real and
+translated addresses.
+</UL>
+
+<P>
+NOTE: The values placed into these two parameters are of type
+<CODE>REG_MULTI_SZ</CODE>.
+It seems that only <CODE>regedt32.exe</CODE> supports this type.
+The other registry editor, <CODE>regedit.exe</CODE>, does not support that
+particular type.
+
+<P>
+Using <CODE>regedt32.exe</CODE>, drill down to
+<CODE>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\napt\Parameters</CODE>
+(if this key is not present, make sure you ran the <CODE>napt.reg</CODE> file
+as mentioned in "Installation" above)
+and then add the appropriate values (use "Add Value" off of the "Edit" menu,
+and be sure to select a Data Type of "<CODE>REG_MULTI_SZ</CODE>" from the
+drop down box) as follows:
+
+<P>
+StatelessV4RangeFilters - <CODE>REG_MULTI_SZ</CODE>: place zero or more
+'IPv4AddrLow IPv4AddrHigh' pairs into this registry, where each pair defines
+an address range that the translator will filter out from the IPv4 packets it
+receives and translate them to IPv6 packets.
+For example, for each of the following entries
+<PRE><CODE>
+    10.0.100.1 10.0.100.254
+    128.95.0.0 128.95.255.255
+    162.43.78.13 162.43.78.13
+</CODE></PRE>
+the translator will translate all IPv4 packets with a destination address
+starting at the IPv4AddrLow and ending at IPv4AddrHigh.
+Also, as long as there are any entries present in this registry value, the
+system will automatically add a route to the translator for IPv6 packets
+sent to addresses with the IPv4-mapped prefix.
+This will cause the translator to translate the appropriate IPv6 packets
+to IPv4 packets.
+
+<P>
+StatefulTranslations - <CODE>REG_MULTI_SZ</CODE>: place zero or more
+'RealAddr TranslatedAddr' pairs into this registry entry, where each pair
+defines an explicit mapping between a 'real' address and a 'translated'
+address.
+Each machine that you wish to make accessible to the other protocol should
+have an entry.
+Put the host's native address (either IPv4 or IPv6) first, followed by the
+address (either IPv4 or IPv6, whichever one the native one <em>isn't</em>)
+that you wish it to appear as to the other protocol.
+For example,
+<PRE><CODE>
+    128.95.2.156 beef:feed::1234:5678
+    3ffe:1cff::bead:ed:cafe:deed 128.95.2.158
+</CODE></PRE>
+assigns the (translated) IPv6 address of beef:feed:1234:5678 to the host with
+the (real) IPv4 address of 128.95.2.156.
+And likewise, it assigns the IPv4 address of 128.95.2.158 to the host with
+the IPv6 address of 3ffe:1cff::bead:ed:cafe:deed.
+Put as many entries as you need.
+The system will add IPv4 filters or IPv6 routes for the translated addresses
+so that when packets with these addresses arrive at the translating-router,
+they will undergo translation.
+
+<P>
+Once you have configured everything, you can start the translator operating
+via "<CODE>net start napt</CODE>" (you can stop the translator at any time
+via "<CODE>net stop napt</CODE>").
+
+<P>
+<H3>Example Scenario</H3>
+Here is a simple example scenario of stateless translation between two subnets.
+(The IPv4 addresses used here are for example purposes, you'll want to
+substitute addresses from your own allocation)
+On the IPv4 side, we have a subnet with address 172.31.42.0/24.
+Say we want to set up the translator to make the IPv6 side appear to IPv4 side
+as if it was the IPv6 subnet with address 172.31.43.0/24.
+And since we're doing stateless translation, the IPv6 subnet address is
+constrained to be under the IPv4-translated prefix.
+Combining these two restrictions gives us an IPv6 subnet of
+::ffff:0:172.31.43.0/120.
+To keep this simple, let's consider three specific hosts:
+GACK as an IPv4 host, GADZOOKS as the IPv6/IPv4 translator, and YOWZA as
+an IPv6 host.
+GACK has an address of 172.31.42.50.
+GADZOOKS has two interfaces; the one on the IPv4 side has an address of
+172.31.42.56, while the one on the IPv6 side has a link-local address
+of fe80::2a0:ccff:fe39:7dc5.
+Finally, YOWZA has an address of ::ffff:0:172.31.43.212, which makes it
+appear to the IPv4 world as if it were 172.31.43.212.
+The figure below depicts this scenario.
+
+<P>
+<TABLE>
+<CAPTION>Example stateless address translation setup</CAPTION>
+<TR>
+<TD ALIGN=center>IPv4 Host</TD>
+<TD ALIGN=center>[GACK]</TD>
+</TR>
+<TR>
+<TD></TD>
+<TD ALIGN=center>172.31.42.50</TD>
+</TR>
+<TR>
+<TD></TD>
+<TD ALIGN=center>|</TD>
+<TD>IPv4 subnet 172.31.42.0/24</TD>
+</TR>
+<TR>
+<TD></TD>
+<TD ALIGN=center>172.31.42.56</TD>
+</TR>
+<TR>
+<TD ALIGN=center>Translator</TD>
+<TD ALIGN=center>[GADZOOKS]</TD>
+</TR>
+<TR>
+<TD></TD>
+<TD ALIGN=center>fe80::2a0:ccff:fe39:7dc5</TD>
+</TR>
+<TR>
+<TD></TD>
+<TD ALIGN=center>|</TD>
+<TD>IPv6 subnet ::ffff:0:172.31.43.0/120</TD>
+</TR>
+<TR>
+<TD></TD>
+<TD ALIGN=center>::ffff:0:172.31.43.212</TD>
+</TR>
+<TR>
+<TD ALIGN=center>IPv6 Host</TD>
+<TD ALIGN=center>[YOWZA]</TD>
+</TR>
+</TABLE></CENTER>
+
+<P>
+<H5>How to set this up</H5>
+<P>
+<P>
+Let's start with the client hosts.
+On the IPv4 side, GACK needs to have its IP address of 172.31.42.50 assigned,
+which you accomplish via one of the usual ways.
+It also needs to have a route for 172.31.43.0/24 pointing at GADZOOKS.
+For a Windows NT/2000 machine, you would set this up via
+"<CODE>route add 172.31.43.0 MASK 255.255.255.0 172.31.42.56</CODE>".
+On the IPv6 side, YOWZA needs to have its IPv4-translated address assigned,
+you do this via "<CODE>ipv6 adu </CODE><I>ifindex</I>
+<CODE>/::ffff:0:172.31.43.212</CODE>" (substitute the appropriate interface
+number for "<I>ifindex</I>").
+YOWZA also needs a route for the IPv4-mapped prefix pointing at GADZOOKS.
+However, you shouldn't have to configure this manually, as YOWZA should pick
+this up from router advertisements sent by GADZOOKS.
+
+<P>
+As the translator, GADZOOKS must be configured to 1) accept for translation
+all IPv4 packets sent to the 172.31.43.0/24 subnet, 2) have a route for
+the IPv4-translated prefix out the interface on the IPv6 side of the
+translator, 3) advertise a route for the IPv4-mapped prefix on the
+IPv6 side, 4) have a route for the IPv4-mapped prefix to the special
+translation interface on the router, and 5) have a route for the
+172.31.42.0/24 prefix out the interface on the IPv4 side of the translator.
+<OL>
+<LI>This is done via the StatelessV4RangeFilters registry entry
+as described in "Configuration" above.
+For this example, you would set the value to the single line
+"<CODE>172.31.43.1 172.31.43.254</CODE>".</LI>
+<LI>Identify the interface that is on the IPv6 side of the translator.
+Then using the index of that interface, run
+"<CODE>ipv6 rtu ::ffff:0:0:0/96 </CODE><I>ifindex</I>" to direct all packets
+for IPv4-translated addresses out the IPv6 side of the translator.</LI>
+<LI>Mark this same interface as both forwarding and advertising via
+"<CODE>ipv6 ifc </CODE><I>ifindex</I><CODE> forwards advertises</CODE>".
+<LI>When Napt is started, it will automatically install a published route for
+the IPv4-mapped prefix to the translator as a side-effect of step (1), so you
+don't have to do anything here.
+(This will show up in the output of "<CODE>ipv6 rt</CODE>" as something like
+"<CODE>::ffff:0:0/96 -> </CODE><I>translatorifindex</I>
+<CODE>/fe80::1</CODE>")</LI>
+<LI>If you can ping the IPv4 hosts from the translator, you already such a
+route in place.
+Otherwise, use the regular IPv4 commands to create one, something like
+"<CODE>route add 172.31.42.0 MASK 255.255.255.0 172.31.42.56</CODE>" should
+do it.
+</OL>
+
+<P>
+With configuration complete, starting the translator
+("<CODE>net start napt</CODE>") will allow packets to flow from one
+subnet to the other.
+
+<P>
+An IPv4 packet sent to 172.31.43.212 by GACK will be routed to GADZOOKS,
+which will translate it from IPv4 to IPv6 and send it to YOWZA.
+The resulting IPv6 packet will have a IPv4-translated address as its
+destination (::ffff:0:172.31.43.212) and a IPv4-mapped address 
+(::ffff:172.31.42.50) as its source.
+
+<P>
+An IPv6 packet sent to ::ffff:172.31.42.50 (the IPv6-mapped address
+corresponding to GACK) by YOWZA will be sent to the translator (due to the
+route for the IPv6-mapped prefix pointing at fe80::2a0:ccff:fe39:7dc5 on
+that subnet), then routed internal to the router to the translation
+interface (due to the route installed automatically by the translator at
+startup), which will translate it from IPv6 to IPv4 and send it to GACK.
+The resulting IPv4 packet will have a destination address of
+172.31.42.50 and a source address of 172.31.43.212.
+
+<P>
+On GACK, try "<CODE>ping 172.31.43.212</CODE>".
+From YOWZA, try "<CODE>ping6 ::ffff:172.31.42.50</CODE>".
+To really stress things, start "<CODE>ttcp -r -P4</CODE>" going on GACK, and
+then use "<CODE>ttcp -t -P6 ::ffff:172.31.42.50</CODE>" on YOWZA to send a
+stream of packets through the translator.
+Or vice-versa to stress IPv4 to IPv6 translation.
+
+<P>
+<H3>Known Issues and Limitations</H3>
+<UL>
+<LI>Can not send IPv4 fragments (as noted above).
+<LI>IP addresses embedded in an applications data stream (e.g., FTP) are
+not translated.
+<LI>DNS entries are not translated.
+<LI>No support for dynamic address assignment, beyond stateless address
+assignment.
+<LI>Bad things happen if you start Napt on a system without a functioning
+MSRIPv6 stack.
+</UL>
+
+<P>
+<H3>Contact Info</H3>
+In addition to the regular contact information provided in the MSRIPv6
+readme, feel free to contact the author directly with comments and
+questions regarding the implementation and configuration of the translator.
+You can reach the author by sending email to mef@cs.washington.edu.
+
+<P>
+<H3>References</H3>
+<OL>
+<A name="Nordmark"></A>
+<LI>E. Nordmark.
+<CITE>Stateless IP/ICMP Translator (SIIT)</CITE>.
+IETF Internet Draft, December 1999.
+Work In Progress.
+Available as
+<A HREF="http://www.ietf.org/internet-drafts/draft-ietf-ngtrans-siit-08.txt">
+draft-ietf-ngtrans-siit-08.txt</A> from your favorite IETF Internet Draft
+repository.
+
+<LI>G. Tsirtsis and P. Srishuresh.
+<CITE>Network Address Translation - Protocol Translation (NAT-PT)</CITE>.
+IETF Internet Draft, October 1999.
+Work In Progress.
+Available as
+<A HREF="http://www.ietf.org/internet-drafts/draft-ietf-ngtrans-natpt-07.txt">
+draft-ietf-ngtrans-natpt-07.txt</A> from your favorite IETF Internet Draft
+repository.
+
+<LI>M.E. Fiuczynski, V.K. Lam, B.N. Bershad.
+<CITE>The Design and Implementation of an IPv6/IPv4 Network Address and
+Protocol Translator</CITE>.
+In Proceedings of the 1998 Summer USENIX Conference, New Orleans, LA.,
+June 1998.
+Also available
+<A HREF="http://www.cs.washington.edu/research/networking/napt/reports/index.html">here</A>.
+</OL>
+</BODY>
+</HTML>

@@ -1,0 +1,39 @@
+REGEDIT4
+
+;
+; This .reg file creates registry entries for the "napt" service.
+;
+; NOTE: The arrangement and/or content of these entries is subject to change.
+;
+; The main key (HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\napt)
+; defines the "napt" service (a similar key definies each service on the
+; system).  The values under this key tell the system how to treat the service.
+;
+; Explation of select key values:
+; Type - the type of service.  1 means this is a kernel driver.
+; Start - when to start the service.  3 means to demand start.
+; ErrorControl - what to do if service fails to start.  1 means to log the
+;                error, put up a message box, and continue.
+;
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\napt]
+"DisplayName"="Network Address and Protocol Translator"
+"Type"=dword:00000001
+"Start"=dword:00000003
+"Group"="Extended base"
+"ErrorControl"=dword:00000001
+
+;
+; The Parameters key contains values specific to the napt service.  This file
+; merely creates the Parameters key, not the values below it.
+;
+; The possible values are:
+; StatefulTranslations - for explicit mappings.
+; StatelessV4RangeFilters - for dynamic mappings of one or more address ranges.
+; TranslationPrefixes - for prefixes to advertise IPv6 routes to.
+; UsefulRoutes - routes to configure when napt is started.
+;
+; You can enter these values in the registry via regedt32 (not regedit!).
+; These values are all of the type REG_MULTI_SZ (multi string), which cannot
+; be added by regedit or .reg files like this one (well, at least not easily).
+;
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\napt\Parameters]

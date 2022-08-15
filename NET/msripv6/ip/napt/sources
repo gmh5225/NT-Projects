@@ -1,0 +1,63 @@
+NT_UP=0
+
+MAJORCOMP=ntos
+MINORCOMP=napt
+
+TARGETNAME=napt
+TARGETTYPE=DRIVER
+
+MSRBASEDIR=..
+
+TARGETPATH=obj
+TARGETLIBS=     \
+        $(BASEDIR)\lib\*\$(DDKBUILDENV)\tdi.lib         \
+        $(BASEDIR)\lib\*\$(DDKBUILDENV)\ndis.lib        \
+        $(MSRBASEDIR)\TCPIP6\COMMON\OBJ\*\$(DDKBUILDENV)\TCPIP6.LIB
+
+INCLUDES=	\
+	$(BASEDIR)\src\network\inc;	\
+	$(MSRBASEDIR)\inc;		\
+	$(MSRBASEDIR)\tcpip6\inc;	\
+	$(MSRBASEDIR)\tcpip6\common;	\
+	$(MSRBASEDIR)\tcpip6\ip6;	\
+	$(MSRBASEDIR)\tcpip6\udp;	\
+	$(MSRBASEDIR)\tcpip6\tcp;
+
+C_DEFINES=$(C_DEFINES) -DDDKBUILDENV
+
+C_DEFINES=$(C_DEFINES) -DNT -D_NTDRIVER_ -D_PNP_POWER
+
+MSC_WARNING_LEVEL=/W3 /WX
+
+
+
+SOURCES=	\
+	init.c	\
+	hash.c	\
+	mt4.c	\
+	mt6.c	\
+	napt.rc \
+	lan.c	\
+	ntirp.c	\
+	napt.c
+
+#
+# Use the public TDI interface to send raw IPv4 packets.
+#
+SOURCES=$(SOURCES) ippub.c
+
+#
+# Use the private/backdoor interface to send raw IPv4 packets, which
+# also requires a special version of tcpip.lib that exports the
+# following symbols: 
+#	LookupNextHop
+#	DerefIF
+#	SendIPPacket
+#	GetIPHeader
+#	FreeIPPacket
+#
+#
+#SOURCES=$(SOURCES) ippriv.c
+#NT_ROOT=H:\nt
+#TARGETLIBS=$(TARGETLIBS) $(NT_ROOT)\public\sdk\lib\*\tcpip.lib
+#

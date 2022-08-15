@@ -1,0 +1,69 @@
+This file contains information about this release of NcFTP with modifications
+for running over the Microsoft Research IP Version 6 (MSRIPv6) stack.
+
+This release contains:
+    NcFTP version 2.4.2 sources to which we applied a WIN32 patch and then
+        made MSRIPv6 modifications.
+    A modified Makefile for building NcFTP in the MSRIPv6 environment.
+    A precompiled executable (ncftp.exe) with MSRIPv6 defined.
+    Public Domain Curses (pdcurses) version 2.3b.
+
+All of the Microsoft Research modifications to the NcFTP sources are contained
+in #ifdef MSRIPv6 contructs.  The Makefile we've included defines MSRIPv6.
+If MSRIPv6 is NOT defined, these sources will build a IPv4 version of NcFTP
+for WIN32.
+
+
+BUILDING:
+
+To build these sources for MSRIPv6 yourself, first set up a build environment
+as described under "BUILDING" in the MSRIPv6 release readme.txt file.  Place
+the ncftp tree and the pdcurses tree in the same directory as the msripv6
+tree (i.e. you should have one directory which contains subdirectories named
+"msripv6", "ncftp", and "pdcurses").  If for some reason you must place these
+directories in a different relation to one another, you will need to
+modify the indirect paths given in the NcFTP Makefile.
+
+In the ncftp directory, type "nmake" to perform a normal build or
+"nmake DEBUG=" to perform a debug build.  This will create an ncftp.exe in
+the ncftp directory.  A plaintext manual page is available in ncftp.man.
+
+
+INSTALLATION:
+
+Copy the ncftp.exe binary to someplace along your executable path.  A common
+spot would be %SystemRoot%\system32.
+
+
+KNOWN ISSUES:
+
+NcFTP, like most ftp clients, uses getsockname to discover the addesses of
+its data sockets for use in the "PORT" ("LPRT" for v6) command.  Note that for
+getsockname to work correctly under MSRIPv6 on NT 4.0, you need to install
+our fixed version of msafd.dll (see "FIXES FOR NT 4.0" in the MSRIPv6 release
+readme.txt file).  Another workaround is to use passive mode ftp (type
+"set ftp-mode passive" to the NcFTP command prompt) and then NcFTP will use
+the "PASV" ("LPSV" for v6) command instead of "PORT" ("LPRT"), which doesn't
+require a call to getsockname.  Not all ftp servers support passive mode,
+however.
+
+NcFTP for IPv4 supports a "colon-mode" for specifying a remote site and
+filename together in an open command (as described in ncftp.man).
+Unfortunately, the textual representation of IPv6 addresses includes
+colons in a manner that confuses the colon-mode parser in NcFTP (which is
+expecting only IPv4-style dot notation in addresses).  Since this port is
+primarily for example purposes, we chose the most expedient solution, which
+was to disable colon-mode in the IPv6 version.
+
+
+DOWNLOAD SITES:
+
+Original copies of NcFTP 2.4.2 and pdcurses 2.3b for Win32 can be found at
+http://www-personal.umich.edu/~gsar/ncftp-2.4.2-win32.tar.gz (321 KB) and
+http://www-personal.umich.edu/~gsar/pdcurses-2.3b-win32.tar.gz (376 KB).
+
+
+THANKS:
+To Mike Gleason for writing NcFTP and making it publically available (see
+Mike's copyright in the "COPYRIGHT.h" file in this directory), and to the
+various unsung heroes who ported it to Win32.

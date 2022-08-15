@@ -1,0 +1,36 @@
+ALPHA_OBJECTS= \
+    $(_OBJ_DIR)\alpha\tcpip6.obj \
+    $(_OBJ_DIR)\alpha\ip6.obj \
+    $(_OBJ_DIR)\alpha\ip6tbls.obj \
+    $(_OBJ_DIR)\alpha\icmp6.obj \
+    $(_OBJ_DIR)\alpha\icmp6tbl.obj
+
+PASS0_ALPHA_OBJECTS=
+
+AXP64_OBJECTS= \
+    $(_OBJ_DIR)\axp64\tcpip6.obj \
+    $(_OBJ_DIR)\axp64\ip6.obj \
+    $(_OBJ_DIR)\axp64\ip6tbls.obj \
+    $(_OBJ_DIR)\axp64\icmp6.obj \
+    $(_OBJ_DIR)\axp64\icmp6tbl.obj
+
+PASS0_AXP64_OBJECTS=
+
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\tcpip6.obj \
+    $(_OBJ_DIR)\i386\ip6.obj \
+    $(_OBJ_DIR)\i386\ip6tbls.obj \
+    $(_OBJ_DIR)\i386\icmp6.obj \
+    $(_OBJ_DIR)\i386\icmp6tbl.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\tcpip6.obj \
+    $(_OBJ_DIR)\ia64\ip6.obj \
+    $(_OBJ_DIR)\ia64\ip6tbls.obj \
+    $(_OBJ_DIR)\ia64\icmp6.obj \
+    $(_OBJ_DIR)\ia64\icmp6tbl.obj
+
+PASS0_IA64_OBJECTS=
+

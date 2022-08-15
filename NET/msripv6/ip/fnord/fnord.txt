@@ -1,0 +1,2 @@
+Fnord Server v1.0.0.23 (Feb 10 97)
+MSRIPv6 modifications - January, 1999

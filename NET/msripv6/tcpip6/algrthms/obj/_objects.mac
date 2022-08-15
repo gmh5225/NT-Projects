@@ -1,0 +1,40 @@
+ALPHA_OBJECTS= \
+    $(_OBJ_DIR)\alpha\null.obj \
+    $(_OBJ_DIR)\alpha\md5.obj \
+    $(_OBJ_DIR)\alpha\hmacmd5.obj \
+    $(_OBJ_DIR)\alpha\sha1.obj \
+    $(_OBJ_DIR)\alpha\hmacsha1.obj \
+    $(_OBJ_DIR)\alpha\algrthms.obj
+
+PASS0_ALPHA_OBJECTS=
+
+AXP64_OBJECTS= \
+    $(_OBJ_DIR)\axp64\null.obj \
+    $(_OBJ_DIR)\axp64\md5.obj \
+    $(_OBJ_DIR)\axp64\hmacmd5.obj \
+    $(_OBJ_DIR)\axp64\sha1.obj \
+    $(_OBJ_DIR)\axp64\hmacsha1.obj \
+    $(_OBJ_DIR)\axp64\algrthms.obj
+
+PASS0_AXP64_OBJECTS=
+
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\null.obj \
+    $(_OBJ_DIR)\i386\md5.obj \
+    $(_OBJ_DIR)\i386\hmacmd5.obj \
+    $(_OBJ_DIR)\i386\sha1.obj \
+    $(_OBJ_DIR)\i386\hmacsha1.obj \
+    $(_OBJ_DIR)\i386\algrthms.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\null.obj \
+    $(_OBJ_DIR)\ia64\md5.obj \
+    $(_OBJ_DIR)\ia64\hmacmd5.obj \
+    $(_OBJ_DIR)\ia64\sha1.obj \
+    $(_OBJ_DIR)\ia64\hmacsha1.obj \
+    $(_OBJ_DIR)\ia64\algrthms.obj
+
+PASS0_IA64_OBJECTS=
+

@@ -1,0 +1,51 @@
+/*
+Copyright (C) 1996
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+The author can be contacted via Email at bmorin@wpi.edu
+*/
+
+#define VERSIONINFO_1 1
+
+PROGRAM_ICON ICON "fnord1.ico"
+VERSIONINFO_1 VERSIONINFO 
+FILEVERSION 0, 9, 9, 23
+PRODUCTVERSION 0, 9, 9, 23
+FILEOS 0x40004L
+FILETYPE 0x1L
+{
+ BLOCK "StringFileInfo"
+ {
+  BLOCK "040904E4"
+  {
+   VALUE "CompanyName", "Brian Morin bmorin@wpi.edu\000\000"
+   VALUE "FileDescription", "Fnord! Server\000"
+   VALUE "FileVersion", "0.9.9.23\000\000"
+   VALUE "InternalName", "Fnord! Server\000\000"
+   VALUE "LegalCopyright", "Copyright © Brian Morin 1996-7\000\000"
+   VALUE "OriginalFilename", "fnord.exe\000\000"
+  }
+
+ }
+
+ BLOCK "VarFileInfo"
+ {
+  VALUE "Translation", 0x409, 1252
+ }
+
+}
+
+TRAY_ICON ICON "tray.ico"

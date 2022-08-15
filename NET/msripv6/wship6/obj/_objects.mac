@@ -1,0 +1,40 @@
+ALPHA_OBJECTS= \
+    $(_OBJ_DIR)\alpha\wship6.obj \
+    $(_OBJ_DIR)\alpha\addr.obj \
+    $(_OBJ_DIR)\alpha\error.obj \
+    $(_OBJ_DIR)\alpha\name.obj \
+    $(_OBJ_DIR)\alpha\aton.obj \
+    $(_OBJ_DIR)\alpha\ntoa.obj
+
+PASS0_ALPHA_OBJECTS=
+
+AXP64_OBJECTS= \
+    $(_OBJ_DIR)\axp64\wship6.obj \
+    $(_OBJ_DIR)\axp64\addr.obj \
+    $(_OBJ_DIR)\axp64\error.obj \
+    $(_OBJ_DIR)\axp64\name.obj \
+    $(_OBJ_DIR)\axp64\aton.obj \
+    $(_OBJ_DIR)\axp64\ntoa.obj
+
+PASS0_AXP64_OBJECTS=
+
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\wship6.obj \
+    $(_OBJ_DIR)\i386\addr.obj \
+    $(_OBJ_DIR)\i386\error.obj \
+    $(_OBJ_DIR)\i386\name.obj \
+    $(_OBJ_DIR)\i386\aton.obj \
+    $(_OBJ_DIR)\i386\ntoa.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\wship6.obj \
+    $(_OBJ_DIR)\ia64\addr.obj \
+    $(_OBJ_DIR)\ia64\error.obj \
+    $(_OBJ_DIR)\ia64\name.obj \
+    $(_OBJ_DIR)\ia64\aton.obj \
+    $(_OBJ_DIR)\ia64\ntoa.obj
+
+PASS0_IA64_OBJECTS=
+

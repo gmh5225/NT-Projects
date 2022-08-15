@@ -1,0 +1,44 @@
+ALPHA_OBJECTS= \
+    $(_OBJ_DIR)\alpha\tcb.obj \
+    $(_OBJ_DIR)\alpha\tcpconn.obj \
+    $(_OBJ_DIR)\alpha\tcpdeb.obj \
+    $(_OBJ_DIR)\alpha\tcpdeliv.obj \
+    $(_OBJ_DIR)\alpha\tcprcv.obj \
+    $(_OBJ_DIR)\alpha\tcpsend.obj \
+    $(_OBJ_DIR)\alpha\tcpinit.obj
+
+PASS0_ALPHA_OBJECTS=
+
+AXP64_OBJECTS= \
+    $(_OBJ_DIR)\axp64\tcb.obj \
+    $(_OBJ_DIR)\axp64\tcpconn.obj \
+    $(_OBJ_DIR)\axp64\tcpdeb.obj \
+    $(_OBJ_DIR)\axp64\tcpdeliv.obj \
+    $(_OBJ_DIR)\axp64\tcprcv.obj \
+    $(_OBJ_DIR)\axp64\tcpsend.obj \
+    $(_OBJ_DIR)\axp64\tcpinit.obj
+
+PASS0_AXP64_OBJECTS=
+
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\tcb.obj \
+    $(_OBJ_DIR)\i386\tcpconn.obj \
+    $(_OBJ_DIR)\i386\tcpdeb.obj \
+    $(_OBJ_DIR)\i386\tcpdeliv.obj \
+    $(_OBJ_DIR)\i386\tcprcv.obj \
+    $(_OBJ_DIR)\i386\tcpsend.obj \
+    $(_OBJ_DIR)\i386\tcpinit.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\tcb.obj \
+    $(_OBJ_DIR)\ia64\tcpconn.obj \
+    $(_OBJ_DIR)\ia64\tcpdeb.obj \
+    $(_OBJ_DIR)\ia64\tcpdeliv.obj \
+    $(_OBJ_DIR)\ia64\tcprcv.obj \
+    $(_OBJ_DIR)\ia64\tcpsend.obj \
+    $(_OBJ_DIR)\ia64\tcpinit.obj
+
+PASS0_IA64_OBJECTS=
+

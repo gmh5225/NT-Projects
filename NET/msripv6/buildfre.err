@@ -1,0 +1,38 @@
+NMAKE :  U1073: don't know how to make 'C:\Program'
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\ip6\lib() : error LNK1181: cannot open input file "objfre\i386\ntip.obj"
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\algrthms\lib() : error LNK1181: cannot open input file "objfre\i386\null.obj"
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\udp\lib() : error LNK1181: cannot open input file "objfre\i386\datagram.obj"
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\common\oscfg.h(57) : error C1083: Cannot open include file: 'ntddk.h': No such file or directory
+tcpip6\tcp\lib() : error LNK1181: cannot open input file "objfre\i386\tcb.obj"
