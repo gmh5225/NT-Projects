@@ -1,0 +1,118 @@
+import "oaidl.idl";
+import "shtypes.idl";
+import "shobjidl.idl";
+
+enum //WTS_FLAGS
+{
+    WTS_EXTRACT           = 0x00,
+    WTS_INCACHEONLY       = 0x01,
+    WTS_FASTEXTRACT       = 0x02,
+    WTS_FORCEEXTRACTION   = 0x04,
+    WTS_SLOWRECLAIM       = 0x08,
+    WTS_EXTRACTDONOTCACHE = 0x20
+};
+
+typedef DWORD WTS_FLAGS;
+
+enum //WTS_CACHEFLAGS
+{
+    WTS_LOWQUALITY = 0x01,
+    WTS_CACHED = 0x02,
+};
+
+typedef DWORD WTS_CACHEFLAGS;
+
+enum //WTS_ALPHATYPE
+{
+    WTSAT_UNKNOWN = 0x00,
+    WTSAT_RGB = 0x01,
+    WTSAT_ARGB = 0x02,
+};
+
+typedef DWORD WTS_ALPHATYPE;
+
+
+typedef struct tagTHUMBNAILID
+{
+    BYTE rgbKey[16];
+} 
+  WTS_THUMBNAILID;
+
+// Custom error code
+cpp_quote("#define WTS_E_FAILEDEXTRACTION MAKE_HRESULT(SEVERITY_ERROR, FACILITY_ITF, 0xB200)")
+
+[
+    helpstring("This interface is used as a thin wrapper around HBITMAP objects.  It allows an "
+               "HBITMAP to be ref-counted and protected from having its underlying data be changed."),
+    uuid(091162a4-bc96-411f-aae8-c5122cd03363),
+    pointer_default(unique),
+]
+interface ISharedBitmap : IUnknown
+{
+    HRESULT GetSharedBitmap([out] HBITMAP *phbm);
+    HRESULT GetSize([out] SIZE *pSize);
+    HRESULT GetFormat([out] WTS_ALPHATYPE *pat);
+    HRESULT InitializeBitmap([in] HBITMAP hbm, [in] WTS_ALPHATYPE wtsAT);
+    HRESULT Detach([out] HBITMAP *phbm);
+};
+
+
+[
+    helpstring("Interface for the system thumbnail cache.  GetThumbnail is used to extract and return "
+               "thumbnails for IShellItems.  The cache behavior can be specified using one or more of "
+               "the WTS_FLAGS.  GetThumbnailID allows the caller to retrieve an image known to be in "
+               "the cache via its ID (which was returned by GetThumbnail)."),
+    object, 
+    uuid(F676C15D-596A-4ce2-8234-33996F445DB1),
+]
+interface IThumbnailCache : IUnknown
+{
+    HRESULT GetThumbnail([in]              IShellItem *pShellItem,
+                                           UINT cxyRequestedThumbSize,
+                                           WTS_FLAGS flags,
+                         [out]             ISharedBitmap **ppvThumb,
+                         [in, out, unique] WTS_CACHEFLAGS *pOutFlags,
+                         [in, out, unique] WTS_THUMBNAILID *pThumbnailID);
+
+    HRESULT GetThumbnailByID(                  WTS_THUMBNAILID thumbnailID,
+                                               UINT cxyRequestedThumbSize,
+                             [out]             ISharedBitmap **ppvThumb,
+                             [in, out, unique] WTS_CACHEFLAGS *pOutFlags);
+};
+
+[
+    uuid(e357fccd-a995-4576-b01f-234630154e96),
+]
+interface IThumbnailProvider : IUnknown
+{
+    HRESULT GetThumbnail([in] UINT cx, [out] HBITMAP *phbmp, [out] WTS_ALPHATYPE *pdwAlpha);
+};
+
+
+[
+     uuid(4c857096-0514-4d4d-abd5-dfaaa3c326d2),
+     version(1.0),
+     helpstring("Microsoft Thumbnail Cache")
+]
+library ThumbCacheLib
+{
+    importlib("stdole32.tlb");
+    [
+        uuid(50EF4544-AC9F-4A8E-B21B-8A26180DB13F),
+        helpstring("Local Thumbnail Cache")
+    ]
+    coclass LocalThumbnailCache
+    {
+        interface IThumbnailCache;
+    }
+
+    [
+        uuid(4db26476-6787-4046-b836-e8412a9e8a27),
+        helpstring("Shared Bitmap Object")
+    ]
+    coclass SharedBitmap
+    {
+        interface ISharedBitmap;
+    }    
+};
+

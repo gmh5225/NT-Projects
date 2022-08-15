@@ -1,0 +1,44 @@
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.ide
+*.vs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Publishing directory
+publish/
+
+# NuGet Packages
+*.nupkg
+
+# Generated files
+Fluent.Ribbon/Themes/**/Generic.xaml
+packages/
+.tmp
+
+# Allowed files
+!Fluent.Ribbon/Themes/Generic.xaml
+!Fluent.Ribbon/Themes/XamlCombine.exe

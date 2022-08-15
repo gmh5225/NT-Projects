@@ -1,0 +1,481 @@
+//------------------------------------------------------------------------------
+// File: MFTransform.idl
+//
+// Desc: Define the interfaces for Media Foundation Transforms.  This file will be
+//       processed by the MIDL tool to produce MFTransform.h and proxy-stub code.
+//
+// Copyright (c) 1999 - 2003, Microsoft Corporation.  All rights reserved.
+//------------------------------------------------------------------------------
+
+import "mfobjects.idl";
+
+// Per-buffer flags that apply to input buffers
+enum _MFT_INPUT_DATA_BUFFER_FLAGS {
+    //
+    // Not carried over from DMO (IMediaObject), but should be
+    // reserved so no new MFT flag clashes with them:
+    //
+    // DMO_INPUT_DATA_BUFFER_SYNCPOINT       = 0x00000001,
+    // DMO_INPUT_DATA_BUFFER_TIME            = 0x00000002,
+    // DMO_INPUT_DATA_BUFFER_TIMELENGTH      = 0x00000004
+
+    MFT_INPUT_DATA_BUFFER_PLACEHOLDER        = 0xFFFFFFFF // right now there are no flags defined
+};
+
+// Per-buffer flags that apply to output buffers.
+enum _MFT_OUTPUT_DATA_BUFFER_FLAGS {
+    //
+    // Not carried over from DMO (IMediaObject), but should be
+    // reserved so no new MFT flag clashes with them:
+    //
+    // DMO_OUTPUT_DATA_BUFFER_SYNCPOINT        = 0x00000001,
+    // DMO_OUTPUT_DATA_BUFFER_TIME             = 0x00000002,
+    // DMO_OUTPUT_DATA_BUFFER_TIMELENGTH       = 0x00000004,
+
+    //
+    // This flag means the object can produce more samples without any more input.
+    //
+    MFT_OUTPUT_DATA_BUFFER_INCOMPLETE       = 0x01000000,
+
+    //
+    // New for MFT
+    //
+    MFT_OUTPUT_DATA_BUFFER_FORMAT_CHANGE    = 0x00000100,
+    MFT_OUTPUT_DATA_BUFFER_STREAM_END       = 0x00000200,
+    MFT_OUTPUT_DATA_BUFFER_NO_SAMPLE        = 0x00000300
+    
+};
+
+// Flags returned by GetInputStatusFlags()
+enum _MFT_INPUT_STATUS_FLAGS {
+    //
+    // Carried over from DMO (IMediaObject)
+    //
+
+    //
+    // ACCEPT_DATA indicates that the input stream is ready to accept
+    // new data via ProcessInput().
+    //
+    MFT_INPUT_STATUS_ACCEPT_DATA   = 0x00000001
+};
+
+// Flags returned by GetOutputStatusFlags()
+enum _MFT_OUTPUT_STATUS_FLAGS {
+    //
+    // New for MFT
+    //
+
+    //
+    // SAMPLE_READY indicates that a sample is available on at least one
+    // of the output streams, and a call to ProcessOutput will
+    // retrieve it.
+    //
+    MFT_OUTPUT_STATUS_SAMPLE_READY   = 0x00000001
+};
+
+// Flags returned by GetInputStreamInfo()
+enum _MFT_INPUT_STREAM_INFO_FLAGS {
+    //
+    // Carried over from DMO (IMediaObject)
+    //
+    MFT_INPUT_STREAM_WHOLE_SAMPLES              = 0x00000001,
+    MFT_INPUT_STREAM_SINGLE_SAMPLE_PER_BUFFER   = 0x00000002,
+    MFT_INPUT_STREAM_FIXED_SAMPLE_SIZE          = 0x00000004,
+    MFT_INPUT_STREAM_HOLDS_BUFFERS              = 0x00000008,
+
+    //
+    // New for MFT
+    //
+    MFT_INPUT_STREAM_DOES_NOT_ADDREF            = 0x00000100,
+    MFT_INPUT_STREAM_REMOVABLE                  = 0x00000200,
+    MFT_INPUT_STREAM_OPTIONAL                   = 0x00000400,
+    MFT_INPUT_STREAM_PROCESSES_IN_PLACE         = 0x00000800
+};
+
+// Flags returned by GetOutputStreamInfo()
+enum _MFT_OUTPUT_STREAM_INFO_FLAGS {
+    //
+    // Carried over from DMO (IMediaObject)
+    //
+    MFT_OUTPUT_STREAM_WHOLE_SAMPLES             = 0x00000001,
+    MFT_OUTPUT_STREAM_SINGLE_SAMPLE_PER_BUFFER  = 0x00000002,
+    MFT_OUTPUT_STREAM_FIXED_SAMPLE_SIZE         = 0x00000004,
+    MFT_OUTPUT_STREAM_DISCARDABLE               = 0x00000008,
+    MFT_OUTPUT_STREAM_OPTIONAL                  = 0x00000010,
+
+    //
+    // New for MFT
+    //
+    MFT_OUTPUT_STREAM_PROVIDES_SAMPLES          = 0x00000100,
+    MFT_OUTPUT_STREAM_CAN_PROVIDE_SAMPLES       = 0x00000200,
+    MFT_OUTPUT_STREAM_LAZY_READ                 = 0x00000400,
+    MFT_OUTPUT_STREAM_REMOVABLE                 = 0x00000800
+};
+
+//  SetType flags
+enum _MFT_SET_TYPE_FLAGS {
+    //
+    // Carried over from DMO (IMediaObject)
+    //
+    MFT_SET_TYPE_TEST_ONLY   = 0x00000001,// check but don't set
+
+    //
+    // not carried over from DMO - use NULL type to unset.
+    //
+    //MFT_SET_TYPE_CLEAR       = 0x00000002 // unset
+};
+
+//
+//  ProcessOutput() dwFlags (signals from caller to MFT)
+//
+enum _MFT_PROCESS_OUTPUT_FLAGS {
+    //
+    // Carried over from DMO (IMediaObject)
+    //
+    MFT_PROCESS_OUTPUT_DISCARD_WHEN_NO_BUFFER   = 0x00000001 // discard this sample if pSample ptr is NULL.
+};
+
+//
+// ProcessOutput() pdwStatus (output from MFT to caller)
+//
+enum _MFT_PROCESS_OUTPUT_STATUS {
+    //
+    // new for MFT
+    //
+    MFT_PROCESS_OUTPUT_STATUS_NEW_STREAMS               = 0x00000100 // Output flag
+};
+
+enum _MFT_DRAIN_TYPE {
+    MFT_DRAIN_PRODUCE_TAILS     = 0x00000000,
+    MFT_DRAIN_NO_TAILS          = 0x00000001
+};
+
+//
+// used by GetStreamLimits - the transform returns it in *pdwInputMaximum or *pdwOutputMaximum
+// to mean that the MFT has no theoretical stream limit.
+//
+cpp_quote( "#define MFT_STREAMS_UNLIMITED       0xFFFFFFFF" )
+
+//
+// Used by SetOutputBounds when the lower or upper limit are unbounded.
+//
+cpp_quote( "#define MFT_OUTPUT_BOUND_LOWER_UNBOUNDED MINLONGLONG" )
+cpp_quote( "#define MFT_OUTPUT_BOUND_UPPER_UNBOUNDED MAXLONGLONG" )
+
+typedef enum _MFT_MESSAGE_TYPE {
+    //
+    // commands - must be acted on
+    //
+    MFT_MESSAGE_COMMAND_FLUSH           = 0x00000000,
+    MFT_MESSAGE_COMMAND_DRAIN           = 0x00000001,
+    MFT_MESSAGE_SET_D3D_MANAGER         = 0x00000002,
+    
+    //
+    // notifications - no action required; effect is transform-dependent
+    //
+    MFT_MESSAGE_NOTIFY_BEGIN_STREAMING  = 0x10000000,
+    MFT_MESSAGE_NOTIFY_END_STREAMING    = 0x10000001,
+    MFT_MESSAGE_NOTIFY_END_OF_STREAM    = 0x10000002,
+
+    //
+    // send by pipeline before processing the first sample
+    //
+    MFT_MESSAGE_NOTIFY_START_OF_STREAM    = 0x10000003
+} MFT_MESSAGE_TYPE;
+
+typedef struct _MFT_INPUT_STREAM_INFO {
+    LONGLONG    hnsMaxLatency;      // maximum time latency in 100ns increments
+    DWORD       dwFlags;            // MFT_INPUT_STREAM_INFO_FLAGS
+    DWORD       cbSize;             // size of each sample's buffer
+    DWORD       cbMaxLookahead;     // max total bytes held
+    DWORD       cbAlignment;        // buffer alignment requirement
+} MFT_INPUT_STREAM_INFO;
+
+typedef struct _MFT_OUTPUT_STREAM_INFO {
+    DWORD       dwFlags;            // MFT_INPUT_STREAM_INFO_FLAGS
+    DWORD       cbSize;             // size of each sample's buffer
+    DWORD       cbAlignment;        // buffer alignment requirement
+} MFT_OUTPUT_STREAM_INFO;
+
+//
+// Output buffer info structure: one of these must be passed in for each
+// output stream with every ProcessOutput() call
+// All [out] fields should be
+// assumed undefined if ProcessOutput() failed
+//
+typedef struct _MFT_OUTPUT_DATA_BUFFER {
+    DWORD       dwStreamID; // [in] which stream is this for
+    IMFSample * pSample;    // [in/out] can be NULL
+    DWORD       dwStatus;   // [out] MFT_OUTPUT_DATA_BUFFER_FLAGS (INCOMPLETE, etc.)
+    IMFCollection * pEvents; // [out] Can be NULL.  Zero or more events produced by the MFT
+} MFT_OUTPUT_DATA_BUFFER, *PMFT_OUTPUT_DATA_BUFFER;
+
+cpp_quote( "//" )
+cpp_quote( "// redefine all the method names to have MFT at the beginning so they don't class with DMO methods." )
+cpp_quote( "//" )
+cpp_quote( "#ifdef MFT_UNIQUE_METHOD_NAMES" )
+cpp_quote( "#define GetStreamLimits         MFTGetStreamLimits" )
+cpp_quote( "#define GetStreamCount          MFTGetStreamCount" )
+cpp_quote( "#define GetStreamIDs            MFTGetStreamIDs" )
+cpp_quote( "#define GetInputStreamInfo      MFTGetInputStreamInfo" )
+cpp_quote( "#define GetOutputStreamInfo     MFTGetOutputStreamInfo" )
+cpp_quote( "#define DeleteInputStream       MFTDeleteInputStream" )
+cpp_quote( "#define AddInputStreams         MFTAddInputStreams" )
+cpp_quote( "#define GetInputAvailableType   MFTGetInputAvailableType" )
+cpp_quote( "#define GetOutputAvailableType  MFTGetOutputAvailableType" )
+cpp_quote( "#define SetInputType            MFTSetInputType" )
+cpp_quote( "#define SetOutputType           MFTSetOutputType" )
+cpp_quote( "#define GetInputCurrentType     MFTGetInputCurrentType" )
+cpp_quote( "#define GetOutputCurrentType    MFTGetOutputCurrentType" )
+cpp_quote( "#define GetInputStatus          MFTGetInputStatus" )
+cpp_quote( "#define GetOutputStatus         MFTGetOutputStatus" )
+cpp_quote( "#define SetOutputBounds         MFTSetOutputBounds" )
+cpp_quote( "#define ProcessEvent            MFTProcessEvent" )
+cpp_quote( "#define ProcessMessage          MFTProcessMessage" )
+cpp_quote( "#define ProcessInput            MFTProcessInput" )
+cpp_quote( "#define ProcessOutput           MFTProcessOutput" )
+cpp_quote( "#endif" )
+
+//  Interface supported by media objects
+[
+    object,
+    uuid(bf94c121-5b05-4e6f-8000-ba598961414d)
+]
+interface IMFTransform : IUnknown
+{
+
+//
+// Stream enumeration
+//
+    HRESULT
+    GetStreamLimits( 
+        [out] DWORD *pdwInputMinimum,
+        [out] DWORD *pdwInputMaximum,
+        [out] DWORD *pdwOutputMinimum,
+        [out] DWORD *pdwOutputMaximum
+    );
+    
+    HRESULT 
+    GetStreamCount(
+        [out] DWORD *pcInputStreams,
+        [out] DWORD *pcOutputStreams
+    );
+
+    HRESULT
+    GetStreamIDs(
+        DWORD dwInputIDArraySize,
+        [out,size_is(dwInputIDArraySize)] DWORD *pdwInputIDs,
+        DWORD dwOutputIDArraySize,
+        [out,size_is(dwOutputIDArraySize)] DWORD *pdwOutputIDs
+    );
+    
+    HRESULT 
+    GetInputStreamInfo(
+        DWORD                     dwInputStreamID,
+        [out] MFT_INPUT_STREAM_INFO *   pStreamInfo
+    );
+    
+    HRESULT 
+    GetOutputStreamInfo(
+        DWORD                     dwOutputStreamID, 
+        [out] MFT_OUTPUT_STREAM_INFO *  pStreamInfo      
+    );
+
+    HRESULT
+    GetAttributes(
+        [out] IMFAttributes** pAttributes
+    );
+
+    HRESULT
+    GetInputStreamAttributes(
+        DWORD           dwInputStreamID,
+        [out] IMFAttributes** pAttributes
+    );
+
+    HRESULT
+    GetOutputStreamAttributes(
+        DWORD           dwOutputStreamID,
+        [out] IMFAttributes** pAttributes
+    );
+
+    HRESULT
+    DeleteInputStream( 
+        DWORD dwStreamID
+    );
+
+    HRESULT
+    AddInputStreams( 
+        DWORD   cStreams,
+        [in]  DWORD * adwStreamIDs
+    );
+
+
+//
+// Mediatypes
+//
+    //
+    // GetxxxAvailableTypes - iterate through media types supported by a stream.
+    //
+    HRESULT 
+    GetInputAvailableType(
+        DWORD             dwInputStreamID,
+        DWORD             dwTypeIndex, // 0-based
+        [out] IMFMediaType **   ppType
+    );
+    HRESULT 
+    GetOutputAvailableType(
+        DWORD             dwOutputStreamID,
+        DWORD             dwTypeIndex, // 0-based
+        [out] IMFMediaType **   ppType
+    );
+
+    //
+    // SetType - tell the object the type of data it will work with.
+    //
+    HRESULT 
+    SetInputType(
+        DWORD               dwInputStreamID,
+        [in]  IMFMediaType *pType,
+        DWORD               dwFlags 
+    );
+    HRESULT 
+    SetOutputType(
+        DWORD               dwOutputStreamID,
+        [in]  IMFMediaType *pType,
+        DWORD               dwFlags 
+    );
+
+    //
+    // GetCurrentType - get the current type set for the given stream index.
+    //
+    HRESULT 
+    GetInputCurrentType(
+        DWORD                   dwInputStreamID,
+        [out] IMFMediaType **   ppType
+    );
+    HRESULT 
+    GetOutputCurrentType(
+        DWORD                   dwOutputStreamID,
+        [out] IMFMediaType **   ppType
+    );
+
+//
+// Streaming / state methods
+//
+    // GetInputFlags - the only flag defined right now is MFT_INPUT_STATUS_ACCEPT_DATA.
+    HRESULT 
+    GetInputStatus(
+        DWORD           dwInputStreamID,
+        [out] DWORD *   pdwFlags // MFT_INPUT_STATUS_ACCEPT_DATA
+    );
+
+    // GetOutputFlags - the only flag defined right now is MFT_OUTPUT_STATUS_SAMPLE_READY.
+    HRESULT 
+    GetOutputStatus(
+        [out] DWORD *pdwFlags 
+    );
+
+    //
+    // SetOutputBounds - optional interface to tell transform the desired
+    // range of output times desired. Implementation is optional.
+    //
+    HRESULT
+    SetOutputBounds(
+        LONGLONG hnsLowerBound,
+        LONGLONG hnsUpperBound
+    );
+
+    HRESULT
+    ProcessEvent(
+        DWORD                   dwInputStreamID,
+        [in] IMFMediaEvent *    pEvent 
+    );
+
+    //
+    // ProcessMessage - used to send a notification or command to a transform
+    //
+    HRESULT
+    ProcessMessage(
+        MFT_MESSAGE_TYPE eMessage,
+        ULONG_PTR        ulParam
+    );
+        
+    //
+    // Pass one new buffer to an input stream
+    //
+    [local] HRESULT 
+    ProcessInput(
+        DWORD       dwInputStreamID,
+        IMFSample * pSample, 
+        DWORD       dwFlags 
+    );
+
+    //
+    // ProcessOutput() - generate output for current input buffers
+    //
+    // Output stream specific status information is returned in the
+    // dwStatus member of each buffer wrapper structure.
+    //
+    [local] HRESULT 
+    ProcessOutput(
+        DWORD                       dwFlags, // MFT_PROCESS_OUTPUT_FLAGS
+        DWORD                       cOutputBufferCount, // # returned by GetStreamCount()
+        [in,out,size_is(cOutputBufferCount)]
+            MFT_OUTPUT_DATA_BUFFER *pOutputSamples, // one per stream
+        [out] DWORD *               pdwStatus  // MFT_PROCESS_OUTPUT_XXX
+    );
+
+};
+
+
+cpp_quote( "//" )
+cpp_quote( "// Define the MFT methods back so we don't accidentally hose the IMediaObject interface." )
+cpp_quote( "//" )
+cpp_quote( "#ifdef MFT_UNIQUE_METHOD_NAMES" )
+cpp_quote( "#undef GetStreamLimits        " )
+cpp_quote( "#undef GetStreamCount         " )
+cpp_quote( "#undef GetStreamIDs           " )
+cpp_quote( "#undef GetInputStreamInfo     " )
+cpp_quote( "#undef GetOutputStreamInfo    " )
+cpp_quote( "#undef DeleteInputStream      " )
+cpp_quote( "#undef AddInputStreams        " )
+cpp_quote( "#undef GetInputAvailableType  " )
+cpp_quote( "#undef GetOutputAvailableType " )
+cpp_quote( "#undef SetInputType           " )
+cpp_quote( "#undef SetOutputType          " )
+cpp_quote( "#undef GetInputCurrentType    " )
+cpp_quote( "#undef GetOutputCurrentType   " )
+cpp_quote( "#undef GetInputStatus         " )
+cpp_quote( "#undef GetOutputStatus        " )
+cpp_quote( "#undef SetOutputBounds        " )
+cpp_quote( "#undef ProcessMessage         " )
+cpp_quote( "#undef ProcessInput           " )
+cpp_quote( "#undef ProcessOutput          " )
+cpp_quote( "#endif" )
+
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//
+// GENERIC DMO PROPERTY KEYS
+//
+
+// All MFTs
+cpp_quote( "static const PROPERTYKEY MFPKEY_CLSID = { { 0xc57a84c0, 0x1a80, 0x40a3, {0x97, 0xb5, 0x92, 0x72, 0xa4, 0x3, 0xc8, 0xae} }, 0x01 }; ")
+cpp_quote( "static const PROPERTYKEY MFPKEY_CATEGORY = { { 0xc57a84c0, 0x1a80, 0x40a3, {0x97, 0xb5, 0x92, 0x72, 0xa4, 0x3, 0xc8, 0xae} }, 0x02 }; ")
+
+// ExAttribute-supported MFTs
+cpp_quote( "static const PROPERTYKEY MFPKEY_EXATTRIBUTE_SUPPORTED = { { 0x456fe843, 0x3c87, 0x40c0, {0x94, 0x9d, 0x14, 0x9, 0xc9, 0x7d, 0xab, 0x2c} }, 0x01 }; ")
+
+// Audio Multichannel
+cpp_quote( "static const PROPERTYKEY MFPKEY_MULTICHANNEL_CHANNEL_MASK  = { { 0x58bdaf8c, 0x3224, 0x4692, { 0x86, 0xd0, 0x44, 0xd6, 0x5c, 0x5b, 0xf8, 0x2b } }, 0x01 }; ")
+
+///////////////////////////////////////////////////////////////////////////////
+// GENERIC MFT ATTRIBUTES
+cpp_quote( "static const GUID MF_SA_D3D_AWARE = { 0xeaa35c29,  0x775e, 0x488e, { 0x9b, 0x61, 0xb3, 0x28, 0x3e, 0x49, 0x58, 0x3b } }; ")
+
+///////////////////////////////////////////////////////////////////////////////
+//
+cpp_quote( "static const GUID MF_SA_REQUIRED_SAMPLE_COUNT = { 0x18802c61, 0x324b, 0x4952, { 0xab, 0xd0, 0x17, 0x6f, 0xf5, 0xc6, 0x96, 0xff } };" )
+
+

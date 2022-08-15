@@ -1,0 +1,9 @@
+D:\NT\WRK-V1.2\SHELL\source\WindowsAPICodePack\Core\bin\Debug\Microsoft.WindowsAPICodePack.XML
+D:\NT\WRK-V1.2\SHELL\source\WindowsAPICodePack\Core\bin\Debug\Microsoft.WindowsAPICodePack.dll
+D:\NT\WRK-V1.2\SHELL\source\WindowsAPICodePack\Core\bin\Debug\Microsoft.WindowsAPICodePack.pdb
+D:\NT\WRK-V1.2\SHELL\source\WindowsAPICodePack\Core\obj\Debug\Core.csprojAssemblyReference.cache
+D:\NT\WRK-V1.2\SHELL\source\WindowsAPICodePack\Core\obj\Debug\Microsoft.WindowsAPICodePack.Resources.LocalizedMessages.resources
+D:\NT\WRK-V1.2\SHELL\source\WindowsAPICodePack\Core\obj\Debug\Core.csproj.GenerateResource.cache
+D:\NT\WRK-V1.2\SHELL\source\WindowsAPICodePack\Core\obj\Debug\Core.csproj.CoreCompileInputs.cache
+D:\NT\WRK-V1.2\SHELL\source\WindowsAPICodePack\Core\obj\Debug\Microsoft.WindowsAPICodePack.dll
+D:\NT\WRK-V1.2\SHELL\source\WindowsAPICodePack\Core\obj\Debug\Microsoft.WindowsAPICodePack.pdb

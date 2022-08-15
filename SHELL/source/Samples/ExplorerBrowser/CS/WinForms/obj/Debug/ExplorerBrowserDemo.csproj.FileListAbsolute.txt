@@ -1,0 +1,16 @@
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\bin\Debug\ExplorerBrowser.exe
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\bin\Debug\ExplorerBrowser.pdb
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\bin\Debug\Microsoft.WindowsAPICodePack.dll
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\bin\Debug\Microsoft.WindowsAPICodePack.pdb
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\bin\Debug\Microsoft.WindowsAPICodePack.xml
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\bin\Debug\Microsoft.WindowsAPICodePack.Shell.pdb
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\obj\Debug\ExplorerBrowserDemo.csprojAssemblyReference.cache
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\obj\Debug\Microsoft.WindowsAPICodePack.Samples.ExplorerBrowserTestForm.resources
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\obj\Debug\ExplorerBrowser.Properties.Resources.resources
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\obj\Debug\ExplorerBrowserDemo.csproj.GenerateResource.cache
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\obj\Debug\ExplorerBrowserDemo.csproj.CoreCompileInputs.cache
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\obj\Debug\ExplorerBrowserDemo.csproj.CopyComplete
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\obj\Debug\ExplorerBrowser.exe
+D:\NT\WRK-V1.2\SHELL\source\Samples\ExplorerBrowser\CS\WinForms\obj\Debug\ExplorerBrowser.pdb

@@ -1,0 +1,619 @@
+//+--------------------------------------------------------------------------
+//
+// Microsoft Windows
+// Copyright (C) Microsoft Corporation, 1996 - 1999
+//
+// File:        certadm.idl
+//
+// Contents:    IDL source for certadm.dll
+//
+//---------------------------------------------------------------------------
+
+// This file will be processed by the MIDL tool to produce the type library
+// (certadm.tlb) and marshalling code.
+
+import "wtypes.idl";
+import "certview.idl";
+
+//+--------------------------------------------------------------------------
+// ICertAdmin::IsValidCertificate() returned Disposition:
+
+const LONG CA_DISP_INCOMPLETE =		0x00000000; // call did not complete
+const LONG CA_DISP_ERROR =		0x00000001; // call failed
+const LONG CA_DISP_REVOKED =		0x00000002; // cert revoked
+const LONG CA_DISP_VALID =		0x00000003; // cert still valid
+const LONG CA_DISP_INVALID =		0x00000004; // cert never issued
+const LONG CA_DISP_UNDER_SUBMISSION =   0x00000005; // taken under submission
+
+//+--------------------------------------------------------------------------
+// ICertAdmin::GetCAProperty(CR_PROP_KRACERTSTATE) returned Disposition:
+
+const LONG KRA_DISP_EXPIRED =		0x00000000; // cert expired
+const LONG KRA_DISP_NOTFOUND =		0x00000001; // cert not found
+const LONG KRA_DISP_REVOKED =		0x00000002; // cert revoked
+const LONG KRA_DISP_VALID =		0x00000003; // cert valid
+const LONG KRA_DISP_INVALID =		0x00000004; // cert invalid
+const LONG KRA_DISP_UNTRUSTED =		0x00000005; // cert untrusted
+const LONG KRA_DISP_NOTLOADED = 	0x00000006; // cert not loaded
+
+
+// Cert server roles
+const LONG CA_ACCESS_ADMIN      =   0x00000001; // CA administrator
+const LONG CA_ACCESS_OFFICER    =   0x00000002; // certificate officer
+const LONG CA_ACCESS_AUDITOR    =   0x00000004; // auditor
+const LONG CA_ACCESS_OPERATOR   =   0x00000008;	// backup operator
+const LONG CA_ACCESS_MASKROLES  =   0x000000ff;
+
+// Cert server read/enroll access
+const LONG CA_ACCESS_READ       =   0x00000100; // read only access to CA
+const LONG CA_ACCESS_ENROLL     =   0x00000200; // enroll access to CA
+
+// do not publish this, reserved for internal use
+// const LONG CA_ACCESS_LOCALADMIN = 0x00008000; // builtin administrator
+// const LONG CA_ACCESS_DENIED     = 0x00004000; // force an access denied
+
+//+--------------------------------------------------------------------------
+// ICertAdmin -- local COM interface, implementation uses DCOM
+//+--------------------------------------------------------------------------
+
+[
+    object,
+    uuid(34df6950-7fb6-11d0-8817-00a0c903b83c),
+    dual,
+    helpstring("ICertAdmin Interface"),
+    pointer_default(unique)
+]
+
+interface ICertAdmin: IDispatch
+{
+    import "oaidl.idl";
+
+    HRESULT IsValidCertificate(
+		[in] BSTR const strConfig,
+		[in] BSTR const strSerialNumber,
+		[out, retval] LONG *pDisposition);
+
+    HRESULT GetRevocationReason(
+		[out, retval] LONG *pReason);
+
+    HRESULT RevokeCertificate(
+		[in] BSTR const strConfig,
+		[in] BSTR const strSerialNumber,
+		[in] LONG Reason,
+		[in] DATE Date);
+
+    HRESULT SetRequestAttributes(
+		[in] BSTR const strConfig,
+		[in] LONG RequestId,
+		[in] BSTR const strAttributes);
+
+    HRESULT SetCertificateExtension(
+		[in] BSTR const strConfig,
+		[in] LONG RequestId,
+		[in] BSTR const strExtensionName,
+		[in] LONG Type,
+		[in] LONG Flags,
+		[in] VARIANT const *pvarValue);
+
+    HRESULT DenyRequest(
+		[in] BSTR const strConfig,
+		[in] LONG RequestId);
+
+    HRESULT ResubmitRequest(
+		[in] BSTR const strConfig,
+		[in] LONG RequestId,
+		[out, retval] LONG *pDisposition);
+
+    HRESULT PublishCRL(
+		[in] BSTR const strConfig,
+		[in] DATE Date);
+
+    // See certcli.idl/certcli.h for CR_OUT_* Flags.
+
+    HRESULT GetCRL(
+		[in] BSTR const strConfig,
+		[in] LONG Flags,		// CR_OUT_*
+		[out, retval] BSTR *pstrCRL);
+
+    HRESULT ImportCertificate(
+		[in] BSTR const strConfig,
+		[in] BSTR const strCertificate,
+		[in] LONG Flags,	// ICF_* | (CR_IN_ENCODEMASK & CR_IN_*)
+		[out, retval] LONG *pRequestId);
+};
+
+
+const LONG CA_CRL_BASE =	0x00000001; // base CRL
+const LONG CA_CRL_DELTA =	0x00000002; // delta CRL
+const LONG CA_CRL_REPUBLISH =	0x00000010; // Republish CRL(s) only
+
+const LONG ICF_ALLOWFOREIGN =	0x00010000; // allow foreign cert, key
+
+const LONG IKF_OVERWRITE =	0x00010000; // allow overwriting key
+
+const LONG CDR_EXPIRED =		1;	// expired certs, CRLs
+const LONG CDR_REQUEST_LAST_CHANGED =	2;	// request last update
+
+//+--------------------------------------------------------------------------
+// ICertAdmin2 -- local COM interface, implementation uses DCOM
+//+--------------------------------------------------------------------------
+
+[
+    object,
+    uuid(f7c3ac41-b8ce-4fb4-aa58-3d1dc0e36b39),
+    dual,
+    helpstring("ICertAdmin2 Interface"),
+    pointer_default(unique)
+]
+
+interface ICertAdmin2: ICertAdmin
+{
+    HRESULT PublishCRLs(
+		[in] BSTR const strConfig,
+		[in] DATE Date,
+		[in] LONG CRLFlags);		// CA_CRL_*
+
+    // See certcli.idl/certcli.h for CR_PROP_* and CR_OUT_*.
+
+    HRESULT GetCAProperty(
+		[in] BSTR const strConfig,
+		[in] LONG PropId,		// CR_PROP_*
+		[in] LONG PropIndex,
+		[in] LONG PropType,		// PROPTYPE_*
+		[in] LONG Flags,		// CR_OUT_*
+		[out, retval] VARIANT *pvarPropertyValue);
+
+    HRESULT SetCAProperty(
+		[in] BSTR const strConfig,
+		[in] LONG PropId,		// CR_PROP_*
+		[in] LONG PropIndex,
+		[in] LONG PropType,		// PROPTYPE_*
+		[in] VARIANT *pvarPropertyValue);
+
+    HRESULT GetCAPropertyFlags(
+		[in] BSTR const strConfig,
+		[in] LONG PropId,		// CR_PROP_*
+		[out, retval] LONG *pPropFlags); // PROPTYPE_* | PROPFLAGS_*
+
+    HRESULT GetCAPropertyDisplayName(
+		[in] BSTR const strConfig,
+		[in] LONG PropId,		// CR_PROP_*
+		[out, retval] BSTR *pstrDisplayName);
+
+    HRESULT GetArchivedKey(
+		[in] BSTR const strConfig,
+		[in] LONG RequestId,
+		[in] LONG Flags,		// CR_OUT_*
+		[out, retval] BSTR *pstrArchivedKey);
+
+    HRESULT GetConfigEntry(
+		[in] BSTR const strConfig,
+		[in] BSTR const strNodePath,
+		[in] BSTR const strEntryName,
+		[out, retval] VARIANT *pvarEntry);
+
+    HRESULT SetConfigEntry(
+		[in] BSTR const strConfig,
+		[in] BSTR const strNodePath,
+		[in] BSTR const strEntryName,
+		[in] VARIANT *pvarEntry);
+
+    HRESULT ImportKey(
+		[in] BSTR const strConfig,
+		[in] LONG RequestId,		// -1: use strCertHash
+		[in] BSTR const strCertHash,	// OPTIONAL
+		[in] LONG Flags,	// IKF_* | (CR_IN_ENCODEMASK & CR_IN_*)
+		[in] BSTR const strKey);
+
+    HRESULT GetMyRoles(
+		[in] BSTR const strConfig,
+		[out, retval] LONG *pRoles); // CA_ACCESS_*
+
+    HRESULT DeleteRow(
+		[in] BSTR const strConfig,
+		[in] LONG Flags,		// CDR_*
+		[in] DATE Date,
+		[in] LONG Table,		// CVRC_TABLE_*
+		[in] LONG RowId,
+		[out, retval] LONG *pcDeleted);
+};
+
+//+--------------------------------------------------------------------------
+// IOCSPProperty -- local COM interface
+//+--------------------------------------------------------------------------
+[
+    object,
+    uuid(66FB7839-5F04-4C25-AD18-9FF1A8376EE0),
+    dual,
+    nonextensible,
+    helpstring("IOCSPProperty Interface"),
+    pointer_default(unique)
+]
+interface IOCSPProperty : IDispatch
+{
+    [propget, id(1), helpstring("property Name")] 
+    HRESULT Name(
+                [out, retval] BSTR* pVal);
+
+    [propget, id(2), helpstring("property Value")] 
+    HRESULT Value(
+                [out, retval] VARIANT* pVal);
+
+    [propput, id(2), helpstring("property Value")] 
+    HRESULT Value(
+                [in] VARIANT newVal);
+
+    [propget, id(3), helpstring("property Modified")] 
+    HRESULT Modified(
+                [out, retval] VARIANT_BOOL* pVal);
+};
+
+//+--------------------------------------------------------------------------
+// IOCSPPropertyCollection -- local COM interface
+//+--------------------------------------------------------------------------
+[
+    object,
+    uuid(2597C18D-54E6-4B74-9FA9-A6BFDA99CBBE),
+    dual,
+    nonextensible,
+    helpstring("IOCSPPropertyCollection Interface"),
+    pointer_default(unique)
+]
+interface IOCSPPropertyCollection : IDispatch
+{
+    [propget, id(DISPID_NEWENUM), helpstring("property _NewEnum")] 
+    HRESULT _NewEnum(
+		[out, retval] IUnknown** ppVal);
+
+    [propget, id(DISPID_VALUE), helpstring("property Item")] 
+    HRESULT Item(
+		[in] LONG Index, 
+		[out, retval] VARIANT* pVal);
+
+    [propget, id(1), helpstring("property Count")] 
+    HRESULT Count(
+		[out, retval] LONG* pVal);
+
+    [propget, id(2), helpstring("property ItemByName")] 
+    HRESULT ItemByName(
+		[in] BSTR const bstrPropName, 
+		[out, retval] VARIANT* pVal);
+
+    [id(3), helpstring("method CreateProperty")]
+    HRESULT CreateProperty(
+		[in] BSTR const bstrPropName,
+		[in] VARIANT* const pVarPropValue, 
+		[out, retval] IOCSPProperty** ppVal);
+
+    [id(4), helpstring("method DeleteProperty")]
+    HRESULT DeleteProperty(
+		[in] BSTR const bstrPropName);    
+
+    [id(5), helpstring("method InitializeFromProperties")] 
+    HRESULT InitializeFromProperties(
+		[in] VARIANT* const pVarProperties);
+    
+    [id(6), helpstring("method GetAllProperties")] 
+    HRESULT GetAllProperties(
+		[out,retval] VARIANT* pVarProperties);
+};
+
+//+--------------------------------------------------------------------------
+// IOCSPCAConfiguration -- local COM interface
+//+--------------------------------------------------------------------------
+[
+    object,
+    uuid(AEC92B40-3D46-433F-87D1-B84D5C1E790D),
+    dual,
+    nonextensible,
+    helpstring("IOCSPCAConfiguration Interface"),
+    pointer_default(unique)
+]
+interface IOCSPCAConfiguration : IDispatch
+{
+    [propget, id(1), helpstring("property Identifier")] 
+    HRESULT Identifier(
+		[out, retval] BSTR* pVal);
+
+    [propget, id(2), helpstring("property CACertificate")] 
+    HRESULT CACertificate(
+		[out, retval] VARIANT* pVal);
+
+    [propget, id(3), helpstring("property HashAlgorithm")] 
+    HRESULT HashAlgorithm(
+		[out, retval] BSTR* pVal);
+
+    [propput, id(3), helpstring("property HashAlgorithm")] 
+    HRESULT HashAlgorithm(
+		[in] BSTR const newVal);
+
+    [propget, id(4), helpstring("property SigningFlags")] 
+    HRESULT SigningFlags(
+		[out, retval] ULONG* pVal); // OCSP_SF_*
+
+    [propput, id(4), helpstring("property SigningFlags")]
+    HRESULT SigningFlags(
+		[in] ULONG newVal); // OCSP_SF_*
+
+    [propget, id(5), helpstring("property SigningCertificate")] 
+    HRESULT SigningCertificate(
+		[out, retval] VARIANT* pVal);
+
+    [propput, id(5), helpstring("property SigningCertificate")]
+    HRESULT SigningCertificate(
+		[in] VARIANT newVal);
+
+    [propget, id(6), helpstring("property ReminderDuration")] 
+    HRESULT ReminderDuration(
+		[out, retval] ULONG* pVal);
+
+    [propput, id(6), helpstring("property ReminderDuration")] 
+    HRESULT ReminderDuration(
+		[in] ULONG newVal);
+
+    [propget, id(7), helpstring("property ErrorCode")] 
+    HRESULT ErrorCode(
+		[out, retval] ULONG* pVal);
+
+    [propget, id(8), helpstring("property CSPName")] 
+    HRESULT CSPName(
+		[out, retval] BSTR* pVal);
+
+    [propget, id(9), helpstring("property KeySpec")] 
+    HRESULT KeySpec(
+		[out, retval] ULONG* pVal);
+
+    [propget, id(10), helpstring("property ProviderCLSID")]
+    HRESULT ProviderCLSID(
+		[out, retval] BSTR* pVal);
+
+    [propput, id(10), helpstring("property ProviderCLSID")] 
+    HRESULT ProviderCLSID(
+		[in] BSTR const newVal);
+
+    [propget, id(11), helpstring("property ProviderProperties")] 
+    HRESULT ProviderProperties(
+		[out, retval] VARIANT* pVal);
+
+    [propput, id(11), helpstring("property ProviderProperties")] 
+    HRESULT ProviderProperties(
+		[in] VARIANT newVal);
+
+    [propget, id(12), helpstring("property Modified")] 
+    HRESULT Modified(
+		[out, retval] VARIANT_BOOL* pVal);
+
+    [propget, id(13), helpstring("property LocalRevocationInformation")] 
+    HRESULT LocalRevocationInformation(
+		[out, retval] VARIANT* pVal);
+
+    [propput, id(13), helpstring("property LocalRevocationInformation")]
+    HRESULT LocalRevocationInformation(
+		[in] VARIANT newVal);
+
+};
+
+//+--------------------------------------------------------------------------
+// IOCSPCAConfigurationCollection -- local COM interface
+//+--------------------------------------------------------------------------
+[
+    object,
+    uuid(2BEBEA0B-5ECE-4F28-A91C-86B4BB20F0D3),
+    dual,
+    nonextensible,
+    helpstring("IOCSPCAConfigurationCollection Interface"),
+    pointer_default(unique)
+]
+interface IOCSPCAConfigurationCollection : IDispatch
+{
+    [propget, id(DISPID_NEWENUM), helpstring("property _NewEnum")] 
+    HRESULT _NewEnum(
+		[out, retval] IUnknown** pVal);
+
+    [propget, id(DISPID_VALUE), helpstring("property Item")] 
+    HRESULT Item(
+		[in] LONG Index, 
+		[out, retval] VARIANT* pVal);
+
+    [propget, id(1), helpstring("property Count")] 
+    HRESULT Count(
+		[out, retval] LONG* pVal);
+
+    [propget, id(2), helpstring("property ItemByName")] 
+    HRESULT ItemByName(
+		[in] BSTR const bstrIdentifier, 
+		[out, retval] VARIANT* pVal);
+
+    [id(3), helpstring("method CreateCAConfiguration")]
+    HRESULT CreateCAConfiguration(
+		[in] BSTR const bstrIdentifier,
+		[in] VARIANT varCACert,
+		[out, retval] IOCSPCAConfiguration** ppVal);
+
+    [id(4), helpstring("method DeleteCAConfiguration")]
+    HRESULT DeleteCAConfiguration(
+		[in] BSTR const bstrIdentifier);
+};
+
+//+--------------------------------------------------------------------------
+// IOCSPAdmin -- local COM interface - implementation uses DCOM
+//+--------------------------------------------------------------------------
+[
+    object,
+    uuid(322E830D-67DB-4FE9-9577-4596D9F09294),
+    dual,
+    nonextensible,
+    helpstring("IOCSPAdmin Interface"),
+    pointer_default(unique)
+]
+interface IOCSPAdmin : IDispatch
+{
+    [propget, id(1), helpstring("property OCSPServiceProperties")] 
+    HRESULT OCSPServiceProperties(
+		[out, retval] IOCSPPropertyCollection** ppVal);
+
+    [propget, id(2), helpstring("property OCSPCAConfigurationCollection")]
+    HRESULT OCSPCAConfigurationCollection(
+		[out, retval] IOCSPCAConfigurationCollection** pVal);
+
+    [id(3), helpstring("method GetConfiguration")] 
+    HRESULT GetConfiguration(
+		[in] BSTR const bstrServerName, 
+		[in] VARIANT_BOOL bForce);
+
+    [id(4), helpstring("method SetConfiguration")] 
+    HRESULT SetConfiguration(
+		[in] BSTR const bstrServerName, 
+		[in] VARIANT_BOOL bForce);
+    
+    [id(5), helpstring("method GetMyRoles")]
+    HRESULT GetMyRoles(
+		[in] BSTR const bstrServerName,
+		[out, retval] LONG *pRoles); // CA_ACCESS_*
+
+    [id(6), helpstring("method Ping")]
+    HRESULT Ping(
+		[in] BSTR const bstrServerName);
+
+    [id(7), helpstring("method SetSecurity")]
+    HRESULT SetSecurity(
+		[in] BSTR const bstrServerName,
+		[in] BSTR const bstrVal);
+
+    [id(8), helpstring("method GetSecurity")]
+    HRESULT GetSecurity(
+		[in] BSTR const bstrServerName,
+		[out, retval] BSTR* pVal);
+
+    [id(9), helpstring("method GetSigningCertificates")]
+    HRESULT GetSigningCertificates(
+		[in] BSTR const bstrServerName,
+		[in] VARIANT* pCACertVar,
+		[out, retval] VARIANT* pVal);
+
+    [id(10), helpstring("method GetHashAlgorithms")]
+    HRESULT GetHashAlgorithms(
+		[in] BSTR const bstrServerName,
+		[in] BSTR const bstrCAId,
+		[out, retval] VARIANT* pVal);
+
+};
+
+//+--------------------------------------------------------------------------
+// certadm Type library
+//+--------------------------------------------------------------------------
+
+[
+    uuid(35de99a0-7fb6-11d0-8817-00a0c903b83c),
+    version(1.0),
+    helpstring("CertAdm 1.0 Type Library")
+]
+
+library CERTADMINLib
+{
+    importlib("stdole2.tlb");
+
+    //------------------------------------------------
+    // CCertAdmin
+    [
+	uuid(37eabaf0-7fb6-11d0-8817-00a0c903b83c),
+	helpstring("CertAdmin Class")
+    ]
+    coclass CCertAdmin
+    {
+	[default] interface ICertAdmin2;
+    };
+
+    //------------------------------------------------
+    // CCertView
+    [
+	uuid(a12d0f7a-1e84-11d1-9bd6-00c04fb683fa),
+	helpstring("CertView Class")
+    ]
+    coclass CCertView
+    {
+	[default] interface ICertView2;
+    };
+
+    //+------------------------------------------------------------------------------
+    //  OCSP SigningFlags values
+    enum OCSPSigningFlag
+    {
+	OCSP_SF_SILENT				= 0x00000001,   // Acquire PrivateKey Silently
+	OCSP_SF_USE_CACERT  			= 0x00000002,   // Use CA certificate for Signing OCSP response
+	OCSP_SF_ALLOW_SIGNINGCERT_AUTORENEWAL   = 0x00000004,   // Allow Automatic transition to renewed Signing certificate
+	OCSP_SF_FORCE_SIGNINGCERT_ISSUER_ISCA   = 0x00000008,   // Enforce that delegated signing certificate is signed by CA
+	OCSP_SF_AUTODISCOVER_SIGNINGCERT	= 0x00000010,	// Automatically discovers the delegated signing certificate
+	OCSP_SF_MANUAL_ASSIGN_SIGNINGCERT	= 0x00000020,   // Signing Certificate is manually assigned
+	OCSP_SF_RESPONDER_ID_KEYHASH            = 0x00000040,   // Responder Id includes the hash of the public key of the signing certificate (default)
+	OCSP_SF_RESPONDER_ID_NAME               = 0x00000080,   // Responder Id includes the name of the Subject in the Signing Cert
+        OCSP_SF_ALLOW_NONCE_EXTENSION           = 0x00000100    // Allows NONCE extension to be processed 
+    };
+
+    //+------------------------------------------------------------------------------
+    // OCSP CA configuration property names
+    cpp_quote("#define wszOCSPCAPROP_CACERTIFICATE		L\"CACertificate\"")
+    cpp_quote("#define wszOCSPCAPROP_HASHALGORITHMID		L\"HashAlgorithmId\"")
+    cpp_quote("#define wszOCSPCAPROP_SIGNINGFLAGS		L\"SigningFlags\"")
+    cpp_quote("#define wszOCSPCAPROP_REMINDERDURATION		L\"ReminderDuration\"")
+    cpp_quote("#define wszOCSPCAPROP_SIGNINGCERTIFICATE		L\"SigningCertificate\"")
+    cpp_quote("#define wszOCSPCAPROP_CSPNAME			L\"CSPName\"") // Read only
+    cpp_quote("#define wszOCSPCAPROP_KEYSPEC			L\"KeySpec\"") // Read only
+    cpp_quote("#define wszOCSPCAPROP_ERRORCODE			L\"ErrorCode\"") // Read only
+    cpp_quote("#define wszOCSPCAPROP_PROVIDERCLSID		L\"ProviderCLSID\"")
+    cpp_quote("#define wszOCSPCAPROP_PROVIDERPROPERTIES		L\"Provider\"")
+    cpp_quote("#define wszOCSPCAPROP_LOCALREVOCATIONINFORMATION	L\"LocalRevocationInformation\"")
+
+    //+----------------------------------------------------------------------------
+    // OCSP Properties name
+    cpp_quote("#define wszOCSPPROP_LOGLEVEL  			L\"LogLevel\"")
+    cpp_quote("#define wszOCSPPROP_MAXINCOMINGMESSAGESIZE	L\"MaxIncomingMessageSize\"")
+    cpp_quote("#define wszOCSPPROP_DEBUG                  	L\"Debug\"")
+    cpp_quote("#define wszOCSPPROP_AUDITFILTER			L\"AuditFilter\"")
+    cpp_quote("#define wszOCSPPROP_ARRAYCONTROLLER		L\"ArrayController\"")
+    cpp_quote("#define wszOCSPPROP_ARRAYMEMBERS			L\"ArrayMembers\"")
+
+    //+----------------------------------------------------------------------------
+    // OCSP ISAPI properties
+    cpp_quote("#define wszOCSPISAPIPROP_VIRTUALROOTNAME		L\"VirtualRootName\"")
+    cpp_quote("#define wszOCSPISAPIPROP_NUMOFTHREADS		L\"NumOfThreads\"")
+    cpp_quote("#define wszOCSPISAPIPROP_NUMOFBACKENDCONNECTIONS	L\"NumOfBackendConnections\"")
+    cpp_quote("#define wszOCSPISAPIPROP_REFRESHRATE		L\"RefreshRate\"")
+    cpp_quote("#define wszOCSPISAPIPROP_MAXNUMOFCACHEENTRIES	L\"MaxNumOfCacheEntries\"")
+    cpp_quote("#define wszOCSPISAPIPROP_MAXAGE			L\"MaxAge\"")
+    cpp_quote("#define wszOCSPISAPIPROP_DEBUG			L\"ISAPIDebug\"")
+
+    //+----------------------------------------------------------------------------
+    // OCSP Revocation information provider properties
+    cpp_quote("#define wszOCSPREVPROP_CRLURLTIMEOUT		L\"CrlUrlTimeOut\"")
+    cpp_quote("#define wszOCSPREVPROP_BASECRLURLS		L\"BaseCrlUrls\"")
+    cpp_quote("#define wszOCSPREVPROP_BASECRL			L\"BaseCrl\"")   // Read only
+    cpp_quote("#define wszOCSPREVPROP_DELTACRLURLS		L\"DeltaCrlUrls\"")
+    cpp_quote("#define wszOCSPREVPROP_DELTACRL			L\"DeltaCrl\"")  // Read only
+    cpp_quote("#define wszOCSPREVPROP_REFRESHTIMEOUT		L\"RefreshTimeOut\"")
+    cpp_quote("#define wszOCSPREVPROP_AUDITFILTER		L\"RevocationAuditFilter\"")
+    cpp_quote("#define wszOCSPREVPROP_ERRORCODE			L\"RevocationErrorCode\"") // Read only
+
+    //-------------------------------------------------
+    // COCSPPropertyCollection
+    [
+	uuid(F935A528-BA8A-4DD9-BA79-F283275CB2DE),
+	helpstring("OCSPPropertyCollection Class")
+    ]
+    coclass OCSPPropertyCollection
+    {
+    	[default] interface IOCSPPropertyCollection;
+    };
+
+    //-------------------------------------------------
+    // COCSPAdmin
+    [
+        uuid(D3F73511-92C9-47CB-8FF2-8D891A7C4DE4),
+        helpstring("OCSPAdmin Class")
+    ]
+    coclass OCSPAdmin
+    {
+        [default] interface IOCSPAdmin;
+    };
+
+};

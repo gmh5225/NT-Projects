@@ -1,0 +1,229 @@
+//+----------------------------------------------------------------------------
+//
+//    Copyright (c) 2005 Microsoft Corporation.
+//
+//    File:     SearchAPI.idl
+//
+//    Purpose:  Search API Interface Description
+//
+//    History:  07/06/2005     louisg      Modified
+//
+//-----------------------------------------------------------------------------
+
+cpp_quote("//+----------------------------------------------------------------------------")
+cpp_quote("//")
+cpp_quote("//    Copyright (c) 2005 Microsoft Corporation.")
+cpp_quote("//    Search API Interface")
+cpp_quote("//")
+cpp_quote("//-----------------------------------------------------------------------------")
+
+//
+// GUIDS and defines
+//
+#include "SearchGUIDs.h"
+
+
+
+//
+// Definition of IUnknown and various COM definitions
+//
+import "unknwn.idl";
+import "objidl.idl";
+import "ocidl.idl";
+import "propidl.idl";
+
+//
+// In order to generate a single interface stub file, the different interface
+// sections are #included.  They have dependencies on one another, so need
+// to be #included in a specific order
+//
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Common typedefs and other goodies
+//
+
+typedef LONG ITEMID;
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Protocol Handlers
+//
+
+import "filter.idl";
+
+#include "urlaccsdk.idl"
+#include "urlacc.idl"
+#include "srchprth.idl"
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Interface to crawl scope manager
+//
+
+#include "SearchCrawlScopeManager.idl"
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Notifications API and callback interfaces
+//
+
+#include "SearchNotifications.idl"
+#include "gthrntfyinline.idl"
+#include "srchntfyinlinesite.idl"
+#include "gthrinline.idl"
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Administer an individual catalog
+//
+
+#include "SearchCatalog.idl"
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Query manager API
+//
+
+#include "SearchQuery.idl"
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Administer service
+//
+
+#include "SearchAdmin.idl"
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Word breakers, normalization, etc
+// Note that these are implemented by tquery.dll.
+//
+
+#include "SearchLanguageSupport.idl"
+
+//
+// AQS/NQS.
+// Note that these are implemented by msshsq.dll.
+//
+import "StructuredQuery.idl";
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// SearchAPI library definition
+//
+
+[
+   uuid(00000000-0000-0000-0000-000000000000),
+   version(1.0),
+]
+library SearchAPILib
+{
+   importlib("stdole32.tlb");
+
+   [
+      uuid(7D096C5F-AC08-4f1f-BEB7-5C22C517CE39),
+      helpstring("ISearchManager Implementation Class")
+   ]
+   coclass CSearchManager
+   {
+      [default] interface ISearchManager;
+   };
+
+   [
+       uuid(AAB49DD5-AD0B-40AE-B654-AE8976BF6BD2),
+       noncreatable,
+       helpstring("ISearchCatalogManager Implementation Class")
+   ]
+   coclass CSearchCatalogManager
+   {
+       [default] interface ISearchCatalogManager;
+   };
+
+   [
+       uuid(B271E955-09E1-42E1-9B95-5994A534B613),
+       noncreatable,
+       helpstring("ISearchQueryHelper Implementation Class")
+   ]
+   coclass CSearchQueryHelper
+   {
+       [default] interface ISearchQueryHelper;
+   };
+
+   [
+       uuid(A5270F6C-19EC-4E17-9EA1-A7074276B9B9),
+       noncreatable,
+       helpstring("ISearchItemsChangedSink Implementation Class")
+   ]
+   coclass CSearchItemsChangedSink
+   {
+       [default] interface ISearchItemsChangedSink;
+   };
+
+   [
+       uuid(321069D2-2D7A-4AA1-9DC3-BA97CDF9AFB4),
+       noncreatable,
+       helpstring("ISearchCrawlScopeManager Implementation Class")
+   ]
+   coclass CSearchCrawlScopeManager
+   {
+       [default] interface ISearchCrawlScopeManager;
+   };
+
+   [
+       uuid(C188CDBA-53E5-4767-9FFB-FAFBD8017DF0),
+       noncreatable,
+       helpstring("IEnumSearchRoots Implementation Class")
+   ]
+   coclass CEnumSearchRoots
+   {
+       [default] interface IEnumSearchRoots;
+   };
+
+   [
+       uuid(3379F9F7-F805-4827-9CF6-03DB41F297DA),
+       noncreatable,
+       helpstring("IEnumSearchScopeRules Implementation Class")
+   ]
+   coclass CEnumSearchScopeRules
+   {
+       [default] interface IEnumSearchScopeRules;
+   };
+
+   [
+       uuid(30766BD2-EA1C-4F28-BF27-0B44E2F68DB7),
+       helpstring("ISearchRoot Implementation Class")
+   ]
+   coclass CSearchRoot
+   {
+       [default] interface ISearchRoot;
+   };
+
+   [
+      uuid(E63DE750-3BD7-4BE5-9C84-6B4281988C44),
+      helpstring("ISearchScopeRule Implementation Class")
+   ]
+   coclass CSearchScopeRule
+   {
+      [default] interface ISearchScopeRule;
+   };
+
+
+   [
+       uuid(D0F268B5-EA7A-4B35-BF2F-E1A091B80D51),
+       noncreatable,
+       helpstring("ISearchItemsChangedPersistentSink Implementation Class")
+   ]
+   coclass CSearchPersistentItemsChangedSink
+   {
+       [default] interface ISearchPersistentItemsChangedSink;
+   };
+};
+

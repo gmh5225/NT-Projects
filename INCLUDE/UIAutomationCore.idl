@@ -1,0 +1,651 @@
+// -------------------------------------------------------------
+// UIAutomationCore.idl
+//
+// UIAutomation interface definitions and related types and enums
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// -------------------------------------------------------------
+
+cpp_quote("// -------------------------------------------------------------")
+cpp_quote("// UIAutomationCore.H")
+cpp_quote("//")
+cpp_quote("// UIAutomation interface definitions and related types and enums")
+cpp_quote("// (Generated from UIAutomationCore.idl)")
+cpp_quote("//")
+cpp_quote("// Copyright (c) Microsoft Corporation. All rights reserved.")
+cpp_quote("// -------------------------------------------------------------")
+
+#define DO_NO_IMPORTS
+import "oaidl.idl";
+
+// Base enums
+
+enum NavigateDirection
+{
+    NavigateDirection_Parent = 0,
+    NavigateDirection_NextSibling = 1,
+    NavigateDirection_PreviousSibling = 2,
+    NavigateDirection_FirstChild = 3,
+    NavigateDirection_LastChild = 4
+};
+
+enum ProviderOptions
+{
+    ProviderOptions_ClientSideProvider      = 0x0001,
+    ProviderOptions_ServerSideProvider      = 0x0002,
+    ProviderOptions_NonClientAreaProvider   = 0x0004,
+    ProviderOptions_OverrideProvider        = 0x0008,
+    ProviderOptions_ProviderOwnsSetFocus    = 0x0010
+};
+
+// Pattern & property enums
+
+enum OrientationType
+{
+    OrientationType_None = 0,
+    OrientationType_Horizontal = 1,
+    OrientationType_Vertical = 2
+};
+
+enum DockPosition
+{
+    DockPosition_Top = 0,
+    DockPosition_Left = 1,
+    DockPosition_Bottom = 2,
+    DockPosition_Right = 3,
+    DockPosition_Fill = 4,
+    DockPosition_None = 5
+};
+
+enum ExpandCollapseState
+{
+    ExpandCollapseState_Collapsed = 0,
+    ExpandCollapseState_Expanded = 1,
+    ExpandCollapseState_PartiallyExpanded = 2,
+    ExpandCollapseState_LeafNode = 3
+};
+
+enum ScrollAmount
+{
+    ScrollAmount_LargeDecrement = 0,
+    ScrollAmount_SmallDecrement = 1,
+    ScrollAmount_NoAmount = 2,
+    ScrollAmount_LargeIncrement = 3,
+    ScrollAmount_SmallIncrement = 4
+};
+
+enum RowOrColumnMajor
+{
+    RowOrColumnMajor_RowMajor = 0,
+    RowOrColumnMajor_ColumnMajor = 1,
+    RowOrColumnMajor_Indeterminate = 2
+};
+
+enum ToggleState
+{
+    ToggleState_Off = 0,
+    ToggleState_On = 1,
+    ToggleState_Indeterminate = 2
+};
+
+enum WindowVisualState
+{
+    WindowVisualState_Normal = 0,
+    WindowVisualState_Maximized = 1,
+    WindowVisualState_Minimized = 2
+};
+
+enum WindowInteractionState
+{
+    WindowInteractionState_Running = 0,
+    WindowInteractionState_Closing = 1,
+    WindowInteractionState_ReadyForUserInteraction = 2,
+    WindowInteractionState_BlockedByModalWindow = 3,
+    WindowInteractionState_NotResponding = 4
+};
+
+// Text enums
+
+enum TextUnit
+{
+    TextUnit_Character = 0,
+    TextUnit_Format = 1,
+    TextUnit_Word = 2,
+    TextUnit_Line = 3,
+    TextUnit_Paragraph = 4,
+    TextUnit_Page = 5,
+    TextUnit_Document = 6
+};
+
+enum TextPatternRangeEndpoint
+{
+    TextPatternRangeEndpoint_Start = 0,
+    TextPatternRangeEndpoint_End = 1
+};
+
+enum SupportedTextSelection
+{
+    SupportedTextSelection_None = 0,
+    SupportedTextSelection_Single = 1,
+    SupportedTextSelection_Multiple = 2
+};
+
+
+// Text attributes
+
+enum AnimationStyle
+{
+    AnimationStyle_None = 0,
+    AnimationStyle_LasVegasLights = 1,
+    AnimationStyle_BlinkingBackground = 2,
+    AnimationStyle_SparkleText = 3,
+    AnimationStyle_MarchingBlackAnts = 4,
+    AnimationStyle_MarchingRedAnts = 5,
+    AnimationStyle_Shimmer = 6,
+    AnimationStyle_Other = -1
+};
+
+enum BulletStyle
+{
+    BulletStyle_None = 0,
+    BulletStyle_HollowRoundBullet = 1,
+    BulletStyle_FilledRoundBullet = 2,
+    BulletStyle_HollowSquareBullet = 3,
+    BulletStyle_FilledSquareBullet = 4,
+    BulletStyle_DashBullet = 5,
+    BulletStyle_Other = -1
+};
+
+enum CapStyle
+{
+    CapStyle_None = 0,
+    CapStyle_SmallCap = 1,
+    CapStyle_AllCap = 2,
+    CapStyle_AllPetiteCaps = 3,
+    CapStyle_PetiteCaps = 4,
+    CapStyle_Unicase = 5,
+    CapStyle_Titling = 6,
+    CapStyle_Other = -1
+};
+
+enum FlowDirections
+{
+    FlowDirections_Default = 0,
+    FlowDirections_RightToLeft = 1,
+    FlowDirections_BottomToTop = 2,
+    FlowDirections_Vertical = 4
+};
+
+enum HorizontalTextAlignment
+{
+    HorizontalTextAlignment_Left = 0,
+    HorizontalTextAlignment_Centered = 1,
+    HorizontalTextAlignment_Right = 2,
+    HorizontalTextAlignment_Justified = 3
+};
+
+enum OutlineStyles
+{
+    OutlineStyles_None = 0,
+    OutlineStyles_Outline = 1,
+    OutlineStyles_Shadow = 2,
+    OutlineStyles_Engraved = 4,
+    OutlineStyles_Embossed = 8
+};
+
+enum TextDecorationLineStyle
+{
+    TextDecorationLineStyle_None = 0,
+    TextDecorationLineStyle_Single = 1,
+    TextDecorationLineStyle_WordsOnly = 2,
+    TextDecorationLineStyle_Double = 3,
+    TextDecorationLineStyle_Dot = 4,
+    TextDecorationLineStyle_Dash = 5,
+    TextDecorationLineStyle_DashDot = 6,
+    TextDecorationLineStyle_DashDotDot = 7,
+    TextDecorationLineStyle_Wavy = 8,
+    TextDecorationLineStyle_ThickSingle = 9,
+    TextDecorationLineStyle_DoubleWavy = 11,
+    TextDecorationLineStyle_ThickWavy = 12,
+    TextDecorationLineStyle_LongDash = 13,
+    TextDecorationLineStyle_ThickDash = 14,
+    TextDecorationLineStyle_ThickDashDot = 15,
+    TextDecorationLineStyle_ThickDashDotDot = 16,
+    TextDecorationLineStyle_ThickDot = 17,
+    TextDecorationLineStyle_ThickLongDash = 18,
+    TextDecorationLineStyle_Other = -1,
+};
+
+
+// Types...
+
+typedef int PROPERTYID;
+typedef int PATTERNID;
+typedef int EVENTID;
+typedef int TEXTATTRIBUTEID;
+typedef int CONTROLTYPEID;
+
+
+struct UiaRect
+{
+    double left;
+    double top;
+    double width;
+    double height;
+};
+
+struct UiaPoint
+{
+    double x;
+    double y;
+};
+
+
+[
+    uuid(930299ce-9965-4dec-b0f4-a54848d4b667),
+    lcid(0),
+    version(1.0),
+    hidden
+]
+library UIA
+{
+    importlib ("stdole2.tlb");
+
+    //
+    //  IRawElementProviderSimple
+    //
+    [object, uuid(d6dd68d1-86fd-4332-8666-9abedea2d24c), pointer_default(unique)]
+    interface IRawElementProviderSimple : IUnknown
+    {
+        [propget] HRESULT ProviderOptions (
+            [out, retval] enum ProviderOptions * pRetVal );
+
+        HRESULT GetPatternProvider (
+            [in] PATTERNID patternId,
+            [out, retval] IUnknown ** pRetVal );
+
+        HRESULT GetPropertyValue (
+            [in] PROPERTYID propertyId,
+            [out, retval] VARIANT * pRetVal );
+
+        [propget] HRESULT HostRawElementProvider (
+            [out, retval] IRawElementProviderSimple ** pRetVal );
+    }
+
+    interface IRawElementProviderFragmentRoot;
+
+    //
+    //  IRawElementProviderFragment
+    //
+    [object, uuid(f7063da8-8359-439c-9297-bbc5299a7d87), pointer_default(unique)]
+    interface IRawElementProviderFragment : IUnknown
+    {
+        HRESULT  Navigate (
+            [in] enum NavigateDirection direction,
+            [out, retval] IRawElementProviderFragment ** pRetVal );
+
+        HRESULT GetRuntimeId (
+            [out,retval] SAFEARRAY(int) * pRetVal );
+
+        HRESULT get_BoundingRectangle (
+            [out,retval] struct UiaRect * pRetVal );
+
+        HRESULT GetEmbeddedFragmentRoots (
+            [out,retval] SAFEARRAY(IRawElementProviderFragmentRoot*) * pRetVal );
+
+        HRESULT SetFocus ();
+
+        [propget] HRESULT FragmentRoot (
+            [out, retval] IRawElementProviderFragmentRoot ** pRetVal );
+    }
+
+    //
+    //  IRawElementProviderFragmentRoot
+    //
+    [object, uuid(620ce2a5-ab8f-40a9-86cb-de3c75599b58), pointer_default(unique)]
+    interface IRawElementProviderFragmentRoot : IUnknown
+    {
+        HRESULT ElementProviderFromPoint (
+            [in] double x,
+            [in] double y,
+            [out, retval] IRawElementProviderFragment ** pRetVal );
+
+        HRESULT GetFocus (
+            [out,retval] IRawElementProviderFragment ** pRetVal );
+    }
+
+    //
+    //  IRawElementProviderAdviseEvents
+    //
+    [object, uuid(a407b27b-0f6d-4427-9292-473c7bf93258), pointer_default(unique)]
+    interface IRawElementProviderAdviseEvents : IUnknown
+    {
+        HRESULT AdviseEventAdded (
+            [in] EVENTID eventId,
+            [in] SAFEARRAY(PROPERTYID) propertyIDs);
+
+        HRESULT AdviseEventRemoved(
+            [in] EVENTID eventId,
+            [in] SAFEARRAY(PROPERTYID) propertyIDs);
+    }
+
+
+    //
+    //  IRawElementProviderHwndOverride
+    //
+
+    [object, uuid(1d5df27c-8947-4425-b8d9-79787bb460b8), pointer_default(unique)]
+    interface IRawElementProviderHwndOverride : IUnknown
+    {
+        HRESULT GetOverrideProviderForHwnd(
+            [in] HWND hwnd,
+            [out, retval] IRawElementProviderSimple ** pRetVal);
+    }
+
+
+
+    //
+    // Control Pattern Interfaces...
+    //
+
+    [object, uuid(159bc72c-4ad3-485e-9637-d7052edf0146), pointer_default(unique)]
+    interface IDockProvider : IUnknown
+    {
+        HRESULT SetDockPosition (
+            [in] enum DockPosition dockPosition );
+
+        [propget] HRESULT DockPosition (
+            [out, retval] enum DockPosition * pRetVal );
+
+    };
+
+    [object, uuid(d847d3a5-cab0-4a98-8c32-ecb45c59ad24), pointer_default(unique)]
+    interface IExpandCollapseProvider : IUnknown
+    {
+        HRESULT Expand ();
+        HRESULT Collapse ();
+        [propget] HRESULT ExpandCollapseState (
+            [out, retval] enum ExpandCollapseState * pRetVal );
+    };
+
+    [object, uuid(b17d6187-0907-464b-a168-0ef17a1572b1), pointer_default(unique)]
+    interface IGridProvider : IUnknown
+    {
+        HRESULT GetItem (
+            [in] int row,
+            [in] int column,
+            [out, retval] IRawElementProviderSimple ** pRetVal );
+        [propget] HRESULT RowCount (
+            [out, retval] int * pRetVal );
+        [propget] HRESULT ColumnCount (
+            [out, retval] int * pRetVal );
+    };
+
+    [object, uuid(d02541f1-fb81-4d64-ae32-f520f8a6dbd1), pointer_default(unique)]
+    interface IGridItemProvider : IUnknown
+    {
+        [propget] HRESULT Row (
+            [out, retval] int * pRetVal );
+        [propget] HRESULT Column (
+            [out, retval] int * pRetVal );
+        [propget] HRESULT RowSpan (
+            [out, retval] int * pRetVal );
+        [propget] HRESULT ColumnSpan (
+            [out, retval] int * pRetVal );
+        [propget] HRESULT ContainingGrid (
+            [out, retval] IRawElementProviderSimple ** pRetVal );
+    };
+
+    [object, uuid(54fcb24b-e18e-47a2-b4d3-eccbe77599a2), pointer_default(unique)]
+    interface IInvokeProvider : IUnknown
+    {
+        HRESULT Invoke ();
+    };
+
+    [object, uuid(6278cab1-b556-4a1a-b4e0-418acc523201), pointer_default(unique)]
+    interface IMultipleViewProvider : IUnknown
+    {
+        HRESULT GetViewName (
+            [in] int viewId,
+            [out, retval] BSTR * pRetVal );
+        HRESULT SetCurrentView (
+            [in] int viewId );
+        [propget] HRESULT CurrentView (
+            [out, retval] int * pRetVal );
+        HRESULT GetSupportedViews (
+            [out, retval] SAFEARRAY(int) * pRetVal );
+    };
+
+    [object, uuid(36dc7aef-33e6-4691-afe1-2be7274b3d33), pointer_default(unique)]
+    interface IRangeValueProvider : IUnknown
+    {
+        HRESULT SetValue (
+            [in] double val );
+        [propget] HRESULT Value (
+            [out, retval] double * pRetVal );
+        [propget] HRESULT IsReadOnly (
+            [out, retval] BOOL * pRetVal );
+        [propget] HRESULT Maximum (
+            [out, retval] double * pRetVal );
+        [propget] HRESULT Minimum (
+            [out, retval] double * pRetVal );
+        [propget] HRESULT LargeChange (
+            [out, retval] double * pRetVal );
+        [propget] HRESULT SmallChange (
+            [out, retval] double * pRetVal );
+    };
+
+    [object, uuid(2360c714-4bf1-4b26-ba65-9b21316127eb), pointer_default(unique)]
+    interface IScrollItemProvider : IUnknown
+    {
+        HRESULT ScrollIntoView ();
+    };
+
+    [object, uuid(fb8b03af-3bdf-48d4-bd36-1a65793be168), pointer_default(unique)]
+    interface ISelectionProvider : IUnknown
+    {
+        HRESULT GetSelection (
+            [out, retval] SAFEARRAY(IRawElementProviderSimple *) * pRetVal );
+        [propget] HRESULT CanSelectMultiple (
+            [out, retval] BOOL * pRetVal );
+        [propget] HRESULT IsSelectionRequired (
+            [out, retval] BOOL * pRetVal );
+    };
+
+
+    [object, uuid(b38b8077-1fc3-42a5-8cae-d40c2215055a), pointer_default(unique)]
+    interface IScrollProvider : IUnknown
+    {
+        HRESULT Scroll (
+            [in] enum ScrollAmount horizontalAmount,
+            [in] enum ScrollAmount verticalAmount );
+        HRESULT SetScrollPercent (
+            [in] double horizontalPercent,
+            [in] double verticalPercent );
+        [propget] HRESULT HorizontalScrollPercent (
+            [out, retval] double * pRetVal );
+        [propget] HRESULT VerticalScrollPercent (
+            [out, retval] double * pRetVal );
+        [propget] HRESULT HorizontalViewSize (
+            [out, retval] double * pRetVal );
+        [propget] HRESULT VerticalViewSize (
+            [out, retval] double * pRetVal );
+        [propget] HRESULT HorizontallyScrollable (
+            [out, retval] BOOL * pRetVal );
+        [propget] HRESULT VerticallyScrollable (
+            [out, retval] BOOL * pRetVal );
+    };
+
+    [object, uuid(2acad808-b2d4-452d-a407-91ff1ad167b2), pointer_default(unique)]
+    interface ISelectionItemProvider : IUnknown
+    {
+        HRESULT Select ();
+        HRESULT AddToSelection ();
+        HRESULT RemoveFromSelection ();
+        [propget] HRESULT IsSelected (
+            [out, retval] BOOL * pRetVal );
+        [propget] HRESULT SelectionContainer (
+            [out, retval] IRawElementProviderSimple ** pRetVal );
+    };
+
+    [object, uuid(9c860395-97b3-490a-b52a-858cc22af166), pointer_default(unique)]
+    interface ITableProvider : IUnknown
+    {
+        HRESULT GetRowHeaders (
+            [out, retval] SAFEARRAY(IRawElementProviderSimple*) * pRetVal );
+        HRESULT GetColumnHeaders (
+            [out, retval] SAFEARRAY(IRawElementProviderSimple*) * pRetVal );
+        [propget] HRESULT RowOrColumnMajor (
+            [out, retval] enum RowOrColumnMajor * pRetVal );
+    };
+
+    [object, uuid(b9734fa6-771f-4d78-9c90-2517999349cd), pointer_default(unique)]
+    interface ITableItemProvider : IUnknown
+    {
+        HRESULT GetRowHeaderItems (
+            [out, retval] SAFEARRAY(IRawElementProviderSimple*) * pRetVal );
+        HRESULT GetColumnHeaderItems (
+            [out, retval] SAFEARRAY(IRawElementProviderSimple*) * pRetVal );
+    };
+
+    [object, uuid(56d00bd0-c4f4-433c-a836-1a52a57e0892), pointer_default(unique)]
+    interface IToggleProvider : IUnknown
+    {
+        HRESULT Toggle ();
+        [propget] HRESULT ToggleState (
+            [out, retval] enum ToggleState * pRetVal );
+    };
+
+    [object, uuid(6829ddc4-4f91-4ffa-b86f-bd3e2987cb4c), pointer_default(unique)]
+    interface ITransformProvider : IUnknown
+    {
+        HRESULT Move (
+            [in] double x,
+            [in] double y );
+        HRESULT Resize (
+            [in] double width,
+            [in] double height );
+        HRESULT Rotate (
+            [in] double degrees );
+        [propget] HRESULT CanMove (
+            [out, retval] BOOL * pRetVal );
+        [propget] HRESULT CanResize (
+            [out, retval] BOOL * pRetVal );
+        [propget] HRESULT CanRotate (
+            [out, retval] BOOL * pRetVal );
+    };
+
+    [object, uuid(c7935180-6fb3-4201-b174-7df73adbf64a), pointer_default(unique)]
+    interface IValueProvider : IUnknown
+    {
+        HRESULT SetValue (
+            [in] LPCWSTR val );
+        [propget] HRESULT Value (
+            [out, retval] BSTR * pRetVal );
+        [propget] HRESULT IsReadOnly (
+            [out, retval] BOOL * pRetVal );
+    };
+
+    [object, uuid(987df77b-db06-4d77-8f8a-86a9c3bb90b9), pointer_default(unique)]
+    interface IWindowProvider : IUnknown
+    {
+        HRESULT SetVisualState (
+            [in] enum WindowVisualState state );
+        HRESULT Close ();
+        HRESULT WaitForInputIdle (
+            [in] int milliseconds,
+            [out, retval] BOOL * pRetVal );
+        [propget] HRESULT CanMaximize (
+            [out, retval] BOOL * pRetVal );
+        [propget] HRESULT CanMinimize (
+            [out, retval] BOOL * pRetVal );
+        [propget] HRESULT IsModal (
+            [out, retval] BOOL * pRetVal );
+        [propget] HRESULT WindowVisualState (
+            [out, retval] enum WindowVisualState * pRetVal );
+        [propget] HRESULT WindowInteractionState (
+            [out, retval] enum WindowInteractionState * pRetVal );
+        [propget] HRESULT IsTopmost (
+            [out, retval] BOOL * pRetVal );
+    };
+
+    interface ITextRangeProvider;
+
+    [object, uuid(3589c92c-63f3-4367-99bb-ada653b77cf2), pointer_default(unique)]
+    interface ITextProvider : IUnknown
+    {
+        HRESULT GetSelection (
+            [out, retval] SAFEARRAY(ITextRangeProvider *) * pRetVal );
+        HRESULT GetVisibleRanges (
+            [out, retval] SAFEARRAY(ITextRangeProvider *) * pRetVal );
+        HRESULT RangeFromChild (
+            [in] IRawElementProviderSimple * childElement,
+            [out, retval] ITextRangeProvider ** pRetVal );
+        HRESULT RangeFromPoint (
+            [in] struct UiaPoint point,
+            [out, retval] ITextRangeProvider ** pRetVal );
+        [propget] HRESULT DocumentRange (
+            [out, retval] ITextRangeProvider ** pRetVal );
+        [propget] HRESULT SupportedTextSelection (
+            [out, retval] enum SupportedTextSelection * pRetVal );
+    };
+
+    [object, uuid(5347ad7b-c355-46f8-aff5-909033582f63), pointer_default(unique)]
+    interface ITextRangeProvider : IUnknown
+    {
+        HRESULT Clone (
+            [out, retval] ITextRangeProvider ** pRetVal );
+        HRESULT Compare (
+            [in] ITextRangeProvider * range,
+            [out, retval] BOOL * pRetVal );
+        HRESULT CompareEndpoints (
+            [in] enum TextPatternRangeEndpoint endpoint,
+            [in] ITextRangeProvider * targetRange,
+            [in] enum TextPatternRangeEndpoint targetEndpoint,
+            [out, retval] int * pRetVal );
+        HRESULT ExpandToEnclosingUnit (
+            [in] enum TextUnit unit );
+        HRESULT FindAttribute (
+            [in] TEXTATTRIBUTEID attributeId,
+            [in] VARIANT val,
+            [in] BOOL backward,
+            [out, retval] ITextRangeProvider ** pRetVal );
+        HRESULT FindText (
+            [in] BSTR text,
+            [in] BOOL backward,
+            [in] BOOL ignoreCase,
+            [out, retval] ITextRangeProvider ** pRetVal );
+        HRESULT GetAttributeValue (
+            [in] TEXTATTRIBUTEID attributeId,
+            [out, retval] VARIANT * pRetVal );
+        HRESULT GetBoundingRectangles (
+            [out, retval] SAFEARRAY(double) * pRetVal );
+        HRESULT GetEnclosingElement (
+            [out, retval] IRawElementProviderSimple ** pRetVal );
+        HRESULT GetText (
+            [in] int maxLength,
+            [out, retval] BSTR * pRetVal );
+        HRESULT Move (
+            [in] enum TextUnit unit,
+            [in] int count,
+            [out, retval] int * pRetVal );
+        HRESULT MoveEndpointByUnit (
+            [in] enum TextPatternRangeEndpoint endpoint,
+            [in] enum TextUnit unit,
+            [in] int count,
+            [out, retval] int * pRetVal );
+        HRESULT MoveEndpointByRange (
+            [in] enum TextPatternRangeEndpoint endpoint,
+            [in] ITextRangeProvider * targetRange,
+            [in] enum TextPatternRangeEndpoint targetEndpoint );
+        HRESULT Select ();
+        HRESULT AddToSelection ();
+        HRESULT RemoveFromSelection ();
+        HRESULT ScrollIntoView (
+            [in] BOOL alignToTop );
+        HRESULT GetChildren (
+            [out, retval] SAFEARRAY(IRawElementProviderSimple*) * pRetVal );
+    };
+
+}
+
