@@ -1,0 +1,705 @@
+Microsoft (R) Macro Assembler Version 7.10.4035		    07/24/22 20:40:03
+"BasicOZ machine-level code"				     Page 1 - 1
+
+
+				;;
+				;; Copyright (c) Microsoft Corporation. All rights reserved. 
+				;; 
+				;; You may only use this code if you agree to the terms of the ProjectOZ License agreement (see License.txt).
+				;; If you do not agree to the terms, do not use the code.
+				;;
+
+				TITLE   "BasicOZ machine-level code"
+
+				include ..\INC\TrapValues.inc
+			      C ;;
+			      C ;; Copyright (c) Microsoft Corporation. All rights reserved. 
+			      C ;; 
+			      C ;; You may only use this code if you agree to the terms of the ProjectOZ License agreement (see License.txt).
+			      C ;; If you do not agree to the terms, do not use the code.
+			      C ;;
+			      C 
+			      C ; NOTE: Definitions must match SPACE\TrapValues.h
+			      C ; NOTE: TRAPEMUL_* must match Bootstrap.asm
+			      C 
+			      C ;
+			      C ; trap types
+			      C ;
+			      C 
+			      C ; emulated SPACE hardware instructions, like resume
+			      C ;
+ = 0000			      C      TRAPEMUL_Noop            equ  0
+ = 0001			      C      TRAPEMUL_MapMemory       equ  1
+ = 0002			      C      TRAPEMUL_MapIO           equ  2
+ = 0003			      C      TRAPEMUL_MapTrap         equ  3
+ = 0004			      C      TRAPEMUL_CreatePortal    equ  4
+ = 0005			      C      TRAPEMUL_DestroyPortal   equ  5
+ = 0006			      C      TRAPEMUL_CleanCtx        equ  6
+ = 0007			      C      TRAPEMUL_Resume          equ  7
+ = 0008			      C      TRAPEMUL_Suspend         equ  8
+ = 0009			      C      TRAPEMUL_Unsuspend       equ  9
+ = 000A			      C      TRAPEMUL_PopCaller       equ 10
+ = 000B			      C      TRAPEMUL_DiscardToken    equ 11
+ = 000C			      C      TRAPEMUL_StartCPU        equ 12
+ = 000D			      C      TRAPEMUL_InterruptCPU    equ 13
+ = 000E			      C      TRAPEMUL_AccessDevice    equ 14
+ = 000F			      C      TRAPEMUL_ManageIRQL      equ 15
+ = 0010			      C      TRAPEMUL_HaltCPU         equ 16
+ = 0011			      C      TRAPEMUL_GetSPACEParams  equ 17
+ = 0012			      C      TRAPEMUL_SPACEBreak      equ 18
+			      C 
+			      C ; implement service call
+ = 0100			      C      TRAPSERV_MAXCALLS        equ 256
+			      C 
+			      C 
+				include Config.inc
+			      C ;;
+			      C ;; Copyright (c) Microsoft Corporation. All rights reserved. 
+			      C ;; 
+			      C ;; You may only use this code if you agree to the terms of the ProjectOZ License agreement (see License.txt).
+			      C ;; If you do not agree to the terms, do not use the code.
+			      C ;;
+			      C 
+ = 0400			      C     MAXDYNAMICSTACKS                    equ     1024            ;; must fit in 12 bits (i.e. <= 4094)
+			      C 
+ = 071001000H		      C     BASEVECTOR                          equ     071001000H
+ = (BASEVECTOR +  0)	      C     EMULATIONVECTOR                     equ     (BASEVECTOR +  0)
+ = (BASEVECTOR +  4)	      C     SERVICEVECTOR                       equ     (BASEVECTOR +  4)
+ = (BASEVECTOR +  8)	      C     LIBRARYVECTOR                       equ     (BASEVECTOR +  8)
+			      C 
+ = 0000			      C     NOSTACKS_PARAM_EMPTYLIST            equ     0
+ = 0001			      C     NOSTACKS_PARAM_STACKCORRUPT         equ     1
+ = 0002			      C     NOSTACKS_PARAM_LISTNOLONGEREMPTY    equ     2
+			      C 
+			      C ;; one guard page, one stack page - 64KB each
+ = 0000			      C     DYNSTACK_ALLOCSIZE                  equ     (64*1024)       ;; NTSPACE_PAGESIZE
+ =-0001			      C     DYNSTACK_BASEMASK                   equ     (DYNSTACK_ALLOCSIZE-1)
+ = 0FFF			      C     DYNSTACK_INDEXMASK                  equ     0fffH
+ = DYNSTACK_INDEXMASK	      C     DYNSTACK_EMPTYINDEX                 equ     DYNSTACK_INDEXMASK
+			      C 
+ = 0fffff000H		      C     DYNSTACK_SEQUENCEMASK               equ     0fffff000H
+ = 1000			      C     DYNSTACK_SEQUENCEINCR               equ     000001000H
+			      C 
+			      C 
+				include Syscalls.inc
+			      C ;;
+			      C ;; Copyright (c) Microsoft Corporation. All rights reserved. 
+			      C ;; 
+			      C ;; You may only use this code if you agree to the terms of the ProjectOZ License agreement (see License.txt).
+			      C ;; If you do not agree to the terms, do not use the code.
+			      C ;;
+			      C 
+ = 0063			      C     BASICSERV_NOSTACK_BUGCHECK                  equ      99     ; no stack
+ = 0000			      C     BASICSERV_NOSTACK_SLEEP                     equ       0     ; no stack
+ = 0001			      C     BASICSERV_NOSTACK_WAKEUP                    equ       1     ; no stack
+			      C 
+ = 000D			      C     BASICSERV_foo                               equ      13
+			      C 
+ = 0050			      C     BASICSERV_ConsolePrint                      equ      80
+ = 0051			      C     BASICSERV_ConsoleGetline                    equ      81
+			      C 
+			      C 
+
+				.686
+				;;.model flat,c
+
+				;
+				; Machine-level code for BasicOZ
+				;
+				;;.data
+ 00000000			_DATA   SEGMENT PAGE PUBLIC 'DATA'
+				        ASSUME  DS:FLAT, ES:FLAT, SS:NOTHING, FS:NOTHING, GS:NOTHING
+				        ORG     $ + 64*1024-4        ; aligned 4KB stack
+ 0000FFFC 00000000		        mainstacktop        DWORD   0
+
+				; variables containing bootstrap vectors
+				        PUBLIC C _pemulationvector
+				        PUBLIC C _pservicevector
+				        PUBLIC C _plibraryvector
+ 00010000 00000000		        _pemulationvector   DWORD   0
+ 00010004 00000000		        _pservicevector     DWORD   0
+ 00010008 00000000		        _plibraryvector     DWORD   0
+
+				; variables for dynamic stack allocation
+				; stacks are linked by integers not pointers, so that a sizable sequence number can be used in 32-bit Compare&Swap operations
+				; the stacks themselves are pointed by at by pstackvector[], but the pstackvector[] entries are not updated except when
+				; an allocated stack is deleted
+				;
+				; the stacks are linked through an index stored at the beginning of each stack region
+				; stacks are size DYNSTACK_ALLOCSIZE
+
+ 0001000C 00000FFF		        _stackhead          DWORD   DYNSTACK_EMPTYINDEX ; sequence [20b] / index [12b] (empty)
+ 00010010 00000000		        _dynamicstackhint   DWORD   0                   ; where to start searching for an available index
+ 00010014 00000001		        _dynamicstackuninit DWORD   1                   ; no dynamic stacks have been allocated
+ 00010018 00000000		        _pstackvector       DWORD   0
+				        ORG     $ + 4*(MAXDYNAMICSTACKS-2)
+ 00011014  00000000		                            DWORD   0                   ; need to allocate something or space from ORG is released since at end of segment
+
+ 00011018			_DATA   ENDS
+				        EXTERN  _boot:proc
+				;;.code
+ 00000000			_TEXT   SEGMENT DWORD PUBLIC 'CODE'
+				        ASSUME  DS:FLAT, ES:FLAT, SS:NOTHING, FS:NOTHING, GS:NOTHING
+
+				        SUBTTL "BasicOZ boot"
+				        PUBLIC C _basicoz
+ 00000000			_basicoz:
+ 00000000			        ; establish system pointers
+ 00000000  B8 71001000		        mov     eax,                EMULATIONVECTOR
+ 00000005  8B 00		        mov     eax,                [eax]
+ 00000007  A3 00010000 R	        mov     _pemulationvector,  eax
+
+ 0000000C  B8 71001004		        mov     eax,                SERVICEVECTOR
+ 00000011  8B 00		        mov     eax,                [eax]
+ 00000013  A3 00010004 R	        mov     _pservicevector,    eax
+
+ 00000018  B8 71001008		        mov     eax,                LIBRARYVECTOR
+ 0000001D  8B 00		        mov     eax,                [eax]
+ 0000001F  A3 00010008 R	        mov     _plibraryvector,    eax
+
+				        ; setup the boot stack
+ 00000024  8D 25 0000FFFC R	        lea     esp,                mainstacktop
+ 0000002A  8B EC		        mov     ebp,                esp
+
+ 0000002C  33 C0		        xor     eax,eax
+
+ 0000002E  E8 00000000 E	        call    _boot
+ 00000033			@@:
+ 00000033  A1 00010000 R	        mov     eax,                _pemulationvector
+ 00000038  FF 60 1C		        jmp     dword ptr [eax+4*TRAPEMUL_Resume]
+ 0000003B  EB F6		        jmp     @B
+				        ;notreached
+
+				; Macro for dynamic allocation of a stack for this domain and then calling a C function
+				; If the pool of dynamic stacks is exhausted, we trap (will wait and then retry)
+				; N.B. This is only a macro so we can save a register, otherwise handler could be passed in to a routine.
+
+				DynamicInvoke macro  handler
+				    EXTERNDEF  C dispatch_&handler&:PROC
+				    EXTERNDEF  C &handler&:PROC
+				    ; available registers:  eax, esp, ebp
+				    ; parameter registers:  ebx, ecx, edx, edi, esi
+				    ; set ebp, esp to stack when done, with parameters pushed onto stack
+				dispatch_&handler& LABEL PROC
+				    mov         eax,                _stackhead              ; head sequence/index
+				    mov         ebp,                eax                     ; temporarily stash [_stackhead]
+				    and         eax,                DYNSTACK_INDEXMASK      ; extract index
+				    cmp         eax,                DYNSTACK_EMPTYINDEX
+				    jnz         @F
+				    ; XXX: how do we get to our sleep parameters without clobbering the original parameter registers??
+				    lea         eax,                _stackhead              ; &_stackhead is pattern for wakeup
+				    mov         esp,                _pservicevector         ;
+				    jmp         dword ptr [esp+4*BASICSERV_NOSTACK_SLEEP]   ;
+				    ; XXX: how to we really get back here????????????????????????????????????????????????????????????????????????????????????????
+				    jmp         dispatch_&handler&                          ;; restart after trap returns
+				@@:
+				    ; ebp is [_stackhead]
+				    ; eax is head index isolated from ebp
+				    mov         esp,                _pstackvector[4*eax]    ; base of the allocated stack, address of 'next' index
+				    mov         eax,                ebp
+				    and         eax,                DYNSTACK_SEQUENCEMASK   ;; extract sequence from head sequence/index
+				    add         eax,                DYNSTACK_SEQUENCEINCR   ; increment sequence
+				    or          eax,                [esp]                   ; insert index of next stack
+				    mov         esp,                eax
+				    mov         eax,                ebp                     ; retrieve [_stackhead] into EAX for cmpxchg
+				    ; ebp remembers the allocated sequence/index
+				    ; esp is new head sequence/index
+				    ; eax is old head sequence/index
+				    lock cmpxchg dword ptr _stackhead, esp                  ; update the head if eax == [_stackhead]
+				    jne         dispatch_&handler&                          ;; if failed, restart at the top
+				    ; esp now scratch
+				    ; eax is old head sequence/index
+				    and         eax,                DYNSTACK_INDEXMASK      ; extract index
+				    mov         esp,                _pstackvector[4*eax]
+				    add         esp,                DYNSTACK_ALLOCSIZE      ; points just off the allocatedstack
+				    ; remember our stack index on the stack
+				    and         ebp,                DYNSTACK_INDEXMASK
+				    push        ebp
+				    ; push parameters
+				    push        esi
+				    push        edi
+				    push        edx
+				    push        ecx
+				    push        ebx
+				    ; clear the registers (for debugging sanity)
+				    xor         eax,                eax
+				    mov         ebp,                eax
+				    mov         esi,                eax
+				    mov         edi,                eax
+				    mov         edx,                eax
+				    mov         ecx,                eax
+				    mov         ebx,                eax
+				    call        &handler&
+
+				    ; free the stack and RESUME
+				    jmp         trapResume
+				    endm
+
+				        EXTERNDEF C trapResume:Proc
+ 0000003D			trapResume LABEL PROC
+				    ; esp points into the allocated stack or is NULL if there was no stack
+				    ; eax/edx contain the return values -- so must preserve them
+				    ; all other registers are scratch
+ 0000003D  8B 35 00010000 R	    mov         esi,                _pemulationvector
+ 00000043  0B E4		    or          esp,                esp                     ; if ESP is NULL just trap to emulated resume instruction
+ 00000045  75 03		    jnz         @F
+ 00000047  FF 66 1C		    jmp         dword ptr [esi+4*TRAPEMUL_Resume]
+ 0000004A			@@:
+				    ; get our stack index
+ 0000004A  83 E4 00		    and         esp,                NOT DYNSTACK_BASEMASK
+ 0000004D  8B 5C 24 FC		    mov         ebx,                (DYNSTACK_ALLOCSIZE-4)[esp]
+
+				    ; ASSERT: ebx < MAXDYNAMICSTACKS && _pstackvector[ebx] == esp
+ 00000051  8B 35 00010004 R	    mov         esi,                _pservicevector
+ 00000057  81 FB 00000400	    cmp         ebx,                MAXDYNAMICSTACKS
+ 0000005D  72 06		    jb          @F
+ 0000005F  FF A6 0000018C	    jmp         dword ptr [esi+4*BASICSERV_NOSTACK_BUGCHECK] ; with ESP at stack allocation, EBX stack index
+ 00000065			@@:
+ 00000065  3B 24 9D		    cmp         esp,                _pstackvector[4*ebx]
+	   00010018 R
+ 0000006C  74 06		    je          @F
+ 0000006E  FF A6 0000018C	    jmp         dword ptr [esi+4*BASICSERV_NOSTACK_BUGCHECK] ; with ESP at stack allocation, EBX stack index
+ 00000074			@@:
+
+				    ; esp points at the base of the stack allocation
+				    ; ebx is the stack index
+				    ; eax/edx are the return values
+ 00000074  8B E8		    mov         ebp,                eax                     ; stash eax, as we will need the register for cmpxchg
+ 00000076  A1 0001000C R	    mov         eax,                _stackhead              ; [_stackhead]
+ 0000007B			@@:
+ 0000007B  8B C8		    mov         ecx,                eax  
+ 0000007D  81 E1 00000FFF	    and         ecx,                DYNSTACK_INDEXMASK      ; extract head index
+ 00000083  89 0C 24		    mov         [esp],              ecx                     ; put old index into the next link in the stack we are freeing
+ 00000086  8B C8		    mov         ecx,                eax
+ 00000088  81 E1 FFFFF000	    and         ecx,                DYNSTACK_SEQUENCEMASK   ; extract sequence
+ 0000008E  81 C1 00001000	    add         ecx,                DYNSTACK_SEQUENCEINCR   ; increment sequence
+ 00000094  0B CB		    or          ecx,                ebx                     ; insert new index
+
+ 00000096  F0/ 0F B1 0D		    lock cmpxchg dword ptr _stackhead, ecx                  ; update the head to point at freed stack if eax == [_stackhead]
+	   0001000C R
+ 0000009E  75 DB		    jne         @B                                          ; if _stackhead changed since we read it, retry (eax has new _stackhead)
+
+				    ; if we freed the only stack and it isn't the first stack, let somebody wakeup and run on it now
+				    ; ebp/edx are the return values
+
+ 000000A0  8B 35 00010004 R	    mov         esi,                _pservicevector
+ 000000A6  25 00000FFF		    and         eax,                DYNSTACK_INDEXMASK      ; extract previous head index
+ 000000AB  3D 00000FFF		    cmp         eax,                DYNSTACK_EMPTYINDEX
+ 000000B0  75 0B		    jne         @F
+ 000000B2  8D 0D 0001000C R	    lea         ecx,                _stackhead              ;; &_stackhead is pattern for wakeup (passed in ecx)
+ 000000B8  8B C5		    mov         eax,                ebp                     ;; restore EAX value  (EDX value wasn't changed)
+ 000000BA  FF 66 04		    jmp         dword ptr [esi+4*BASICSERV_NOSTACK_WAKEUP]  ;; must preserve EAX/EDX (the return values) and call Resume for us
+ 000000BD			@@:
+				    ; eax gets the return value
+				    ; callee must preserve edi, as it has our return value
+ 000000BD  8B C5		    mov         eax,                ebp                     ;; restore EAX value  (EDX value wasn't changed)
+ 000000BF  8B 35 00010000 R	    mov         esi,                _pemulationvector
+
+
+
+ 000000C5  FF 66 1C		    jmp         dword ptr [esi+4*TRAPEMUL_Resume]
+				    ;notreached
+
+				;
+				; routine to add a dynamic stacks
+				; argument is the base of a stack allocation of size DYNSTACK_ALLOCSIZE and must be aligned
+				; returns 1 if successful, or 0 if there already were MAXDYNAMICSTACKS
+				;
+				    EXTERNDEF C AddDynamicStack:Proc
+ 000000C8			AddDynamicStack LABEL PROC
+				    ; scratch registers:  eax ecx edx
+				    ; preserve registers: ebx esi edi (and ebp/esp of course)
+				    ; find empty location in pstackvector
+
+ 000000C8  8B 0D 00010010 R	    mov         ecx,                _dynamicstackhint       ; index hint
+ 000000CE			@@:
+				    ; search for index, starting at the hint
+				    ; (the stack indices may be sparse, if we start reclaiming stacks as we will likely pick whatever was at the front of the list)
+ 000000CE  8B 04 8D		    mov         eax,                _pstackvector[4*ecx]
+	   00010018 R
+ 000000D5  0B C0		    or          eax,                eax
+ 000000D7  74 0C		    jz          @F                                          ; found first unused index
+ 000000D9  41			    inc         ecx
+ 000000DA  81 F9 00000400	    cmp         ecx,                MAXDYNAMICSTACKS
+ 000000E0  7C EC		    jl          @B
+
+				    ; return failure
+ 000000E2  33 C0		    xor         eax,                eax
+ 000000E4  C3			    ret
+ 000000E5			@@:
+				    ; save a new hint
+ 000000E5  8B C1		    mov         eax,                ecx
+ 000000E7  40			    inc         eax
+ 000000E8  A3 00010010 R	    mov         _dynamicstackhint,  eax
+
+				    ; write stack allocation to vector
+ 000000ED  8B 54 24 04		    mov         edx,                4[esp]                  ; get stack allocation
+ 000000F1  89 14 8D		    mov         _pstackvector[4*ecx],  edx
+	   00010018 R
+				    
+				    ; insert the new stack at the head
+				    ;   ecx is the index of the new stack
+				    ;   edx is the location where we write the next index (i.e. the base of the stack allocation)
+				    ;   eax is scratch
+				    ;   save ebx and esi so we can use them too
+ 000000F8  53			    push        ebx
+ 000000F9  56			    push        esi
+ 000000FA  A1 0001000C R	    mov         eax,                _stackhead              ; [_stackhead]
+ 000000FF			@@:
+ 000000FF  8B D8		    mov         ebx,                eax  
+ 00000101  81 E3 00000FFF	    and         ebx,                DYNSTACK_INDEXMASK      ; extract head index
+ 00000107  89 1A		    mov         [edx],              ebx                     ; put old head index into the next link in the stack we are freeing
+ 00000109  8B F0		    mov         esi,                eax
+ 0000010B  81 E6 FFFFF000	    and         esi,                DYNSTACK_SEQUENCEMASK   ; extract sequence
+ 00000111  81 C6 00001000	    add         esi,                DYNSTACK_SEQUENCEINCR   ; increment sequence
+ 00000117  0B F1		    or          esi,                ecx                     ; insert new index
+
+ 00000119  F0/ 0F B1 35		    lock cmpxchg dword ptr _stackhead, esi                  ; update the head to point at freed stack if eax == [_stackhead]
+	   0001000C R
+ 00000121  75 DC		    jne         @B                                          ; if _stackhead changed since we read it, retry (eax has new _stackhead]
+
+				    ; if this is the first initialization, or there was already a free stack, we are done
+ 00000123  8B 35 00010014 R	    mov         esi,                _dynamicstackuninit
+ 00000129  0B F6		    or          esi,                esi
+ 0000012B  75 18		    jnz         @F
+ 0000012D  81 FB 00000FFF	    cmp         ebx,                DYNSTACK_EMPTYINDEX
+ 00000133  75 10		    jne         @F
+
+				    ; else let somebody wakeup and run on the stack we just added  (our caller should beware!)
+				    ; restore ebx and esi
+ 00000135  5E			    pop         esi
+ 00000136  5B			    pop         ebx
+
+ 00000137  8D 0D 0001000C R	    lea         ecx,                _stackhead              ;; &_stackhead is pattern for wakeup (passed in ecx)
+ 0000013D  A1 00010004 R	    mov         eax,                _pservicevector
+ 00000142  FF 60 04		    jmp         dword ptr [eax+4*BASICSERV_NOSTACK_WAKEUP]  ;; must return EAX=0 to our caller when it eventually calls Resume to return the CPU
+
+ 00000145			@@:
+				    ; set _dynamicstackuninit = FALSE
+ 00000145  33 DB		    xor         ebx,                 ebx
+ 00000147  89 1D 00010014 R	    mov         _dynamicstackuninit, ebx                    ;; we have now initialized the first stack
+
+				    ; restore ebx and esi and return success
+ 0000014D  5E			    pop         esi
+ 0000014E  5B			    pop         ebx
+ 0000014F  B8 00000001		    mov         eax,                1
+ 00000154  C3			    ret
+
+				;
+				; Handle the rest of the hardware emulation calls
+				;
+
+				EmulationCall macro  name
+				    EXTERNDEF C trap&name:PROC
+				trap&name& LABEL PROC
+				    mov         eax,                _pemulationvector
+				    mov         eax,                [eax+4*TRAPEMUL_&name]
+				    jmp         eax
+				    endm
+
+				    EmulationCall Noop
+ 00000155		     1	trapNoop LABEL PROC
+ 00000155  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 0000015A  8B 00	     1	    mov         eax,                [eax+4*TRAPEMUL_Noop]
+ 0000015C  FF E0	     1	    jmp         eax
+				    EmulationCall MapMemory
+ 0000015E		     1	trapMapMemory LABEL PROC
+ 0000015E  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 00000163  8B 40 04	     1	    mov         eax,                [eax+4*TRAPEMUL_MapMemory]
+ 00000166  FF E0	     1	    jmp         eax
+				    EmulationCall MapIO
+ 00000168		     1	trapMapIO LABEL PROC
+ 00000168  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 0000016D  8B 40 08	     1	    mov         eax,                [eax+4*TRAPEMUL_MapIO]
+ 00000170  FF E0	     1	    jmp         eax
+				    EmulationCall MapTrap
+ 00000172		     1	trapMapTrap LABEL PROC
+ 00000172  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 00000177  8B 40 0C	     1	    mov         eax,                [eax+4*TRAPEMUL_MapTrap]
+ 0000017A  FF E0	     1	    jmp         eax
+				    EmulationCall CreatePortal
+ 0000017C		     1	trapCreatePortal LABEL PROC
+ 0000017C  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 00000181  8B 40 10	     1	    mov         eax,                [eax+4*TRAPEMUL_CreatePortal]
+ 00000184  FF E0	     1	    jmp         eax
+				    EmulationCall DestroyPortal
+ 00000186		     1	trapDestroyPortal LABEL PROC
+ 00000186  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 0000018B  8B 40 14	     1	    mov         eax,                [eax+4*TRAPEMUL_DestroyPortal]
+ 0000018E  FF E0	     1	    jmp         eax
+				    EmulationCall CleanCtx
+ 00000190		     1	trapCleanCtx LABEL PROC
+ 00000190  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 00000195  8B 40 18	     1	    mov         eax,                [eax+4*TRAPEMUL_CleanCtx]
+ 00000198  FF E0	     1	    jmp         eax
+				    ; Special:    Resume            ; trapResume has to release the stack, so it is handcoded above
+				    EmulationCall Suspend
+ 0000019A		     1	trapSuspend LABEL PROC
+ 0000019A  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 0000019F  8B 40 20	     1	    mov         eax,                [eax+4*TRAPEMUL_Suspend]
+ 000001A2  FF E0	     1	    jmp         eax
+				    EmulationCall Unsuspend
+ 000001A4		     1	trapUnsuspend LABEL PROC
+ 000001A4  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 000001A9  8B 40 24	     1	    mov         eax,                [eax+4*TRAPEMUL_Unsuspend]
+ 000001AC  FF E0	     1	    jmp         eax
+				    EmulationCall PopCaller
+ 000001AE		     1	trapPopCaller LABEL PROC
+ 000001AE  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 000001B3  8B 40 28	     1	    mov         eax,                [eax+4*TRAPEMUL_PopCaller]
+ 000001B6  FF E0	     1	    jmp         eax
+				    EmulationCall DiscardToken
+ 000001B8		     1	trapDiscardToken LABEL PROC
+ 000001B8  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 000001BD  8B 40 2C	     1	    mov         eax,                [eax+4*TRAPEMUL_DiscardToken]
+ 000001C0  FF E0	     1	    jmp         eax
+				    EmulationCall StartCPU
+ 000001C2		     1	trapStartCPU LABEL PROC
+ 000001C2  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 000001C7  8B 40 30	     1	    mov         eax,                [eax+4*TRAPEMUL_StartCPU]
+ 000001CA  FF E0	     1	    jmp         eax
+				    EmulationCall InterruptCPU
+ 000001CC		     1	trapInterruptCPU LABEL PROC
+ 000001CC  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 000001D1  8B 40 34	     1	    mov         eax,                [eax+4*TRAPEMUL_InterruptCPU]
+ 000001D4  FF E0	     1	    jmp         eax
+				    EmulationCall AccessDevice
+ 000001D6		     1	trapAccessDevice LABEL PROC
+ 000001D6  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 000001DB  8B 40 38	     1	    mov         eax,                [eax+4*TRAPEMUL_AccessDevice]
+ 000001DE  FF E0	     1	    jmp         eax
+				    EmulationCall ManageIRQL
+ 000001E0		     1	trapManageIRQL LABEL PROC
+ 000001E0  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 000001E5  8B 40 3C	     1	    mov         eax,                [eax+4*TRAPEMUL_ManageIRQL]
+ 000001E8  FF E0	     1	    jmp         eax
+				    EmulationCall HaltCPU
+ 000001EA		     1	trapHaltCPU LABEL PROC
+ 000001EA  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 000001EF  8B 40 40	     1	    mov         eax,                [eax+4*TRAPEMUL_HaltCPU]
+ 000001F2  FF E0	     1	    jmp         eax
+				    EmulationCall GetSPACEParams
+ 000001F4		     1	trapGetSPACEParams LABEL PROC
+ 000001F4  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 000001F9  8B 40 44	     1	    mov         eax,                [eax+4*TRAPEMUL_GetSPACEParams]
+ 000001FC  FF E0	     1	    jmp         eax
+				    EmulationCall SPACEBreak
+ 000001FE		     1	trapSPACEBreak LABEL PROC
+ 000001FE  A1 00010000 R     1	    mov         eax,                _pemulationvector
+ 00000203  8B 40 48	     1	    mov         eax,                [eax+4*TRAPEMUL_SPACEBreak]
+ 00000206  FF E0	     1	    jmp         eax
+
+				;
+				; Define the dispatch entries here
+				;
+				; System calls implemented by BasicOZ are defined in the included file
+				;
+
+
+				SystemCall macro  name,index
+				    EXTERNDEF C sys_&name:PROC
+				sys_&name& LABEL PROC
+				    mov         eax,                _pservicevector
+				    mov         eax,                [eax+4*index]
+				    jmp         eax
+				    endm
+
+				include BasicOZServices.inc
+			      C ;;
+			      C ;; Copyright (c) Microsoft Corporation. All rights reserved. 
+			      C ;; 
+			      C ;; You may only use this code if you agree to the terms of the ProjectOZ License agreement (see License.txt).
+			      C ;; If you do not agree to the terms, do not use the code.
+			      C ;;
+			      C 
+			      C ; included in Machine.asm
+			      C 
+			      C ; external declarations of C routines
+			      C     EXTERN C foo:PROC
+			      C ;   EXTERN C ConsolePrint:PROC
+			      C ;   EXTERN C ConsoleGetline:PROC
+			      C 
+			      C ; public declarations of asm dispatch routines
+			      C     PUBLIC C dispatch_foo
+			      C ;   PUBLIC C dispatch_ConsolePrint
+			      C ;   PUBLIC C dispatch_ConsoleGetline
+			      C 
+			      C ; define dynamic stubs for server side
+			      C     DynamicInvoke   foo
+ 00000208		     1C dispatch_foo LABEL PROC
+ 00000208  A1 0001000C R     1C     mov         eax,                _stackhead              
+ 0000020D  8B E8	     1C     mov         ebp,                eax                     
+ 0000020F  25 00000FFF	     1C     and         eax,                DYNSTACK_INDEXMASK      
+ 00000214  3D 00000FFF	     1C     cmp         eax,                DYNSTACK_EMPTYINDEX
+ 00000219  75 11	     1C     jnz         @F
+ 0000021B  8D 05 0001000C R  1C     lea         eax,                _stackhead              
+ 00000221  8B 25 00010004 R  1C     mov         esp,                _pservicevector         
+ 00000227  FF 24 24	     1C     jmp         dword ptr [esp+4*BASICSERV_NOSTACK_SLEEP]   
+ 0000022A  EB DC	     1C     jmp         dispatch_foo                          
+ 0000022C		     1C @@:
+ 0000022C  8B 24 85	     1C     mov         esp,                _pstackvector[4*eax]    
+	   00010018 R
+ 00000233  8B C5	     1C     mov         eax,                ebp
+ 00000235  25 FFFFF000	     1C     and         eax,                DYNSTACK_SEQUENCEMASK   
+ 0000023A  05 00001000	     1C     add         eax,                DYNSTACK_SEQUENCEINCR   
+ 0000023F  0B 04 24	     1C     or          eax,                [esp]                   
+ 00000242  8B E0	     1C     mov         esp,                eax
+ 00000244  8B C5	     1C     mov         eax,                ebp                     
+ 00000246  F0/ 0F B1 25	     1C     lock cmpxchg dword ptr _stackhead, esp                  
+	   0001000C R
+ 0000024E  75 B8	     1C     jne         dispatch_foo                          
+ 00000250  25 00000FFF	     1C     and         eax,                DYNSTACK_INDEXMASK      
+ 00000255  8B 24 85	     1C     mov         esp,                _pstackvector[4*eax]
+	   00010018 R
+ 0000025C  83 C4 00	     1C     add         esp,                DYNSTACK_ALLOCSIZE      
+ 0000025F  81 E5 00000FFF    1C     and         ebp,                DYNSTACK_INDEXMASK
+ 00000265  55		     1C     push        ebp
+ 00000266  56		     1C     push        esi
+ 00000267  57		     1C     push        edi
+ 00000268  52		     1C     push        edx
+ 00000269  51		     1C     push        ecx
+ 0000026A  53		     1C     push        ebx
+ 0000026B  33 C0	     1C     xor         eax,                eax
+ 0000026D  8B E8	     1C     mov         ebp,                eax
+ 0000026F  8B F0	     1C     mov         esi,                eax
+ 00000271  8B F8	     1C     mov         edi,                eax
+ 00000273  8B D0	     1C     mov         edx,                eax
+ 00000275  8B C8	     1C     mov         ecx,                eax
+ 00000277  8B D8	     1C     mov         ebx,                eax
+ 00000279  E8 00000000 E     1C     call        foo
+ 0000027E  E9 FFFFFDBA	     1C     jmp         trapResume
+			      C ;   DynamicInvoke   ConsolePrint
+			      C ;   DynamicInvoke   ConsoleGetline
+			      C 
+			      C ; define stubs for client side
+			      C     SystemCall      foo,                BASICSERV_foo
+ 00000283		     1C sys_foo LABEL PROC
+ 00000283  A1 00010004 R     1C     mov         eax,                _pservicevector
+ 00000288  8B 40 34	     1C     mov         eax,                [eax+4*BASICSERV_foo]
+ 0000028B  FF E0	     1C     jmp         eax
+			      C ;   SystemCall      ConsolePrint,       BASICSERV_ConsolePrint
+			      C ;   SystemCall      ConsoleGetline,     BASICSERV_ConsoleGetline
+			      C 
+			      C 
+			      C 
+
+ 0000028D 028D			_TEXT   ENDS
+
+				; End of file
+				    end
+
+Microsoft (R) Macro Assembler Version 7.10.4035		    07/24/22 20:40:03
+"BasicOZ machine-level code"				     Symbols 2 - 1
+"BasicOZ boot"
+
+
+
+Macros:
+
+                N a m e                 Type
+
+DynamicInvoke  . . . . . . . . .	Proc
+EmulationCall  . . . . . . . . .	Proc
+SystemCall . . . . . . . . . . .	Proc
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	32 Bit	 00011018 Page	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 028D	  DWord	  Public  'CODE'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+$$$00001 . . . . . . . . . . . .	P Near	 0000	  _TEXT	Length= 028D Private
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+AddDynamicStack  . . . . . . . .	L Near	 00C8	  _TEXT	Public C
+BASEVECTOR . . . . . . . . . . .	Text   	 071001000H
+BASICSERV_ConsoleGetline . . . .	Number	 0051h	 
+BASICSERV_ConsolePrint . . . . .	Number	 0050h	 
+BASICSERV_NOSTACK_BUGCHECK . . .	Number	 0063h	 
+BASICSERV_NOSTACK_SLEEP  . . . .	Number	 0000h	 
+BASICSERV_NOSTACK_WAKEUP . . . .	Number	 0001h	 
+BASICSERV_foo  . . . . . . . . .	Number	 000Dh	 
+DYNSTACK_ALLOCSIZE . . . . . . .	Number	 0000h	 
+DYNSTACK_BASEMASK  . . . . . . .	Number	 -0001h	  
+DYNSTACK_EMPTYINDEX  . . . . . .	Text   	 DYNSTACK_INDEXMASK
+DYNSTACK_INDEXMASK . . . . . . .	Number	 0FFFh	 
+DYNSTACK_SEQUENCEINCR  . . . . .	Number	 1000h	 
+DYNSTACK_SEQUENCEMASK  . . . . .	Text   	 0fffff000H
+EMULATIONVECTOR  . . . . . . . .	Text   	 (BASEVECTOR +  0)
+FPO  . . . . . . . . . . . . . .	Text   	 0
+LIBRARYVECTOR  . . . . . . . . .	Text   	 (BASEVECTOR +  8)
+MAXDYNAMICSTACKS . . . . . . . .	Number	 0400h	 
+NOSTACKS_PARAM_EMPTYLIST . . . .	Number	 0000h	 
+NOSTACKS_PARAM_LISTNOLONGEREMPTY .	Number	 0002h	 
+NOSTACKS_PARAM_STACKCORRUPT  . .	Number	 0001h	 
+SERVICEVECTOR  . . . . . . . . .	Text   	 (BASEVECTOR +  4)
+STD_CALL . . . . . . . . . . . .	Text   	 
+TRAPEMUL_AccessDevice  . . . . .	Number	 000Eh	 
+TRAPEMUL_CleanCtx  . . . . . . .	Number	 0006h	 
+TRAPEMUL_CreatePortal  . . . . .	Number	 0004h	 
+TRAPEMUL_DestroyPortal . . . . .	Number	 0005h	 
+TRAPEMUL_DiscardToken  . . . . .	Number	 000Bh	 
+TRAPEMUL_GetSPACEParams  . . . .	Number	 0011h	 
+TRAPEMUL_HaltCPU . . . . . . . .	Number	 0010h	 
+TRAPEMUL_InterruptCPU  . . . . .	Number	 000Dh	 
+TRAPEMUL_ManageIRQL  . . . . . .	Number	 000Fh	 
+TRAPEMUL_MapIO . . . . . . . . .	Number	 0002h	 
+TRAPEMUL_MapMemory . . . . . . .	Number	 0001h	 
+TRAPEMUL_MapTrap . . . . . . . .	Number	 0003h	 
+TRAPEMUL_Noop  . . . . . . . . .	Number	 0000h	 
+TRAPEMUL_PopCaller . . . . . . .	Number	 000Ah	 
+TRAPEMUL_Resume  . . . . . . . .	Number	 0007h	 
+TRAPEMUL_SPACEBreak  . . . . . .	Number	 0012h	 
+TRAPEMUL_StartCPU  . . . . . . .	Number	 000Ch	 
+TRAPEMUL_Suspend . . . . . . . .	Number	 0008h	 
+TRAPEMUL_Unsuspend . . . . . . .	Number	 0009h	 
+TRAPSERV_MAXCALLS  . . . . . . .	Number	 0100h	 
+_X86_  . . . . . . . . . . . . .	Text   	 1
+_basicoz . . . . . . . . . . . .	L Near	 0000	  _TEXT	Public C
+_boot  . . . . . . . . . . . . .	L Near	 0000	  External
+_dynamicstackhint  . . . . . . .	DWord	 00010010 _DATA	
+_dynamicstackuninit  . . . . . .	DWord	 00010014 _DATA	
+_pemulationvector  . . . . . . .	DWord	 00010000 _DATA	Public C
+_plibraryvector  . . . . . . . .	DWord	 00010008 _DATA	Public C
+_pservicevector  . . . . . . . .	DWord	 00010004 _DATA	Public C
+_pstackvector  . . . . . . . . .	DWord	 00010018 _DATA	
+_stackhead . . . . . . . . . . .	DWord	 0001000C _DATA	
+dispatch_foo . . . . . . . . . .	L Near	 0208	  _TEXT	Public C
+foo  . . . . . . . . . . . . . .	L Near	 0000	  _TEXT	External C
+i386 . . . . . . . . . . . . . .	Text   	 1
+mainstacktop . . . . . . . . . .	DWord	 FFFC	  _DATA	
+sys_foo  . . . . . . . . . . . .	L Near	 0283	  _TEXT	Public C
+trapAccessDevice . . . . . . . .	L Near	 01D6	  _TEXT	Public C
+trapCleanCtx . . . . . . . . . .	L Near	 0190	  _TEXT	Public C
+trapCreatePortal . . . . . . . .	L Near	 017C	  _TEXT	Public C
+trapDestroyPortal  . . . . . . .	L Near	 0186	  _TEXT	Public C
+trapDiscardToken . . . . . . . .	L Near	 01B8	  _TEXT	Public C
+trapGetSPACEParams . . . . . . .	L Near	 01F4	  _TEXT	Public C
+trapHaltCPU  . . . . . . . . . .	L Near	 01EA	  _TEXT	Public C
+trapInterruptCPU . . . . . . . .	L Near	 01CC	  _TEXT	Public C
+trapManageIRQL . . . . . . . . .	L Near	 01E0	  _TEXT	Public C
+trapMapIO  . . . . . . . . . . .	L Near	 0168	  _TEXT	Public C
+trapMapMemory  . . . . . . . . .	L Near	 015E	  _TEXT	Public C
+trapMapTrap  . . . . . . . . . .	L Near	 0172	  _TEXT	Public C
+trapNoop . . . . . . . . . . . .	L Near	 0155	  _TEXT	Public C
+trapPopCaller  . . . . . . . . .	L Near	 01AE	  _TEXT	Public C
+trapResume . . . . . . . . . . .	L Near	 003D	  _TEXT	Public C
+trapSPACEBreak . . . . . . . . .	L Near	 01FE	  _TEXT	Public C
+trapStartCPU . . . . . . . . . .	L Near	 01C2	  _TEXT	Public C
+trapSuspend  . . . . . . . . . .	L Near	 019A	  _TEXT	Public C
+trapUnsuspend  . . . . . . . . .	L Near	 01A4	  _TEXT	Public C
+
+	   0 Warnings
+	   0 Errors

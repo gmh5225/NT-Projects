@@ -1,0 +1,88 @@
+ BasicOZ
+
+ Timestamp is 62dde664 (Sun Jul 24 20:40:04 2022)
+
+ Preferred load address is 60000000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00000784H .text                   CODE
+ 0002:00000000 0000001cH .rdata                  DATA
+ 0002:0000001c 00000000H .edata                  DATA
+ 0002:0000001c 0000003bH .rdata$debug            DATA
+ 0003:00000000 00011420H .data                   DATA
+ 0003:00011420 00000010H .bss                    DATA
+
+  Address         Publics by Value              Rva+Base     Lib:Object
+
+ 0000:00000000       ___safe_se_handler_table   00000000     <absolute>
+ 0000:00000000       ___safe_se_handler_count   00000000     <absolute>
+ 0001:00000000       __basicoz                  60010000     Machine.obj
+ 0001:0000003d       _trapResume                6001003d     Machine.obj
+ 0001:000000c8       _AddDynamicStack           600100c8     Machine.obj
+ 0001:00000155       _trapNoop                  60010155     Machine.obj
+ 0001:0000015e       _trapMapMemory             6001015e     Machine.obj
+ 0001:00000168       _trapMapIO                 60010168     Machine.obj
+ 0001:00000172       _trapMapTrap               60010172     Machine.obj
+ 0001:0000017c       _trapCreatePortal          6001017c     Machine.obj
+ 0001:00000186       _trapDestroyPortal         60010186     Machine.obj
+ 0001:00000190       _trapCleanCtx              60010190     Machine.obj
+ 0001:0000019a       _trapSuspend               6001019a     Machine.obj
+ 0001:000001a4       _trapUnsuspend             600101a4     Machine.obj
+ 0001:000001ae       _trapPopCaller             600101ae     Machine.obj
+ 0001:000001b8       _trapDiscardToken          600101b8     Machine.obj
+ 0001:000001c2       _trapStartCPU              600101c2     Machine.obj
+ 0001:000001cc       _trapInterruptCPU          600101cc     Machine.obj
+ 0001:000001d6       _trapAccessDevice          600101d6     Machine.obj
+ 0001:000001e0       _trapManageIRQL            600101e0     Machine.obj
+ 0001:000001ea       _trapHaltCPU               600101ea     Machine.obj
+ 0001:000001f4       _trapGetSPACEParams        600101f4     Machine.obj
+ 0001:000001fe       _trapSPACEBreak            600101fe     Machine.obj
+ 0001:00000208       _dispatch_foo              60010208     Machine.obj
+ 0001:00000283       _sys_foo                   60010283     Machine.obj
+ 0001:0000028e       _boot                      6001028e f   Boot.obj
+ 0001:000002b2       _tohex                     600102b2 f   Boot.obj
+ 0001:000002ea       _mapconsolebuffer          600102ea f   Boot.obj
+ 0001:00000336       _consolePrint              60010336 f   Boot.obj
+ 0001:00000398       _consolePrintX             60010398 f   Boot.obj
+ 0001:000003b6       _consoleGetline            600103b6 f   Boot.obj
+ 0001:00000414       _foo                       60010414 f   Boot.obj
+ 0001:00000426       _SPACE_Noop                60010426 f   SPACEOps.obj
+ 0001:0000042c       _SPACE_MapMemory           6001042c f   SPACEOps.obj
+ 0001:0000045c       _SPACE_CleanCtx            6001045c f   SPACEOps.obj
+ 0001:00000466       _SPACE_CreatePortal        60010466 f   SPACEOps.obj
+ 0001:000004a8       _SPACE_DestroyPortal       600104a8 f   SPACEOps.obj
+ 0001:000004ba       _SPACE_MapTrap             600104ba f   SPACEOps.obj
+ 0001:000004f6       _SPACE_Suspend             600104f6 f   SPACEOps.obj
+ 0001:000004fc       _SPACE_Resume              600104fc f   SPACEOps.obj
+ 0001:0000050e       _SPACE_Unsuspend           6001050e f   SPACEOps.obj
+ 0001:00000520       _SPACE_DiscardToken        60010520 f   SPACEOps.obj
+ 0001:00000532       _SPACE_PopCaller           60010532 f   SPACEOps.obj
+ 0001:00000538       _SPACE_StartCPU            60010538 f   SPACEOps.obj
+ 0001:00000568       _SPACE_HaltCPU             60010568 f   SPACEOps.obj
+ 0001:00000572       _SPACE_MapIO               60010572 f   SPACEOps.obj
+ 0001:000005aa       _SPACE_AccessDevice        600105aa f   SPACEOps.obj
+ 0001:000005e8       _SPACE_InterruptCPU        600105e8 f   SPACEOps.obj
+ 0001:0000061a       _SPACE_ManageIRQL          6001061a f   SPACEOps.obj
+ 0001:00000648       _SPACE_GetSPACEParams      60010648 f   SPACEOps.obj
+ 0001:00000652       _SPACE_SPACEBreak          60010652 f   SPACEOps.obj
+ 0001:00000694       _ConsolePrint              60010694 f   Console.obj
+ 0001:000006b4       _ConsoleGetline            600106b4 f   Console.obj
+ 0001:000006d4       _debugprint                600106d4 f   Console.obj
+ 0001:00000746       _debugprintx               60010746 f   Console.obj
+ 0003:00010000       __pemulationvector         60040000     Machine.obj
+ 0003:00010004       __pservicevector           60040004     Machine.obj
+ 0003:00010008       __plibraryvector           60040008     Machine.obj
+ 0003:00011018       _consolebuffer             60041018     Boot.obj
+ 0003:00011418       _maxoutputchars            60041418     Boot.obj
+ 0003:0001141c       _maxinputchars             6004141c     Boot.obj
+ 0003:00011420       _nphysmempages             60041420     <common>
+ 0003:00011424       _CurrentUserCtx            60041424     <common>
+ 0003:00011428       _mappedconsolebuffer       60041428     <common>
+ 0003:0001142c       _physbasepage              6004142c     <common>
+
+ entry point at        0001:00000000
+
+ Static symbols
+
+ 0001:00000000       $$$00001                   60010000 f   Machine.obj
+ 0001:00000712       _tohex                     60010712 f   Console.obj
