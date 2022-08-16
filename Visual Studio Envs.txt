@@ -1,0 +1,19 @@
+2000 DDK Checked
+
+C:\Windows\System32\cmd.exe /k C:\WINDDK\3790\bin\setenv.bat C:\WINDDK\3790 w2k c
+
+2005
+
+%comspec% /k ""C:\Program Files (x86)\Microsoft Visual Studio 8\VC\vcvarsall.bat"" x86
+
+2008
+
+%comspec% /k ""C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\vcvarsall.bat"" x86
+
+2010
+
+%comspec% /k ""C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"" x86
+
+2012
+
+%comspec% /k ""C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\vcvarsall.bat"" x86_amd64
