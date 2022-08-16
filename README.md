@@ -6,7 +6,7 @@ Currently uses a VS2005 environment Please use Nmap and open the 'microsoft.xml'
 port scan.
 
 Vista SDK and DDK
-Visdual Studio 2005 at least Pro
+Visual Studio 2005 at least Pro
 
 Make a NT\WRK-V1.2\<Git-Root>
 
