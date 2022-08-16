@@ -15,5 +15,7 @@ Use the NTENV shortcut to launch the NT ENV. And use Sysinternals and below is '
 <img src="Images\process.jpg" width="950" height="500">
 <img src="Images\crop-circles-united-kingdom01.jpg" width="950" height="500">
 
+the 2002 sscli builds on FreeBSD 4.7 you might need to up dat it to 6.1 to reflect the microsoft build server best aggesive port scan case.
+
 'Dont Tell Me'
 'I Dont Have to Try'
