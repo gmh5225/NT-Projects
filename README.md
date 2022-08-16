@@ -11,8 +11,6 @@ Visual Studio 2005 at least Pro
 
 Make a NT\WRK-V1.2\<Git-Root>
 
-set PATH=D:\NT\WRK-V1.2\TOOLS\X86
-
 run ntenv.cmd ntuser.cmd
 
 Use the NTENV shortcut to launch the NT ENV. And use Sysinternals and below is 'process explorer'

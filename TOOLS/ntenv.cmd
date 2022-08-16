@@ -26,7 +26,7 @@ set _NTUSER=%USERNAME%
 @rem
 set LIB=D:\NT\WRK-V1.2\LIB
 set INCLUDE=D:\NT\WRK-V1.2\INCLUDE
-set path=%path%;D:\NT\WRK-V1.2\TOOLS\AMD64
+set path=%path%;D:\NT\WRK-V1.2\TOOLS\x86
 @rem
 @rem Setup default build parameters.
 @rem
