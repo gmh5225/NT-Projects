@@ -33,7 +33,7 @@ REM
 :DoMICROSOFT
 REM
 REM *** Add your private environment settings for computer: MICROSOFT here ***
-REM path=%path%;D:\NT\WRK-V1.2\TOOLS\AMD64
+REM path=%path%;<**Your path here**> 
 REM set SDEDITOR=<**Your editor name here**> 
 REM
 goto :eof
