@@ -3,7 +3,8 @@
 This project fosters the begining of a NT Source Tree.
 
 Currently uses a VS2005 environment Please use Nmap and open the 'microsoft.xml'
-port scan.
+port scan. The 2002 sscli builds on FreeBSD 4.7 you might need to up date it to 6.1 to reflect the microsoft build server best aggesive port scan case.
+
 
 Vista SDK and DDK
 Visual Studio 2005 at least Pro
