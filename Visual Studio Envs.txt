@@ -1,4 +1,4 @@
-2000 DDK Checked
+2003 DDK Checked
 
 C:\Windows\System32\cmd.exe /k C:\WINDDK\3790\bin\setenv.bat C:\WINDDK\3790 w2k c
 
