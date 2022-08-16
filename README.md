@@ -8,7 +8,7 @@ port scan.
 Vista SDK and DDK
 Visdual Studio 2005 at least Pro
 
-Make a NT\WRK-V1.2
+Make a NT\WRK-V1.2\<Git-Root>
 
 Use the NTENV shortcut to launch the NT ENV. And use Sysinternals and below is 'process explorer'
 
