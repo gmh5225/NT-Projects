@@ -8,6 +8,8 @@ port scan.
 Vista SDK and DDK
 Visdual Studio 2005 at least Pro
 
+Make a NT\WRK-V1.2
+
 Use the NTENV shortcut to launch the NT ENV. And use Sysinternals and below is 'process explorer'
 
 <img src="Images\process.jpg" width="950" height="500">
