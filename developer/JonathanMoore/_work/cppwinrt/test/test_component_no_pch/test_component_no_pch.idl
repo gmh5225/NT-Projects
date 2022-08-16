@@ -1,0 +1,43 @@
+import "Windows.Foundation.idl";
+
+namespace test_component_no_pch
+{
+    runtimeclass Class
+    {
+        Class();
+
+        void Method();
+    }
+
+    namespace Peer1
+    {
+        delegate void Delegate(test_component_no_pch.Peer2.B value);
+
+        struct A
+        {
+            Int32 Value;
+        };
+
+        struct B
+        {
+            A First;
+            Int32 Second;
+        };
+    }
+
+    namespace Peer2
+    {
+        struct B
+        {
+            test_component_no_pch.Peer1.A First;
+            Int32 Second;
+        };
+    }
+
+    // This structure verifies that the structure can at least be declared
+    // (but perhaps not meaningfully consumed) without having first included Windows.Foundation.h.
+    struct StructWithReference
+    {
+        Windows.Foundation.IReference<Int32> OptionalValue;
+    };
+}
