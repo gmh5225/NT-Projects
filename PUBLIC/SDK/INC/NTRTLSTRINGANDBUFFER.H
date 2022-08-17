@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -12,8 +8,16 @@ Module Name:
 
 Abstract:
 
-    Broken out from nturtl and rtl so I can move it between them in separate
+    Broken out from nturtl and rtl so I can move it between them in seperate
     trees without merge madness. To be integrated into ntrtl.h
+
+Author:
+
+    Jay Krell (a-JayK) December 2000
+
+Environment:
+
+Revision History:
 
 --*/
 
@@ -158,7 +162,6 @@ typedef struct _RTL_BUFFER {
 
 #define RTL_ENSURE_BUFFER_SIZE_NO_COPY (0x00000001)
 
-NTSYSAPI
 NTSTATUS
 NTAPI
 RtlpEnsureBufferSize(
@@ -341,7 +344,7 @@ typedef struct _RTL_UNICODE_STRING_BUFFER {
 //
 // Return Value:
 //
-//     STATUS_SUCCESS
+//     STATUS_SUCCESS       - hooray
 //
 //--
 #define RtlSyncStringToBuffer(x)                                            \
@@ -377,7 +380,7 @@ typedef struct _RTL_UNICODE_STRING_BUFFER {
 //
 // Return Value:
 //
-//     STATUS_SUCCESS
+//     STATUS_SUCCESS       - hooray
 //
 //--
 #define RtlSyncBufferToString(Buff_)                                         \
@@ -417,7 +420,7 @@ typedef struct _RTL_UNICODE_STRING_BUFFER {
 //
 // Return Value:
 //
-//     STATUS_SUCCESS
+//     STATUS_SUCCESS       - hooray
 //     STATUS_NO_MEMORY     - out of memory
 //     STATUS_NAME_TOO_LONG - (NewSizeChars + 1) * sizeof(WCHAR) > UNICODE_STRING_MAX_BYTES (USHORT)
 //
@@ -475,7 +478,6 @@ typedef struct _RTL_UNICODE_STRING_BUFFER {
                     ( (Dest)->String.Buffer[(Dest)->String.Length / sizeof((Dest)->String.Buffer[0])] = 0 ), \
                     ( STATUS_SUCCESS ) ) ) )
 
-NTSYSAPI
 NTSTATUS
 NTAPI
 RtlMultiAppendUnicodeStringBuffer(
@@ -505,9 +507,9 @@ RtlMultiAppendUnicodeStringBuffer(
 // is never read) and the optimizer should "kill" them (not bother performing them).
 //
 // A buffer can be freed multiple times.
-// A buffer that has been freed is in the same state as one that just been initialized.
+// A buffer that has been freed is in the same state as one that just been inited.
 // A buffer that is all zeros (RtlZeroMemory) can be freed. You do not need to
-//   track if you initialized it.
+//   track if you inited it.
 //--
 #define RtlFreeUnicodeStringBuffer(Buff)      \
     do {                                      \
@@ -731,7 +733,7 @@ RtlAssignAnsiStringBufferFromUnicode(
 
 NTSTATUS
 NTAPI
-RtlUnicodeStringBufferEnsureTrailingNtPathSeparator(
+RtlUnicodeStringBufferEnsureTrailingNtPathSeperator(
     PRTL_UNICODE_STRING_BUFFER StringBuffer
     );
 
@@ -749,4 +751,3 @@ RtlUnicodeStringBufferEnsureTrailingNtPathSeparator(
 #endif
 #endif
 #endif
-

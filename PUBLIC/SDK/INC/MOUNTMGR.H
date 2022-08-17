@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) 1997-1999  Microsoft Corporation
 
 Module Name:
 
@@ -14,6 +10,12 @@ Abstract:
 
     This file defines the external mount point interface for administering
     mount points.
+
+Author:
+
+    norbertk
+
+Revision History:
 
 --*/
 
@@ -251,6 +253,8 @@ typedef struct _MOUNTDEV_NAME {
 DEFINE_GUID(MOUNTDEV_MOUNTED_DEVICE_GUID, 0x53f5630d, 0xb6bf, 0x11d0, 0x94, 0xf2, 0x00, 0xa0, 0xc9, 0x1e, 0xfb, 0x8b);
 
 
+
+
 //
 // Input / Output structure for querying / setting the auto-mount setting
 //
@@ -269,4 +273,3 @@ typedef struct _MOUNTMGR_SET_AUTO_MOUNT {
     } MOUNTMGR_SET_AUTO_MOUNT, *PMOUNTMGR_SET_AUTO_MOUNT;
 
 #endif
-

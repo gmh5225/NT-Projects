@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0011    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) 1989-1999 Microsoft Corporation
 
 Module Name:
 
@@ -14,6 +10,13 @@ Abstract:
 
     This module contains the public data structures and API definitions
     needed to utilize Local Security Authority (LSA) services.
+
+
+Author:
+
+    Jim Kelly (JimK) 21-February-1991
+
+Revision History:
 
 --*/
 
@@ -169,14 +172,6 @@ typedef enum _SECURITY_LOGON_TYPE {
 #define SECURITY_ACCESS_REMOTE_INTERACTIVE_LOGON      ((ULONG) 0x00000400L)
 #define SECURITY_ACCESS_DENY_REMOTE_INTERACTIVE_LOGON ((ULONG) 0x00000800L)
 
-// begin_ntddk begin_ntosp begin_wdm
-// begin_ntsecapi
-#ifndef _NTLSA_IFS_
-// begin_ntifs
-
-#ifndef _NTLSA_AUDIT_
-#define _NTLSA_AUDIT_
-
 /////////////////////////////////////////////////////////////////////////
 //                                                                     //
 // Data types related to Auditing                                      //
@@ -195,26 +190,26 @@ typedef enum _SECURITY_LOGON_TYPE {
 
 typedef enum _SE_ADT_PARAMETER_TYPE {
 
-    SeAdtParmTypeNone = 0,          // Produces 1 parameter
-                                    // Received value:
+    SeAdtParmTypeNone = 0,          //Produces 1 parameter
+                                    //Received value:
                                     //
                                     //  None.
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  a unicode string containing "-".
                                     //
-                                    // Note:  This is typically used to
+                                    //Note:  This is typically used to
                                     //       indicate that a parameter value
                                     //       was not available.
                                     //
 
-    SeAdtParmTypeString,            // Produces 1 parameter.
-                                    // Received Value:
+    SeAdtParmTypeString,            //Produces 1 parameter.
+                                    //Received Value:
                                     //
                                     //  Unicode String (variable length)
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  No transformation.  The string
                                     //  entered into the event record as
@@ -226,13 +221,13 @@ typedef enum _SE_ADT_PARAMETER_TYPE {
 
 
 
-    SeAdtParmTypeFileSpec,          // Produces 1 parameter.
-                                    // Received value:
+    SeAdtParmTypeFileSpec,          //Produces 1 parameter.
+                                    //Received value:
                                     //
                                     //  Unicode string containing a file or
                                     //  directory name.
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  Unicode string with the prefix of the
                                     //  file's path replaced by a drive letter
@@ -242,23 +237,23 @@ typedef enum _SE_ADT_PARAMETER_TYPE {
 
 
 
-    SeAdtParmTypeUlong,             // Produces 1 parameter
-                                    // Received value:
+    SeAdtParmTypeUlong,             //Produces 1 parameter
+                                    //Received value:
                                     //
                                     //  Ulong
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  Unicode string representation of
                                     //  unsigned integer value.
 
 
-    SeAdtParmTypeSid,               // Produces 1 parameter.
-                                    // Received value:
+    SeAdtParmTypeSid,               //Produces 1 parameter.
+                                    //Received value:
                                     //
                                     //  SID (variable length)
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  String representation of SID
                                     //
@@ -266,30 +261,30 @@ typedef enum _SE_ADT_PARAMETER_TYPE {
 
 
 
-    SeAdtParmTypeLogonId,           // Produces 3 parameters.
-                                    // Received Value:
+    SeAdtParmTypeLogonId,           //Produces 3 parameters.
+                                    //Received Value:
                                     //
                                     //  LUID (fixed length)
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  param 1: Username string
                                     //  param 2: domain name string
                                     //  param 3: Logon ID (Luid) string
 
 
-    SeAdtParmTypeNoLogonId,         // Produces 3 parameters.
-                                    // Received value:
+    SeAdtParmTypeNoLogonId,         //Produces 3 parameters.
+                                    //Received value:
                                     //
                                     //  None.
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  param 1: "-"
                                     //  param 2: "-"
                                     //  param 3: "-"
                                     //
-                                    // Note:
+                                    //Note:
                                     //
                                     //  This type is used when a logon ID
                                     //  is needed, but one is not available
@@ -299,8 +294,8 @@ typedef enum _SE_ADT_PARAMETER_TYPE {
                                     //  anyone.
                                     //
 
-    SeAdtParmTypeAccessMask,        // Produces 1 parameter with formatting.
-                                    // Received value:
+    SeAdtParmTypeAccessMask,        //Produces 1 parameter with formatting.
+                                    //Received value:
                                     //
                                     //  ACCESS_MASK followed by
                                     //  a Unicode string.  The unicode
@@ -309,16 +304,17 @@ typedef enum _SE_ADT_PARAMETER_TYPE {
                                     //  applies to.  The event's source
                                     //  further qualifies the object type.
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  formatted unicode string built to
                                     //  take advantage of the specified
                                     //  source's parameter message file.
                                     //
-                                    // Note:
+                                    //Note:
                                     //
                                     //  An access mask containing three
-                                    //  access types for a Widget object type
+                                    //  access types for a Widget object
+                                    //  type (defined by the Foozle source)
                                     //  might end up looking like:
                                     //
                                     //      %%1062\n\t\t%1066\n\t\t%%601
@@ -330,10 +326,12 @@ typedef enum _SE_ADT_PARAMETER_TYPE {
 
 
 
-    SeAdtParmTypePrivs,             // Produces 1 parameter with formatting.
-                                    // Received value:
+    SeAdtParmTypePrivs,             //Produces 1 parameter with formatting.
+                                    //Received value:
                                     //
-                                    // Results in:
+                                    //  ??? Check with RobertRe and ScottBi
+                                    //
+                                    //Results in:
                                     //
                                     //  formatted unicode string similar to
                                     //  that for access types.  Each priv
@@ -343,112 +341,112 @@ typedef enum _SE_ADT_PARAMETER_TYPE {
                                     //      %%642\n\t\t%%651\n\t\t%%655
                                     //
 
-    SeAdtParmTypeObjectTypes,       // Produces 10 parameters with formatting.
-                                    // Received value:
+    SeAdtParmTypeObjectTypes,       //Produces 10 parameters with formatting.
+                                    //Received value:
                                     //
                                     // Produces a list a stringized GUIDS along
                                     // with information similar to that for
                                     // an access mask.
 
-    SeAdtParmTypeHexUlong,          // Produces 1 parameter
-                                    // Received value:
+    SeAdtParmTypeHexUlong,          //Produces 1 parameter
+                                    //Received value:
                                     //
                                     //  Ulong
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  Unicode string representation of
                                     //  unsigned integer value in hexadecimal.
 
-    SeAdtParmTypePtr,               // Produces 1 parameter
-                                    // Received value:
+    SeAdtParmTypePtr,               //Produces 1 parameter
+                                    //Received value:
                                     //
                                     //  pointer
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  Unicode string representation of
                                     //  unsigned integer value in hexadecimal.
 
-    SeAdtParmTypeTime,              // Produces 2 parameters
-                                    // Received value:
+    SeAdtParmTypeTime,              //Produces 2 parameters
+                                    //Received value:
                                     //
                                     //  LARGE_INTEGER
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     // Unicode string representation of
                                     // date and time.
 
                                     //
-    SeAdtParmTypeGuid,              // Produces 1 parameter
-                                    // Received value:
+    SeAdtParmTypeGuid,              //Produces 1 parameter
+                                    //Received value:
                                     //
                                     //  GUID pointer
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     // Unicode string representation of GUID
                                     // {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
                                     //
 
     SeAdtParmTypeLuid,              //
-                                    // Produces 1 parameter
-                                    // Received value:
+                                    //Produces 1 parameter
+                                    //Received value:
                                     //
                                     // LUID
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     // Hex LUID
                                     //
 
-    SeAdtParmTypeHexInt64,          // Produces 1 parameter
-                                    // Received value:
+    SeAdtParmTypeHexInt64,          //Produces 1 parameter
+                                    //Received value:
                                     //
                                     //  64 bit integer
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     //  Unicode string representation of
                                     //  unsigned integer value in hexadecimal.
 
-    SeAdtParmTypeStringList,        // Produces 1 parameter
-                                    // Received value:
+    SeAdtParmTypeStringList,        //Produces 1 parameter
+                                    //Received value:
                                     //
                                     // ptr to LSAP_ADT_STRING_LIST
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     // Unicode string representation of
                                     // concatenation of the strings in the list
 
-    SeAdtParmTypeSidList,           // Produces 1 parameter
-                                    // Received value:
+    SeAdtParmTypeSidList,           //Produces 1 parameter
+                                    //Received value:
                                     //
                                     // ptr to LSAP_ADT_SID_LIST
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     // Unicode string representation of
                                     // concatenation of the SIDs in the list
 
-    SeAdtParmTypeDuration,          // Produces 1 parameters
-                                    // Received value:
+    SeAdtParmTypeDuration,          //Produces 1 parameters
+                                    //Received value:
                                     //
                                     //  LARGE_INTEGER
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     // Unicode string representation of
                                     // a duration.
 
-    SeAdtParmTypeUserAccountControl,// Produces 3 parameters
-                                    // Received value:
+    SeAdtParmTypeUserAccountControl,//Produces 3 parameters
+                                    //Received value:
                                     //
                                     // old and new UserAccountControl values
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     // Unicode string representations of
                                     // the flags in UserAccountControl.
@@ -456,33 +454,33 @@ typedef enum _SE_ADT_PARAMETER_TYPE {
                                     // 2 - new value in hex
                                     // 3 - difference as strings
 
-    SeAdtParmTypeNoUac,             // Produces 3 parameters
-                                    // Received value:
+    SeAdtParmTypeNoUac,             //Produces 3 parameters
+                                    //Received value:
                                     //
                                     // none
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     // Three dashes ('-') as unicode strings.
 
-    SeAdtParmTypeMessage,           // Produces 1 Parameter
-                                    // Received value:
+    SeAdtParmTypeMessage,           //Produces 1 Parameter
+                                    //Received value:
                                     //
                                     //  ULONG (MessageNo from msobjs.mc)
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     // Unicode string representation of
                                     // %%MessageNo which the event viewer
                                     // will replace with the message string
                                     // from msobjs.mc
 
-    SeAdtParmTypeDateTime,          // Produces 1 Parameter
-                                    // Received value:
+    SeAdtParmTypeDateTime,          //Produces 1 Parameter
+                                    //Received value:
                                     //
                                     //  LARGE_INTEGER
                                     //
-                                    // Results in:
+                                    //Results in:
                                     //
                                     // Unicode string representation of
                                     // date and time (in _one_ string).
@@ -524,13 +522,14 @@ typedef struct _SE_ADT_PARAMETER_ARRAY_ENTRY {
 
 } SE_ADT_PARAMETER_ARRAY_ENTRY, *PSE_ADT_PARAMETER_ARRAY_ENTRY;
 
+
+
 //
 // Structure that will be passed between the Reference Monitor and LSA
 // to transmit auditing information.
 //
 
 #define SE_MAX_AUDIT_PARAMETERS 32
-#define SE_MAX_GENERIC_AUDIT_PARAMETERS 28
 
 typedef struct _SE_ADT_PARAMETER_ARRAY {
 
@@ -544,14 +543,9 @@ typedef struct _SE_ADT_PARAMETER_ARRAY {
 
 } SE_ADT_PARAMETER_ARRAY, *PSE_ADT_PARAMETER_ARRAY;
 
+
 #define SE_ADT_PARAMETERS_SELF_RELATIVE     0x00000001
 
-#endif // _NTLSA_AUDIT_
-
-// end_ntifs
-#endif // _NTLSA_IFS_
-// end_ntsecapi
-// end_ntddk end_ntosp end_wdm
 
 ///////////////////////////////////////////////////////////////////////////
 //                                                                       //
@@ -726,29 +720,29 @@ typedef struct _LSA_OBJECT_ATTRIBUTES {
 NTSTATUS
 NTAPI
 LsaRegisterLogonProcess (
-    __in PLSA_STRING LogonProcessName,
-    __out PHANDLE LsaHandle,
-    __out PLSA_OPERATIONAL_MODE SecurityMode
+    IN PLSA_STRING LogonProcessName,
+    OUT PHANDLE LsaHandle,
+    OUT PLSA_OPERATIONAL_MODE SecurityMode
     );
 
 
 NTSTATUS
 NTAPI
 LsaLogonUser (
-    __in HANDLE LsaHandle,
-    __in PLSA_STRING OriginName,
-    __in SECURITY_LOGON_TYPE LogonType,
-    __in ULONG AuthenticationPackage,
-    __in_bcount(AuthenticationInformationLength) PVOID AuthenticationInformation,
-    __in ULONG AuthenticationInformationLength,
-    __in_opt PTOKEN_GROUPS LocalGroups,
-    __in PTOKEN_SOURCE SourceContext,
-    __out PVOID *ProfileBuffer,
-    __out PULONG ProfileBufferLength,
-    __out PLUID LogonId,
-    __out PHANDLE Token,
-    __out PQUOTA_LIMITS Quotas,
-    __out PNTSTATUS SubStatus
+    IN HANDLE LsaHandle,
+    IN PLSA_STRING OriginName,
+    IN SECURITY_LOGON_TYPE LogonType,
+    IN ULONG AuthenticationPackage,
+    IN PVOID AuthenticationInformation,
+    IN ULONG AuthenticationInformationLength,
+    IN PTOKEN_GROUPS LocalGroups OPTIONAL,
+    IN PTOKEN_SOURCE SourceContext,
+    OUT PVOID *ProfileBuffer,
+    OUT PULONG ProfileBufferLength,
+    OUT PLUID LogonId,
+    OUT PHANDLE Token,
+    OUT PQUOTA_LIMITS Quotas,
+    OUT PNTSTATUS SubStatus
     );
 
 
@@ -757,9 +751,9 @@ LsaLogonUser (
 NTSTATUS
 NTAPI
 LsaLookupAuthenticationPackage (
-    __in HANDLE LsaHandle,
-    __in PLSA_STRING PackageName,
-    __out PULONG AuthenticationPackage
+    IN HANDLE LsaHandle,
+    IN PLSA_STRING PackageName,
+    OUT PULONG AuthenticationPackage
     );
 
 // begin_ntifs
@@ -767,7 +761,7 @@ LsaLookupAuthenticationPackage (
 NTSTATUS
 NTAPI
 LsaFreeReturnBuffer (
-    __in PVOID Buffer
+    IN PVOID Buffer
     );
 
 // end_ntifs
@@ -775,26 +769,26 @@ LsaFreeReturnBuffer (
 NTSTATUS
 NTAPI
 LsaCallAuthenticationPackage (
-    __in HANDLE LsaHandle,
-    __in ULONG AuthenticationPackage,
-    __in_bcount(SubmitBufferLength) PVOID ProtocolSubmitBuffer,
-    __in ULONG SubmitBufferLength,
-    __out_opt PVOID *ProtocolReturnBuffer,
-    __out_opt PULONG ReturnBufferLength,
-    __out_opt PNTSTATUS ProtocolStatus
+    IN HANDLE LsaHandle,
+    IN ULONG AuthenticationPackage,
+    IN PVOID ProtocolSubmitBuffer,
+    IN ULONG SubmitBufferLength,
+    OUT PVOID *ProtocolReturnBuffer,
+    OUT PULONG ReturnBufferLength,
+    OUT PNTSTATUS ProtocolStatus
     );
 
 
 NTSTATUS
 NTAPI
 LsaDeregisterLogonProcess (
-    __in HANDLE LsaHandle
+    IN HANDLE LsaHandle
     );
 
 NTSTATUS
 NTAPI
 LsaConnectUntrusted (
-    __out PHANDLE LsaHandle
+    OUT PHANDLE LsaHandle
     );
 
 #endif // _NTLSA_IFS_
@@ -865,8 +859,8 @@ typedef struct _LSA_TOKEN_INFORMATION_NULL {
 
 //
 // The V1 token information structure is superceeded by the V2 token
-// information structure.  The V1 structure should only be used for
-// backwards compatibility.
+// information structure.  The V1 strucure should only be used for
+// backwards compatability.
 // This structure contains information that an authentication package
 // can place in a Version 1 NT token object.
 //
@@ -961,7 +955,7 @@ typedef struct _LSA_TOKEN_INFORMATION_V1 {
 // The V2 information is used in most cases of logon.  The structure is identical
 // to the V1 token information structure, with the exception that the memory allocation
 // is handled differently.  The LSA_TOKEN_INFORMATION_V2 structure is intended to be
-// allocated monolithically, with the privileges, DACL, sids, and group array either part of
+// allocated monolithiclly, with the privileges, DACL, sids, and group array either part of
 // same allocation, or allocated and freed externally.
 //
 
@@ -1356,7 +1350,7 @@ typedef struct _LSA_TRANSLATED_SID2 {
 //         SidInvalid, then the remainder of the record is not set and
 //         should be ignored.
 //
-//     Sid - Contains the complete Sid of the translated SID
+//     Sid - Contains the complete Sid of the tranlated SID
 //
 //     DomainIndex - Is the index of an entry in a related
 //         LSA_REFERENCED_DOMAIN_LIST data structure describing the
@@ -1651,7 +1645,7 @@ typedef struct _POLICY_AUDIT_EVENTS_INFO {
 //    EventAuditingOptions - Pointer to an array of Auditing Options
 //        indexed by Audit Event Type.
 //
-//    MaximumAuditEventCount - Specifies a count of the number of Audit
+//    MaximumAuditEventCount - Specifiesa count of the number of Audit
 //        Event Types specified by the EventAuditingOptions parameter.  If
 //        this count is less than the number of Audit Event Types supported
 //        by the system, the Auditing Options for Event Types with IDs
@@ -1756,6 +1750,12 @@ typedef struct _POLICY_LSA_SERVER_ROLE_INFO {
     POLICY_LSA_SERVER_ROLE LsaServerRole;
 
 } POLICY_LSA_SERVER_ROLE_INFO, *PPOLICY_LSA_SERVER_ROLE_INFO;
+
+// where the fields have the following usage:
+//
+// TBS
+//
+
 
 //
 // The following structure corresponds to the PolicyReplicaSourceInformation
@@ -1890,7 +1890,7 @@ typedef struct _POLICY_DOMAIN_KERBEROS_TICKET_INFO {
 //      MaxTicketAge -- Maximum lifetime for the initial ticket
 //
 //      MaxRenewAge -- Maximum cumulative age a renewable ticket can be with
-//                     requiring authentication
+//                     requring authentication
 //
 //      MaxClockSkew -- Maximum tolerance for synchronization of computer clocks
 //
@@ -2116,7 +2116,6 @@ typedef PLSA_TRUST_INFORMATION PTRUSTED_DOMAIN_INFORMATION_BASIC;
 #define TRUST_ATTRIBUTE_CROSS_ORGANIZATION 0x00000010  // This trust is to a domain/forest which is not part of this enterprise
 #define TRUST_ATTRIBUTE_WITHIN_FOREST      0x00000020  // Trust is internal to this forest
 #define TRUST_ATTRIBUTE_TREAT_AS_EXTERNAL  0x00000040  // Trust is to be treated as external for trust boundary purposes
-#define TRUST_ATTRIBUTE_TRUST_USES_RC4_ENCRYPTION     0x00000080 // MIT trust with RC4
 // Trust attributes 0x00000040 through 0x00200000 are reserved for future use
 // Trust attributes 0x00400000 through 0x00800000 were used previously (up to W2K) and should not be re-used
 // Trust attributes 0x01000000 through 0x80000000 are reserved for user
@@ -2404,13 +2403,13 @@ typedef struct _LSA_ENUMERATION_INFORMATION {
 NTSTATUS
 NTAPI
 LsaFreeMemory(
-    __in_opt PVOID Buffer
+    IN PVOID Buffer
     );
 
 NTSTATUS
 NTAPI
 LsaClose(
-    __in LSA_HANDLE ObjectHandle
+    IN LSA_HANDLE ObjectHandle
     );
 
 // end_ntsecapi
@@ -2418,33 +2417,33 @@ LsaClose(
 NTSTATUS
 NTAPI
 LsaDelete(
-    __in LSA_HANDLE ObjectHandle
+    IN LSA_HANDLE ObjectHandle
     );
 
 NTSTATUS
 NTAPI
 LsaQuerySecurityObject(
-    __in LSA_HANDLE ObjectHandle,
-    __in SECURITY_INFORMATION SecurityInformation,
-    __out PSECURITY_DESCRIPTOR *SecurityDescriptor
+    IN LSA_HANDLE ObjectHandle,
+    IN SECURITY_INFORMATION SecurityInformation,
+    OUT PSECURITY_DESCRIPTOR *SecurityDescriptor
     );
 
 NTSTATUS
 NTAPI
 LsaSetSecurityObject(
-    __in LSA_HANDLE ObjectHandle,
-    __in SECURITY_INFORMATION SecurityInformation,
-    __in PSECURITY_DESCRIPTOR SecurityDescriptor
+    IN LSA_HANDLE ObjectHandle,
+    IN SECURITY_INFORMATION SecurityInformation,
+    IN PSECURITY_DESCRIPTOR SecurityDescriptor
     );
 
 NTSTATUS
 NTAPI
 LsaChangePassword(
-    __in PLSA_UNICODE_STRING ServerName,
-    __in PLSA_UNICODE_STRING DomainName,
-    __in PLSA_UNICODE_STRING AccountName,
-    __in PLSA_UNICODE_STRING OldPassword,
-    __in PLSA_UNICODE_STRING NewPassword
+    IN PLSA_UNICODE_STRING ServerName,
+    IN PLSA_UNICODE_STRING DomainName,
+    IN PLSA_UNICODE_STRING AccountName,
+    IN PLSA_UNICODE_STRING OldPassword,
+    IN PLSA_UNICODE_STRING NewPassword
     );
 
 // begin_ntsecapi
@@ -2459,6 +2458,11 @@ typedef struct _SECURITY_LOGON_SESSION_DATA {
     ULONG               Session ;
     PSID                Sid ;
     LARGE_INTEGER       LogonTime ;
+
+    //
+    // new for whistler:
+    //
+
     LSA_UNICODE_STRING  LogonServer ;
     LSA_UNICODE_STRING  DnsDomainName ;
     LSA_UNICODE_STRING  Upn ;
@@ -2467,15 +2471,15 @@ typedef struct _SECURITY_LOGON_SESSION_DATA {
 NTSTATUS
 NTAPI
 LsaEnumerateLogonSessions(
-    __out PULONG LogonSessionCount,
-    __out PLUID * LogonSessionList
+    OUT PULONG  LogonSessionCount,
+    OUT PLUID * LogonSessionList
     );
 
 NTSTATUS
 NTAPI
 LsaGetLogonSessionData(
-    __in PLUID LogonId,
-    __out PSECURITY_LOGON_SESSION_DATA * ppLogonSessionData
+    IN PLUID    LogonId,
+    OUT PSECURITY_LOGON_SESSION_DATA * ppLogonSessionData
     );
 
 // end_ntsecapi
@@ -2490,10 +2494,10 @@ LsaGetLogonSessionData(
 NTSTATUS
 NTAPI
 LsaOpenPolicy(
-    __in_opt PLSA_UNICODE_STRING SystemName,
-    __in PLSA_OBJECT_ATTRIBUTES ObjectAttributes,
-    __in ACCESS_MASK DesiredAccess,
-    __out PLSA_HANDLE PolicyHandle
+    IN PLSA_UNICODE_STRING SystemName OPTIONAL,
+    IN PLSA_OBJECT_ATTRIBUTES ObjectAttributes,
+    IN ACCESS_MASK DesiredAccess,
+    IN OUT PLSA_HANDLE PolicyHandle
     );
 
 // end_ntsecapi
@@ -2501,10 +2505,10 @@ LsaOpenPolicy(
 NTSTATUS
 NTAPI
 LsaOpenPolicySce(
-    __in_opt PLSA_UNICODE_STRING SystemName,
-    __in PLSA_OBJECT_ATTRIBUTES ObjectAttributes,
-    __in ACCESS_MASK DesiredAccess,
-    __out PLSA_HANDLE PolicyHandle
+    IN PLSA_UNICODE_STRING SystemName OPTIONAL,
+    IN PLSA_OBJECT_ATTRIBUTES ObjectAttributes,
+    IN ACCESS_MASK DesiredAccess,
+    IN OUT PLSA_HANDLE PolicyHandle
     );
 
 // begin_ntsecapi
@@ -2512,48 +2516,48 @@ LsaOpenPolicySce(
 NTSTATUS
 NTAPI
 LsaQueryInformationPolicy(
-    __in LSA_HANDLE PolicyHandle,
-    __in POLICY_INFORMATION_CLASS InformationClass,
-    __out PVOID *Buffer
+    IN LSA_HANDLE PolicyHandle,
+    IN POLICY_INFORMATION_CLASS InformationClass,
+    OUT PVOID *Buffer
     );
 
 NTSTATUS
 NTAPI
 LsaSetInformationPolicy(
-    __in LSA_HANDLE PolicyHandle,
-    __in POLICY_INFORMATION_CLASS InformationClass,
-    __in PVOID Buffer
+    IN LSA_HANDLE PolicyHandle,
+    IN POLICY_INFORMATION_CLASS InformationClass,
+    IN PVOID Buffer
     );
 
 NTSTATUS
 NTAPI
 LsaQueryDomainInformationPolicy(
-    __in LSA_HANDLE PolicyHandle,
-    __in POLICY_DOMAIN_INFORMATION_CLASS InformationClass,
-    __out PVOID *Buffer
+    IN LSA_HANDLE PolicyHandle,
+    IN POLICY_DOMAIN_INFORMATION_CLASS InformationClass,
+    OUT PVOID *Buffer
     );
 
 NTSTATUS
 NTAPI
 LsaSetDomainInformationPolicy(
-    __in LSA_HANDLE PolicyHandle,
-    __in POLICY_DOMAIN_INFORMATION_CLASS InformationClass,
-    __in_opt PVOID Buffer
+    IN LSA_HANDLE PolicyHandle,
+    IN POLICY_DOMAIN_INFORMATION_CLASS InformationClass,
+    IN PVOID Buffer
     );
 
 
 NTSTATUS
 NTAPI
 LsaRegisterPolicyChangeNotification(
-    __in POLICY_NOTIFICATION_INFORMATION_CLASS InformationClass,
-    __in HANDLE  NotificationEventHandle
+    IN POLICY_NOTIFICATION_INFORMATION_CLASS InformationClass,
+    IN HANDLE  NotificationEventHandle
     );
 
 NTSTATUS
 NTAPI
 LsaUnregisterPolicyChangeNotification(
-    __in POLICY_NOTIFICATION_INFORMATION_CLASS InformationClass,
-    __in HANDLE  NotificationEventHandle
+    IN POLICY_NOTIFICATION_INFORMATION_CLASS InformationClass,
+    IN HANDLE  NotificationEventHandle
     );
 
 
@@ -2562,35 +2566,35 @@ LsaUnregisterPolicyChangeNotification(
 NTSTATUS
 NTAPI
 LsaClearAuditLog(
-    __in LSA_HANDLE PolicyHandle
+    IN LSA_HANDLE PolicyHandle
     );
 
 NTSTATUS
 NTAPI
 LsaCreateAccount(
-    __in LSA_HANDLE PolicyHandle,
-    __in PSID AccountSid,
-    __in ACCESS_MASK DesiredAccess,
-    __out PLSA_HANDLE AccountHandle
+    IN LSA_HANDLE PolicyHandle,
+    IN PSID AccountSid,
+    IN ACCESS_MASK DesiredAccess,
+    OUT PLSA_HANDLE AccountHandle
     );
 
 NTSTATUS
 NTAPI
 LsaEnumerateAccounts(
-    __in LSA_HANDLE PolicyHandle,
-    __inout PLSA_ENUMERATION_HANDLE EnumerationContext,
-    __out PVOID *Buffer,
-    __in ULONG PreferedMaximumLength,
-    __out PULONG CountReturned
+    IN LSA_HANDLE PolicyHandle,
+    IN OUT PLSA_ENUMERATION_HANDLE EnumerationContext,
+    OUT PVOID *EnumerationBuffer,
+    IN ULONG PreferedMaximumLength,
+    OUT PULONG CountReturned
     );
 
 NTSTATUS
 NTAPI
 LsaCreateTrustedDomain(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_TRUST_INFORMATION TrustedDomainInformation,
-    __in ACCESS_MASK DesiredAccess,
-    __out PLSA_HANDLE TrustedDomainHandle
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_TRUST_INFORMATION TrustedDomainInformation,
+    IN ACCESS_MASK DesiredAccess,
+    OUT PLSA_HANDLE TrustedDomainHandle
     );
 
 // begin_ntsecapi
@@ -2598,11 +2602,11 @@ LsaCreateTrustedDomain(
 NTSTATUS
 NTAPI
 LsaEnumerateTrustedDomains(
-    __in LSA_HANDLE PolicyHandle,
-    __inout PLSA_ENUMERATION_HANDLE EnumerationContext,
-    __out PVOID *Buffer,
-    __in ULONG PreferedMaximumLength,
-    __out PULONG CountReturned
+    IN LSA_HANDLE PolicyHandle,
+    IN OUT PLSA_ENUMERATION_HANDLE EnumerationContext,
+    OUT PVOID *Buffer,
+    IN ULONG PreferedMaximumLength,
+    OUT PULONG CountReturned
     );
 
 // end_ntsecapi
@@ -2610,11 +2614,11 @@ LsaEnumerateTrustedDomains(
 NTSTATUS
 NTAPI
 LsaEnumeratePrivileges(
-    __in LSA_HANDLE PolicyHandle,
-    __inout PLSA_ENUMERATION_HANDLE EnumerationContext,
-    __out PVOID *Buffer,
-    __in ULONG PreferedMaximumLength,
-    __out PULONG CountReturned
+    IN LSA_HANDLE PolicyHandle,
+    IN OUT PLSA_ENUMERATION_HANDLE EnumerationContext,
+    OUT PVOID *Buffer,
+    IN ULONG PreferedMaximumLength,
+    OUT PULONG CountReturned
     );
 
 // begin_ntsecapi
@@ -2622,32 +2626,32 @@ LsaEnumeratePrivileges(
 NTSTATUS
 NTAPI
 LsaLookupNames(
-    __in LSA_HANDLE PolicyHandle,
-    __in ULONG Count,
-    __in PLSA_UNICODE_STRING Names,
-    __out PLSA_REFERENCED_DOMAIN_LIST *ReferencedDomains,
-    __out PLSA_TRANSLATED_SID *Sids
+    IN LSA_HANDLE PolicyHandle,
+    IN ULONG Count,
+    IN PLSA_UNICODE_STRING Names,
+    OUT PLSA_REFERENCED_DOMAIN_LIST *ReferencedDomains,
+    OUT PLSA_TRANSLATED_SID *Sids
     );
 
 NTSTATUS
 NTAPI
 LsaLookupNames2(
-    __in LSA_HANDLE PolicyHandle,
-    __in ULONG Flags, // Reserved
-    __in ULONG Count,
-    __in PLSA_UNICODE_STRING Names,
-    __out PLSA_REFERENCED_DOMAIN_LIST *ReferencedDomains,
-    __out PLSA_TRANSLATED_SID2 *Sids
+    IN LSA_HANDLE PolicyHandle,
+    IN ULONG Flags, // Reserved
+    IN ULONG Count,
+    IN PLSA_UNICODE_STRING Names,
+    OUT PLSA_REFERENCED_DOMAIN_LIST *ReferencedDomains,
+    OUT PLSA_TRANSLATED_SID2 *Sids
     );
 
 NTSTATUS
 NTAPI
 LsaLookupSids(
-    __in LSA_HANDLE PolicyHandle,
-    __in ULONG Count,
-    __in PSID *Sids,
-    __out PLSA_REFERENCED_DOMAIN_LIST *ReferencedDomains,
-    __out PLSA_TRANSLATED_NAME *Names
+    IN LSA_HANDLE PolicyHandle,
+    IN ULONG Count,
+    IN PSID *Sids,
+    OUT PLSA_REFERENCED_DOMAIN_LIST *ReferencedDomains,
+    OUT PLSA_TRANSLATED_NAME *Names
     );
 
 // end_ntsecapi
@@ -2655,10 +2659,10 @@ LsaLookupSids(
 NTSTATUS
 NTAPI
 LsaCreateSecret(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING SecretName,
-    __in ACCESS_MASK DesiredAccess,
-    __out PLSA_HANDLE SecretHandle
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING SecretName,
+    IN ACCESS_MASK DesiredAccess,
+    OUT PLSA_HANDLE SecretHandle
     );
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2670,60 +2674,60 @@ LsaCreateSecret(
 NTSTATUS
 NTAPI
 LsaOpenAccount(
-    __in LSA_HANDLE PolicyHandle,
-    __in PSID AccountSid,
-    __in ACCESS_MASK DesiredAccess,
-    __out PLSA_HANDLE AccountHandle
+    IN LSA_HANDLE PolicyHandle,
+    IN PSID AccountSid,
+    IN ACCESS_MASK DesiredAccess,
+    OUT PLSA_HANDLE AccountHandle
     );
 
 NTSTATUS
 NTAPI
 LsaEnumeratePrivilegesOfAccount(
-    __in LSA_HANDLE AccountHandle,
-    __out PPRIVILEGE_SET *Privileges
+    IN LSA_HANDLE AccountHandle,
+    OUT PPRIVILEGE_SET *Privileges
     );
 
 NTSTATUS
 NTAPI
 LsaAddPrivilegesToAccount(
-    __in LSA_HANDLE AccountHandle,
-    __in PPRIVILEGE_SET Privileges
+    IN LSA_HANDLE AccountHandle,
+    IN PPRIVILEGE_SET Privileges
     );
 
 NTSTATUS
 NTAPI
 LsaRemovePrivilegesFromAccount(
-    __in LSA_HANDLE AccountHandle,
-    __in BOOLEAN AllPrivileges,
-    __in_opt PPRIVILEGE_SET Privileges
+    IN LSA_HANDLE AccountHandle,
+    IN BOOLEAN AllPrivileges,
+    IN PPRIVILEGE_SET Privileges
     );
 
 NTSTATUS
 NTAPI
 LsaGetQuotasForAccount(
-    __in LSA_HANDLE AccountHandle,
-    __out PQUOTA_LIMITS QuotaLimits
+    IN LSA_HANDLE AccountHandle,
+    OUT PQUOTA_LIMITS QuotaLimits
     );
 
 NTSTATUS
 NTAPI
 LsaSetQuotasForAccount(
-    __in LSA_HANDLE AccountHandle,
-    __in PQUOTA_LIMITS QuotaLimits
+    IN LSA_HANDLE AccountHandle,
+    IN PQUOTA_LIMITS QuotaLimits
     );
 
 NTSTATUS
 NTAPI
 LsaGetSystemAccessAccount(
-    __in LSA_HANDLE AccountHandle,
-    __out PULONG SystemAccess
+    IN LSA_HANDLE AccountHandle,
+    OUT PULONG SystemAccess
     );
 
 NTSTATUS
 NTAPI
 LsaSetSystemAccessAccount(
-    __in LSA_HANDLE AccountHandle,
-    __in ULONG SystemAccess
+    IN LSA_HANDLE AccountHandle,
+    IN ULONG SystemAccess
     );
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2735,26 +2739,26 @@ LsaSetSystemAccessAccount(
 NTSTATUS
 NTAPI
 LsaOpenTrustedDomain(
-    __in LSA_HANDLE PolicyHandle,
-    __in PSID TrustedDomainSid,
-    __in ACCESS_MASK DesiredAccess,
-    __out PLSA_HANDLE TrustedDomainHandle
+    IN LSA_HANDLE PolicyHandle,
+    IN PSID TrustedDomainSid,
+    IN ACCESS_MASK DesiredAccess,
+    OUT PLSA_HANDLE TrustedDomainHandle
     );
 
 NTSTATUS
 NTAPI
 LsaQueryInfoTrustedDomain(
-    __in LSA_HANDLE TrustedDomainHandle,
-    __in TRUSTED_INFORMATION_CLASS InformationClass,
-    __out PVOID *Buffer
+    IN LSA_HANDLE TrustedDomainHandle,
+    IN TRUSTED_INFORMATION_CLASS InformationClass,
+    OUT PVOID *Buffer
     );
 
 NTSTATUS
 NTAPI
 LsaSetInformationTrustedDomain(
-    __in LSA_HANDLE TrustedDomainHandle,
-    __in TRUSTED_INFORMATION_CLASS InformationClass,
-    __in PVOID Buffer
+    IN LSA_HANDLE TrustedDomainHandle,
+    IN TRUSTED_INFORMATION_CLASS InformationClass,
+    IN PVOID Buffer
     );
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2766,28 +2770,28 @@ LsaSetInformationTrustedDomain(
 NTSTATUS
 NTAPI
 LsaOpenSecret(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING SecretName,
-    __in ACCESS_MASK DesiredAccess,
-    __out PLSA_HANDLE SecretHandle
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING SecretName,
+    IN ACCESS_MASK DesiredAccess,
+    OUT PLSA_HANDLE SecretHandle
     );
 
 NTSTATUS
 NTAPI
 LsaSetSecret(
-    __in LSA_HANDLE SecretHandle,
-    __in_opt PLSA_UNICODE_STRING CurrentValue,
-    __in_opt PLSA_UNICODE_STRING OldValue
+    IN LSA_HANDLE SecretHandle,
+    IN OPTIONAL PLSA_UNICODE_STRING CurrentValue,
+    IN OPTIONAL PLSA_UNICODE_STRING OldValue
     );
 
 NTSTATUS
 NTAPI
 LsaQuerySecret(
-    __in LSA_HANDLE SecretHandle,
-    __out_opt OPTIONAL PLSA_UNICODE_STRING *CurrentValue,
-    __out_opt PLARGE_INTEGER CurrentValueSetTime,
-    __out_opt PLSA_UNICODE_STRING *OldValue,
-    __out_opt PLARGE_INTEGER OldValueSetTime
+    IN LSA_HANDLE SecretHandle,
+    OUT OPTIONAL PLSA_UNICODE_STRING *CurrentValue,
+    OUT OPTIONAL PLARGE_INTEGER CurrentValueSetTime,
+    OUT OPTIONAL PLSA_UNICODE_STRING *OldValue,
+    OUT OPTIONAL PLARGE_INTEGER OldValueSetTime
     );
 
 
@@ -2800,26 +2804,26 @@ LsaQuerySecret(
 NTSTATUS
 NTAPI
 LsaLookupPrivilegeValue(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING Name,
-    __out PLUID Value
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING Name,
+    OUT PLUID Value
     );
 
 NTSTATUS
 NTAPI
 LsaLookupPrivilegeName(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLUID Value,
-    __out PLSA_UNICODE_STRING *Name
+    IN LSA_HANDLE PolicyHandle,
+    IN PLUID Value,
+    OUT PLSA_UNICODE_STRING *Name
     );
 
 NTSTATUS
 NTAPI
 LsaLookupPrivilegeDisplayName(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING Name,
-    __out PLSA_UNICODE_STRING *DisplayName,
-    __out PSHORT LanguageReturned
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING Name,
+    OUT PLSA_UNICODE_STRING *DisplayName,
+    OUT PSHORT LanguageReturned
     );
 
 
@@ -2831,15 +2835,15 @@ LsaLookupPrivilegeDisplayName(
 
 NTSTATUS
 LsaGetUserName(
-    __out PLSA_UNICODE_STRING * UserName,
-    __out_opt PLSA_UNICODE_STRING * DomainName
+    OUT PLSA_UNICODE_STRING * UserName,
+    OUT OPTIONAL PLSA_UNICODE_STRING * DomainName
     );
 
 NTSTATUS
 LsaGetRemoteUserName(
-    __in_opt PLSA_UNICODE_STRING SystemName,
-    __out PLSA_UNICODE_STRING * UserName,
-    __out_opt PLSA_UNICODE_STRING * DomainName
+    IN OPTIONAL PLSA_UNICODE_STRING SystemName,
+    OUT PLSA_UNICODE_STRING * UserName,
+    OUT OPTIONAL PLSA_UNICODE_STRING * DomainName
     );
 
 
@@ -2870,10 +2874,10 @@ LsaGetRemoteUserName(
 NTSTATUS
 NTAPI
 LsaEnumerateAccountsWithUserRight(
-    __in LSA_HANDLE PolicyHandle,
-    __in_opt PLSA_UNICODE_STRING UserRight,
-    __out PVOID *Buffer,
-    __out PULONG CountReturned
+    IN LSA_HANDLE PolicyHandle,
+    IN OPTIONAL PLSA_UNICODE_STRING UserRights,
+    OUT PVOID *EnumerationBuffer,
+    OUT PULONG CountReturned
     );
 
 //
@@ -2884,29 +2888,29 @@ LsaEnumerateAccountsWithUserRight(
 NTSTATUS
 NTAPI
 LsaEnumerateAccountRights(
-    __in LSA_HANDLE PolicyHandle,
-    __in PSID AccountSid,
-    __deref_out_ecount(*CountOfRights) PLSA_UNICODE_STRING *UserRights,
-    __out PULONG CountOfRights
+    IN LSA_HANDLE PolicyHandle,
+    IN PSID AccountSid,
+    OUT PLSA_UNICODE_STRING *UserRights,
+    OUT PULONG CountOfRights
     );
 
 NTSTATUS
 NTAPI
 LsaAddAccountRights(
-    __in LSA_HANDLE PolicyHandle,
-    __in PSID AccountSid,
-    __in_ecount(CountOfRights) PLSA_UNICODE_STRING UserRights,
-    __in ULONG CountOfRights
+    IN LSA_HANDLE PolicyHandle,
+    IN PSID AccountSid,
+    IN PLSA_UNICODE_STRING UserRights,
+    IN ULONG CountOfRights
     );
 
 NTSTATUS
 NTAPI
 LsaRemoveAccountRights(
-    __in LSA_HANDLE PolicyHandle,
-    __in PSID AccountSid,
-    __in BOOLEAN AllRights,
-    __in_ecount_opt(CountOfRights) PLSA_UNICODE_STRING UserRights,
-    __in ULONG CountOfRights
+    IN LSA_HANDLE PolicyHandle,
+    IN PSID AccountSid,
+    IN BOOLEAN AllRights,
+    IN PLSA_UNICODE_STRING UserRights,
+    IN ULONG CountOfRights
     );
 
 
@@ -2919,92 +2923,92 @@ LsaRemoveAccountRights(
 NTSTATUS
 NTAPI
 LsaOpenTrustedDomainByName(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING TrustedDomainName,
-    __in ACCESS_MASK DesiredAccess,
-    __out PLSA_HANDLE TrustedDomainHandle
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING TrustedDomainName,
+    IN ACCESS_MASK DesiredAccess,
+    OUT PLSA_HANDLE TrustedDomainHandle
     );
 
 
 NTSTATUS
 NTAPI
 LsaQueryTrustedDomainInfo(
-    __in LSA_HANDLE PolicyHandle,
-    __in PSID TrustedDomainSid,
-    __in TRUSTED_INFORMATION_CLASS InformationClass,
-    __out PVOID *Buffer
+    IN LSA_HANDLE PolicyHandle,
+    IN PSID TrustedDomainSid,
+    IN TRUSTED_INFORMATION_CLASS InformationClass,
+    OUT PVOID *Buffer
     );
 
 NTSTATUS
 NTAPI
 LsaSetTrustedDomainInformation(
-    __in LSA_HANDLE PolicyHandle,
-    __in PSID TrustedDomainSid,
-    __in TRUSTED_INFORMATION_CLASS InformationClass,
-    __in PVOID Buffer
+    IN LSA_HANDLE PolicyHandle,
+    IN PSID TrustedDomainSid,
+    IN TRUSTED_INFORMATION_CLASS InformationClass,
+    IN PVOID Buffer
     );
 
 NTSTATUS
 NTAPI
 LsaDeleteTrustedDomain(
-    __in LSA_HANDLE PolicyHandle,
-    __in PSID TrustedDomainSid
+    IN LSA_HANDLE PolicyHandle,
+    IN PSID TrustedDomainSid
     );
 
 NTSTATUS
 NTAPI
 LsaQueryTrustedDomainInfoByName(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING TrustedDomainName,
-    __in TRUSTED_INFORMATION_CLASS InformationClass,
-    __out PVOID *Buffer
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING TrustedDomainName,
+    IN TRUSTED_INFORMATION_CLASS InformationClass,
+    OUT PVOID *Buffer
     );
 
 NTSTATUS
 NTAPI
 LsaSetTrustedDomainInfoByName(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING TrustedDomainName,
-    __in TRUSTED_INFORMATION_CLASS InformationClass,
-    __in PVOID Buffer
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING TrustedDomainName,
+    IN TRUSTED_INFORMATION_CLASS InformationClass,
+    IN PVOID Buffer
     );
 
 NTSTATUS
 NTAPI
 LsaEnumerateTrustedDomainsEx(
-    __in LSA_HANDLE PolicyHandle,
-    __inout PLSA_ENUMERATION_HANDLE EnumerationContext,
-    __out PVOID *Buffer,
-    __in ULONG PreferedMaximumLength,
-    __out PULONG CountReturned
+    IN LSA_HANDLE PolicyHandle,
+    IN OUT PLSA_ENUMERATION_HANDLE EnumerationContext,
+    OUT PVOID *Buffer,
+    IN ULONG PreferedMaximumLength,
+    OUT PULONG CountReturned
     );
 
 NTSTATUS
 NTAPI
 LsaCreateTrustedDomainEx(
-    __in LSA_HANDLE PolicyHandle,
-    __in PTRUSTED_DOMAIN_INFORMATION_EX TrustedDomainInformation,
-    __in PTRUSTED_DOMAIN_AUTH_INFORMATION AuthenticationInformation,
-    __in ACCESS_MASK DesiredAccess,
-    __out PLSA_HANDLE TrustedDomainHandle
+    IN LSA_HANDLE PolicyHandle,
+    IN PTRUSTED_DOMAIN_INFORMATION_EX TrustedDomainInformation,
+    IN PTRUSTED_DOMAIN_AUTH_INFORMATION AuthenticationInformation,
+    IN ACCESS_MASK DesiredAccess,
+    OUT PLSA_HANDLE TrustedDomainHandle
     );
 
 NTSTATUS
 NTAPI
 LsaQueryForestTrustInformation(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING TrustedDomainName,
-    __out PLSA_FOREST_TRUST_INFORMATION * ForestTrustInfo
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING TrustedDomainName,
+    OUT PLSA_FOREST_TRUST_INFORMATION * ForestTrustInfo
     );
 
 NTSTATUS
 NTAPI
 LsaSetForestTrustInformation(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING TrustedDomainName,
-    __in PLSA_FOREST_TRUST_INFORMATION ForestTrustInfo,
-    __in BOOLEAN CheckOnly,
-    __out PLSA_FOREST_TRUST_COLLISION_INFORMATION * CollisionInfo
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING TrustedDomainName,
+    IN PLSA_FOREST_TRUST_INFORMATION ForestTrustInfo,
+    IN BOOLEAN CheckOnly,
+    OUT PLSA_FOREST_TRUST_COLLISION_INFORMATION * CollisionInfo
     );
 
 // #define TESTING_MATCHING_ROUTINE
@@ -3014,10 +3018,10 @@ LsaSetForestTrustInformation(
 NTSTATUS
 NTAPI
 LsaForestTrustFindMatch(
-    __in LSA_HANDLE PolicyHandle,
-    __in ULONG Type,
-    __in PLSA_UNICODE_STRING Name,
-    __out PLSA_UNICODE_STRING * Match
+    IN LSA_HANDLE PolicyHandle,
+    IN ULONG Type,
+    IN PLSA_UNICODE_STRING Name,
+    OUT PLSA_UNICODE_STRING * Match
     );
 
 #endif
@@ -3030,24 +3034,24 @@ LsaForestTrustFindMatch(
 NTSTATUS
 NTAPI
 LsaStorePrivateData(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING KeyName,
-    __in_opt PLSA_UNICODE_STRING PrivateData
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING KeyName,
+    IN PLSA_UNICODE_STRING PrivateData
     );
 
 NTSTATUS
 NTAPI
 LsaRetrievePrivateData(
-    __in LSA_HANDLE PolicyHandle,
-    __in PLSA_UNICODE_STRING KeyName,
-    __out PLSA_UNICODE_STRING * PrivateData
+    IN LSA_HANDLE PolicyHandle,
+    IN PLSA_UNICODE_STRING KeyName,
+    OUT PLSA_UNICODE_STRING * PrivateData
     );
 
 
 ULONG
 NTAPI
 LsaNtStatusToWinError(
-    __in NTSTATUS Status
+    NTSTATUS Status
     );
 
 
@@ -3135,4 +3139,3 @@ LsaSetPolicyReplicationHandle(
 #endif
 
 #endif // _NTLSA_
-

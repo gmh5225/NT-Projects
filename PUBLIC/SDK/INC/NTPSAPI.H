@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0007    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -14,6 +10,12 @@ Abstract:
 
     This module contains the process structure APIs and any public data
     structures needed to call these APIs.
+
+Author:
+
+    Mark Lucovsky (markl) 24-Feb-1989
+
+Revision History:
 
 --*/
 
@@ -117,6 +119,9 @@ typedef struct _JOB_SET_ARRAY {
 //
 // Process Environment Block
 //
+#ifdef _MAC
+#pragma warning( disable : 4121)
+#endif
 
 typedef struct _PEB_LDR_DATA {
     ULONG Length;
@@ -128,6 +133,9 @@ typedef struct _PEB_LDR_DATA {
     PVOID EntryInProgress;
 } PEB_LDR_DATA, *PPEB_LDR_DATA;
 
+#ifdef _MAC
+#pragma warning( default : 4121 )
+#endif
 //
 // Handle tag bits for Peb Stdio File Handles
 //
@@ -140,7 +148,7 @@ typedef struct _PEB_LDR_DATA {
 #define GDI_HANDLE_BUFFER_SIZE32  34
 #define GDI_HANDLE_BUFFER_SIZE64  60
 
-#if !defined(_AMD64_)
+#if !defined(_IA64_) && !defined(_AMD64_)
 #define GDI_HANDLE_BUFFER_SIZE      GDI_HANDLE_BUFFER_SIZE32
 #else
 #define GDI_HANDLE_BUFFER_SIZE      GDI_HANDLE_BUFFER_SIZE64
@@ -299,15 +307,9 @@ typedef PVOID* PPVOID;
 
 #include "pebteb.h"
 
-#if !defined(SORTPP_PASS) && !defined(MIDL_PASS) && !defined(RC_INVOKED) && !defined(_X86AMD64_) && !defined(WOW64EXTS_386)
-#if defined(_X86_)
-C_ASSERT(FIELD_OFFSET(TEB, GdiTebBatch) == 0x1d4);
-#endif
-#endif
-
 // begin_winnt
 
-#if !defined(_X86_) && !defined(_AMD64_)
+#if !defined(_X86_) && !defined(_IA64_) && !defined(_AMD64_)
 #define WX86
 #endif
 
@@ -320,7 +322,7 @@ C_ASSERT(FIELD_OFFSET(TEB, GdiTebBatch) == 0x1d4);
 #define Wx86CurrentTib() (NULL)
 #endif
 
-#if !defined(_X86_)
+#if !defined(_X86_) && !defined(_IA64_)
 //
 // Exception Registration structure
 //
@@ -390,9 +392,15 @@ typedef struct _INITIAL_TEB {
     struct {
         PVOID OldStackBase;
         PVOID OldStackLimit;
+#if defined(_IA64_)
+        PVOID OldBStoreLimit;
+#endif // defined(_IA64_)
     } OldInitialTeb;
     PVOID StackBase;
     PVOID StackLimit;
+#if defined(_IA64_)
+    PVOID BStoreLimit;
+#endif // defined(_IA64_)
     PVOID StackAllocationBase;
 } INITIAL_TEB, *PINITIAL_TEB;
 
@@ -459,13 +467,8 @@ typedef enum _PROCESSINFOCLASS {
     ProcessDebugObjectHandle,
     ProcessDebugFlags,
     ProcessHandleTracing,
-    ProcessIoPriority,
-    ProcessExecuteFlags,
-    ProcessResourceManagement,
-    ProcessCookie,
-    ProcessImageInformation,
     MaxProcessInfoClass             // MaxProcessInfoClass should always be the last enum
-} PROCESSINFOCLASS;
+    } PROCESSINFOCLASS;
 
 //
 // Thread Information Classes
@@ -491,8 +494,6 @@ typedef enum _THREADINFOCLASS {
     ThreadIsIoPending,
     ThreadHideFromDebugger,
     ThreadBreakOnTermination,
-    ThreadSwitchLegacyState,
-    ThreadIsTerminated,
     MaxThreadInfoClass
     } THREADINFOCLASS;
 // end_ntddk end_ntifs
@@ -510,11 +511,6 @@ typedef enum _THREADINFOCLASS {
 
 
 #define PROCESS_HARDERROR_ALIGNMENT_BIT 0x0004  // from winbase.h, but not tagged
-#if defined(_AMD64_)
-#define PROCESS_HARDERROR_DEFAULT (1 | PROCESS_HARDERROR_ALIGNMENT_BIT)
-#else
-#define PROCESS_HARDERROR_DEFAULT 1
-#endif
 
 //
 // thread base priority ranges
@@ -820,7 +816,7 @@ typedef struct _THREAD_BASIC_INFORMATION {
 } THREAD_BASIC_INFORMATION;
 typedef THREAD_BASIC_INFORMATION *PTHREAD_BASIC_INFORMATION;
 
-#if defined(_AMD64_)
+#if defined(_AMD64_) || defined(_IA64_)
 #include <pshpck16.h>
 #endif
 
@@ -843,21 +839,21 @@ typedef struct _FIBER {
     CONTEXT FiberContext;
     PWX86TIB Wx86Tib;
 
-    //
-    // Side by side activation context.
-    //
+#ifdef  _IA64_
 
-    struct _ACTIVATION_CONTEXT_STACK *ActivationContextStackPointer;
+    PVOID DeallocationBStore;
+    PVOID BStoreLimit;
+
+#endif
 
     //
     // Fiber local storage data.
     //
 
     PVOID FlsData;
-    ULONG GuaranteedStackBytes;
 } FIBER, *PFIBER;
 
-#if defined(_AMD64_)
+#if defined(_AMD64_) || defined(_IA64_)
 #include <poppack.h>
 #endif
 
@@ -869,44 +865,36 @@ typedef struct _FIBER {
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtCreateProcess (
-    __out PHANDLE ProcessHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes,
-    __in HANDLE ParentProcess,
-    __in BOOLEAN InheritObjectTable,
-    __in_opt HANDLE SectionHandle,
-    __in_opt HANDLE DebugPort,
-    __in_opt HANDLE ExceptionPort
+NtCreateProcess(
+    OUT PHANDLE ProcessHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN HANDLE ParentProcess,
+    IN BOOLEAN InheritObjectTable,
+    IN HANDLE SectionHandle OPTIONAL,
+    IN HANDLE DebugPort OPTIONAL,
+    IN HANDLE ExceptionPort OPTIONAL
     );
 
 #define PROCESS_CREATE_FLAGS_BREAKAWAY               0x00000001
 #define PROCESS_CREATE_FLAGS_NO_DEBUG_INHERIT        0x00000002
 #define PROCESS_CREATE_FLAGS_INHERIT_HANDLES         0x00000004
 #define PROCESS_CREATE_FLAGS_OVERRIDE_ADDRESS_SPACE  0x00000008
-#define PROCESS_CREATE_FLAGS_LARGE_PAGES             0x00000010
-
-#define PROCESS_CREATE_FLAGS_ALL_LARGE_PAGE_FLAGS \
-    (PROCESS_CREATE_FLAGS_LARGE_PAGES)
-    
-#define PROCESS_CREATE_FLAGS_LEGAL_MASK \
-    (PROCESS_CREATE_FLAGS_BREAKAWAY | PROCESS_CREATE_FLAGS_NO_DEBUG_INHERIT | \
-     PROCESS_CREATE_FLAGS_INHERIT_HANDLES | PROCESS_CREATE_FLAGS_OVERRIDE_ADDRESS_SPACE | \
-     PROCESS_CREATE_FLAGS_ALL_LARGE_PAGE_FLAGS)
+#define PROCESS_CREATE_FLAGS_LEGAL_MASK              0x0000000f
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtCreateProcessEx (
-    __out PHANDLE ProcessHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes,
-    __in HANDLE ParentProcess,
-    __in ULONG Flags,
-    __in_opt HANDLE SectionHandle,
-    __in_opt HANDLE DebugPort,
-    __in_opt HANDLE ExceptionPort,
-    __in ULONG JobMemberLevel
+NtCreateProcessEx(
+    OUT PHANDLE ProcessHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN HANDLE ParentProcess,
+    IN ULONG Flags,
+    IN HANDLE SectionHandle OPTIONAL,
+    IN HANDLE DebugPort OPTIONAL,
+    IN HANDLE ExceptionPort OPTIONAL,
+    IN ULONG JobMemberLevel
     );
 
 // begin_ntddk begin_ntifs
@@ -914,10 +902,10 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenProcess (
-    __out PHANDLE ProcessHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes,
-    __in_opt PCLIENT_ID ClientId
+    OUT PHANDLE ProcessHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    IN PCLIENT_ID ClientId OPTIONAL
     );
 // end_ntddk end_ntifs
 
@@ -925,9 +913,9 @@ NtOpenProcess (
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtTerminateProcess (
-    __in_opt HANDLE ProcessHandle,
-    __in NTSTATUS ExitStatus
+NtTerminateProcess(
+    IN HANDLE ProcessHandle OPTIONAL,
+    IN NTSTATUS ExitStatus
     );
 
 
@@ -948,12 +936,12 @@ NtTerminateProcess (
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryInformationProcess (
-    __in HANDLE ProcessHandle,
-    __in PROCESSINFOCLASS ProcessInformationClass,
-    __out_bcount(ProcessInformationLength) PVOID ProcessInformation,
-    __in ULONG ProcessInformationLength,
-    __out_opt PULONG ReturnLength
+NtQueryInformationProcess(
+    IN HANDLE ProcessHandle,
+    IN PROCESSINFOCLASS ProcessInformationClass,
+    OUT PVOID ProcessInformation,
+    IN ULONG ProcessInformationLength,
+    OUT PULONG ReturnLength OPTIONAL
     );
 // end_ntddk end_ntifs
 
@@ -962,47 +950,47 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtGetNextProcess (
-    __in HANDLE ProcessHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in ULONG HandleAttributes,
-    __in ULONG Flags,
-    __out PHANDLE NewProcessHandle
+    IN HANDLE ProcessHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN ULONG HandleAttributes,
+    IN ULONG Flags,
+    OUT PHANDLE NewProcessHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtGetNextThread (
-    __in HANDLE ProcessHandle,
-    __in HANDLE ThreadHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in ULONG HandleAttributes,
-    __in ULONG Flags,
-    __out PHANDLE NewThreadHandle
+    IN HANDLE ProcessHandle,
+    IN HANDLE ThreadHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN ULONG HandleAttributes,
+    IN ULONG Flags,
+    OUT PHANDLE NewThreadHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryPortInformationProcess (
+NtQueryPortInformationProcess(
     VOID
     );
 
 NTSYSCALLAPI
 ULONG
 NTAPI
-NtGetCurrentProcessorNumber (
+NtGetCurrentProcessorNumber(
     VOID
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetInformationProcess (
-    __in HANDLE ProcessHandle,
-    __in PROCESSINFOCLASS ProcessInformationClass,
-    __in_bcount(ProcessInformationLength) PVOID ProcessInformation,
-    __in ULONG ProcessInformationLength
+NtSetInformationProcess(
+    IN HANDLE ProcessHandle,
+    IN PROCESSINFOCLASS ProcessInformationClass,
+    IN PVOID ProcessInformation,
+    IN ULONG ProcessInformationLength
     );
 
 //
@@ -1012,33 +1000,33 @@ NtSetInformationProcess (
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtCreateThread (
-    __out PHANDLE ThreadHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes,
-    __in HANDLE ProcessHandle,
-    __out PCLIENT_ID ClientId,
-    __in PCONTEXT ThreadContext,
-    __in PINITIAL_TEB InitialTeb,
-    __in BOOLEAN CreateSuspended
+NtCreateThread(
+    OUT PHANDLE ThreadHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN HANDLE ProcessHandle,
+    OUT PCLIENT_ID ClientId,
+    IN PCONTEXT ThreadContext,
+    IN PINITIAL_TEB InitialTeb,
+    IN BOOLEAN CreateSuspended
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenThread (
-    __out PHANDLE ThreadHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes,
-    __in_opt PCLIENT_ID ClientId
+    OUT PHANDLE ThreadHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    IN PCLIENT_ID ClientId OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtTerminateThread (
-    __in_opt HANDLE ThreadHandle,
-    __in NTSTATUS ExitStatus
+NtTerminateThread(
+    IN HANDLE ThreadHandle OPTIONAL,
+    IN NTSTATUS ExitStatus
     );
 
 #define NtCurrentThread() ( (HANDLE)(LONG_PTR) -2 )   // ntddk wdm ntifs
@@ -1047,140 +1035,140 @@ NtTerminateThread (
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSuspendThread (
-    __in HANDLE ThreadHandle,
-    __out_opt PULONG PreviousSuspendCount
+NtSuspendThread(
+    IN HANDLE ThreadHandle,
+    OUT PULONG PreviousSuspendCount OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtResumeThread (
-    __in HANDLE ThreadHandle,
-    __out_opt PULONG PreviousSuspendCount
+NtResumeThread(
+    IN HANDLE ThreadHandle,
+    OUT PULONG PreviousSuspendCount OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSuspendProcess (
-    __in HANDLE ProcessHandle
+    IN HANDLE ProcessHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtResumeProcess (
-    __in HANDLE ProcessHandle
+    IN HANDLE ProcessHandle
     );
 
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtGetContextThread (
-    __in HANDLE ThreadHandle,
-    __inout PCONTEXT ThreadContext
+NtGetContextThread(
+    IN HANDLE ThreadHandle,
+    IN OUT PCONTEXT ThreadContext
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetContextThread (
-    __in HANDLE ThreadHandle,
-    __in PCONTEXT ThreadContext
+NtSetContextThread(
+    IN HANDLE ThreadHandle,
+    IN PCONTEXT ThreadContext
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryInformationThread (
-    __in HANDLE ThreadHandle,
-    __in THREADINFOCLASS ThreadInformationClass,
-    __out_bcount(ThreadInformationLength) PVOID ThreadInformation,
-    __in ULONG ThreadInformationLength,
-    __out_opt PULONG ReturnLength
+NtQueryInformationThread(
+    IN HANDLE ThreadHandle,
+    IN THREADINFOCLASS ThreadInformationClass,
+    OUT PVOID ThreadInformation,
+    IN ULONG ThreadInformationLength,
+    OUT PULONG ReturnLength OPTIONAL
     );
 
 // begin_ntifs
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetInformationThread (
-    __in HANDLE ThreadHandle,
-    __in THREADINFOCLASS ThreadInformationClass,
-    __in_bcount(ThreadInformationLength) PVOID ThreadInformation,
-    __in ULONG ThreadInformationLength
+NtSetInformationThread(
+    IN HANDLE ThreadHandle,
+    IN THREADINFOCLASS ThreadInformationClass,
+    IN PVOID ThreadInformation,
+    IN ULONG ThreadInformationLength
     );
 // end_ntifs
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtAlertThread (
-    __in HANDLE ThreadHandle
+NtAlertThread(
+    IN HANDLE ThreadHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtAlertResumeThread (
-    __in HANDLE ThreadHandle,
-    __out_opt PULONG PreviousSuspendCount
+NtAlertResumeThread(
+    IN HANDLE ThreadHandle,
+    OUT PULONG PreviousSuspendCount OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtImpersonateThread (
-    __in HANDLE ServerThreadHandle,
-    __in HANDLE ClientThreadHandle,
-    __in PSECURITY_QUALITY_OF_SERVICE SecurityQos
+NtImpersonateThread(
+    IN HANDLE ServerThreadHandle,
+    IN HANDLE ClientThreadHandle,
+    IN PSECURITY_QUALITY_OF_SERVICE SecurityQos
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtTestAlert (
+NtTestAlert(
     VOID
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtRegisterThreadTerminatePort (
-    __in HANDLE PortHandle
+NtRegisterThreadTerminatePort(
+    IN HANDLE PortHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetLdtEntries (
-    __in ULONG Selector0,
-    __in ULONG Entry0Low,
-    __in ULONG Entry0Hi,
-    __in ULONG Selector1,
-    __in ULONG Entry1Low,
-    __in ULONG Entry1Hi
+NtSetLdtEntries(
+    IN ULONG Selector0,
+    IN ULONG Entry0Low,
+    IN ULONG Entry0Hi,
+    IN ULONG Selector1,
+    IN ULONG Entry1Low,
+    IN ULONG Entry1High
     );
 
 typedef
 VOID
 (*PPS_APC_ROUTINE) (
-    __in_opt PVOID ApcArgument1,
-    __in_opt PVOID ApcArgument2,
-    __in_opt PVOID ApcArgument3
+    IN PVOID ApcArgument1,
+    IN PVOID ApcArgument2,
+    IN PVOID ApcArgument3
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueueApcThread (
-    __in HANDLE ThreadHandle,
-    __in PPS_APC_ROUTINE ApcRoutine,
-    __in_opt PVOID ApcArgument1,
-    __in_opt PVOID ApcArgument2,
-    __in_opt PVOID ApcArgument3
+NtQueueApcThread(
+    IN HANDLE ThreadHandle,
+    IN PPS_APC_ROUTINE ApcRoutine,
+    IN PVOID ApcArgument1,
+    IN PVOID ApcArgument2,
+    IN PVOID ApcArgument3
     );
 
 //
@@ -1191,52 +1179,51 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateJobObject (
-    __out PHANDLE JobHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes
+    OUT PHANDLE JobHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtOpenJobObject (
-    __out PHANDLE JobHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes
+NtOpenJobObject(
+    OUT PHANDLE JobHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtAssignProcessToJobObject (
-    __in HANDLE JobHandle,
-    __in HANDLE ProcessHandle
+NtAssignProcessToJobObject(
+    IN HANDLE JobHandle,
+    IN HANDLE ProcessHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtTerminateJobObject (
-    __in HANDLE JobHandle,
-    __in NTSTATUS ExitStatus
+NtTerminateJobObject(
+    IN HANDLE JobHandle,
+    IN NTSTATUS ExitStatus
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtIsProcessInJob (
-    __in HANDLE ProcessHandle,
-    __in_opt HANDLE JobHandle
+    IN HANDLE ProcessHandle,
+    IN HANDLE JobHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateJobSet (
-    __in ULONG NumJob,
-    __in_ecount(NumJob) PJOB_SET_ARRAY UserJobSet,
-    __in ULONG Flags
-    );
+    IN ULONG NumJob,
+    IN PJOB_SET_ARRAY UserJobSet,
+    IN ULONG Flags);
 
 // begin_winnt
 
@@ -1409,22 +1396,22 @@ typedef enum _JOBOBJECTINFOCLASS {
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryInformationJobObject (
-    __in_opt HANDLE JobHandle,
-    __in JOBOBJECTINFOCLASS JobObjectInformationClass,
-    __out_bcount(JobObjectInformationLength) PVOID JobObjectInformation,
-    __in ULONG JobObjectInformationLength,
-    __out_opt PULONG ReturnLength
+NtQueryInformationJobObject(
+    IN HANDLE JobHandle,
+    IN JOBOBJECTINFOCLASS JobObjectInformationClass,
+    OUT PVOID JobObjectInformation,
+    IN ULONG JobObjectInformationLength,
+    OUT PULONG ReturnLength OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetInformationJobObject (
-    __in HANDLE JobHandle,
-    __in JOBOBJECTINFOCLASS JobObjectInformationClass,
-    __in_bcount(JobObjectInformationLength) PVOID JobObjectInformation,
-    __in ULONG JobObjectInformationLength
+NtSetInformationJobObject(
+    IN HANDLE JobHandle,
+    IN JOBOBJECTINFOCLASS JobObjectInformationClass,
+    IN PVOID JobObjectInformation,
+    IN ULONG JobObjectInformationLength
     );
 
 #ifdef __cplusplus
@@ -1432,4 +1419,3 @@ NtSetInformationJobObject (
 #endif
 
 #endif // _NTPSAPI_
-

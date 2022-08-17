@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0004    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) 1992-1999  Microsoft Corporation
 
 Module Name:
 
@@ -13,6 +9,14 @@ Module Name:
 Abstract:
 
     This module contains
+
+Author:
+
+    Andre Vachon (andreva) 21-Feb-1992
+
+
+Revision History:
+
 
 --*/
 
@@ -148,4 +152,3 @@ Abstract:
 #endif // _DEVIOCTL_
 
 // end_winioctl
-

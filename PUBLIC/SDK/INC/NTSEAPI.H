@@ -1,11 +1,7 @@
 
 /*++ BUILD Version: 0003    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) 1989-2000  Microsoft Corporation
 
 Module Name:
 
@@ -17,6 +13,14 @@ Abstract:
     structures needed to call these APIs.
 
     This module should be included by including "nt.h".
+
+Author:
+
+    Gary Kimura (GaryKi) 06-Mar-1989
+
+Revision History:
+
+
 
 --*/
 
@@ -470,7 +474,6 @@ typedef SID_AND_ATTRIBUTES_ARRAY *PSID_AND_ATTRIBUTES_ARRAY;
 #define DOMAIN_ALIAS_RID_LOGGING_USERS          (0x0000022FL)
 #define DOMAIN_ALIAS_RID_AUTHORIZATIONACCESS    (0x00000230L)
 #define DOMAIN_ALIAS_RID_TS_LICENSE_SERVERS     (0x00000231L)
-#define DOMAIN_ALIAS_RID_DCOM_USERS             (0x00000232L)
 
 
 // end_winnt end_ntifs
@@ -563,7 +566,6 @@ typedef enum {
     WinBuiltinPerfLoggingUsersSid               = 58,
     WinBuiltinAuthorizationAccessSid            = 59,
     WinBuiltinTerminalServerLicenseServersSid   = 60,
-    WinBuiltinDCOMUsersSid                      = 61,
 
 } WELL_KNOWN_SID_TYPE;
 
@@ -620,7 +622,7 @@ typedef enum {
 
 //
 //  Define an ACL and the ACE format.  The structure of an ACL header
-//  followed by one or more ACEs.  Pictorially the structure of an ACL header
+//  followed by one or more ACEs.  Pictorally the structure of an ACL header
 //  is as follows:
 //
 //       3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
@@ -668,7 +670,7 @@ typedef ACL *PACL;
 
 //
 //  The structure of an ACE is a common ace header followed by ace type
-//  specific data.  Pictorially the structure of the common ace header is
+//  specific data.  Pictorally the structure of the common ace header is
 //  as follows:
 //
 //       3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
@@ -767,7 +769,7 @@ typedef ACE_HEADER *PACE_HEADER;
 
 
 //
-//  We'll define the structure of the predefined ACE types.  Pictorially
+//  We'll define the structure of the predefined ACE types.  Pictorally
 //  the structure of the predefined ACE's is as follows:
 //
 //       3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
@@ -1079,14 +1081,14 @@ typedef USHORT SECURITY_DESCRIPTOR_CONTROL, *PSECURITY_DESCRIPTOR_CONTROL;
 //          SID pointed to by the Owner field was provided by a
 //          defaulting mechanism rather than explicitly provided by the
 //          original provider of the security descriptor.  This may
-//          affect the treatment of the SID with respect to inheritance
+//          affect the treatment of the SID with respect to inheritence
 //          of an owner.
 //
 //      SE_GROUP_DEFAULTED - This boolean flag, when set, indicates that the
 //          SID in the Group field was provided by a defaulting mechanism
 //          rather than explicitly provided by the original provider of
 //          the security descriptor.  This may affect the treatment of
-//          the SID with respect to inheritance of a primary group.
+//          the SID with respect to inheritence of a primary group.
 //
 //      SE_DACL_PRESENT - This boolean flag, when set, indicates that the
 //          security descriptor contains a discretionary ACL.  If this
@@ -1097,7 +1099,7 @@ typedef USHORT SECURITY_DESCRIPTOR_CONTROL, *PSECURITY_DESCRIPTOR_CONTROL;
 //          ACL pointed to by the Dacl field was provided by a defaulting
 //          mechanism rather than explicitly provided by the original
 //          provider of the security descriptor.  This may affect the
-//          treatment of the ACL with respect to inheritance of an ACL.
+//          treatment of the ACL with respect to inheritence of an ACL.
 //          This flag is ignored if the DaclPresent flag is not set.
 //
 //      SE_SACL_PRESENT - This boolean flag, when set,  indicates that the
@@ -1110,7 +1112,7 @@ typedef USHORT SECURITY_DESCRIPTOR_CONTROL, *PSECURITY_DESCRIPTOR_CONTROL;
 //          ACL pointed to by the Sacl field was provided by a defaulting
 //          mechanism rather than explicitly provided by the original
 //          provider of the security descriptor.  This may affect the
-//          treatment of the ACL with respect to inheritance of an ACL.
+//          treatment of the ACL with respect to inheritence of an ACL.
 //          This flag is ignored if the SaclPresent flag is not set.
 //
 // end_winnt
@@ -1122,7 +1124,7 @@ typedef USHORT SECURITY_DESCRIPTOR_CONTROL, *PSECURITY_DESCRIPTOR_CONTROL;
 //
 //      SE_SERVER_SECURITY - This boolean flag, when set, indicates that the
 //         caller wishes the system to create a Server ACL based on the
-//         input ACL, regardless of its source (explicit or defaulting.
+//         input ACL, regardess of its source (explicit or defaulting.
 //         This is done by replacing all of the GRANT ACEs with compound
 //         ACEs granting the current server.  This flag is only
 //         meaningful if the subject is impersonating.
@@ -1808,48 +1810,48 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAccessCheck (
-    __in PSECURITY_DESCRIPTOR SecurityDescriptor,
-    __in HANDLE ClientToken,
-    __in ACCESS_MASK DesiredAccess,
-    __in PGENERIC_MAPPING GenericMapping,
-    __out_bcount(*PrivilegeSetLength) PPRIVILEGE_SET PrivilegeSet,
-    __inout PULONG PrivilegeSetLength,
-    __out PACCESS_MASK GrantedAccess,
-    __out PNTSTATUS AccessStatus
+    IN PSECURITY_DESCRIPTOR SecurityDescriptor,
+    IN HANDLE ClientToken,
+    IN ACCESS_MASK DesiredAccess,
+    IN PGENERIC_MAPPING GenericMapping,
+    OUT PPRIVILEGE_SET PrivilegeSet,
+    IN OUT PULONG PrivilegeSetLength,
+    OUT PACCESS_MASK GrantedAccess,
+    OUT PNTSTATUS AccessStatus
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAccessCheckByType (
-    __in PSECURITY_DESCRIPTOR SecurityDescriptor,
-    __in_opt PSID PrincipalSelfSid,
-    __in HANDLE ClientToken,
-    __in ACCESS_MASK DesiredAccess,
-    __in_ecount(ObjectTypeListLength) POBJECT_TYPE_LIST ObjectTypeList,
-    __in ULONG ObjectTypeListLength,
-    __in PGENERIC_MAPPING GenericMapping,
-    __out_bcount(*PrivilegeSetLength) PPRIVILEGE_SET PrivilegeSet,
-    __inout PULONG PrivilegeSetLength,
-    __out PACCESS_MASK GrantedAccess,
-    __out PNTSTATUS AccessStatus
+    IN PSECURITY_DESCRIPTOR SecurityDescriptor,
+    IN PSID PrincipalSelfSid,
+    IN HANDLE ClientToken,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_TYPE_LIST ObjectTypeList,
+    IN ULONG ObjectTypeListLength,
+    IN PGENERIC_MAPPING GenericMapping,
+    OUT PPRIVILEGE_SET PrivilegeSet,
+    IN OUT PULONG PrivilegeSetLength,
+    OUT PACCESS_MASK GrantedAccess,
+    OUT PNTSTATUS AccessStatus
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAccessCheckByTypeResultList (
-    __in PSECURITY_DESCRIPTOR SecurityDescriptor,
-    __in_opt PSID PrincipalSelfSid,
-    __in HANDLE ClientToken,
-    __in ACCESS_MASK DesiredAccess,
-    __in_ecount(ObjectTypeListLength) POBJECT_TYPE_LIST ObjectTypeList,
-    __in ULONG ObjectTypeListLength,
-    __in PGENERIC_MAPPING GenericMapping,
-    __out_bcount(*PrivilegeSetLength) PPRIVILEGE_SET PrivilegeSet,
-    __inout PULONG PrivilegeSetLength,
-    __out_ecount(ObjectTypeListLength) PACCESS_MASK GrantedAccess,
-    __out_ecount(ObjectTypeListLength) PNTSTATUS AccessStatus
+    IN PSECURITY_DESCRIPTOR SecurityDescriptor,
+    IN PSID PrincipalSelfSid,
+    IN HANDLE ClientToken,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_TYPE_LIST ObjectTypeList,
+    IN ULONG ObjectTypeListLength,
+    IN PGENERIC_MAPPING GenericMapping,
+    OUT PPRIVILEGE_SET PrivilegeSet,
+    IN OUT PULONG PrivilegeSetLength,
+    OUT PACCESS_MASK GrantedAccess,
+    OUT PNTSTATUS AccessStatus
     );
 
 
@@ -1865,19 +1867,19 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateToken(
-    __out PHANDLE TokenHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes,
-    __in TOKEN_TYPE TokenType,
-    __in PLUID AuthenticationId,
-    __in PLARGE_INTEGER ExpirationTime,
-    __in PTOKEN_USER User,
-    __in PTOKEN_GROUPS Groups,
-    __in PTOKEN_PRIVILEGES Privileges,
-    __in_opt PTOKEN_OWNER Owner,
-    __in PTOKEN_PRIMARY_GROUP PrimaryGroup,
-    __in_opt PTOKEN_DEFAULT_DACL DefaultDacl,
-    __in PTOKEN_SOURCE TokenSource
+    OUT PHANDLE TokenHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN TOKEN_TYPE TokenType,
+    IN PLUID AuthenticationId,
+    IN PLARGE_INTEGER ExpirationTime,
+    IN PTOKEN_USER User,
+    IN PTOKEN_GROUPS Groups,
+    IN PTOKEN_PRIVILEGES Privileges,
+    IN PTOKEN_OWNER Owner OPTIONAL,
+    IN PTOKEN_PRIMARY_GROUP PrimaryGroup,
+    IN PTOKEN_DEFAULT_DACL DefaultDacl OPTIONAL,
+    IN PTOKEN_SOURCE TokenSource
     );
 
 
@@ -1885,9 +1887,9 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCompareTokens(
-    __in HANDLE FirstTokenHandle,
-    __in HANDLE SecondTokenHandle,
-    __out PBOOLEAN Equal
+    IN HANDLE FirstTokenHandle,
+    IN HANDLE SecondTokenHandle,
+    OUT PBOOLEAN Equal
     );
 
 // begin_ntifs
@@ -1896,21 +1898,21 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenThreadToken(
-    __in HANDLE ThreadHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in BOOLEAN OpenAsSelf,
-    __out PHANDLE TokenHandle
+    IN HANDLE ThreadHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN BOOLEAN OpenAsSelf,
+    OUT PHANDLE TokenHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenThreadTokenEx(
-    __in HANDLE ThreadHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in BOOLEAN OpenAsSelf,
-    __in ULONG HandleAttributes,
-    __out PHANDLE TokenHandle
+    IN HANDLE ThreadHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN BOOLEAN OpenAsSelf,
+    IN ULONG HandleAttributes,
+    OUT PHANDLE TokenHandle
     );
 
 
@@ -1918,44 +1920,54 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenProcessToken(
-    __in HANDLE ProcessHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __out PHANDLE TokenHandle
+    IN HANDLE ProcessHandle,
+    IN ACCESS_MASK DesiredAccess,
+    OUT PHANDLE TokenHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenProcessTokenEx(
-    __in HANDLE ProcessHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in ULONG HandleAttributes,
-    __out PHANDLE TokenHandle
+    IN HANDLE ProcessHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN ULONG HandleAttributes,
+    OUT PHANDLE TokenHandle
     );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+NtOpenJobObjectToken(
+    IN HANDLE JobHandle,
+    IN ACCESS_MASK DesiredAccess,
+    OUT PHANDLE TokenHandle
+    );
+
 
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtDuplicateToken(
-    __in HANDLE ExistingTokenHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes,
-    __in BOOLEAN EffectiveOnly,
-    __in TOKEN_TYPE TokenType,
-    __out PHANDLE NewTokenHandle
+    IN HANDLE ExistingTokenHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    IN BOOLEAN EffectiveOnly,
+    IN TOKEN_TYPE TokenType,
+    OUT PHANDLE NewTokenHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtFilterToken (
-    __in HANDLE ExistingTokenHandle,
-    __in ULONG Flags,
-    __in_opt PTOKEN_GROUPS SidsToDisable,
-    __in_opt PTOKEN_PRIVILEGES PrivilegesToDelete,
-    __in_opt PTOKEN_GROUPS RestrictedSids,
-    __out PHANDLE NewTokenHandle
+    IN HANDLE ExistingTokenHandle,
+    IN ULONG Flags,
+    IN PTOKEN_GROUPS SidsToDisable OPTIONAL,
+    IN PTOKEN_PRIVILEGES PrivilegesToDelete OPTIONAL,
+    IN PTOKEN_GROUPS RestrictedSids OPTIONAL,
+    OUT PHANDLE NewTokenHandle
     );
 
 
@@ -1963,18 +1975,18 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtImpersonateAnonymousToken(
-    __in HANDLE ThreadHandle
+    IN HANDLE ThreadHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryInformationToken (
-    __in HANDLE TokenHandle,
-    __in TOKEN_INFORMATION_CLASS TokenInformationClass,
-    __out_bcount_part_opt(TokenInformationLength,*ReturnLength) PVOID TokenInformation,
-    __in ULONG TokenInformationLength,
-    __out PULONG ReturnLength
+    IN HANDLE TokenHandle,
+    IN TOKEN_INFORMATION_CLASS TokenInformationClass,
+    OUT PVOID TokenInformation,
+    IN ULONG TokenInformationLength,
+    OUT PULONG ReturnLength
     );
 
 
@@ -1982,10 +1994,10 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetInformationToken (
-    __in HANDLE TokenHandle,
-    __in TOKEN_INFORMATION_CLASS TokenInformationClass,
-    __in_bcount(TokenInformationLength) PVOID TokenInformation,
-    __in ULONG TokenInformationLength
+    IN HANDLE TokenHandle,
+    IN TOKEN_INFORMATION_CLASS TokenInformationClass,
+    IN PVOID TokenInformation,
+    IN ULONG TokenInformationLength
     );
 
 
@@ -1993,12 +2005,12 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAdjustPrivilegesToken (
-    __in HANDLE TokenHandle,
-    __in BOOLEAN DisableAllPrivileges,
-    __in_opt PTOKEN_PRIVILEGES NewState,
-    __in_opt ULONG BufferLength,
-    __out_bcount_part_opt(BufferLength,*ReturnLength) PTOKEN_PRIVILEGES PreviousState,
-    __out_opt PULONG ReturnLength
+    IN HANDLE TokenHandle,
+    IN BOOLEAN DisableAllPrivileges,
+    IN PTOKEN_PRIVILEGES NewState OPTIONAL,
+    IN ULONG BufferLength OPTIONAL,
+    OUT PTOKEN_PRIVILEGES PreviousState OPTIONAL,
+    OUT PULONG ReturnLength
     );
 
 
@@ -2006,21 +2018,21 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAdjustGroupsToken (
-    __in HANDLE TokenHandle,
-    __in BOOLEAN ResetToDefault,
-    __in PTOKEN_GROUPS NewState ,
-    __in_opt ULONG BufferLength ,
-    __out_bcount_part_opt(BufferLength, *ReturnLength) PTOKEN_GROUPS PreviousState ,
-    __out PULONG ReturnLength
+    IN HANDLE TokenHandle,
+    IN BOOLEAN ResetToDefault,
+    IN PTOKEN_GROUPS NewState OPTIONAL,
+    IN ULONG BufferLength OPTIONAL,
+    OUT PTOKEN_GROUPS PreviousState OPTIONAL,
+    OUT PULONG ReturnLength
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtPrivilegeCheck (
-    __in HANDLE ClientToken,
-    __inout PPRIVILEGE_SET RequiredPrivileges,
-    __out PBOOLEAN Result
+    IN HANDLE ClientToken,
+    IN OUT PPRIVILEGE_SET RequiredPrivileges,
+    OUT PBOOLEAN Result
     );
 
 
@@ -2028,143 +2040,143 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAccessCheckAndAuditAlarm (
-    __in PUNICODE_STRING SubsystemName,
-    __in_opt PVOID HandleId,
-    __in PUNICODE_STRING ObjectTypeName,
-    __in PUNICODE_STRING ObjectName,
-    __in PSECURITY_DESCRIPTOR SecurityDescriptor,
-    __in ACCESS_MASK DesiredAccess,
-    __in PGENERIC_MAPPING GenericMapping,
-    __in BOOLEAN ObjectCreation,
-    __out PACCESS_MASK GrantedAccess,
-    __out PNTSTATUS AccessStatus,
-    __out PBOOLEAN GenerateOnClose
+    IN PUNICODE_STRING SubsystemName,
+    IN PVOID HandleId,
+    IN PUNICODE_STRING ObjectTypeName,
+    IN PUNICODE_STRING ObjectName,
+    IN PSECURITY_DESCRIPTOR SecurityDescriptor,
+    IN ACCESS_MASK DesiredAccess,
+    IN PGENERIC_MAPPING GenericMapping,
+    IN BOOLEAN ObjectCreation,
+    OUT PACCESS_MASK GrantedAccess,
+    OUT PNTSTATUS AccessStatus,
+    OUT PBOOLEAN GenerateOnClose
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAccessCheckByTypeAndAuditAlarm (
-    __in PUNICODE_STRING SubsystemName,
-    __in_opt PVOID HandleId,
-    __in PUNICODE_STRING ObjectTypeName,
-    __in PUNICODE_STRING ObjectName,
-    __in PSECURITY_DESCRIPTOR SecurityDescriptor,
-    __in_opt PSID PrincipalSelfSid,
-    __in ACCESS_MASK DesiredAccess,
-    __in AUDIT_EVENT_TYPE AuditType,
-    __in ULONG Flags,
-    __in_ecount_opt(ObjectTypeListLength) POBJECT_TYPE_LIST ObjectTypeList,
-    __in ULONG ObjectTypeListLength,
-    __in PGENERIC_MAPPING GenericMapping,
-    __in BOOLEAN ObjectCreation,
-    __out PACCESS_MASK GrantedAccess,
-    __out PNTSTATUS AccessStatus,
-    __out PBOOLEAN GenerateOnClose
+    IN PUNICODE_STRING SubsystemName,
+    IN PVOID HandleId,
+    IN PUNICODE_STRING ObjectTypeName,
+    IN PUNICODE_STRING ObjectName,
+    IN PSECURITY_DESCRIPTOR SecurityDescriptor,
+    IN PSID PrincipalSelfSid,
+    IN ACCESS_MASK DesiredAccess,
+    IN AUDIT_EVENT_TYPE AuditType,
+    IN ULONG Flags,
+    IN POBJECT_TYPE_LIST ObjectTypeList OPTIONAL,
+    IN ULONG ObjectTypeListLength,
+    IN PGENERIC_MAPPING GenericMapping,
+    IN BOOLEAN ObjectCreation,
+    OUT PACCESS_MASK GrantedAccess,
+    OUT PNTSTATUS AccessStatus,
+    OUT PBOOLEAN GenerateOnClose
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAccessCheckByTypeResultListAndAuditAlarm (
-    __in PUNICODE_STRING SubsystemName,
-    __in_opt PVOID HandleId,
-    __in PUNICODE_STRING ObjectTypeName,
-    __in PUNICODE_STRING ObjectName,
-    __in PSECURITY_DESCRIPTOR SecurityDescriptor,
-    __in_opt PSID PrincipalSelfSid,
-    __in ACCESS_MASK DesiredAccess,
-    __in AUDIT_EVENT_TYPE AuditType,
-    __in ULONG Flags,
-    __in_ecount_opt(ObjectTypeListLength) POBJECT_TYPE_LIST ObjectTypeList,
-    __in ULONG ObjectTypeListLength,
-    __in PGENERIC_MAPPING GenericMapping,
-    __in BOOLEAN ObjectCreation,
-    __out_ecount(ObjectTypeListLength) PACCESS_MASK GrantedAccess,
-    __out_ecount(ObjectTypeListLength) PNTSTATUS AccessStatus,
-    __out PBOOLEAN GenerateOnClose
+    IN PUNICODE_STRING SubsystemName,
+    IN PVOID HandleId,
+    IN PUNICODE_STRING ObjectTypeName,
+    IN PUNICODE_STRING ObjectName,
+    IN PSECURITY_DESCRIPTOR SecurityDescriptor,
+    IN PSID PrincipalSelfSid,
+    IN ACCESS_MASK DesiredAccess,
+    IN AUDIT_EVENT_TYPE AuditType,
+    IN ULONG Flags,
+    IN POBJECT_TYPE_LIST ObjectTypeList OPTIONAL,
+    IN ULONG ObjectTypeListLength,
+    IN PGENERIC_MAPPING GenericMapping,
+    IN BOOLEAN ObjectCreation,
+    OUT PACCESS_MASK GrantedAccess,
+    OUT PNTSTATUS AccessStatus,
+    OUT PBOOLEAN GenerateOnClose
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAccessCheckByTypeResultListAndAuditAlarmByHandle (
-    __in PUNICODE_STRING SubsystemName,
-    __in_opt PVOID HandleId,
-    __in HANDLE ClientToken,
-    __in PUNICODE_STRING ObjectTypeName,
-    __in PUNICODE_STRING ObjectName,
-    __in PSECURITY_DESCRIPTOR SecurityDescriptor,
-    __in_opt PSID PrincipalSelfSid,
-    __in ACCESS_MASK DesiredAccess,
-    __in AUDIT_EVENT_TYPE AuditType,
-    __in ULONG Flags,
-    __in_ecount_opt(ObjectTypeListLength) POBJECT_TYPE_LIST ObjectTypeList,
-    __in ULONG ObjectTypeListLength,
-    __in PGENERIC_MAPPING GenericMapping,
-    __in BOOLEAN ObjectCreation,
-    __out_ecount(ObjectTypeListLength) PACCESS_MASK GrantedAccess,
-    __out_ecount(ObjectTypeListLength) PNTSTATUS AccessStatus,
-    __out PBOOLEAN GenerateOnClose
+    IN PUNICODE_STRING SubsystemName,
+    IN PVOID HandleId,
+    IN HANDLE ClientToken,
+    IN PUNICODE_STRING ObjectTypeName,
+    IN PUNICODE_STRING ObjectName,
+    IN PSECURITY_DESCRIPTOR SecurityDescriptor,
+    IN PSID PrincipalSelfSid,
+    IN ACCESS_MASK DesiredAccess,
+    IN AUDIT_EVENT_TYPE AuditType,
+    IN ULONG Flags,
+    IN POBJECT_TYPE_LIST ObjectTypeList OPTIONAL,
+    IN ULONG ObjectTypeListLength,
+    IN PGENERIC_MAPPING GenericMapping,
+    IN BOOLEAN ObjectCreation,
+    OUT PACCESS_MASK GrantedAccess,
+    OUT PNTSTATUS AccessStatus,
+    OUT PBOOLEAN GenerateOnClose
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenObjectAuditAlarm (
-    __in PUNICODE_STRING SubsystemName,
-    __in_opt PVOID HandleId,
-    __in PUNICODE_STRING ObjectTypeName,
-    __in PUNICODE_STRING ObjectName,
-    __in_opt PSECURITY_DESCRIPTOR SecurityDescriptor,
-    __in HANDLE ClientToken,
-    __in ACCESS_MASK DesiredAccess,
-    __in ACCESS_MASK GrantedAccess,
-    __in_opt PPRIVILEGE_SET Privileges,
-    __in BOOLEAN ObjectCreation,
-    __in BOOLEAN AccessGranted,
-    __out PBOOLEAN GenerateOnClose
+    IN PUNICODE_STRING SubsystemName,
+    IN PVOID HandleId OPTIONAL,
+    IN PUNICODE_STRING ObjectTypeName,
+    IN PUNICODE_STRING ObjectName,
+    IN PSECURITY_DESCRIPTOR SecurityDescriptor OPTIONAL,
+    IN HANDLE ClientToken,
+    IN ACCESS_MASK DesiredAccess,
+    IN ACCESS_MASK GrantedAccess,
+    IN PPRIVILEGE_SET Privileges OPTIONAL,
+    IN BOOLEAN ObjectCreation,
+    IN BOOLEAN AccessGranted,
+    OUT PBOOLEAN GenerateOnClose
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtPrivilegeObjectAuditAlarm (
-    __in PUNICODE_STRING SubsystemName,
-    __in_opt PVOID HandleId,
-    __in HANDLE ClientToken,
-    __in ACCESS_MASK DesiredAccess,
-    __in PPRIVILEGE_SET Privileges,
-    __in BOOLEAN AccessGranted
+    IN PUNICODE_STRING SubsystemName,
+    IN PVOID HandleId,
+    IN HANDLE ClientToken,
+    IN ACCESS_MASK DesiredAccess,
+    IN PPRIVILEGE_SET Privileges,
+    IN BOOLEAN AccessGranted
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCloseObjectAuditAlarm (
-    __in PUNICODE_STRING SubsystemName,
-    __in_opt PVOID HandleId,
-    __in BOOLEAN GenerateOnClose
+    IN PUNICODE_STRING SubsystemName,
+    IN PVOID HandleId,
+    IN BOOLEAN GenerateOnClose
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtDeleteObjectAuditAlarm (
-    __in PUNICODE_STRING SubsystemName,
-    __in_opt PVOID HandleId,
-    __in BOOLEAN GenerateOnClose
+    IN PUNICODE_STRING SubsystemName,
+    IN PVOID HandleId,
+    IN BOOLEAN GenerateOnClose
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtPrivilegedServiceAuditAlarm (
-    __in PUNICODE_STRING SubsystemName,
-    __in PUNICODE_STRING ServiceName,
-    __in HANDLE ClientToken,
-    __in PPRIVILEGE_SET Privileges,
-    __in BOOLEAN AccessGranted
+    IN PUNICODE_STRING SubsystemName,
+    IN PUNICODE_STRING ServiceName,
+    IN HANDLE ClientToken,
+    IN PPRIVILEGE_SET Privileges,
+    IN BOOLEAN AccessGranted
     );
 
 // end_ntifs
@@ -2174,4 +2186,3 @@ NtPrivilegedServiceAuditAlarm (
 #endif
 
 #endif // _NTSEAPI_
-

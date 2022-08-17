@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -36,17 +32,6 @@ DEFINE_GUID (DiskPerfGuid, 0xBDD865D1,0xD7C1,0x11d0,0xA5,0x01,0x00,0xA0,0xC9,0x0
 // {8F680850-A584-11d1-BF38-00A0C9062910}
 #define SMBIOS_DATA_GUID \
    {0x8f680850, 0xa584, 0x11d1, 0xbf, 0x38, 0x0, 0xa0, 0xc9, 0x6, 0x29, 0x10}
-
-//
-// This wmi guid is used to return the SMBIOS Identifer data
-// {98A2B9D7-94DD-496a-847E-67A5557A59F2}
-//
-// MS_SystemInformation - MS_SystemInformation
-#define MS_SYSTEM_INFORMATIONGUID \
-    { 0x98a2b9d7,0x94dd,0x496a, { 0x84,0x7e,0x67,0xa5,0x55,0x7a,0x59,0xf2 } }
-
-DEFINE_GUID(MS_SYSTEM_INFORMATION_GUID, \
-            0x98a2b9d7,0x94dd,0x496a,0x84,0x7e,0x67,0xa5,0x55,0x7a,0x59,0xf2);
 
 //
 // This wmi guid is used to return thermal information
@@ -190,4 +175,3 @@ DEFINE_GUID ( /* 398191dc-2da7-11d3-8b98-00805f85d7c6 */
     0x11d3,
     0x8b, 0x98, 0x00, 0x80, 0x5f, 0x85, 0xd7, 0xc6
   );
-

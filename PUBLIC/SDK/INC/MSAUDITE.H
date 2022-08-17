@@ -1,15 +1,37 @@
-//
-// Copyright (c) Microsoft Corporation. All rights reserved.
-//
-// You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-// If you do not agree to the terms, do not use the code.
-//
+/*++ BUILD Version: 0001    // Increment this if a change has global effects
 
+Copyright (c) 1991  Microsoft Corporation
+
+Module Name:
+
+    msaudite.mc
+
+Abstract:
+
+    Constant definitions for the NT Audit Event Messages.
+
+Author:
+
+    Jim Kelly (JimK) 30-Mar-1992
+
+Revision History:
+
+Notes:
+
+    The .h and .res forms of this file are generated from the .mc
+    form of the file (base\seaudit\msaudite\msaudite.mc).
+    Please make all changes to the .mc form of the file.
+
+    If you add a new audit category or make any change to the 
+    audit event id valid limits (0x200 ~ 0x5ff), please make a
+    corresponding change to ntlsa.h
+
+--*/
 
 #ifndef _MSAUDITE_
 #define _MSAUDITE_
 
-  
+/*lint -e767 */  // Don't complain about different definitions // winnt
 //
 //  Values are 32 bit values layed out as follows:
 //
@@ -55,45 +77,46 @@
 //
 
 
+// Message ID 0 is unused - just used to flush out the diagram
+//
+// min/max limits on audit category-id and event-id of audit events
+// 
+
+#define SE_ADT_MIN_CATEGORY_ID   1      // SE_CATEGID_SYSTEM
+#define SE_ADT_MAX_CATEGORY_ID   9      // SE_CATEGID_ACCOUNT_LOGON
 
 
-
-
-#define SE_ADT_MIN_CATEGORY_ID   1      
-#define SE_ADT_MAX_CATEGORY_ID   9      
-
-
-#define SE_ADT_MIN_AUDIT_ID      0x200  
-#define SE_ADT_MAX_AUDIT_ID      0x5ff  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#define SE_ADT_MIN_AUDIT_ID      0x200  // see msaudite.h
+#define SE_ADT_MAX_AUDIT_ID      0x5ff  // see msaudite.h
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+//                                                                       //
+//                                                                       //
+//   Audit Message ID Space:                                             //
+//                                                                       //
+//        0x0000 - 0x00FF :  Reserved for future use.                    //
+//                                                                       //
+//        0x0100 - 0x01FF :  Categories                                  //
+//                                                                       //
+//        0x0200 - 0x05FF :  Events                                      //
+//                                                                       //
+//        0x0600 - 0x063F :  Standard access types and names for         //
+//                           specific accesses when no specific names    //
+//                           can be found.                               //
+//                                                                       //
+//        0x0640 - 0x06FF :  Well known privilege names (as we would     //
+//                           like them displayed in the event viewer).   //
+//                                                                       //
+//        0x0700 - 0x0FFE :  Reserved for future use.                    //
+//                                                                       //
+//                 0X0FFF :  SE_ADT_LAST_SYSTEM_MESSAGE (the highest     //
+//                           value audit message used by the system)     //
+//                                                                       //
+//                                                                       //
+//        0x1000 and above:  For use by Parameter Message Files          //
+//                                                                       //
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 //
 // MessageId: SE_ADT_LAST_SYSTEM_MESSAGE
 //
@@ -104,27 +127,27 @@
 #define SE_ADT_LAST_SYSTEM_MESSAGE       ((ULONG)0x00000FFFL)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//                              CATEGORIES                                 //
+//                                                                         //
+//                 Categories take up the range 0x1 - 0x400                //
+//                                                                         //
+//                 Category IDs:                                           //
+//                                                                         //
+//                            SE_CATEGID_SYSTEM                            //
+//                            SE_CATEGID_LOGON                             //
+//                            SE_CATEGID_OBJECT_ACCESS                     //
+//                            SE_CATEGID_PRIVILEGE_USE                     //
+//                            SE_CATEGID_DETAILED_TRACKING                 //
+//                            SE_CATEGID_POLICY_CHANGE                     //
+//                            SE_CATEGID_ACCOUNT_MANAGEMENT                //
+//                            SE_CATEGID_DS_ACCESS                         //
+//                            SE_CATEGID_ACCOUNT_LOGON                     //
+//                                                                         //
+//                                                                         //
+/////////////////////////////////////////////////////////////////////////////
 //
 // MessageId: SE_CATEGID_SYSTEM
 //
@@ -207,34 +230,34 @@
 #define SE_CATEGID_ACCOUNT_LOGON         ((ULONG)0x00000009L)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//   Messages for Category:     SE_CATEGID_SYSTEM                          //
+//                                                                         //
+//   Event IDs:                                                            //
+//              SE_AUDITID_SYSTEM_RESTART                                  //
+//              SE_AUDITID_SYSTEM_SHUTDOWN                                 //
+//              SE_AUDITID_AUTH_PACKAGE_LOAD                               //
+//              SE_AUDITID_LOGON_PROC_REGISTER                             //
+//              SE_AUDITID_AUDITS_DISCARDED                                //
+//              SE_AUDITID_NOTIFY_PACKAGE_LOAD                             //
+//              SE_AUDITID_LPC_INVALID_USE                                 //
+//              SE_AUDITID_SYSTEM_TIME_CHANGE                              //
+//              SE_AUDITID_UNABLE_TO_LOG_EVENTS                            //
+//              SE_AUDITID_SECURITY_LOG_EXCEEDS_WARNING_LEVEL                 //
+//                                                                         //
+/////////////////////////////////////////////////////////////////////////////
+//
+//
+// SE_AUDITID_SYSTEM_RESTART
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Parameter Strings - None
+//
+//
+//
 //
 // MessageId: SE_AUDITID_SYSTEM_RESTART
 //
@@ -244,16 +267,16 @@
 //
 #define SE_AUDITID_SYSTEM_RESTART        ((ULONG)0x00000200L)
 
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SYSTEM_SHUTDOWN
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Parameter Strings - None
+//
+//
+//
 //
 // MessageId: SE_AUDITID_SYSTEM_SHUTDOWN
 //
@@ -264,18 +287,18 @@
 //
 #define SE_AUDITID_SYSTEM_SHUTDOWN       ((ULONG)0x00000201L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SYSTEM_AUTH_PACKAGE_LOAD
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Parameter Strings -
+//
+//          1 - Authentication Package Name
+//
+//
+//
 //
 // MessageId: SE_AUDITID_AUTH_PACKAGE_LOAD
 //
@@ -288,18 +311,18 @@
 //
 #define SE_AUDITID_AUTH_PACKAGE_LOAD     ((ULONG)0x00000202L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SYSTEM_LOGON_PROC_REGISTER
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Parameter Strings -
+//
+//          1 - Logon Process Name
+//
+//
+//
 //
 // MessageId: SE_AUDITID_SYSTEM_LOGON_PROC_REGISTER
 //
@@ -313,18 +336,18 @@
 //
 #define SE_AUDITID_SYSTEM_LOGON_PROC_REGISTER ((ULONG)0x00000203L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_AUDITS_DISCARDED
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Parameter Strings -
+//
+//          1 - Number of audits discarded
+//
+//
+//
 //
 // MessageId: SE_AUDITID_AUDITS_DISCARDED
 //
@@ -337,28 +360,28 @@
 //
 #define SE_AUDITID_AUDITS_DISCARDED      ((ULONG)0x00000204L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_AUDIT_LOG_CLEARED
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Parameter Strings -
+//
+//             1 - Primary user account name
+//
+//             2 - Primary authenticating domain name
+//
+//             3 - Primary logon ID string
+//
+//             4 - Client user account name ("-" if no client)
+//
+//             5 - Client authenticating domain name ("-" if no client)
+//
+//             6 - Client logon ID string ("-" if no client)
+//
+//
+//
 //
 // MessageId: SE_AUDITID_AUDIT_LOG_CLEARED
 //
@@ -375,18 +398,18 @@
 //
 #define SE_AUDITID_AUDIT_LOG_CLEARED     ((ULONG)0x00000205L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SYSTEM_NOTIFY_PACKAGE_LOAD
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Parameter Strings -
+//
+//          1 - Notification Package Name
+//
+//
+//
 //
 // MessageId: SE_AUDITID_NOTIFY_PACKAGE_LOAD
 //
@@ -399,26 +422,26 @@
 //
 #define SE_AUDITID_NOTIFY_PACKAGE_LOAD   ((ULONG)0x00000206L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_LPC_INVALID_USE
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Parameter Strings -
+//
+//             1 - LPC call (e.g. "impersonation" | "reply")
+//
+//             2 - Server Port name
+//
+//             3 - Faulting process
+//
+// Event type: success
+//
+// Description:
+// SE_AUDIT_LPC_INVALID_USE is generated when a process uses an invalid LPC 
+// port in an attempt to impersonate a client, reply or read/write from/to a client address space. 
+//
 //
 // MessageId: SE_AUDITID_LPC_INVALID_USE
 //
@@ -438,23 +461,23 @@
 //
 #define SE_AUDITID_LPC_INVALID_USE       ((ULONG)0x00000207L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SYSTEM_TIME_CHANGE
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Parameter Strings -
+//
+// Type: success
+//
+// Description: This event is generated when the system time is changed.
+// 
+// Note: This will often appear twice in the audit log; this is an implementation 
+// detail wherein changing the system time results in two calls to NtSetSystemTime.
+// This is necessary to deal with time zone changes.
+//
+//
 //
 // MessageId: SE_AUDITID_SYSTEM_TIME_CHANGE
 //
@@ -474,28 +497,28 @@
 //
 #define SE_AUDITID_SYSTEM_TIME_CHANGE    ((ULONG)0x00000208L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_UNABLE_TO_LOG_EVENTS
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Type: failure
+//
+// Description:
+// This event is generated when the system is not able to log
+// security audit events.
+//
+// Parameters:
+// 1 : Win32 error code
+//
+// 2 : value of the key System\CurrentControlSet\Control\Lsa\CrashOnAuditFail
+//     0 --> CrashOnAuditFail is not set
+//     1 --> system will crash if not able to log audit events
+//     2 --> system has rebooted after such a crash and will allow
+//           only admins to logon
+// 
+//
 //
 // MessageId: SE_AUDITID_UNABLE_TO_LOG_EVENTS
 //
@@ -507,23 +530,23 @@
 //
 #define SE_AUDITID_UNABLE_TO_LOG_EVENTS  ((ULONG)0x00000209L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_AUDIT_COLLECTION_AGENT_ERROR
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Type: failure
+//
+// Description:
+// This event is generated when AdtAgent/AdtServer
+// encounter an error.
+//
+// Parameters:
+// 1 : Component (AdtAgent, AdtServer, etc.)
+// 2 : Version of the component
+// 3 : Win32 error
+// 
 //
 // MessageId: SE_AUDITID_AUDIT_COLLECTION_AGENT_ERROR
 //
@@ -536,21 +559,21 @@
 //
 #define SE_AUDITID_AUDIT_COLLECTION_AGENT_ERROR ((ULONG)0x0000020AL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_LOG_EXCEEDS_WARNING_LEVEL
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Parameter Strings -
+//
+//          1 - Percent Full
+//
+// Description: This event is generated when security logs exceedes a certain 
+// percent full.  That percent is controlled by the registry value named 
+// "WarningLevel" which is stored in the security subkey of the eventlog.
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_LOG_EXCEEDS_WARNING_LEVEL
 //
@@ -560,23 +583,23 @@
 //
 #define SE_AUDITID_SECURITY_LOG_EXCEEDS_WARNING_LEVEL ((ULONG)0x0000020BL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_EVENT_LOG_AUTOBACKUP
+//
+//          Category:  SE_CATEGID_SYSTEM
+//
+// Type: success/failure
+//
+// Description:
+// This event is generated when the eventlog service automatically
+// backs-up the security log.
+//
+// Parameters:
+// 1 : Type of log (for example, 'Security')
+// 2 : Full path to the backed-up copy
+// 3 : Win32 error (0 ==> success)
+// 
 //
 // MessageId: SE_AUDITID_EVENT_LOG_AUTOBACKUP
 //
@@ -589,177 +612,63 @@
 //
 #define SE_AUDITID_EVENT_LOG_AUTOBACKUP  ((ULONG)0x0000020CL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// MessageId: SE_AUDITID_IPSEC_INBOUND_PACKET_INTEGRITY_CHECK_FAIL
-//
-// MessageText:
-//
-//  
-//  IPSec inbound packet integrity check failed:%n
-//  %tPacket Source:%t%1%n
-//  %tInbound SA:%t%2%n
-//  %tNumber Of Packets:%t%3%n
-//  Received packet from over a security association that failed data integrity verification. This could be a temporary problem; if it persists it may indicate either a poor network condition or that packets are being modified in transit to the system.%n
-//
-#define SE_AUDITID_IPSEC_INBOUND_PACKET_INTEGRITY_CHECK_FAIL ((ULONG)0x00000360L)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// MessageId: SE_AUDITID_IPSEC_INBOUND_PACKET_REPLAY_CHECK_FAIL
-//
-// MessageText:
-//
-//  
-//  IPSec inbound packet replay check failed:%n
-//  %tPacket Source:%t%1%n
-//  %tInbound SA:%t%2%n 
-//  %tNumber of Packets:%t%3%n
-//  Received packet from over a security association with a sequence number for a packet already processed by the system.This could be a temporary problem; if it persists it may indicate a replay attack against the system.%n
-//
-#define SE_AUDITID_IPSEC_INBOUND_PACKET_REPLAY_CHECK_FAIL ((ULONG)0x00000361L)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// MessageId: SE_AUDITID_IPSEC_INBOUND_PACKET_REPLAY_CHECK_FAIL_NON_DEFINITE
-//
-// MessageText:
-//
-//  
-//  IPSec inbound packet replay check failed, inbound packet had too low a sequence number to ensure it was not a replay:%n
-//  %tPacket Source:%t%1%n
-//  %tInbound SA:%t%2%n 
-//  %tNumber of Packets:%t%3%n
-//
-#define SE_AUDITID_IPSEC_INBOUND_PACKET_REPLAY_CHECK_FAIL_NON_DEFINITE ((ULONG)0x00000362L)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// MessageId: SE_AUDITID_IPSEC_RECEIVED_INBOUND_CLEAR_TEXT
-//
-// MessageText:
-//
-//  
-//  IPSec received inbound clear text packet that should have been secured:%n
-//  %tPacket Source:%t%1%n
-//  %tInbound SA:%t%2%n
-//  %tNumber of Packets:%t%3%n
-//
-#define SE_AUDITID_IPSEC_RECEIVED_INBOUND_CLEAR_TEXT ((ULONG)0x00000363L)
-
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//   Messages for Category:     SE_CATEGID_LOGON                           //
+//                                                                         //
+//   Event IDs:                                                            //
+//              SE_AUDITID_SUCCESSFUL_LOGON                                //
+//              SE_AUDITID_UNKNOWN_USER_OR_PWD                             //
+//              SE_AUDITID_ACCOUNT_TIME_RESTR                              //
+//              SE_AUDITID_ACCOUNT_DISABLED                                //
+//              SE_AUDITID_ACCOUNT_EXPIRED                                 //
+//              SE_AUDITID_WORKSTATION_RESTR                               //
+//              SE_AUDITID_LOGON_TYPE_RESTR                                //
+//              SE_AUDITID_PASSWORD_EXPIRED                                //
+//              SE_AUDITID_NETLOGON_NOT_STARTED                            //
+//              SE_AUDITID_UNSUCCESSFUL_LOGON                              //
+//              SE_AUDITID_LOGOFF                                          //
+//              SE_AUDITID_ACCOUNT_LOCKED                                  //
+//              SE_AUDITID_NETWORK_LOGON                                   //
+//              SE_AUDITID_IPSEC_LOGON_SUCCESS                             //
+//              SE_AUDITID_IPSEC_LOGOFF_MM                                 //
+//              SE_AUDITID_IPSEC_LOGOFF_QM                                 //
+//              SE_AUDITID_IPSEC_AUTH_FAIL_CERT_TRUST                      //
+//              SE_AUDITID_IPSEC_AUTH                                      //
+//              SE_AUDITID_IPSEC_ATTRIB_FAIL                               //
+//              SE_AUDITID_IPSEC_NEGOTIATION_FAIL                          //
+//              SE_AUDITID_IPSEC_IKE_NOTIFICATION                          //
+//              SE_AUDITID_DOMAIN_TRUST_INCONSISTENT                       //
+//              SE_AUDITID_AUTH_REPLAY_DETECTED                            //
+//                                                                         //
+/////////////////////////////////////////////////////////////////////////////
+//
+//
+// SE_AUDITID_SUCCESSFUL_LOGON
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon ID string
+//
+//             4 - Logon Type string
+//
+//             5 - Logon process name
+//
+//             6 - Authentication package name
+//
+//             7 - Workstation from which logon request came
+//
+//             8 - Globally unique logon ID
+//
+//
 //
 // MessageId: SE_AUDITID_SUCCESSFUL_LOGON
 //
@@ -784,25 +693,25 @@
 //
 #define SE_AUDITID_SUCCESSFUL_LOGON      ((ULONG)0x00000210L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_UNKNOWN_USER_OR_PWD
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon Type string
+//
+//             4 - Logon process name
+//
+//             5 - Authentication package name
+//
+//
 //
 // MessageId: SE_AUDITID_UNKNOWN_USER_OR_PWD
 //
@@ -826,25 +735,25 @@
 //
 #define SE_AUDITID_UNKNOWN_USER_OR_PWD   ((ULONG)0x00000211L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_TIME_RESTR
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon Type string
+//
+//             4 - Logon process name
+//
+//             5 - Authentication package name
+//
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_TIME_RESTR
 //
@@ -868,25 +777,25 @@
 //
 #define SE_AUDITID_ACCOUNT_TIME_RESTR    ((ULONG)0x00000212L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_DISABLED
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon Type string
+//
+//             4 - Logon process name
+//
+//             5 - Authentication package name
+//
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_DISABLED
 //
@@ -910,25 +819,25 @@
 //
 #define SE_AUDITID_ACCOUNT_DISABLED      ((ULONG)0x00000213L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_EXPIRED
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon Type string
+//
+//             4 - Logon process name
+//
+//             5 - Authentication package name
+//
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_EXPIRED
 //
@@ -952,25 +861,25 @@
 //
 #define SE_AUDITID_ACCOUNT_EXPIRED       ((ULONG)0x00000214L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_WORKSTATION_RESTR
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon Type string
+//
+//             4 - Logon process name
+//
+//             5 - Authentication package name
+//
+//
 //
 // MessageId: SE_AUDITID_WORKSTATION_RESTR
 //
@@ -994,25 +903,25 @@
 //
 #define SE_AUDITID_WORKSTATION_RESTR     ((ULONG)0x00000215L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_LOGON_TYPE_RESTR
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon Type string
+//
+//             4 - Logon process name
+//
+//             5 - Authentication package name
+//
+//
 //
 // MessageId: SE_AUDITID_LOGON_TYPE_RESTR
 //
@@ -1037,25 +946,25 @@
 //
 #define SE_AUDITID_LOGON_TYPE_RESTR      ((ULONG)0x00000216L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_PASSWORD_EXPIRED
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon Type string
+//
+//             4 - Logon process name
+//
+//             5 - Authentication package name
+//
+//
 //
 // MessageId: SE_AUDITID_PASSWORD_EXPIRED
 //
@@ -1079,25 +988,25 @@
 //
 #define SE_AUDITID_PASSWORD_EXPIRED      ((ULONG)0x00000217L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//'
+//
+// SE_AUDITID_NETLOGON_NOT_STARTED
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon Type string
+//
+//             4 - Logon process name
+//
+//             5 - Authentication package name
+//
+//
 //
 // MessageId: SE_AUDITID_NETLOGON_NOT_STARTED
 //
@@ -1121,25 +1030,25 @@
 //
 #define SE_AUDITID_NETLOGON_NOT_STARTED  ((ULONG)0x00000218L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_UNSUCCESSFUL_LOGON
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon Type string
+//
+//             4 - Logon process name
+//
+//             5 - Authentication package name
+//
+//
 //
 // MessageId: SE_AUDITID_UNSUCCESSFUL_LOGON
 //
@@ -1165,39 +1074,39 @@
 //
 #define SE_AUDITID_UNSUCCESSFUL_LOGON    ((ULONG)0x00000219L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_LOGOFF
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Event Type : success
+//
+// Description:
+// This event is generated when the logoff process is complete,
+// A logoff is considered complete when the associated logon session object
+// is deleted. 
+//
+// Notes:
+// A logon session object is deleted only after all tokens
+// associated with it are closed. This can take arbitrarily long time.
+// Because of this, the time difference between SE_AUDITID_SUCCESSFUL_LOGON
+// and SE_AUDITID_LOGOFF does not accurately indicate the total logon duration
+// for a user. To calculate the logon duration, use the SE_AUDITID_BEGIN_LOGOFF
+// time instead.
+// 
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon ID string
+//
+//             3 - Logon Type string
+//
+//
+//
 //
 // MessageId: SE_AUDITID_LOGOFF
 //
@@ -1211,25 +1120,25 @@
 //
 #define SE_AUDITID_LOGOFF                ((ULONG)0x0000021AL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_LOCKED
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon Type string
+//
+//             4 - Logon process name
+//
+//             5 - Authentication package name
+//
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_LOCKED
 //
@@ -1253,38 +1162,38 @@
 //
 #define SE_AUDITID_ACCOUNT_LOCKED        ((ULONG)0x0000021BL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_NETWORK_LOGON
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Description:
+// This event represents a successful logon of type Network(2) or
+// NetworkCleartext(8). 
+//
+// [kumarp] I do not know why this event was created separately because
+//          this was already covered by SE_AUDITID_SUCCESSFUL_LOGON with
+//          the right logon types.
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon ID string
+//
+//             4 - Logon Type string
+//
+//             5 - Logon process name
+//
+//             6 - Authentication package name
+//
+//             7 - Workstation from which logon request came
+//
+//             8 - Globally unique logon ID
+//
 //
 // MessageId: SE_AUDITID_NETWORK_LOGON
 //
@@ -1309,23 +1218,23 @@
 //
 #define SE_AUDITID_NETWORK_LOGON         ((ULONG)0x0000021CL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_LOGON_SUCCESS
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - Mode
+//
+//             2 - Peer Identity
+//
+//             3 - Filter
+//
+//             4 - Parameters
+//
+//
 //
 // MessageId: SE_AUDITID_IPSEC_LOGON_SUCCESS
 //
@@ -1339,21 +1248,21 @@
 //
 #define SE_AUDITID_IPSEC_LOGON_SUCCESS   ((ULONG)0x0000021DL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_LOGOFF_QM
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - Filter
+//
+//             2 - Inbound SPI
+//
+//             3 - Outbound SPI
+//
+//
 //
 // MessageId: SE_AUDITID_IPSEC_LOGOFF_QM
 //
@@ -1367,16 +1276,16 @@
 //
 #define SE_AUDITID_IPSEC_LOGOFF_QM       ((ULONG)0x0000021EL)
 
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_LOGOFF_MM
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - Filter
+//
 //
 // MessageId: SE_AUDITID_IPSEC_LOGOFF_MM
 //
@@ -1388,19 +1297,19 @@
 //
 #define SE_AUDITID_IPSEC_LOGOFF_MM       ((ULONG)0x0000021FL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_AUTH_FAIL_CERT_TRUST
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - Peer Identity
+//
+//             2 - Filter
+//
+//
 //
 // MessageId: SE_AUDITID_IPSEC_AUTH_FAIL_CERT_TRUST
 //
@@ -1413,19 +1322,19 @@
 //
 #define SE_AUDITID_IPSEC_AUTH_FAIL_CERT_TRUST ((ULONG)0x00000220L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_AUTH_FAIL
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - Peer Identity
+//
+//             2 - Filter
+//
+//
 //
 // MessageId: SE_AUDITID_IPSEC_AUTH_FAIL
 //
@@ -1437,25 +1346,25 @@
 //
 #define SE_AUDITID_IPSEC_AUTH_FAIL       ((ULONG)0x00000221L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_ATTRIB_FAIL
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - Mode
+//
+//             2 - Filter
+//
+//             3 - Attribute Name
+//
+//             4 - Expected Value
+//
+//             5 - Received Value
+//
+//
 //
 // MessageId: SE_AUDITID_IPSEC_ATTRIB_FAIL
 //
@@ -1471,23 +1380,23 @@
 //
 #define SE_AUDITID_IPSEC_ATTRIB_FAIL     ((ULONG)0x00000222L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_NEGOTIATION_FAIL
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - Mode
+//
+//             2 - Filter
+//
+//             3 - Failure Point
+//
+//             4 - Failure Reason
+//
+//
 //
 // MessageId: SE_AUDITID_IPSEC_NEGOTIATION_FAIL
 //
@@ -1503,32 +1412,32 @@
 //
 #define SE_AUDITID_IPSEC_NEGOTIATION_FAIL ((ULONG)0x00000223L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_DOMAIN_TRUST_INCONSISTENT
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Event Type : failure
+//
+// Description:
+// This event is generated by an authentication package when the
+// quarantined domain SID filtering function in LSA returns
+// STATUS_DOMAIN_TRUST_INCONSISTENT error code.
+//
+// In case of kerberos:
+// If the server ticket info has a TDOSid then KdcCheckPacForSidFiltering
+// function makes a check to make sure the SID from the TDO matches
+// the client's home domain SID.  A call to LsaIFilterSids
+// is made to do the check.  If this function fails with
+// STATUS_DOMAIN_TRUST_INCONSISTENT then this event is generated.
+//
+// In case of netlogon:
+// NlpUserValidateHigher function does a similar check by
+// calling LsaIFilterSids.
+// 
+// Notes:
+//
 //
 // MessageId: SE_AUDITID_DOMAIN_TRUST_INCONSISTENT
 //
@@ -1546,25 +1455,25 @@
 //
 #define SE_AUDITID_DOMAIN_TRUST_INCONSISTENT ((ULONG)0x00000224L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ALL_SIDS_FILTERED
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Event Type : failure
+//
+// Description:
+// During a cross forest authentication, SIDS corresponding to untrusted
+// namespaces are filtered out.  If this filtering action results into
+// removal of all sids then this event is generated.
+//
+// Notes:
+// This is generated on the computer running kdc
+//
+// **** This event is now obsolete. The schema below is retained so that
+// people can view old instance of this event using a new viewer.
+// 
 //
 // MessageId: SE_AUDITID_ALL_SIDS_FILTERED
 //
@@ -1581,16 +1490,16 @@
 //
 #define SE_AUDITID_ALL_SIDS_FILTERED     ((ULONG)0x00000225L)
 
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_IKE_NOTIFICATION
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//   1 - Notification Message
+//
 //
 // MessageId: SE_AUDITID_IPSEC_IKE_NOTIFICATION
 //
@@ -1600,34 +1509,34 @@
 //
 #define SE_AUDITID_IPSEC_IKE_NOTIFICATION ((ULONG)0x00000226L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_BEGIN_LOGOFF
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Event Type : success
+//
+// Description:
+// This event is generated when a user initiates logoff.
+//
+// Notes:
+// When the logoff process is complete, SE_AUDITID_LOGOFF event is generated.
+// A logoff is considered complete when the associated logon session object
+// is deleted. This happens only after all tokens associated with it are closed.
+// This can take arbitrarily long time therefore there can be a substantial
+// time difference between the two events.  
+//
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon ID string
+//
+//
 //
 // MessageId: SE_AUDITID_BEGIN_LOGOFF
 //
@@ -1640,22 +1549,22 @@
 //
 #define SE_AUDITID_BEGIN_LOGOFF          ((ULONG)0x00000227L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_LOGON_USING_EXPLICIT_CREDENTIALS
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Event Type : success
+//
+// Description:
+// This event is generated when someone tries to logon using
+// explicit credentials while already logged on as a different user.
+//
+// Notes:
+// This is generated on the client machine from which logon request originates.
+// 
+// 
 //
 // MessageId: SE_AUDITID_LOGON_USING_EXPLICIT_CREDENTIALS
 //
@@ -1679,23 +1588,23 @@
 //
 #define SE_AUDITID_LOGON_USING_EXPLICIT_CREDENTIALS ((ULONG)0x00000228L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_AUTH_REPLAY_DETECTED
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Event Type : failure 
+//
+// Description:
+// This event is generated when an auth package detects replay attack. 
+//
+// Notes:
+// This is generated by the computer running kdc or the server machine 
+// that is receiving the auth request. For kerberos, Request Type is one of 
+// the KRB_XXX_REQ or whatever request depending on the specific auth protocol.
+// 
+// 
 //
 // MessageId: SE_AUDITID_AUTH_REPLAY_DETECTED
 //
@@ -1716,58 +1625,58 @@
 #define SE_AUDITID_AUTH_REPLAY_DETECTED  ((ULONG)0x00000229L)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//   Messages for Category:     SE_CATEGID_OBJECT_ACCESS                   //
+//                                                                         //
+//   Event IDs:                                                            //
+//              SE_AUDITID_OPEN_HANDLE                                     //
+//              SE_AUDITID_CLOSE_HANDLE                                    //
+//              SE_AUDITID_OPEN_OBJECT_FOR_DELETE                          //
+//              SE_AUDITID_DELETE_OBJECT                                   //
+//              SE_AUDITID_OPEN_HANDLE_OBJECT_TYPE                         //
+//              SE_AUDITID_OBJECT_OPERATION                                //
+//              SE_AUDITID_OBJECT_ACCESS                                   //
+//              SE_AUDITID_HARDLINK_CREATION                               //
+//                                                                         //
+//                                                                         //
+/////////////////////////////////////////////////////////////////////////////
+//
+//
+// SE_AUDITID_OPEN_HANDLE
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Object Type string
+//
+//             2 - Object name
+//
+//             3 - New handle ID string
+//
+//             4 - Object server name
+//
+//             5 - Process ID string
+//
+//             6 - Primary user account name
+//
+//             7 - Primary authenticating domain name
+//
+//             8 - Primary logon ID string
+//
+//             9 - Client user account name ("-" if no client)
+//
+//            10 - Client authenticating domain name ("-" if no client)
+//
+//            11 - Client logon ID string ("-" if no client)
+//
+//            12 - Access names
+//
+//
+//
+//
 //
 // MessageId: SE_AUDITID_OPEN_HANDLE
 //
@@ -1794,23 +1703,23 @@
 //
 #define SE_AUDITID_OPEN_HANDLE           ((ULONG)0x00000230L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CLOSE_HANDLE
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Object server name
+//
+//             2 - Handle ID string
+//
+//             3 - Process ID string
+//
+//
+//
+//
 //
 // MessageId: SE_AUDITID_CLOSE_HANDLE
 //
@@ -1824,41 +1733,41 @@
 //
 #define SE_AUDITID_CLOSE_HANDLE          ((ULONG)0x00000232L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_OPEN_OBJECT_FOR_DELETE
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Object Type string
+//
+//             2 - Object name
+//
+//             3 - New handle ID string
+//
+//             4 - Object server name
+//
+//             5 - Process ID string
+//
+//             6 - Primary user account name
+//
+//             7 - Primary authenticating domain name
+//
+//             8 - Primary logon ID string
+//
+//             9 - Client user account name ("-" if no client)
+//
+//            10 - Client authenticating domain name ("-" if no client)
+//
+//            11 - Client logon ID string ("-" if no client)
+//
+//            12 - Access names
+//
+//
+//
+//
 //
 // MessageId: SE_AUDITID_OPEN_OBJECT_FOR_DELETE
 //
@@ -1883,23 +1792,23 @@
 //
 #define SE_AUDITID_OPEN_OBJECT_FOR_DELETE ((ULONG)0x00000233L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_DELETE_OBJECT
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Object server name
+//
+//             2 - Handle ID string
+//
+//             3 - Process ID string
+//
+//
+//
+//
 //
 // MessageId: SE_AUDITID_DELETE_OBJECT
 //
@@ -1913,43 +1822,43 @@
 //
 #define SE_AUDITID_DELETE_OBJECT         ((ULONG)0x00000234L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_OPEN_HANDLE_OBJECT_TYPE
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Object Type string
+//
+//             2 - Object name
+//
+//             3 - New handle ID string
+//
+//             4 - Object server name
+//
+//             5 - Process ID string
+//
+//             6 - Primary user account name
+//
+//             7 - Primary authenticating domain name
+//
+//             8 - Primary logon ID string
+//
+//             9 - Client user account name ("-" if no client)
+//
+//            10 - Client authenticating domain name ("-" if no client)
+//
+//            11 - Client logon ID string ("-" if no client)
+//
+//            12 - Access names
+//
+//            13 - Object Type parameters
+//
+//
+//
+//
 //
 // MessageId: SE_AUDITID_OPEN_HANDLE_OBJECT_TYPE
 //
@@ -1977,38 +1886,38 @@
 #define SE_AUDITID_OPEN_HANDLE_OBJECT_TYPE ((ULONG)0x00000235L)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// SE_AUDITID_OBJECT_OPERATION
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Operation Name
+//
+//             2 - Object Type
+//
+//             3 - Object name
+//
+//             4 - Handle ID
+//
+//             5 - Primary user account name
+//
+//             6 - Primary authenticating domain name
+//
+//             7 - Primary logon ID string
+//
+//             8 - Client user account name ("-" if no client)
+//
+//             9 - Client authenticating domain name ("-" if no client)
+//
+//            10 - Client logon ID string ("-" if no client)
+//
+//            11 - Requested accesses to the object
+//
+//            12 - Object properties ("-" if none)
+//
+//            13 - additional information ("-" if none)
+//
 //
 // MessageId: SE_AUDITID_OBJECT_OPERATION
 //
@@ -2034,23 +1943,23 @@
 //
 #define SE_AUDITID_OBJECT_OPERATION      ((ULONG)0x00000236L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_OBJECT_ACCESS
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Object server name
+//
+//             2 - Handle ID string
+//
+//             3 - Process ID string
+//
+//             4 - List of Accesses
+//
+//
 //
 // MessageId: SE_AUDITID_OBJECT_ACCESS
 //
@@ -2067,23 +1976,23 @@
 //
 #define SE_AUDITID_OBJECT_ACCESS         ((ULONG)0x00000237L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_HARDLINK_CREATION
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Object server name
+//
+//             2 - Handle ID string
+//
+//             3 - Process ID string
+//
+//
+//
+//
 //
 // MessageId: SE_AUDITID_HARDLINK_CREATION
 //
@@ -2098,33 +2007,33 @@
 //
 #define SE_AUDITID_HARDLINK_CREATION     ((ULONG)0x00000238L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_AZ_CLIENTCONTEXT_CREATION
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Application name
+//
+//             2 - Application instance id
+//
+//             3 - Client name
+//
+//             4 - Client domain name
+//
+//             5 - Client Logon id
+//
+//             6 - Error status
+//
+//
+// Description: This audit is generated when the resource manager in AZ 
+// creates a client context. Currently, the only creation supported is 
+// from a Nt Token. To track back to the identity of the client, use the Client
+// context Id and match it with the Logon Id in the Token Creation audit.
+//
+//
 //
 // MessageId: SE_AUDITID_AZ_CLIENTCONTEXT_CREATION
 //
@@ -2140,50 +2049,50 @@
 //
 #define SE_AUDITID_AZ_CLIENTCONTEXT_CREATION ((ULONG)0x00000239L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_AZ_ACCESSCHECK
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Application Name
+//
+//             2 - Application instance luid
+//
+//             3 - Object Name
+//
+//             4 - Scope name to which the object belongs
+//                 Scopes are not nested in V1. In V2, this will be a comma
+//                 separated list.
+//
+//             5 - Client name
+//
+//             6 - Client domain name
+//
+//             7 - Client Logon Id
+//
+//             8 - Role information
+//                 Role because of which the client was granted access.
+//
+//             9 - Group Information
+//                 Groups because of which the client belonged to the role.
+//                 This is a comma separated list.
+//
+//            10 - Operation name
+//                 Name of the operation e.g. Read general information
+//
+//            11 - Operation Id
+//                 DWORD internal representation of the operation.
+//
+//
+// Desription: This audit is generated when the client accesses an object.
+// One audit (success/failure) is generated per every Operation asked for.
+// Ex: Asked for Op1, Op2, Op3. 
+//     Granted Op1; Denied Op2, Op3
+// Will generate one success and 2 failure audits.
+//
 //
 // MessageId: SE_AUDITID_AZ_ACCESSCHECK
 //
@@ -2203,29 +2112,29 @@
 //
 #define SE_AUDITID_AZ_ACCESSCHECK        ((ULONG)0x0000023AL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_AZ_CLIENTCONTEXT_DELETION
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Application name
+//
+//             2 - Application instance luid
+//
+//             3 - Client name
+//
+//             4 - Client domain name
+//
+//             5 - Client login Id
+//
+// Description: This audit is generated when the client context is deleted by
+// the AZ app. Tie this with the client context creation audit.
+//
+//
+//
 //
 // MessageId: SE_AUDITID_AZ_CLIENTCONTEXT_DELETION
 //
@@ -2240,31 +2149,31 @@
 //
 #define SE_AUDITID_AZ_CLIENTCONTEXT_DELETION ((ULONG)0x0000023BL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_AZ_APPLICATION_INITIALIZATION
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Application name
+//
+//             2 - Application instance luid
+//
+//             3 - Client name
+//
+//             4 - Client domain name
+//
+//             5 - Client logon id
+//
+//             6 - Policy store url
+//
+// Description: This audit is generated when the admin manager initializes the
+// app. The applciation name and instance Id help to tie the future audits.
+//
+//
+//
 //
 // MessageId: SE_AUDITID_AZ_APPLICATION_INITIALIZATION
 //
@@ -2280,28 +2189,28 @@
 //
 #define SE_AUDITID_AZ_APPLICATION_INITIALIZATION ((ULONG)0x0000023CL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_GENERIC_AUDIT_EVENT
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - source name
+//
+//             2 - event ID specific to this source
+//
+//             3 - 27 : insertion strings
+//
+//
+// Description:
+// This audit is generated when a process generates non-system audit event
+// using the AuthZ audit API. Parameters supplied by the process are converted
+// to strings and inserted as strings %3 through %27.
+//
+//
+//
 //
 // MessageId: SE_AUDITID_GENERIC_AUDIT_EVENT
 //
@@ -2339,51 +2248,51 @@
 #define SE_AUDITID_GENERIC_AUDIT_EVENT   ((ULONG)0x0000023DL)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//   Messages for Category:     SE_CATEGID_PRIVILEGE_USE                   //
+//                                                                         //
+//   Event IDs:                                                            //
+//              SE_AUDITID_ASSIGN_SPECIAL_PRIV                             //
+//              SE_AUDITID_PRIVILEGED_SERVICE                              //
+//              SE_AUDITID_PRIVILEGED_OBJECT                               //
+//                                                                         //
+//                                                                         //
+//                                                                         //
+/////////////////////////////////////////////////////////////////////////////
+//
+//
+// SE_AUDITID_ASSIGN_SPECIAL_PRIV
+//
+//          Category:  SE_CATEGID_PRIVILEGE_USE
+//
+// Description:
+// When a user logs on, if any one of the following privileges is added
+// to his/her token, this event is generated.
+// 
+// - SeChangeNotifyPrivilege
+// - SeAuditPrivilege
+// - SeCreateTokenPrivilege
+// - SeAssignPrimaryTokenPrivilege
+// - SeBackupPrivilege
+// - SeRestorePrivilege
+// - SeDebugPrivilege
+//
+// 
+// Parameter Strings -
+//
+//             1 - User name
+//
+//             2 - domain name
+//
+//             3 - Logon ID string
+//
+//             4 - Privilege names (as 1 string, with formatting)
+//
+//
+//
+//
 //
 // MessageId: SE_AUDITID_ASSIGN_SPECIAL_PRIV
 //
@@ -2397,39 +2306,39 @@
 //
 #define SE_AUDITID_ASSIGN_SPECIAL_PRIV   ((ULONG)0x00000240L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_PRIVILEGED_SERVICE
+//
+//          Category:  SE_CATEGID_PRIVILEGE_USE
+//
+// Description:
+// This event is generated when a user makes an attempt to perform
+// a privileged system service operation.
+// 
+// Parameter Strings -
+//
+//             1 - server name
+//
+//             2 - service name
+//
+//             3 - Primary User name
+//
+//             4 - Primary domain name
+//
+//             5 - Primary Logon ID string
+//
+//             6 - Client User name (or "-" if not impersonating)
+//
+//             7 - Client domain name (or "-" if not impersonating)
+//
+//             8 - Client Logon ID string (or "-" if not impersonating)
+//
+//             9 - Privilege names (as 1 string, with formatting)
+//
+//
+//
+//
 //
 // MessageId: SE_AUDITID_PRIVILEGED_SERVICE
 //
@@ -2448,35 +2357,35 @@
 //
 #define SE_AUDITID_PRIVILEGED_SERVICE    ((ULONG)0x00000241L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_PRIVILEGED_OBJECT
+//
+//          Category:  SE_CATEGID_PRIVILEGE_USE
+//
+// Parameter Strings -
+//
+//             1 - object server
+//
+//             2 - object handle (if available)
+//
+//             3 - process ID string
+//
+//             4 - Primary User name
+//
+//             5 - Primary domain name
+//
+//             6 - Primary Logon ID string
+//
+//             7 - Client User name (or "-" if not impersonating)
+//
+//             8 - Client domain name (or "-" if not impersonating)
+//
+//             9 - Client Logon ID string (or "-" if not impersonating)
+//
+//            10 - Privilege names (as 1 string, with formatting)
+//
+//
 //
 // MessageId: SE_AUDITID_PRIVILEGED_OBJECT
 //
@@ -2497,46 +2406,46 @@
 #define SE_AUDITID_PRIVILEGED_OBJECT     ((ULONG)0x00000242L)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//   Messages for Category:     SE_CATEGID_DETAILED_TRACKING               //
+//                                                                         //
+//   Event IDs:                                                            //
+//              SE_AUDITID_PROCESS_CREATED                                 //
+//              SE_AUDITID_PROCESS_EXIT                                    //
+//              SE_AUDITID_DUPLICATE_HANDLE                                //
+//              SE_AUDITID_INDIRECT_REFERENCE                              //
+//              SE_AUDITID_DPAPI_BACKUP                                    //
+//              SE_AUDITID_DPAPI_RECOVERY                                  //
+//              SE_AUDITID_DPAPI_PROTECT                                   //
+//              SE_AUDITID_DPAPI_UNPROTECT                                 //
+//              SE_AUDITID_ASSIGN_TOKEN                                    //
+//              SE_AUDITID_SERVICE_INSTALL                                 //
+//              SE_AUDITID_JOB_CREATED                                     //
+//                                                                         //
+//                                                                         //
+/////////////////////////////////////////////////////////////////////////////
+//
+//
+// SE_AUDITID_PROCESS_CREATED
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Parameter Strings -
+//
+//             1 - process ID string
+//
+//             2 - Image file name (if available - otherwise "-")
+//
+//             3 - Creating process's ID
+//
+//             4 - User name (of new process)
+//
+//             5 - domain name (of new process)
+//
+//             6 - Logon ID string (of new process)
+//
 //
 // MessageId: SE_AUDITID_PROCESS_CREATED
 //
@@ -2552,27 +2461,27 @@
 //
 #define SE_AUDITID_PROCESS_CREATED       ((ULONG)0x00000250L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_PROCESS_EXIT
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Parameter Strings -
+//
+//             1 - process ID string
+//
+//             2 - image name
+//
+//             3 - User name
+//
+//             4 - domain name
+//
+//             5 - Logon ID string
+//
+//
+//
+//
 //
 // MessageId: SE_AUDITID_PROCESS_EXIT
 //
@@ -2587,24 +2496,24 @@
 //
 #define SE_AUDITID_PROCESS_EXIT          ((ULONG)0x00000251L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_DUPLICATE_HANDLE
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Parameter Strings -
+//
+//             1 - Origin (source) handle ID string
+//
+//             2 - Origin (source) process ID string
+//
+//             3 - New (Target) handle ID string
+//
+//             4 - Target process ID string
+//
+//
+//
 //
 // MessageId: SE_AUDITID_DUPLICATE_HANDLE
 //
@@ -2618,39 +2527,39 @@
 //
 #define SE_AUDITID_DUPLICATE_HANDLE      ((ULONG)0x00000252L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_INDIRECT_REFERENCE
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Parameter Strings -
+//
+//             1 - Object type
+//
+//             2 - object name (if available - otherwise "-")
+//
+//             3 - ID string of handle used to gain access
+//
+//             3 - server name
+//
+//             4 - process ID string
+//
+//             5 - primary User name
+//
+//             6 - primary domain name
+//
+//             7 - primary logon ID
+//
+//             8 - client User name
+//
+//             9 - client domain name
+//
+//            10 - client logon ID
+//
+//            11 - granted access names (with formatting)
+//
+//
 //
 // MessageId: SE_AUDITID_INDIRECT_REFERENCE
 //
@@ -2671,22 +2580,22 @@
 //
 #define SE_AUDITID_INDIRECT_REFERENCE    ((ULONG)0x00000253L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_DPAPI_BACKUP
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Parameter Strings -
+//
+//             1 - Master key GUID
+//
+//             2 - Recovery Server
+//
+//             3 - GUID identifier of the recovery key
+//
+//             4 - Failure reason
+//
 //
 // MessageId: SE_AUDITID_DPAPI_BACKUP
 //
@@ -2701,24 +2610,24 @@
 //
 #define SE_AUDITID_DPAPI_BACKUP          ((ULONG)0x00000254L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_DPAPI_RECOVERY
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Parameter Strings -
+//
+//             1 - Master key GUID
+//
+//             2 - Recovery Server
+//
+//             3 - Reason for the backup
+//
+//             4 - GUID identifier of the recovery key
+//
+//             5 - Failure reason
+//
 //
 // MessageId: SE_AUDITID_DPAPI_RECOVERY
 //
@@ -2734,25 +2643,25 @@
 //
 #define SE_AUDITID_DPAPI_RECOVERY        ((ULONG)0x00000255L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_DPAPI_PROTECT
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Parameter Strings -
+//
+//
+//             1 - Master key GUID
+//
+//             2 - Data Description
+//
+//             3 - Protected data flags
+//
+//             4 - Algorithms
+//
+//             5 - failure reason
+//
 //
 // MessageId: SE_AUDITID_DPAPI_PROTECT
 //
@@ -2768,25 +2677,25 @@
 //
 #define SE_AUDITID_DPAPI_PROTECT         ((ULONG)0x00000256L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_DPAPI_UNPROTECT
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Parameter Strings -
+//
+//
+//             1 - Master key GUID
+//
+//             2 - Data Description
+//
+//             3 - Protected data flags
+//
+//             4 - Algorithms
+//
+//             5 - failure reason
+//
 //
 // MessageId: SE_AUDITID_DPAPI_UNPROTECT
 //
@@ -2802,26 +2711,26 @@
 //
 #define SE_AUDITID_DPAPI_UNPROTECT       ((ULONG)0x00000257L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ASSIGN_TOKEN
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Parameter Strings -
+//
+//             1.  Current Process ID (the process doing the assignment
+//             2.  Current Image File Name
+//             3.  Current User Name
+//             4.  Current Domain
+//             5.  Current Logon ID
+//
+//             6.  Process ID (of new process)
+//                     7.  Image Name (of new process)
+//             8.  User name (of new process)
+//             9.  domain name (of new process)
+//             10. Logon ID string (of new process)
+//
 //
 // MessageId: SE_AUDITID_ASSIGN_TOKEN
 //
@@ -2843,19 +2752,19 @@
 //
 #define SE_AUDITID_ASSIGN_TOKEN          ((ULONG)0x00000258L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SERVICE_INSTALL
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Event type: success/failure
+//
+// Description:
+// This event is generated when a service is installed
+//
+// Note:
+//
 //
 // MessageId: SE_AUDITID_SERVICE_INSTALL
 //
@@ -2874,25 +2783,25 @@
 //
 #define SE_AUDITID_SERVICE_INSTALL       ((ULONG)0x00000259L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_JOB_CREATED
+//
+//          Category:  SE_CATEGID_DETAILED_TRACKING
+//
+// Event type: success/failure
+//
+// Description:
+// This event is generated when a scheduler job is created
+// File Name is the name of the file in the Tasks folder.
+// Task Time, Days of Month, Days of Week, Flags and Commandline
+// are taken from the AT_INFO structure.
+// Target Name and Target Domain are the user account the job
+// is to run as. This event is generated by the task scheduler
+// through for example the AT command.
+//
+// Note:
+//
 //
 // MessageId: SE_AUDITID_JOB_CREATED
 //
@@ -2913,52 +2822,52 @@
 #define SE_AUDITID_JOB_CREATED           ((ULONG)0x0000025AL)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//   Messages for Category:     SE_CATEGID_POLICY_CHANGE                   //
+//                                                                         //
+//   Event IDs:                                                            //
+//              SE_AUDITID_USER_RIGHT_ASSIGNED                             //
+//              SE_AUDITID_USER_RIGHT_REMOVED                              //
+//              SE_AUDITID_TRUSTED_DOMAIN_ADD                              //
+//              SE_AUDITID_TRUSTED_DOMAIN_REM                              //
+//              SE_AUDITID_TRUSTED_DOMAIN_MOD                              //
+//              SE_AUDITID_POLICY_CHANGE                                   //
+//              SE_AUDITID_IPSEC_POLICY_START                              //
+//              SE_AUDITID_IPSEC_POLICY_DISABLED                           //
+//              SE_AUDITID_IPSEC_POLICY_CHANGED                            //
+//              SE_AUDITID_IPSEC_POLICY_FAILURE                            //
+//              SE_AUDITID_SYSTEM_ACCESS_CHANGE                            //
+//              SE_AUDITID_NAMESPACE_COLLISION                             //
+//              SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_ADD                   //
+//              SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_REM                   //
+//              SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_MOD                   //
+//              SE_AUDITID_PER_USER_AUDIT_TABLE_CREATION                   //
+//              SE_AUDITID_PER_USER_AUDIT_TABLE_ELEMENT_CREATION           //
+//                                                                         //
+//                                                                         //
+/////////////////////////////////////////////////////////////////////////////
+//
+//
+// SE_AUDITID_USER_RIGHT_ASSIGNED
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - User right name
+//
+//             2 - SID string of account assigned the user right
+//
+//             3 - User name of subject assigning the right
+//
+//             4 - Domain name of subject assigning the right
+//
+//             5 - Logon ID string of subject assigning the right
+//
+//
+//
 //
 // MessageId: SE_AUDITID_USER_RIGHT_ASSIGNED
 //
@@ -2974,26 +2883,26 @@
 //
 #define SE_AUDITID_USER_RIGHT_ASSIGNED   ((ULONG)0x00000260L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_USER_RIGHT_REMOVED
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - User right name
+//
+//             2 - SID string of account from which the user
+//                 right was removed
+//
+//             3 - User name of subject removing the right
+//
+//             4 - Domain name of subject removing the right
+//
+//             5 - Logon ID string of subject removing the right
+//
+//
 //
 // MessageId: SE_AUDITID_USER_RIGHT_REMOVED
 //
@@ -3009,23 +2918,23 @@
 //
 #define SE_AUDITID_USER_RIGHT_REMOVED    ((ULONG)0x00000261L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_TRUSTED_DOMAIN_ADD
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success/failure
+//
+// Description:
+// This event is generated when somebody creates a trust relationship
+// with another domain.
+//
+// Note:
+// It is recorded on the domain controller on which
+// the trusted domain object (TDO) is created and not on any other
+// domain controller to which the TDO creation replicates.
+//
 //
 // MessageId: SE_AUDITID_TRUSTED_DOMAIN_ADD
 //
@@ -3045,23 +2954,23 @@
 //
 #define SE_AUDITID_TRUSTED_DOMAIN_ADD    ((ULONG)0x00000262L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_TRUSTED_DOMAIN_REM
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success/failure
+//
+// Description:
+// This event is generated when somebody removes a trust relationship
+// with another domain.
+//
+// Note:
+// It is recorded on the domain controller on which
+// the trusted domain object (TDO) is deleted and not on any other
+// domain controller to which the TDO deletion replicates.
+//
 //
 // MessageId: SE_AUDITID_TRUSTED_DOMAIN_REM
 //
@@ -3077,48 +2986,48 @@
 //
 #define SE_AUDITID_TRUSTED_DOMAIN_REM    ((ULONG)0x00000263L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_POLICY_CHANGE
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - System success audit status ("+" or "-")
+//             2 - System failure audit status ("+" or "-")
+//
+//             3 - Logon/Logoff success audit status ("+" or "-")
+//             4 - Logon/Logoff failure audit status ("+" or "-")
+//
+//             5 - Object Access success audit status ("+" or "-")
+//             6 - Object Access failure audit status ("+" or "-")
+//
+//             7 - Detailed Tracking success audit status ("+" or "-")
+//             8 - Detailed Tracking failure audit status ("+" or "-")
+//
+//             9 - Privilege Use success audit status ("+" or "-")
+//            10 - Privilege Use failure audit status ("+" or "-")
+//
+//            11 - Policy Change success audit status ("+" or "-")
+//            12 - Policy Change failure audit status ("+" or "-")
+//
+//            13 - Account Management success audit status ("+" or "-")
+//            14 - Account Management failure audit status ("+" or "-")
+//
+//            15 - Directory Service access success audit status ("+" or "-")
+//            16 - Directory Service access failure audit status ("+" or "-")
+//
+//            17 - Account Logon success audit status ("+" or "-")
+//            18 - Account Logon failure audit status ("+" or "-")
+//
+//            19 - Account Name of user that changed the policy
+//
+//            20 - Domain of user that changed the policy
+//
+//            21 - Logon ID of user that changed the policy
+//
+//
 //
 // MessageId: SE_AUDITID_POLICY_CHANGE
 //
@@ -3143,21 +3052,21 @@
 //
 #define SE_AUDITID_POLICY_CHANGE         ((ULONG)0x00000264L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_POLICY_START
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - Ipsec Policy Agent
+//
+//             2 - Policy Source
+//
+//             3 - Event Data
+//
+//
 //
 // MessageId: SE_AUDITID_IPSEC_POLICY_START
 //
@@ -3169,19 +3078,19 @@
 //
 #define SE_AUDITID_IPSEC_POLICY_START    ((ULONG)0x00000265L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_POLICY_DISABLED
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - Ipsec Policy Agent
+//
+//             2 - Event Data
+//
+//
 //
 // MessageId: SE_AUDITID_IPSEC_POLICY_DISABLED
 //
@@ -3192,17 +3101,17 @@
 //
 #define SE_AUDITID_IPSEC_POLICY_DISABLED ((ULONG)0x00000266L)
 
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_POLICY_CHANGED
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - Event Data
+//
+//
 //
 // MessageId: SE_AUDITID_IPSEC_POLICY_CHANGED
 //
@@ -3212,17 +3121,17 @@
 //
 #define SE_AUDITID_IPSEC_POLICY_CHANGED  ((ULONG)0x00000267L)
 
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_IPSEC_POLICY_FAILURE
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - Event Data
+//
+//
 //
 // MessageId: SE_AUDITID_IPSEC_POLICY_FAILURE
 //
@@ -3233,23 +3142,23 @@
 //
 #define SE_AUDITID_IPSEC_POLICY_FAILURE  ((ULONG)0x00000268L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_KERBEROS_POLICY_CHANGE
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - user account name
+//
+//             2 - domain name of user
+//
+//             3 - logon ID of user
+//
+//             4 - description of the change made
+//
+//
 //
 // MessageId: SE_AUDITID_KERBEROS_POLICY_CHANGE
 //
@@ -3267,23 +3176,23 @@
 //
 #define SE_AUDITID_KERBEROS_POLICY_CHANGE ((ULONG)0x00000269L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_EFS_POLICY_CHANGE
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - user account name
+//
+//             2 - domain name of user
+//
+//             3 - logon ID of user
+//
+//             4 - description of the change made
+//
+//
 //
 // MessageId: SE_AUDITID_EFS_POLICY_CHANGE
 //
@@ -3301,23 +3210,23 @@
 //
 #define SE_AUDITID_EFS_POLICY_CHANGE     ((ULONG)0x0000026AL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_TRUSTED_DOMAIN_MOD
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success/failure
+//
+// Description:
+// This event is generated when somebody modifies a trust relationship
+// with another domain.
+//
+// Note:
+// It is recorded on the domain controller on which
+// the trusted domain object (TDO) is modified and not on any other
+// domain controller to which the TDO modification replicates.
+//
 //
 // MessageId: SE_AUDITID_TRUSTED_DOMAIN_MOD
 //
@@ -3337,26 +3246,26 @@
 //
 #define SE_AUDITID_TRUSTED_DOMAIN_MOD    ((ULONG)0x0000026CL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SYSTEM_ACCESS_GRANTED
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - User right name
+//
+//             2 - SID string of account for which the user
+//                 right was affected
+//
+//             3 - User name of subject changing the right
+//
+//             4 - Domain name of subject changing the right
+//
+//             5 - Logon ID string of subject changing the right
+//
+//
 //
 // MessageId: SE_AUDITID_SYSTEM_ACCESS_GRANTED
 //
@@ -3372,26 +3281,26 @@
 //
 #define SE_AUDITID_SYSTEM_ACCESS_GRANTED ((ULONG)0x0000026DL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SYSTEM_ACCESS_REMOVED
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - User right name
+//
+//             2 - SID string of account for which the user
+//                 right was affected
+//
+//             3 - User name of subject changing the right
+//
+//             4 - Domain name of subject changing the right
+//
+//             5 - Logon ID string of subject changing the right
+//
+//
 //
 // MessageId: SE_AUDITID_SYSTEM_ACCESS_REMOVED
 //
@@ -3407,25 +3316,25 @@
 //
 #define SE_AUDITID_SYSTEM_ACCESS_REMOVED ((ULONG)0x0000026EL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_NAMESPACE_COLLISION
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success
+//
+// Description:
+// When a namespace element in one forest overlaps a namespace element in
+// some other forest, it can lead to ambiguity in resolving a name
+// belonging to one of the namespace elements.  This overlap is also called
+// a collision.This event is generated when such a collision is detected.
+//
+// Note:
+// Not all fields are valid for each entry type.
+// For example, fields like DNS name, NetBIOS name and SID are not valid
+// for an entry of type 'TopLevelName'.
+// 
 //
 // MessageId: SE_AUDITID_NAMESPACE_COLLISION
 //
@@ -3443,28 +3352,28 @@
 //
 #define SE_AUDITID_NAMESPACE_COLLISION   ((ULONG)0x00000300L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_ADD
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success
+//
+// Description: 
+// This event is generated when the forest trust information is updated and
+// one or more entries get added.  One such audit event is generated
+// per added entry.  If multiple entries get added, deleted or modified
+// in a single update of the forest trust information, all the generated
+// audit events will have a single unique identifier called OperationID.
+// This allows one to determine that the multiple generated audits are
+// the result of a single operation.
+//
+// Note:
+// Not all fields are valid for each entry type.
+// For example, fields like DNS name, NetBIOS name and SID are not valid
+// for an entry of type 'TopLevelName'.
+//
 //
 // MessageId: SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_ADD
 //
@@ -3487,28 +3396,28 @@
 //
 #define SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_ADD ((ULONG)0x00000301L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_REM
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success
+//
+// Description: 
+// This event is generated when the forest trust information is updated and
+// one or more entries get deleted.  One such audit event is generated
+// per deleted entry.  If multiple entries get added, deleted or modified
+// in a single update of the forest trust information, all the generated
+// audit events will have a single unique identifier called OperationID.
+// This allows one to determine that the multiple generated audits are
+// the result of a single operation.
+//
+// Note:
+// Not all fields are valid for each entry type.
+// For example, fields like DNS name, NetBIOS name and SID are not valid
+// for an entry of type 'TopLevelName'.
+//
 //
 // MessageId: SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_REM
 //
@@ -3531,28 +3440,28 @@
 //
 #define SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_REM ((ULONG)0x00000302L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_MOD
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success
+//
+// Description: 
+// This event is generated when the forest trust information is updated and
+// one or more entries get modified.  One such audit event is generated
+// per modified entry.  If multiple entries get added, deleted or modified
+// in a single update of the forest trust information, all the generated
+// audit events will have a single unique identifier called OperationID.
+// This allows one to determine that the multiple generated audits are
+// the result of a single operation.
+//
+// Note:
+// Not all fields are valid for each entry type.
+// For example, fields like DNS name, NetBIOS name and SID are not valid
+// for an entry of type 'TopLevelName'.
+// 
 //
 // MessageId: SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_MOD
 //
@@ -3575,35 +3484,35 @@
 //
 #define SE_AUDITID_TRUSTED_FOREST_INFO_ENTRY_MOD ((ULONG)0x00000303L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_LOG_CONFIG
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success
+//
+// Description: 
+// This event is generated when the eventlog service reads security log
+// configuration from the registry key:
+// SYSTEM\CurrentControlSet\Services\Eventlog\Security
+// This event is generated in the context in which eventlog runs. The
+// registry key has a SACL so that it is possible to find out the user
+// who changed the key.
+//
+// Parameters:
+// 1 : max size in KB
+// 
+// 2 : Action to take on reaching max log size
+//     1 --> overwrite events as needed
+//     2 --> overwrite events older than the limit specified
+//           in parameter 3
+//     3 --> do not overwrite
+//     
+// 3 : Event age limit. Applicable only if value param 2 is 2
+//
+// Note:
+// 
 //
 // MessageId: SE_AUDITID_SECURITY_LOG_CONFIG
 //
@@ -3616,18 +3525,18 @@
 //
 #define SE_AUDITID_SECURITY_LOG_CONFIG   ((ULONG)0x00000325L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_PER_USER_AUDIT_TABLE_CREATION
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success
+//
+// Description: 
+// This event is generated when the LSA per user audit policy is 
+// created or recreated.
+//
 //
 // MessageId: SE_AUDITID_PER_USER_AUDIT_TABLE_CREATION
 //
@@ -3639,21 +3548,21 @@
 //
 #define SE_AUDITID_PER_USER_AUDIT_TABLE_CREATION ((ULONG)0x00000326L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_PER_USER_AUDIT_TABLE_ELEMENT_CREATION
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success
+//
+// Description: 
+// This event is generated when the per user audit policy table is
+// created.  An instance of the audit is generated for each element
+// contained in the peruser table.
+//
+// Note:
+// 
 //
 // MessageId: SE_AUDITID_PER_USER_AUDIT_TABLE_ELEMENT_CREATION
 //
@@ -3675,18 +3584,18 @@
 //
 #define SE_AUDITID_PER_USER_AUDIT_TABLE_ELEMENT_CREATION ((ULONG)0x00000327L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_EVENT_SOURCE_REGISTERED
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success
+//
+// Description: 
+//
+// Note:
+// 
 //
 // MessageId: SE_AUDITID_SECURITY_EVENT_SOURCE_REGISTERED
 //
@@ -3705,18 +3614,18 @@
 //
 #define SE_AUDITID_SECURITY_EVENT_SOURCE_REGISTERED ((ULONG)0x00000328L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_EVENT_SOURCE_UNREGISTERED
+//
+//          Category:  SE_CATEGID_POLICY_CHANGE
+//
+// Event type: success
+//
+// Description: 
+//
+// Note:
+// 
 //
 // MessageId: SE_AUDITID_SECURITY_EVENT_SOURCE_UNREGISTERED
 //
@@ -3736,109 +3645,109 @@
 #define SE_AUDITID_SECURITY_EVENT_SOURCE_UNREGISTERED ((ULONG)0x00000329L)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//   Messages for Category:     SE_CATEGID_ACCOUNT_MANAGEMENT              //
+//                                                                         //
+//   Event IDs:                                                            //
+//              SE_AUDITID_USER_CREATED                                    //
+//              SE_AUDITID_USER_CHANGE                                     //
+//              SE_AUDITID_ACCOUNT_TYPE_CHANGE                             //
+//              SE_AUDITID_USER_ENABLED                                    //
+//              SE_AUDITID_USER_PWD_CHANGED                                //
+//              SE_AUDITID_USER_PWD_SET                                    //
+//              SE_AUDITID_USER_DISABLED                                   //
+//              SE_AUDITID_USER_DELETED                                    //
+//                                                                         //
+//              SE_AUDITID_COMPUTER_CREATED                                //
+//              SE_AUDITID_COMPUTER_CHANGE                                 //
+//              SE_AUDITID_COMPUTER_DELETED                                //
+//                                                                         //
+//              SE_AUDITID_GLOBAL_GROUP_CREATED                            //
+//              SE_AUDITID_GLOBAL_GROUP_CHANGE                             //
+//              SE_AUDITID_GLOBAL_GROUP_ADD                                //
+//              SE_AUDITID_GLOBAL_GROUP_REM                                //
+//              SE_AUDITID_GLOBAL_GROUP_DELETED                            //
+//              SE_AUDITID_LOCAL_GROUP_CREATED                             //
+//              SE_AUDITID_LOCAL_GROUP_CHANGE                              //
+//              SE_AUDITID_LOCAL_GROUP_ADD                                 //
+//              SE_AUDITID_LOCAL_GROUP_REM                                 //
+//              SE_AUDITID_LOCAL_GROUP_DELETED                             //
+//                                                                         //
+//              SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_CREATED           //
+//              SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_CHANGE            //
+//              SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_ADD               //
+//              SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_REM               //
+//              SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_DELETED           //
+//                                                                         //
+//              SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_CREATED          //
+//              SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_CHANGE           //
+//              SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_ADD              //
+//              SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_REM              //
+//              SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_DELETED          //
+//                                                                         //
+//              SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_CREATED        //
+//              SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_CHANGE         //
+//              SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_ADD            //
+//              SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_REM            //
+//              SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_DELETED        //
+//                                                                         //
+//              SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_CREATED       //
+//              SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_CHANGE        //
+//              SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_ADD           //
+//              SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_REM           //
+//              SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_DELETED       //
+//                                                                         //
+//              SE_AUDITID_APP_BASIC_GROUP_CREATED                         //
+//              SE_AUDITID_APP_BASIC_GROUP_CHANGE                          //
+//              SE_AUDITID_APP_BASIC_GROUP_ADD                             //
+//              SE_AUDITID_APP_BASIC_GROUP_REM                             //
+//              SE_AUDITID_APP_BASIC_GROUP_NM_ADD                          //
+//              SE_AUDITID_APP_BASIC_GROUP_NM_REM                          //
+//              SE_AUDITID_APP_BASIC_GROUP_DELETED                         //
+//                                                                         //
+//              SE_AUDITID_APP_QUERY_GROUP_CREATED                         //
+//              SE_AUDITID_APP_QUERY_GROUP_CHANGE                          //
+//              SE_AUDITID_APP_QUERY_GROUP_DELETED                         //
+//                                                                         //
+//              SE_AUDITID_GROUP_TYPE_CHANGE                               //
+//                                                                         //
+//              SE_AUDITID_ADD_SID_HISTORY                                 //
+//                                                                         //
+//              SE_AUDITID_OTHER_ACCT_CHANGE                               //
+//              SE_AUDITID_DOMAIN_POLICY_CHANGE                            //
+//              SE_AUDITID_ACCOUNT_AUTO_LOCKED                             //
+//              SE_AUDITID_ACCOUNT_UNLOCKED                                //
+//              SE_AUDITID_SECURE_ADMIN_GROUP                              //
+//                                                                         //
+//              SE_AUDITID_PASSWORD_POLICY_API_CALLED                      //
+//                                                                         //
+//              SE_AUDITID_DSRM_PASSWORD_SET                               //
+/////////////////////////////////////////////////////////////////////////////
+//
+//
+// SE_AUDITID_USER_CREATED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of new user account
+//
+//             2 - domain of new user account
+//
+//             3 - SID string of new user account
+//
+//             4 - User name of subject creating the user account
+//
+//             5 - Domain name of subject creating the user account
+//
+//             6 - Logon ID string of subject creating the user account
+//
+//             7 - Privileges used to create the user account
+//
+//
 //
 // MessageId: SE_AUDITID_USER_CREATED
 //
@@ -3874,35 +3783,35 @@
 //
 #define SE_AUDITID_USER_CREATED          ((ULONG)0x00000270L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_TYPE_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// MessageId 0x271 unused
+//
+//
+//
+// SE_AUDITID_USER_ENABLED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target user account
+//
+//             2 - domain of target user account
+//
+//             3 - SID string of target user account
+//
+//             4 - User name of subject changing the user account
+//
+//             5 - Domain name of subject changing the user account
+//
+//             6 - Logon ID string of subject changing the user account
+//
+//
 //
 // MessageId: SE_AUDITID_USER_ENABLED
 //
@@ -3918,27 +3827,27 @@
 //
 #define SE_AUDITID_USER_ENABLED          ((ULONG)0x00000272L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_USER_PWD_CHANGED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target user account
+//
+//             2 - domain of target user account
+//
+//             3 - SID string of target user account
+//
+//             4 - User name of subject changing the user account
+//
+//             5 - Domain name of subject changing the user account
+//
+//             6 - Logon ID string of subject changing the user account
+//
+//
 //
 // MessageId: SE_AUDITID_USER_PWD_CHANGED
 //
@@ -3955,27 +3864,27 @@
 //
 #define SE_AUDITID_USER_PWD_CHANGED      ((ULONG)0x00000273L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_USER_PWD_SET
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target user account
+//
+//             2 - domain of target user account
+//
+//             3 - SID string of target user account
+//
+//             4 - User name of subject changing the user account
+//
+//             5 - Domain name of subject changing the user account
+//
+//             6 - Logon ID string of subject changing the user account
+//
+//
 //
 // MessageId: SE_AUDITID_USER_PWD_SET
 //
@@ -3991,27 +3900,27 @@
 //
 #define SE_AUDITID_USER_PWD_SET          ((ULONG)0x00000274L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_USER_DISABLED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target user account
+//
+//             2 - domain of target user account
+//
+//             3 - SID string of target user account
+//
+//             4 - User name of subject changing the user account
+//
+//             5 - Domain name of subject changing the user account
+//
+//             6 - Logon ID string of subject changing the user account
+//
+//
 //
 // MessageId: SE_AUDITID_USER_DISABLED
 //
@@ -4027,27 +3936,27 @@
 //
 #define SE_AUDITID_USER_DISABLED         ((ULONG)0x00000275L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_USER_DELETED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_USER_DELETED
 //
@@ -4064,27 +3973,27 @@
 //
 #define SE_AUDITID_USER_DELETED          ((ULONG)0x00000276L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_GLOBAL_GROUP_CREATED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of new group account
+//
+//             2 - domain of new group account
+//
+//             3 - SID string of new group account
+//
+//             4 - User name of subject creating the account
+//
+//             5 - Domain name of subject creating the account
+//
+//             6 - Logon ID string of subject creating the account
+//
+//
 //
 // MessageId: SE_AUDITID_GLOBAL_GROUP_CREATED
 //
@@ -4104,29 +4013,29 @@
 //
 #define SE_AUDITID_GLOBAL_GROUP_CREATED  ((ULONG)0x00000277L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_GLOBAL_GROUP_ADD
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being added
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_GLOBAL_GROUP_ADD
 //
@@ -4145,29 +4054,29 @@
 //
 #define SE_AUDITID_GLOBAL_GROUP_ADD      ((ULONG)0x00000278L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_GLOBAL_GROUP_REM
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being removed
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_GLOBAL_GROUP_REM
 //
@@ -4186,27 +4095,27 @@
 //
 #define SE_AUDITID_GLOBAL_GROUP_REM      ((ULONG)0x00000279L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_GLOBAL_GROUP_DELETED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_GLOBAL_GROUP_DELETED
 //
@@ -4223,27 +4132,27 @@
 //
 #define SE_AUDITID_GLOBAL_GROUP_DELETED  ((ULONG)0x0000027AL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_LOCAL_GROUP_CREATED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of new group account
+//
+//             2 - domain of new group account
+//
+//             3 - SID string of new group account
+//
+//             4 - User name of subject creating the account
+//
+//             5 - Domain name of subject creating the account
+//
+//             6 - Logon ID string of subject creating the account
+//
+//
 //
 // MessageId: SE_AUDITID_LOCAL_GROUP_CREATED
 //
@@ -4263,29 +4172,29 @@
 //
 #define SE_AUDITID_LOCAL_GROUP_CREATED   ((ULONG)0x0000027BL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_LOCAL_GROUP_ADD
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being added
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_LOCAL_GROUP_ADD
 //
@@ -4304,29 +4213,29 @@
 //
 #define SE_AUDITID_LOCAL_GROUP_ADD       ((ULONG)0x0000027CL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_LOCAL_GROUP_REM
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being removed
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_LOCAL_GROUP_REM
 //
@@ -4345,27 +4254,27 @@
 //
 #define SE_AUDITID_LOCAL_GROUP_REM       ((ULONG)0x0000027DL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_LOCAL_GROUP_DELETED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_LOCAL_GROUP_DELETED
 //
@@ -4382,27 +4291,27 @@
 //
 #define SE_AUDITID_LOCAL_GROUP_DELETED   ((ULONG)0x0000027EL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_LOCAL_GROUP_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_LOCAL_GROUP_CHANGE
 //
@@ -4422,27 +4331,27 @@
 //
 #define SE_AUDITID_LOCAL_GROUP_CHANGE    ((ULONG)0x0000027FL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_OTHER_ACCOUNT_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - Type of change (sigh, this isn't localizable)
+//
+//             2 - Type of changed object
+//
+//             3 - SID string (of changed object)
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_OTHER_ACCOUNT_CHANGE
 //
@@ -4459,27 +4368,27 @@
 //
 #define SE_AUDITID_OTHER_ACCOUNT_CHANGE  ((ULONG)0x00000280L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_GLOBAL_GROUP_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_GLOBAL_GROUP_CHANGE
 //
@@ -4499,27 +4408,27 @@
 //
 #define SE_AUDITID_GLOBAL_GROUP_CHANGE   ((ULONG)0x00000281L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_USER_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target user account
+//
+//             2 - domain of target user account
+//
+//             3 - SID string of target user account
+//
+//             4 - User name of subject changing the user account
+//
+//             5 - Domain name of subject changing the user account
+//
+//             6 - Logon ID string of subject changing the user account
+//
+//
 //
 // MessageId: SE_AUDITID_USER_CHANGE
 //
@@ -4555,27 +4464,27 @@
 //
 #define SE_AUDITID_USER_CHANGE           ((ULONG)0x00000282L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_DOMAIN_POLICY_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - (unused)
+//
+//             2 - domain of target user account
+//
+//             3 - SID string of target user account
+//
+//             4 - User name of subject changing the user account
+//
+//             5 - Domain name of subject changing the user account
+//
+//             6 - Logon ID string of subject changing the user account
+//
+//
 //
 // MessageId: SE_AUDITID_DOMAIN_POLICY_CHANGE
 //
@@ -4605,33 +4514,33 @@
 //
 #define SE_AUDITID_DOMAIN_POLICY_CHANGE  ((ULONG)0x00000283L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_AUTO_LOCKED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Type: success / failure
+//
+// Description: This event is generated when an account is auto locked.  This happens
+// when a user attempts to log in unsuccessfully multiple times.  The exact
+// number of times is specified by the administrator.
+//
+// Parameter Strings -
+//
+//             1 - name of target user account
+//
+//             2 - domain of target user account
+//
+//             3 - SID string of target user account
+//
+//             4 - User name of subject changing the user account
+//
+//             5 - Domain name of subject changing the user account
+//
+//             6 - Logon ID string of subject changing the user account
+//
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_AUTO_LOCKED
 //
@@ -4647,29 +4556,29 @@
 //
 #define SE_AUDITID_ACCOUNT_AUTO_LOCKED   ((ULONG)0x00000284L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_COMPUTER_CREATED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of new computer account
+//
+//             2 - domain of new computer account
+//
+//             3 - SID string of new computer account
+//
+//             4 - User name of subject creating the computer account
+//
+//             5 - Domain name of subject creating the computer account
+//
+//             6 - Logon ID string of subject creating the computer account
+//
+//             7 - Privileges used to create the computer account
+//
+//
 //
 // MessageId: SE_AUDITID_COMPUTER_CREATED
 //
@@ -4707,27 +4616,27 @@
 //
 #define SE_AUDITID_COMPUTER_CREATED      ((ULONG)0x00000285L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_COMPUTER_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target computer account
+//
+//             2 - domain of target computer account
+//
+//             3 - SID string of target computer account
+//
+//             4 - User name of subject changing the computer account
+//
+//             5 - Domain name of subject changing the computer account
+//
+//             6 - Logon ID string of subject changing the computer account
+//
+//
 //
 // MessageId: SE_AUDITID_COMPUTER_CHANGE
 //
@@ -4766,27 +4675,27 @@
 //
 #define SE_AUDITID_COMPUTER_CHANGE       ((ULONG)0x00000286L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_COMPUTER_DELETED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_COMPUTER_DELETED
 //
@@ -4803,27 +4712,27 @@
 //
 #define SE_AUDITID_COMPUTER_DELETED      ((ULONG)0x00000287L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_CREATED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_CREATED
 //
@@ -4843,27 +4752,27 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_CREATED ((ULONG)0x00000288L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_CHANGE
 //
@@ -4883,29 +4792,29 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_CHANGE ((ULONG)0x00000289L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_ADD
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being added
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_ADD
 //
@@ -4924,29 +4833,29 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_ADD ((ULONG)0x0000028AL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_REM
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being removed
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_REM
 //
@@ -4965,27 +4874,27 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_REM ((ULONG)0x0000028BL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_DELETED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_DELETED
 //
@@ -5002,27 +4911,27 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_LOCAL_GROUP_DELETED ((ULONG)0x0000028CL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_CREATED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of new group account
+//
+//             2 - domain of new group account
+//
+//             3 - SID string of new group account
+//
+//             4 - User name of subject creating the account
+//
+//             5 - Domain name of subject creating the account
+//
+//             6 - Logon ID string of subject creating the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_CREATED
 //
@@ -5042,27 +4951,27 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_CREATED ((ULONG)0x0000028DL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_CHANGE
 //
@@ -5082,29 +4991,29 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_CHANGE ((ULONG)0x0000028EL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_ADD
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being added
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_ADD
 //
@@ -5123,29 +5032,29 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_ADD ((ULONG)0x0000028FL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_REM
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being removed
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_REM
 //
@@ -5164,27 +5073,27 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_REM ((ULONG)0x00000290L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_DELETED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_DELETED
 //
@@ -5201,27 +5110,27 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_GLOBAL_GROUP_DELETED ((ULONG)0x00000291L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_CREATED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of new group account
+//
+//             2 - domain of new group account
+//
+//             3 - SID string of new group account
+//
+//             4 - User name of subject creating the account
+//
+//             5 - Domain name of subject creating the account
+//
+//             6 - Logon ID string of subject creating the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_CREATED
 //
@@ -5241,27 +5150,27 @@
 //
 #define SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_CREATED ((ULONG)0x00000292L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_CHANGE
 //
@@ -5281,29 +5190,29 @@
 //
 #define SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_CHANGE ((ULONG)0x00000293L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_ADD
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being added
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_ADD
 //
@@ -5322,29 +5231,29 @@
 //
 #define SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_ADD ((ULONG)0x00000294L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_REM
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being removed
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_REM
 //
@@ -5363,27 +5272,27 @@
 //
 #define SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_REM ((ULONG)0x00000295L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_DELETED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_DELETED
 //
@@ -5400,27 +5309,27 @@
 //
 #define SE_AUDITID_SECURITY_ENABLED_UNIVERSAL_GROUP_DELETED ((ULONG)0x00000296L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_CREATED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of new group account
+//
+//             2 - domain of new group account
+//
+//             3 - SID string of new group account
+//
+//             4 - User name of subject creating the account
+//
+//             5 - Domain name of subject creating the account
+//
+//             6 - Logon ID string of subject creating the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_CREATED
 //
@@ -5440,27 +5349,27 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_CREATED ((ULONG)0x00000297L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_CHANGE
 //
@@ -5480,29 +5389,29 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_CHANGE ((ULONG)0x00000298L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_ADD
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being added
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_ADD
 //
@@ -5521,29 +5430,29 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_ADD ((ULONG)0x00000299L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_REM
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of member being removed
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_REM
 //
@@ -5562,27 +5471,27 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_REM ((ULONG)0x0000029AL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_DELETED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_DELETED
 //
@@ -5599,29 +5508,29 @@
 //
 #define SE_AUDITID_SECURITY_DISABLED_UNIVERSAL_GROUP_DELETED ((ULONG)0x0000029BL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_GROUP_TYPE_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - nature of group type change
+//
+//             2 - name of target account
+//
+//             3 - domain of target account
+//
+//             4 - SID string of target account
+//
+//             5 - User name of subject changing the account
+//
+//             6 - Domain name of subject changing the account
+//
+//             7 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_GROUP_TYPE_CHANGE
 //
@@ -5639,27 +5548,27 @@
 //
 #define SE_AUDITID_GROUP_TYPE_CHANGE     ((ULONG)0x0000029CL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ADD_SID_HISTORY
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - SID string of the source account
+//
+//             2 - Name of the source account (including domain name)
+//
+//             3 - Name of the target account
+//
+//             4 - Domain name of subject changing the SID history
+//
+//             5 - SID String of the target account
+//
+//             6 - Logon ID string of subject changing the user account
+//
+//
 //
 // MessageId: SE_AUDITID_ADD_SID_HISTORY
 //
@@ -5679,19 +5588,19 @@
 //
 #define SE_AUDITID_ADD_SID_HISTORY       ((ULONG)0x0000029DL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ADD_SID_HISTORY_FAILURE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Note:
+// This event is obsolete. It is not generated by Whistler. 
+// It is retained in this file so that anybody viewing w2k events 
+// from a whistler machine can view them correctly.
+// 
+//
+//
 //
 // MessageId: SE_AUDITID_ADD_SID_HISTORY_FAILURE
 //
@@ -5709,27 +5618,27 @@
 //
 #define SE_AUDITID_ADD_SID_HISTORY_FAILURE ((ULONG)0x0000029EL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_UNLOCKED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target user account
+//
+//             2 - domain of target user account
+//
+//             3 - SID string of target user account
+//
+//             4 - User name of subject changing the user account
+//
+//             5 - Domain name of subject changing the user account
+//
+//             6 - Logon ID string of subject changing the user account
+//
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_UNLOCKED
 //
@@ -5745,28 +5654,28 @@
 //
 #define SE_AUDITID_ACCOUNT_UNLOCKED      ((ULONG)0x0000029FL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SECURE_ADMIN_GROUP
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - (unused)
+//
+//             2 - domain of target user account
+//
+//             3 - SID string of target user account
+//
+//             4 - User name of subject changing the user account
+//
+//             5 - Domain name of subject changing the user account
+//
+//             6 - Logon ID string of subject changing the user account
+//
+//
+//
 //
 // MessageId: SE_AUDITID_SECURE_ADMIN_GROUP
 //
@@ -5783,28 +5692,28 @@
 //
 #define SE_AUDITID_SECURE_ADMIN_GROUP    ((ULONG)0x000002ACL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_NAME_CHANGE
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - Account name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_NAME_CHANGE
 //
@@ -5822,26 +5731,26 @@
 //
 #define SE_AUDITID_ACCOUNT_NAME_CHANGE   ((ULONG)0x000002ADL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_PASSWORD_HASH_ACCESS
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Event Type : success/failure
+//
+// Description:
+// This event is generated when user password hashes are retrieved
+// by the ADMT password filter DLL. This typically happens during
+// ADMT password migration.
+//
+// Notes:
+// To migrate passwords, a DLL (name?) gets loaded in lsass.exe as
+// a password filter.  This filter registers an RPC interface used by ADMT
+// to request password migration. One SE_AUDITID_PASSWORD_HASH_ACCESS event
+// is generated per password fetched.
+//
+//
 //
 // MessageId: SE_AUDITID_PASSWORD_HASH_ACCESS
 //
@@ -5857,27 +5766,27 @@
 //
 #define SE_AUDITID_PASSWORD_HASH_ACCESS  ((ULONG)0x000002AEL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_APP_BASIC_GROUP_CREATED
+//
+//          Category:  SE_AUDITID_APP_BASIC_GROUP_CREATED
+//
+// Parameter Strings -
+//
+//             1 - name of new group account
+//
+//             2 - domain of new group account
+//
+//             3 - SID string of new group account
+//
+//             4 - User name of subject creating the account
+//
+//             5 - Domain name of subject creating the account
+//
+//             6 - Logon ID string of subject creating the account
+//
+//
 //
 // MessageId: SE_AUDITID_APP_BASIC_GROUP_CREATED
 //
@@ -5897,27 +5806,27 @@
 //
 #define SE_AUDITID_APP_BASIC_GROUP_CREATED ((ULONG)0x000002AFL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_APP_BASIC_GROUP_CHANGE
+//
+//          Category:  SE_AUDITID_APP_BASIC_GROUP_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - name of group account
+//
+//             2 - domain of group account
+//
+//             3 - SID string of group account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_APP_BASIC_GROUP_CHANGE
 //
@@ -5937,33 +5846,33 @@
 //
 #define SE_AUDITID_APP_BASIC_GROUP_CHANGE ((ULONG)0x000002B0L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_APP_BASIC_GROUP_ADD
+//
+//          Category:  SE_AUDITID_APP_BASIC_GROUP_ADD
+//
+// Parameter Strings -
+//
+//             1 - name of member being added
+//
+//             2 - string SID of member being added
+//
+//             3 - name of target account
+//
+//             4 - domain of target account
+//
+//             5 - SID string of target account
+//
+//             6 - User name of subject changing the account
+//
+//             7 - Domain name of subject changing the account
+//
+//             8 - Logon ID string of subject changing the account
+//
+//             9 - Privileges
+//
+//
 //
 // MessageId: SE_AUDITID_APP_BASIC_GROUP_ADD
 //
@@ -5982,33 +5891,33 @@
 //
 #define SE_AUDITID_APP_BASIC_GROUP_ADD   ((ULONG)0x000002B1L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_APP_BASIC_GROUP_REM
+//
+//          Category:  SE_AUDITID_APP_BASIC_GROUP_REM
+//
+// Parameter Strings -
+//
+//             1 - name of member being removed
+//
+//             2 - string SID of member being removed
+//
+//             3 - name of target account
+//
+//             4 - domain of target account
+//
+//             5 - SID string of target account
+//
+//             6 - User name of subject changing the account
+//
+//             7 - Domain name of subject changing the account
+//
+//             8 - Logon ID string of subject changing the account
+//
+//             9 - Privileges
+//
+//
 //
 // MessageId: SE_AUDITID_APP_BASIC_GROUP_REM
 //
@@ -6027,33 +5936,33 @@
 //
 #define SE_AUDITID_APP_BASIC_GROUP_REM   ((ULONG)0x000002B2L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_APP_BASIC_GROUP_NM_ADD
+//
+//          Category:  SE_AUDITID_APP_BASIC_GROUP_NM_ADD
+//
+// Parameter Strings -
+//
+//             1 - name of non-member being added
+//
+//             2 - string SID of non-member being added
+//
+//             3 - name of target account
+//
+//             4 - domain of target account
+//
+//             5 - SID string of target account
+//
+//             6 - User name of subject changing the account
+//
+//             7 - Domain name of subject changing the account
+//
+//             8 - Logon ID string of subject changing the account
+//
+//             9 - Privileges
+//
+//
 //
 // MessageId: SE_AUDITID_APP_BASIC_GROUP_NM_ADD
 //
@@ -6072,33 +5981,33 @@
 //
 #define SE_AUDITID_APP_BASIC_GROUP_NM_ADD ((ULONG)0x000002B3L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_APP_BASIC_GROUP_NM_REM
+//
+//          Category:  SE_AUDITID_APP_BASIC_GROUP_NM_REM
+//
+// Parameter Strings -
+//
+//             1 - name of non-member being removed
+//
+//             2 - string SID of non-member being removed
+//
+//             3 - name of target account
+//
+//             4 - domain of target account
+//
+//             5 - SID string of target account
+//
+//             6 - User name of subject changing the account
+//
+//             7 - Domain name of subject changing the account
+//
+//             8 - Logon ID string of subject changing the account
+//
+//             9 - Privileges
+//
+//
 //
 // MessageId: SE_AUDITID_APP_BASIC_GROUP_NM_REM
 //
@@ -6117,27 +6026,27 @@
 //
 #define SE_AUDITID_APP_BASIC_GROUP_NM_REM ((ULONG)0x000002B4L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_APP_BASIC_GROUP_DELETED
+//
+//          Category:  SE_AUDITID_APP_BASIC_GROUP_DELETED
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_APP_BASIC_GROUP_DELETED
 //
@@ -6154,27 +6063,27 @@
 //
 #define SE_AUDITID_APP_BASIC_GROUP_DELETED ((ULONG)0x000002B5L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_APP_QUERY_GROUP_CREATED
+//
+//          Category:  SE_AUDITID_APP_QUERY_GROUP_CREATED
+//
+// Parameter Strings -
+//
+//             1 - name of new group account
+//
+//             2 - domain of new group account
+//
+//             3 - SID string of new group account
+//
+//             4 - User name of subject creating the account
+//
+//             5 - Domain name of subject creating the account
+//
+//             6 - Logon ID string of subject creating the account
+//
+//
 //
 // MessageId: SE_AUDITID_APP_QUERY_GROUP_CREATED
 //
@@ -6194,27 +6103,27 @@
 //
 #define SE_AUDITID_APP_QUERY_GROUP_CREATED ((ULONG)0x000002B6L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_APP_QUERY_GROUP_CHANGE
+//
+//          Category:  SE_AUDITID_APP_QUERY_GROUP_CHANGE
+//
+// Parameter Strings -
+//
+//             1 - name of group account
+//
+//             2 - domain of group account
+//
+//             3 - SID string of group account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_APP_QUERY_GROUP_CHANGE
 //
@@ -6234,27 +6143,27 @@
 //
 #define SE_AUDITID_APP_QUERY_GROUP_CHANGE ((ULONG)0x000002B7L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_APP_QUERY_GROUP_DELETED
+//
+//          Category:  SE_AUDITID_APP_QUERY_GROUP_DELETED
+//
+// Parameter Strings -
+//
+//             1 - name of target account
+//
+//             2 - domain of target account
+//
+//             3 - SID string of target account
+//
+//             4 - User name of subject changing the account
+//
+//             5 - Domain name of subject changing the account
+//
+//             6 - Logon ID string of subject changing the account
+//
+//
 //
 // MessageId: SE_AUDITID_APP_QUERY_GROUP_DELETED
 //
@@ -6271,21 +6180,21 @@
 //
 #define SE_AUDITID_APP_QUERY_GROUP_DELETED ((ULONG)0x000002B8L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_PASSWORD_POLICY_API_CALLED
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - Name of the account making this call
+//             2 - Domain of the account making this call
+//             3 - Authentication ID of the logon session
+//             4 - Caller Workstation IP
+//             5 - Target AccountName
+//             6 - Status Code
+//
 //
 // MessageId: SE_AUDITID_PASSWORD_POLICY_API_CALLED
 //
@@ -6301,20 +6210,20 @@
 //
 #define SE_AUDITID_PASSWORD_POLICY_API_CALLED ((ULONG)0x000002B9L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_DSRM_PASSWORD_SET
+//
+//          Category:  SE_CATEGID_ACCOUNT_MANAGEMENT
+//
+// Parameter Strings -
+//
+//             1 - Name of the account making this call
+//             2 - Domain of the account making this call
+//             3 - Authentication ID of the logon session
+//             4 - Caller Workstation IP
+//             5 - Status code
+//
 //
 // MessageId: SE_AUDITID_DSRM_PASSWORD_SET
 //
@@ -6331,38 +6240,38 @@
 #define SE_AUDITID_DSRM_PASSWORD_SET     ((ULONG)0x000002BAL)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//   Messages for Category:     SE_CATEGID_DS_ACCESS                       //
+//                                                                         //
+//   Event IDs:                                                            //
+//              SE_AUDITID_REPLICA_SOURCE_NC_ESTABLISHED                   //
+//              SE_AUDITID_REPLICA_SOURCE_NC_REMOVED                       //
+//              SE_AUDITID_REPLICA_SOURCE_NC_MODIFIED                      //
+//              SE_AUDITID_REPLICA_DEST_NC_MODIFIED                        //
+//              SE_AUDITID_REPLICA_SOURCE_NC_SYNC_BEGINS                   //
+//              SE_AUDITID_REPLICA_SOURCE_NC_SYNC_ENDS                     //
+//              SE_AUDITID_REPLICA_OBJ_ATTR_REPLICATION                    //
+//              SE_AUDITID_REPLICA_FAILURE_EVENT_BEGIN                     //
+//              SE_AUDITID_REPLICA_FAILURE_EVENT_END                       //
+//              SE_AUDITID_REPLICA_LINGERING_OBJECT_REMOVAL                //
+//                                                                         //
+/////////////////////////////////////////////////////////////////////////////
+//
+// SE_AUDITID_REPLICA_SOURCE_NC_ESTABLISHED
+//
+//          Category: SE_CATEGID_DS_ACCESS
+//
+// Event Type : success/failure
+//
+// Description:
+// This is generated when a replication source reference has been added to
+// a destination naming context establishing a replication partnership.
+//
+// Note:
+// This event is always generated in the local system context.
+// 
 //
 // MessageId: SE_AUDITID_REPLICA_SOURCE_NC_ESTABLISHED
 //
@@ -6377,20 +6286,20 @@
 //
 #define SE_AUDITID_REPLICA_SOURCE_NC_ESTABLISHED ((ULONG)0x00000340L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+// SE_AUDITID_REPLICA_SOURCE_NC_REMOVED
+//
+//          Category: SE_CATEGID_DS_ACCESS
+//
+// Event Type : success/failure
+//
+// Description:
+// This is generated when a replication partnership between a source and
+// the destination for a given naming context has been removed.
+// 
+// Note:
+// This event is always generated in the local system context.
+// 
 //
 // MessageId: SE_AUDITID_REPLICA_SOURCE_NC_REMOVED
 //
@@ -6405,20 +6314,20 @@
 //
 #define SE_AUDITID_REPLICA_SOURCE_NC_REMOVED ((ULONG)0x00000341L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+// SE_AUDITID_REPLICA_SOURCE_NC_MODIFIED
+//
+//          Category: SE_CATEGID_DS_ACCESS
+//
+// Event Type : success/failure
+//
+// Description:
+// This is generated when a replication source associated with
+// a destination naming context has been modified.
+// 
+// Note:
+// This event is always generated in the local system context.
+// 
 //
 // MessageId: SE_AUDITID_REPLICA_SOURCE_NC_MODIFIED
 //
@@ -6433,20 +6342,20 @@
 //
 #define SE_AUDITID_REPLICA_SOURCE_NC_MODIFIED ((ULONG)0x00000342L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+// SE_AUDITID_REPLICA_DEST_NC_MODIFIED
+//
+//          Category: SE_CATEGID_DS_ACCESS
+//
+// Event Type : success/failure
+//
+// Description:
+// This is generated when a replication destination associated with
+// a source naming context has been modified.
+// 
+// Note:
+// This event is always generated in the local system context.
+// 
 //
 // MessageId: SE_AUDITID_REPLICA_DEST_NC_MODIFIED
 //
@@ -6461,20 +6370,20 @@
 //
 #define SE_AUDITID_REPLICA_DEST_NC_MODIFIED ((ULONG)0x00000343L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+// SE_AUDITID_REPLICA_SOURCE_NC_SYNC_BEGINS
+//
+//          Category: SE_CATEGID_DS_ACCESS
+//
+// Event Type : success
+//
+// Description:
+// This event records the start of a replication protocol session between
+// the destination replica NC and one of its source replicas.
+// 
+// Note:
+// This event is always generated in the local system context.
+// 
 //
 // MessageId: SE_AUDITID_REPLICA_SOURCE_NC_SYNC_BEGINS
 //
@@ -6489,20 +6398,20 @@
 //
 #define SE_AUDITID_REPLICA_SOURCE_NC_SYNC_BEGINS ((ULONG)0x00000344L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+// SE_AUDITID_REPLICA_SOURCE_NC_SYNC_ENDS
+//
+//          Category: SE_CATEGID_DS_ACCESS
+//
+// Event Type : success/failure
+//
+// Description:
+// This event records the end of a replication protocol session between
+// the destination replica NC and one of its source replicas.
+// 
+// Note:
+// This event is always generated in the local system context.
+// 
 //
 // MessageId: SE_AUDITID_REPLICA_SOURCE_NC_SYNC_ENDS
 //
@@ -6518,25 +6427,25 @@
 //
 #define SE_AUDITID_REPLICA_SOURCE_NC_SYNC_ENDS ((ULONG)0x00000345L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+// SE_AUDITID_REPLICA_OBJ_ATTR_REPLICATION
+//
+//          Category: SE_CATEGID_DS_ACCESS
+//
+// Event Type : success/failure
+//
+// Description:
+// This event records the completion of replication of a single
+// attribute of an object.
+// 
+// Note:
+// -- This event is always generated in the local system context.
+// -- This event is generated if
+//    -- SE_CATEGID_DS_ACCESS is enabled AND
+//    -- the value of
+//       SYSTEM\CurrentControlSet\Control\Lsa\Audit\AuditDSObjectsInReplication
+//       is set to 1
+// 
 //
 // MessageId: SE_AUDITID_REPLICA_OBJ_ATTR_REPLICATION
 //
@@ -6552,23 +6461,23 @@
 //
 #define SE_AUDITID_REPLICA_OBJ_ATTR_REPLICATION ((ULONG)0x00000346L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+// SE_AUDITID_REPLICA_FAILURE_EVENT_BEGIN
+//
+//          Category: SE_CATEGID_DS_ACCESS
+//
+// Event Type : failure
+//
+// Description:
+// This event records an inability to gather enough data to succesfully
+// record *before* one of the following replication events which were not
+// executed:
+//              SE_AUDITID_REPLICA_SOURCE_NC_ESTABLISHED                   
+//              SE_AUDITID_REPLICA_SOURCE_NC_SYNC_BEGINS                   
+// 
+// Note:
+// This event is always generated in the local system context.
+// 
 //
 // MessageId: SE_AUDITID_REPLICA_FAILURE_EVENT_BEGIN
 //
@@ -6579,28 +6488,28 @@
 //
 #define SE_AUDITID_REPLICA_FAILURE_EVENT_BEGIN ((ULONG)0x00000347L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+// SE_AUDITID_REPLICA_FAILURE_EVENT_END
+//
+//          Category: SE_CATEGID_DS_ACCESS
+//
+// Event Type : success/failure
+//
+// Description:
+// This event records an inability to gather enough data to succesfully
+// record *after* one of the following replication events which may or
+// may not have executed successfully:
+//              SE_AUDITID_REPLICA_SOURCE_NC_ESTABLISHED                   
+//              SE_AUDITID_REPLICA_SOURCE_NC_REMOVED                       
+//              SE_AUDITID_REPLICA_SOURCE_NC_MODIFIED                      
+//              SE_AUDITID_REPLICA_DEST_NC_MODIFIED                        
+//              SE_AUDITID_REPLICA_SOURCE_NC_SYNC_BEGINS                   
+//              SE_AUDITID_REPLICA_SOURCE_NC_SYNC_ENDS                     
+//              SE_AUDITID_REPLICA_OBJ_ATTR_REPLICATION 
+// 
+// Note:
+// This event is always generated in the local system context.
+// 
 //
 // MessageId: SE_AUDITID_REPLICA_FAILURE_EVENT_END
 //
@@ -6612,20 +6521,20 @@
 //
 #define SE_AUDITID_REPLICA_FAILURE_EVENT_END ((ULONG)0x00000348L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+// SE_AUDITID_REPLICA_LINGERING_OBJECT_REMOVAL
+//
+//          Category: SE_CATEGID_DS_ACCESS
+//
+// Event Type : success/failure
+//
+// Description:
+// This event records an attempt made by the replication lingering
+// object removal mechanism to delete and garbage collect an object.
+// 
+// Note:
+// This event is always generated in the local system context.
+// 
 //
 // MessageId: SE_AUDITID_REPLICA_LINGERING_OBJECT_REMOVALv
 //
@@ -6640,55 +6549,55 @@
 #define SE_AUDITID_REPLICA_LINGERING_OBJECT_REMOVALv ((ULONG)0x00000349L)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//   Messages for Category:     SE_CATEGID_ACCOUNT_LOGON                   //
+//                                                                         //
+//   Event IDs:                                                            //
+//              SE_AUDITID_AS_TICKET                                       //
+//              SE_AUDITID_TGS_TICKET_REQUEST                              //
+//              SE_AUDITID_TICKET_RENEW_SUCCESS                            //
+//              SE_AUDITID_PREAUTH_FAILURE                                 //
+//              SE_AUDITID_TGS_TICKET_FAILURE                              //
+//              SE_AUDITID_ACCOUNT_MAPPED                                  //
+//              SE_AUDITID_ACCOUNT_LOGON                                   //
+//                                                                         //
+/////////////////////////////////////////////////////////////////////////////
+//
+//
+// SE_AUDITID_AS_TICKET
+//
+//          Category:  SE_CATEGID_ACCOUNT_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User name of client
+//
+//             2 - Supplied realm name
+//
+//             3 - SID of client user
+//
+//             4 - User name of service
+//
+//             5 - SID of service
+//
+//             6 - Ticket Options
+//
+//             7 - Failure code
+//
+//             8 - Ticket Encryption Type
+//
+//             9 - Preauthentication type (i.e. PK_INIT)
+//
+//            10 - Client IP address
+//
+//            11 - Certificate Issuer Name
+//
+//            12 - Certificate Serial Number
+//
+//            13 - Certificate Thumbprint
+//
 //
 // MessageId: SE_AUDITID_AS_TICKET
 //
@@ -6711,18 +6620,18 @@
 //
 #define SE_AUDITID_AS_TICKET             ((ULONG)0x000002A0L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_AS_TICKET_FAILURE
+//
+//          Category:  SE_CATEGID_ACCOUNT_LOGON
+//
+// Note:
+// This event is obsolete. It is not generated by Whistler. 
+// It is retained in this file so that anybody viewing w2k events 
+// from a whistler machine can view them correctly.
+// 
+//
 //
 // MessageId: SE_AUDITID_AS_TICKET_FAILURE
 //
@@ -6738,34 +6647,34 @@
 //
 #define SE_AUDITID_AS_TICKET_FAILURE     ((ULONG)0x000002A4L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_TGS_TICKET_REQUEST
+//
+//          Category:  SE_CATEGID_ACCOUNT_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User name of client
+//
+//             2 - Domain name of client
+//
+//             3 - User name of service
+//
+//             4 - SID of service
+//
+//             5 - Ticket Options
+//
+//             6 - Ticket Encryption Type
+//
+//             7 - Client IP address
+//
+//             8 - Failure code (0 for success)
+//
+//             9 - logon GUID
+//
+//             10 - Transited Services
+//
 //
 // MessageId: SE_AUDITID_TGS_TICKET_REQUEST
 //
@@ -6785,28 +6694,28 @@
 //
 #define SE_AUDITID_TGS_TICKET_REQUEST    ((ULONG)0x000002A1L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_TICKET_RENEW_SUCCESS
+//
+//          Category:  SE_CATEGID_ACCOUNT_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User name of client
+//
+//             2 - Domain name of client
+//
+//             3 - User name of service
+//
+//             4 - SID of service
+//
+//             5 - Ticket Options
+//
+//             6 - Ticket Encryption Type
+//
+//             7 - Client IP address
+//
 //
 // MessageId: SE_AUDITID_TICKET_RENEW_SUCCESS
 //
@@ -6823,30 +6732,30 @@
 //
 #define SE_AUDITID_TICKET_RENEW_SUCCESS  ((ULONG)0x000002A2L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_PREAUTH_FAILURE
+//
+//          Category:  SE_CATEGID_ACCOUNT_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User name of client
+//
+//             2 - SID of client user
+//
+//             3 - User name of service
+//
+//             4 - Preauth Type
+//
+//             5 - Failure code
+//
+//             6 - Client IP address
+//
+// Event type: failure
+// Description: This event is generated on a KDC when
+//     preauthentication fails (user types in wrong password).
+//
 //
 // MessageId: SE_AUDITID_PREAUTH_FAILURE
 //
@@ -6862,17 +6771,17 @@
 //
 #define SE_AUDITID_PREAUTH_FAILURE       ((ULONG)0x000002A3L)
 
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_TGS_TICKET_FAILURE
+//
+//          Category:  SE_CATEGID_ACCOUNT_LOGON
+//
+// Note:
+// This event is obsolete. It is not generated by Whistler. 
+// It is retained in this file so that anybody viewing w2k events 
+// from a whistler machine can view them correctly.
+//
 //
 // MessageId: SE_AUDITID_TGS_TICKET_FAILURE
 //
@@ -6888,27 +6797,27 @@
 //
 #define SE_AUDITID_TGS_TICKET_FAILURE    ((ULONG)0x000002A5L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_MAPPED
+//
+//          Category:  SE_CATEGID_ACCOUNT_LOGON
+//
+// Type: success / failure
+// 
+// Description: An account mapping is a map of a user authenticated in an MIT realm to a 
+// domain account.  A mapping acts much like a logon.  Hence, it is important to audit this.
+//
+// Parameter Strings -
+//
+//             1 - Source
+//
+//             2 - Client Name
+//
+//             3 - Mapped Name
+//
+//
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_MAPPED
 //
@@ -6924,18 +6833,18 @@
 //
 #define SE_AUDITID_ACCOUNT_MAPPED        ((ULONG)0x000002A6L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_NOT_MAPPED
+//
+//          Category:  SE_CATEGID_ACCOUNT_LOGON
+//
+// Note:
+// This event is obsolete. It is not generated by Whistler. 
+// It is retained in this file so that anybody viewing w2k events 
+// from a whistler machine can view them correctly.
+// Parameter Strings -
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_NOT_MAPPED
 //
@@ -6948,18 +6857,18 @@
 //
 #define SE_AUDITID_ACCOUNT_NOT_MAPPED    ((ULONG)0x000002A7L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_LOGON
+//
+//          Category:  SE_CATEGID_ACCOUNT_LOGON
+//
+// Type: Success / Failure
+//
+// Description: This audits a logon attempt.  The audit appears on the DC.  
+// This is generated by calling LogonUser.
+//
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_LOGON
 //
@@ -6972,18 +6881,18 @@
 //
 #define SE_AUDITID_ACCOUNT_LOGON         ((ULONG)0x000002A8L)
 
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_ACCOUNT_LOGON_FAILURE
+//
+//          Category:  SE_CATEGID_ACCOUNT_LOGON
+//
+// Note:
+// This event is obsolete. It is not generated by Whistler. 
+// It is retained in this file so that anybody viewing w2k events 
+// from a whistler machine can view them correctly.
+// 
+//
 //
 // MessageId: SE_AUDITID_ACCOUNT_LOGON_FAILURE
 //
@@ -6996,27 +6905,27 @@
 //
 #define SE_AUDITID_ACCOUNT_LOGON_FAILURE ((ULONG)0x000002A9L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SESSION_RECONNECTED
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon ID string
+//
+//             4 - Session Name
+//
+//             5 - Client Name
+//
+//             6 - Client Address
+//
+//
 //
 // MessageId: SE_AUDITID_SESSION_RECONNECTED
 //
@@ -7032,27 +6941,27 @@
 //
 #define SE_AUDITID_SESSION_RECONNECTED   ((ULONG)0x000002AAL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_SESSION_DISCONNECTED
+//
+//          Category:  SE_CATEGID_LOGON
+//
+// Parameter Strings -
+//
+//             1 - User account name
+//
+//             2 - Authenticating domain name
+//
+//             3 - Logon ID string
+//
+//             4 - Session Name
+//
+//             5 - Client Name
+//
+//             6 - Client Address
+//
+//
 //
 // MessageId: SE_AUDITID_SESSION_DISCONNECTED
 //
@@ -7068,56 +6977,56 @@
 //
 #define SE_AUDITID_SESSION_DISCONNECTED  ((ULONG)0x000002ABL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////
+//                                                                         //
+//                                                                         //
+//   Messages for Category:     SE_CATEGID_OBJECT_ACCESS - CertSrv         //
+//                                                                         //
+//   Event IDs:                                                            //
+//              SE_AUDITID_CERTSRV_DENYREQUEST                             //
+//              SE_AUDITID_CERTSRV_RESUBMITREQUEST                         //
+//              SE_AUDITID_CERTSRV_REVOKECERT                              //
+//              SE_AUDITID_CERTSRV_PUBLISHCRL                              //
+//              SE_AUDITID_CERTSRV_AUTOPUBLISHCRL                          //
+//              SE_AUDITID_CERTSRV_SETEXTENSION                            //
+//              SE_AUDITID_CERTSRV_SETATTRIBUTES                           //
+//              SE_AUDITID_CERTSRV_SHUTDOWN                                //
+//              SE_AUDITID_CERTSRV_BACKUPSTART                             //
+//              SE_AUDITID_CERTSRV_BACKUPEND                               //
+//              SE_AUDITID_CERTSRV_RESTORESTART                            //
+//              SE_AUDITID_CERTSRV_RESTOREEND                              //
+//              SE_AUDITID_CERTSRV_SERVICESTART                            //
+//              SE_AUDITID_CERTSRV_SERVICESTOP                             //
+//              SE_AUDITID_CERTSRV_SETSECURITY                             //
+//              SE_AUDITID_CERTSRV_GETARCHIVEDKEY                          //
+//              SE_AUDITID_CERTSRV_IMPORTCERT                              //
+//              SE_AUDITID_CERTSRV_SETAUDITFILTER                          //
+//              SE_AUDITID_CERTSRV_NEWREQUEST                              //
+//              SE_AUDITID_CERTSRV_REQUESTAPPROVED                         //
+//              SE_AUDITID_CERTSRV_REQUESTDENIED                           //
+//              SE_AUDITID_CERTSRV_REQUESTPENDING                          //
+//              SE_AUDITID_CERTSRV_SETOFFICERRIGHTS                        //
+//              SE_AUDITID_CERTSRV_SETCONFIGENTRY                          //
+//              SE_AUDITID_CERTSRV_SETCAPROPERTY                           //
+//              SE_AUDITID_CERTSRV_KEYARCHIVED                             //
+//              SE_AUDITID_CERTSRV_IMPORTKEY                               //
+//              SE_AUDITID_CERTSRV_PUBLISHCERT                             //
+//              SE_AUDITID_CERTSRV_DELETEROW                               //
+//              SE_AUDITID_CERTSRV_ROLESEPARATIONSTATE                     //
+//                                                                         //
+//                                                                         //
+/////////////////////////////////////////////////////////////////////////////
+//
+//
+// SE_AUDITID_CERTSRV_DENYREQUEST
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_DENYREQUEST
 //
@@ -7129,17 +7038,17 @@
 //
 #define SE_AUDITID_CERTSRV_DENYREQUEST   ((ULONG)0x00000304L)
 
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_RESUBMITREQUEST
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_RESUBMITREQUEST
 //
@@ -7151,19 +7060,19 @@
 //
 #define SE_AUDITID_CERTSRV_RESUBMITREQUEST ((ULONG)0x00000305L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_REVOKECERT
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Serial No.
+//
+//             2 - Reason
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_REVOKECERT
 //
@@ -7176,21 +7085,21 @@
 //
 #define SE_AUDITID_CERTSRV_REVOKECERT    ((ULONG)0x00000306L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_PUBLISHCRL
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Next Update
+//
+//             2 - Publish Base
+//
+//             3 - Publish Delta
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_PUBLISHCRL
 //
@@ -7204,25 +7113,25 @@
 //
 #define SE_AUDITID_CERTSRV_PUBLISHCRL    ((ULONG)0x00000307L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_AUTOPUBLISHCRL
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Base CRL
+//
+//             2 - CRL No.
+//
+//             3 - Key Container
+//
+//             4 - Next Publish
+//
+//             5 - Publish URLs
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_AUTOPUBLISHCRL
 //
@@ -7238,25 +7147,25 @@
 //
 #define SE_AUDITID_CERTSRV_AUTOPUBLISHCRL ((ULONG)0x00000308L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_SETEXTENSION
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//             2 - Extension Name
+//
+//             3 - Extension Type
+//
+//             4 - Flags
+//
+//             5 - Extension Data
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_SETEXTENSION
 //
@@ -7272,19 +7181,19 @@
 //
 #define SE_AUDITID_CERTSRV_SETEXTENSION  ((ULONG)0x00000309L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_SETATTRIBUTES
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//             2 - Attributes
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_SETATTRIBUTES
 //
@@ -7297,15 +7206,15 @@
 //
 #define SE_AUDITID_CERTSRV_SETATTRIBUTES ((ULONG)0x0000030AL)
 
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_SHUTDOWN
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_SHUTDOWN
 //
@@ -7315,17 +7224,17 @@
 //
 #define SE_AUDITID_CERTSRV_SHUTDOWN      ((ULONG)0x0000030BL)
 
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_BACKUPSTART
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Backup Type
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_BACKUPSTART
 //
@@ -7336,15 +7245,15 @@
 //
 #define SE_AUDITID_CERTSRV_BACKUPSTART   ((ULONG)0x0000030CL)
 
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_BACKUPEND
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_BACKUPEND
 //
@@ -7354,15 +7263,15 @@
 //
 #define SE_AUDITID_CERTSRV_BACKUPEND     ((ULONG)0x0000030DL)
 
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_RESTORESTART
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_RESTORESTART
 //
@@ -7372,15 +7281,15 @@
 //
 #define SE_AUDITID_CERTSRV_RESTORESTART  ((ULONG)0x0000030EL)
 
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_RESTOREEND
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_RESTOREEND
 //
@@ -7390,23 +7299,23 @@
 //
 #define SE_AUDITID_CERTSRV_RESTOREEND    ((ULONG)0x0000030FL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_SERVICESTART
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Certificate Database Hash
+//
+//             2 - Private Key Usage Count
+//
+//             3 - CA Certificate Hash
+//
+//             4 - CA Public Key Hash
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_SERVICESTART
 //
@@ -7421,23 +7330,23 @@
 //
 #define SE_AUDITID_CERTSRV_SERVICESTART  ((ULONG)0x00000310L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_SERVICESTOP
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Certificate Database Hash
+//
+//             2 - Private Key Usage Count
+//
+//             3 - CA Certificate Hash
+//
+//             4 - CA Public Key Hash
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_SERVICESTOP
 //
@@ -7452,17 +7361,17 @@
 //
 #define SE_AUDITID_CERTSRV_SERVICESTOP   ((ULONG)0x00000311L)
 
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_SETSECURITY
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - New permissions
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_SETSECURITY
 //
@@ -7474,17 +7383,17 @@
 //
 #define SE_AUDITID_CERTSRV_SETSECURITY   ((ULONG)0x00000312L)
 
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_GETARCHIVEDKEY
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_GETARCHIVEDKEY
 //
@@ -7496,19 +7405,19 @@
 //
 #define SE_AUDITID_CERTSRV_GETARCHIVEDKEY ((ULONG)0x00000313L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_IMPORTCERT
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Certificate
+//
+//             2 - Request ID
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_IMPORTCERT
 //
@@ -7521,17 +7430,17 @@
 //
 #define SE_AUDITID_CERTSRV_IMPORTCERT    ((ULONG)0x00000314L)
 
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_SETAUDITFILTER
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Filter
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_SETAUDITFILTER
 //
@@ -7543,21 +7452,21 @@
 //
 #define SE_AUDITID_CERTSRV_SETAUDITFILTER ((ULONG)0x00000315L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_NEWREQUEST
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//             2 - Requester
+//
+//             3 - Attributes
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_NEWREQUEST
 //
@@ -7566,32 +7475,32 @@
 //  Certificate Services received a certificate request.%n
 //  %n
 //  Request ID:%t%1%n
-//  Requestor:%t%2%n
+//  Requester:%t%2%n
 //  Attributes:%t%3
 //
 #define SE_AUDITID_CERTSRV_NEWREQUEST    ((ULONG)0x00000316L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_REQUESTAPPROVED
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//             2 - Requester
+//
+//             3 - Attributes
+//
+//             4 - Disposition
+//
+//             5 - SKI
+//
+//             6 - Subject
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_REQUESTAPPROVED
 //
@@ -7600,7 +7509,7 @@
 //  Certificate Services approved a certificate request and issued a certificate.%n
 //  %n
 //  Request ID:%t%1%n
-//  Requestor:%t%2%n
+//  Requester:%t%2%n
 //  Attributes:%t%3%n
 //  Disposition:%t%4%n
 //  SKI:%t%t%5%n
@@ -7608,27 +7517,27 @@
 //
 #define SE_AUDITID_CERTSRV_REQUESTAPPROVED ((ULONG)0x00000317L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_REQUESTDENIED
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//             2 - Requester
+//
+//             3 - Attributes
+//
+//             4 - Disposition
+//
+//             5 - SKI
+//
+//             6 - Subject
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_REQUESTDENIED
 //
@@ -7637,7 +7546,7 @@
 //  Certificate Services denied a certificate request.%n
 //  %n
 //  Request ID:%t%1%n
-//  Requestor:%t%2%n
+//  Requester:%t%2%n
 //  Attributes:%t%3%n
 //  Disposition:%t%4%n
 //  SKI:%t%t%5%n
@@ -7645,27 +7554,27 @@
 //
 #define SE_AUDITID_CERTSRV_REQUESTDENIED ((ULONG)0x00000318L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_REQUESTPENDING
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//             2 - Requester
+//
+//             3 - Attributes
+//
+//             4 - Disposition
+//
+//             5 - SKI
+//
+//             6 - Subject
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_REQUESTPENDING
 //
@@ -7674,7 +7583,7 @@
 //  Certificate Services set the status of a certificate request to pending.%n
 //  %n
 //  Request ID:%t%1%n
-//  Requestor:%t%2%n
+//  Requester:%t%2%n
 //  Attributes:%t%3%n
 //  Disposition:%t%4%n
 //  SKI:%t%t%5%n
@@ -7682,19 +7591,19 @@
 //
 #define SE_AUDITID_CERTSRV_REQUESTPENDING ((ULONG)0x00000319L)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_SETOFFICERRIGHTS
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Enable restrictions
+//
+//             2 - Restrictions
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_SETOFFICERRIGHTS
 //
@@ -7708,21 +7617,21 @@
 //
 #define SE_AUDITID_CERTSRV_SETOFFICERRIGHTS ((ULONG)0x0000031AL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_SETCONFIGENTRY
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Node
+//
+//             2 - Entry
+//
+//             3 - Value
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_SETCONFIGENTRY
 //
@@ -7736,23 +7645,23 @@
 //
 #define SE_AUDITID_CERTSRV_SETCONFIGENTRY ((ULONG)0x0000031BL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_SETCAPROPERTY
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Property
+//
+//             2 - Index
+//
+//             3 - Type
+//
+//             4 - Value
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_SETCAPROPERTY
 //
@@ -7767,21 +7676,21 @@
 //
 #define SE_AUDITID_CERTSRV_SETCAPROPERTY ((ULONG)0x0000031CL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_KEYARCHIVED
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//             2 - Requester
+//
+//             3 - KRA Hashes
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_KEYARCHIVED
 //
@@ -7790,22 +7699,22 @@
 //  Certificate Services archived a key.%n
 //  %n
 //  Request ID:%t%1%n
-//  Requestor:%t%2%n
+//  Requester:%t%2%n
 //  KRA Hashes:%t%3
 //
 #define SE_AUDITID_CERTSRV_KEYARCHIVED   ((ULONG)0x0000031DL)
 
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_IMPORTKEY
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Request ID
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_IMPORTKEY
 //
@@ -7817,21 +7726,21 @@
 //
 #define SE_AUDITID_CERTSRV_IMPORTKEY     ((ULONG)0x0000031EL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_PUBLISHCACERT
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Certificate Hash
+//
+//             2 - Valid From
+//
+//             3 - Valid To
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_PUBLISHCACERT
 //
@@ -7845,21 +7754,21 @@
 //
 #define SE_AUDITID_CERTSRV_PUBLISHCACERT ((ULONG)0x0000031FL)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_DELETEROW
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Table ID
+//
+//             2 - Filter
+//
+//             3 - Rows Deleted
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_DELETEROW
 //
@@ -7873,17 +7782,17 @@
 //
 #define SE_AUDITID_CERTSRV_DELETEROW     ((ULONG)0x00000320L)
 
-
-
-
-
-
-
-
-
-
-
-
+//
+//
+// SE_AUDITID_CERTSRV_ROLESEPARATIONSTATE
+//
+//          Category:  SE_CATEGID_OBJECT_ACCESS
+//
+// Parameter Strings -
+//
+//             1 - Role separation state
+//
+//
 //
 // MessageId: SE_AUDITID_CERTSRV_ROLESEPARATIONSTATE
 //
@@ -7893,113 +7802,7 @@
 //
 #define SE_AUDITID_CERTSRV_ROLESEPARATIONSTATE ((ULONG)0x00000321L)
 
+/*lint +e767 */  // Resume checking for different macro definitions // winnt
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// MessageId: SE_AUDITID_CERTSRV_FULLTEMPLATE
-//
-// MessageText:
-//
-//  Certificate Services template:%n%1 v%2 (Schema V%3)%n%4%n%5%n%nDomain Controller:%t%6%n%nTemplate Content:%n%7%nSecurity Descriptor:%n%8
-//
-#define SE_AUDITID_CERTSRV_FULLTEMPLATE  ((ULONG)0x00000322L)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// MessageId: SE_AUDITID_CERTSRV_UPDATEDTEMPLATE
-//
-// MessageText:
-//
-//  Certificate Services template updated:%n%1 v%2 (Schema V%3)%n%4%n%5%n%nDomain Controller:%t%6%n%nOld Template Content:%n%8%n%nNew Template Content:%n%7
-//
-#define SE_AUDITID_CERTSRV_UPDATEDTEMPLATE ((ULONG)0x00000323L)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// MessageId: SE_AUDITID_CERTSRV_UPDATEDTEMPLATESECURITY
-//
-// MessageText:
-//
-//  Certificate Services template security updated:%n%1 v%2 (Schema V%3)%n%4%n%5%n%nDomain Controller:%t%6%n%nOld Template Content:%n%9%nOld Security Descriptor:%n%10%n%nNew Template Content:%n%7%nNew Security Descriptor:%n%8
-//
-#define SE_AUDITID_CERTSRV_UPDATEDTEMPLATESECURITY ((ULONG)0x00000324L)
-
-  
-
-
-#endif 
+#endif // _MSAUDITE_

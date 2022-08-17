@@ -2,10 +2,6 @@
 
 Copyright (c) Microsoft Corporation. All rights reserved.
 
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
 Module Name:
 
     wdbgexts.h
@@ -20,6 +16,12 @@ Abstract:
 
     Please see the NT DDK documentation for specific information about
     how to write your own debugger extension DLL.
+
+Environment:
+
+    Win32 only.
+
+Revision History:
 
 --*/
 
@@ -690,7 +692,7 @@ typedef enum _DBGKD_MAJOR_TYPES
 
 // **********************************************************************
 // DO NOT CHANGE THESE 32 BIT STRUCTURES!
-// ONLY MAKE CHANGES TO THE 64 BIT VERSION BELOW!!
+// ONLY MAKE CHAGES TO THE 64 BIT VERSION BELOW!!
 // **********************************************************************
 
 //
@@ -876,23 +878,10 @@ enum
     DBGKD_SIMULATION_EXDI
 };
 
-#define KD_SECONDARY_VERSION_DEFAULT 0
-
-#define KD_SECONDARY_VERSION_AMD64_OBSOLETE_CONTEXT_1 0
-#define KD_SECONDARY_VERSION_AMD64_OBSOLETE_CONTEXT_2 1
-#define KD_SECONDARY_VERSION_AMD64_CONTEXT            2
-
-#ifdef _AMD64_
-#define CURRENT_KD_SECONDARY_VERSION KD_SECONDARY_VERSION_AMD64_CONTEXT
-#else
-#define CURRENT_KD_SECONDARY_VERSION KD_SECONDARY_VERSION_DEFAULT
-#endif
-
 typedef struct _DBGKD_GET_VERSION64 {
     USHORT  MajorVersion;
     USHORT  MinorVersion;
-    UCHAR   ProtocolVersion;
-    UCHAR   KdSecondaryVersion; // Cannot be 'A' for compat with dump header
+    USHORT  ProtocolVersion;
     USHORT  Flags;
     USHORT  MachineType;
 
@@ -1265,7 +1254,7 @@ typedef struct _KDDEBUGGER_DATA64 {
 #define DBG_DUMP_ADDRESS_OF_FIELD         0x00010000
 
 //
-// The specified addr value is actually the address at the end of type
+// The specified addr value is actually the adress at the end of type
 //
 #define DBG_DUMP_ADDRESS_AT_END           0x00020000
 
@@ -1295,7 +1284,7 @@ typedef struct _KDDEBUGGER_DATA64 {
 #define DBG_RETURN_TYPE_VALUES            0
 
 //
-// Dump and callback options for fields - Options used in FIELD_INFO.fOptions
+// Dump and callback optons for fields - Options used in FIELD_INFO.fOptions
 //
 
 //
@@ -2265,7 +2254,7 @@ ReadPtr(
  *            parameter of callback contains the address of next Type element in list.
  *
  *   Address, ListByFieldAddress :
- *      if ListByFieldAddress is 0, Address is the address of first element of Type List.
+ *      if ListByFieldAddress is 0, Adress is the address of first element of Type List.
  *
  *   Lists by LIST_ENTRY are also handled implicitly (by Ioctl). If the NextPointer
  *   is a pointer to LIST_ENTRY type, the type address is properly calculated by
@@ -2507,4 +2496,3 @@ GetDebuggerCacheSize(
 #endif
 
 #endif // _WDBGEXTS_
-

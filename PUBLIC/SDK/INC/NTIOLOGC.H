@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0001    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) 1991  Microsoft Corporation
 
 Module Name:
 
@@ -13,6 +9,12 @@ Module Name:
 Abstract:
 
     Constant definitions for the I/O error code log values.
+
+Author:
+
+    Jeff Havens (jhavens) 21-Aug-1991
+
+Revision History:
 
 --*/
 
@@ -300,7 +302,7 @@ Abstract:
 //  A conflict has been detected between two drivers which claimed equivalent DMA
 //  channels.
 //  Driver %2, with device <%3>, claimed the DMA Channel in data address 0x28, with
-//  optional port in data address 0x2c.
+//  optinal port in data address 0x2c.
 //
 #define IO_ERR_DMA_CONFLICT_DETECTED     ((NTSTATUS)0xC0040017L)
 
@@ -342,7 +344,7 @@ Abstract:
 //
 //  The device could not allocate one or more required resources due to conflicts
 //  with other devices.  The device DMA setting of '%2' could not be
-//  satisfied due to a conflict with Driver '%3'.
+//  satisified due to a conflict with Driver '%3'.
 //
 #define IO_ERR_DMA_RESOURCE_CONFLICT     ((NTSTATUS)0xC004001BL)
 
@@ -353,7 +355,7 @@ Abstract:
 //
 //  The device could not allocate one or more required resources due to conflicts
 //  with other devices.  The device interrupt setting of '%2' could not be
-//  satisfied due to a conflict with Driver '%3'.
+//  satisified due to a conflict with Driver '%3'.
 //
 #define IO_ERR_INTERRUPT_RESOURCE_CONFLICT ((NTSTATUS)0xC004001CL)
 
@@ -364,7 +366,7 @@ Abstract:
 //
 //  The device could not allocate one or more required resources due to conflicts
 //  with other devices.  The device memory setting of '%2' could not be
-//  satisfied due to a conflict with Driver '%3'.
+//  satisified due to a conflict with Driver '%3'.
 //
 #define IO_ERR_MEMORY_RESOURCE_CONFLICT  ((NTSTATUS)0xC004001DL)
 
@@ -375,7 +377,7 @@ Abstract:
 //
 //  The device could not allocate one or more required resources due to conflicts
 //  with other devices.  The device port setting of '%2' could not be
-//  satisfied due to a conflict with Driver '%3'.
+//  satisified due to a conflict with Driver '%3'.
 //
 #define IO_ERR_PORT_RESOURCE_CONFLICT    ((NTSTATUS)0xC004001EL)
 
@@ -459,7 +461,7 @@ Abstract:
 //
 // MessageText:
 //
-//  The system has encountered an error rebuilding the user disk quota
+//  The system has encounted an error rebuilding the user disk quota
 //  information on device %1 with label "%2".
 //
 #define IO_FILE_QUOTA_FAILED             ((NTSTATUS)0x80040028L)
@@ -508,7 +510,7 @@ Abstract:
 //
 // MessageText:
 //
-//  The system could not successfully load the crash dump driver.
+//  The system could not sucessfully load the crash dump driver.
 //
 #define IO_DUMP_DRIVER_LOAD_FAILURE      ((NTSTATUS)0xC004002DL)
 
@@ -1198,77 +1200,4 @@ Abstract:
 //
 #define IO_INFO_THROTTLE_COMPLETE        ((NTSTATUS)0x40040077L)
 
-//
-// MessageId: MCA_MEMORYHIERARCHY_ERROR
-//
-// MessageText:
-//
-//  Machine Check Event reported is a fatal memory hierarchy error.%r Transaction Type: %1%r Memory Hierarchy Level: %2%r Request Type: %3%r Address: %4
-//
-#define MCA_MEMORYHIERARCHY_ERROR        ((NTSTATUS)0xC0050078L)
-
-//
-// MessageId: MCA_TLB_ERROR
-//
-// MessageText:
-//
-//  Machine Check Event reported is a fatal TLB error.%r Transaction Type: %1%r Memory Hierarchy Level: %2%r Address: %3
-//
-#define MCA_TLB_ERROR                    ((NTSTATUS)0xC0050079L)
-
-//
-// MessageId: MCA_BUS_ERROR
-//
-// MessageText:
-//
-//  Machine Check Event reported is a fatal Bus or Interconnect error.%r Memory Hierarchy Level: %1%r Participation: %2%r Request Type: %3%r Memory/IO: %4%r Address: %5
-//
-#define MCA_BUS_ERROR                    ((NTSTATUS)0xC005007AL)
-
-//
-// MessageId: MCA_BUS_TIMEOUT_ERROR
-//
-// MessageText:
-//
-//  Machine Check Event reported is a fatal Bus or Interconnect timeout error.%r Memory Hierarchy Level: %1%r Participation: %2%r Request Type: %3%r Memory/IO: %4%r Address: %5
-//
-#define MCA_BUS_TIMEOUT_ERROR            ((NTSTATUS)0xC005007BL)
-
-//
-// MessageId: MCA_INTERNALTIMER_ERROR
-//
-// MessageText:
-//
-//  Machine Check Event reported is a fatal internal watchdog timer error.
-//
-#define MCA_INTERNALTIMER_ERROR          ((NTSTATUS)0xC005007CL)
-
-//
-// MessageId: MCA_MICROCODE_ROM_PARITY_ERROR
-//
-// MessageText:
-//
-//  Machine Check Event reported is a fatal microsoft ROM parity error.
-//
-#define MCA_MICROCODE_ROM_PARITY_ERROR   ((NTSTATUS)0xC005007EL)
-
-//
-// MessageId: MCA_EXTERNAL_ERROR
-//
-// MessageText:
-//
-//  Machine Check Event reported is a fatal condition. A processor received an external signal that an unrecoverable error has occurred.
-//
-#define MCA_EXTERNAL_ERROR               ((NTSTATUS)0xC005007FL)
-
-//
-// MessageId: MCA_FRC_ERROR
-//
-// MessageText:
-//
-//  Machine Check Event reported is a fatal functional redundancy check error.
-//
-#define MCA_FRC_ERROR                    ((NTSTATUS)0xC0050080L)
-
 #endif /* _NTIOLOGC_ */
-

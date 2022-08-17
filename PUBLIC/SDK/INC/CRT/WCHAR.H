@@ -1,28 +1,19 @@
-/*++
-
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
-Module:
-
-    wchar.h
-
-Abstract:
-
-    Declarations for wide character functions
-
-    This file contains the types, macros and function declarations for
-    all wide character-related functions.  They may also be declared in
-    individual header files on a functional basis.
-    [ISO]
-    [Public]
-
-    Note: keep in sync with ctype.h, stdio.h, stdlib.h, string.h, time.h.
-
---*/
+/***
+*wchar.h - declarations for wide character functions
+*
+*       Copyright (c) 1992-2001, Microsoft Corporation. All rights reserved.
+*
+*Purpose:
+*       This file contains the types, macros and function declarations for
+*       all wide character-related functions.  They may also be declared in
+*       individual header files on a functional basis.
+*       [ISO]
+*
+*       Note: keep in sync with ctype.h, stdio.h, stdlib.h, string.h, time.h.
+*
+*       [Public]
+*
+****/
 
 #if     _MSC_VER > 1000
 #pragma once
@@ -31,6 +22,12 @@ Abstract:
 
 #ifndef _INC_WCHAR
 #define _INC_WCHAR
+
+
+
+#if     !defined(_WIN32)
+#error ERROR: Only Win32 target supported!
+#endif
 
 
 #ifdef  _MSC_VER
@@ -110,7 +107,7 @@ typedef _W64 int            intptr_t;
 #define _INTPTR_T_DEFINED
 #endif
 
-#ifndef _WCHAR_T_DEFINED
+#if !defined(_WCHAR_T_DEFINED) && !defined(_NATIVE_WCHAR_T_DEFINED)
 typedef unsigned short wchar_t;
 #define _WCHAR_T_DEFINED
 #endif
@@ -208,6 +205,7 @@ struct __wfinddata64_t {
 
 
 #ifndef _CTYPE_DISABLE_MACROS
+_CRTIMP extern const unsigned short _ctype[];
 _CRTIMP extern const unsigned short _wctype[];
 #ifndef __PCTYPE_FUNC
 #ifdef _MT
@@ -692,30 +690,6 @@ _CRTIMP int __cdecl wcsicoll(const wchar_t *, const wchar_t *);
 
 #endif  /* !__STDC__ */
 
-#if _DBG_MEMCPY_INLINE_ && !defined(MIDL_PASS) && !defined(_MEMCPY_INLINE_) && !defined(_CRTBLD)
-#define _MEMCPY_INLINE_
-__forceinline
-void * 
-__cdecl
-memcpy_inline (
-    void *dst,
-    const void *src,
-    size_t size
-    )
-{
-    //
-    // Make sure the source and destination do not overlap such that the
-    // move destroys the destination.
-    //
-    if (((char *)dst > (char *)src) &&
-        ((char *)dst < ((char *)src + size))) {
-        __debugbreak();
-    }
-    return memcpy(dst, src, size);
-}
-#define memcpy memcpy_inline
-#endif
-
 #ifdef  __cplusplus
 }       /* end of extern "C" */
 
@@ -786,15 +760,12 @@ _CRTIMP int __cdecl wctob(wint_t);
 #ifdef  __cplusplus
 
 /* memcpy and memmove are defined just for use in wmemcpy and wmemmove */
-#if defined(_M_AMD64)
+#if     defined(_M_IA64)
 void *  __cdecl memmove(void *, const void *, size_t);
 #else
 _CRTIMP void *  __cdecl memmove(void *, const void *, size_t);
 #endif
-
-#ifndef _MEMCPY_INLINE_
 void *  __cdecl memcpy(void *, const void *, size_t);
-#endif
 
 inline int fwide(FILE *, int _M)
         {return (_M); }
@@ -837,4 +808,3 @@ inline wchar_t *wmemchr(wchar_t *_S, wchar_t _C, size_t _N)
 #endif  /* _MSC_VER */
 
 #endif  /* _INC_WCHAR */
-

@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0001    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -13,6 +9,12 @@ Module Name:
 Abstract:
 
     Type definitions for the basic types.
+
+Author:
+
+    Mark Lucovsky (markl)   02-Feb-1989
+
+Revision History:
 
 --*/
 
@@ -53,15 +55,13 @@ Abstract:
 
 // begin_winnt
 
-#include <specstrings.h>
-
-#if !(defined(MIDL_PASS) || defined(RC_INVOKED)) && defined(ENABLE_RESTRICTED)
+#if defined(_M_MRX000) && !(defined(MIDL_PASS) || defined(RC_INVOKED)) && defined(ENABLE_RESTRICTED)
 #define RESTRICTED_POINTER __restrict
 #else
 #define RESTRICTED_POINTER
 #endif
 
-#if defined(_M_AMD64)
+#if defined(_M_MRX000) || defined(_M_ALPHA) || defined(_M_PPC) || defined(_M_IA64) || defined(_M_AMD64)
 #define UNALIGNED __unaligned
 #if defined(_WIN64)
 #define UNALIGNED64 __unaligned
@@ -74,7 +74,7 @@ Abstract:
 #endif
 
 
-#if defined(_WIN64)
+#if defined(_WIN64) || defined(_M_ALPHA)
 #define MAX_NATURAL_ALIGNMENT sizeof(ULONGLONG)
 #define MEMORY_ALLOCATION_ALIGNMENT 16
 #else
@@ -98,11 +98,8 @@ Abstract:
 
 #if defined(_WIN64)
 
-#if defined(_AMD64_)
-#define PROBE_ALIGNMENT( _s ) TYPE_ALIGNMENT( ULONG )
-#else
-#error "No Target Architecture"                               
-#endif                               
+#define PROBE_ALIGNMENT( _s ) (TYPE_ALIGNMENT( _s ) > TYPE_ALIGNMENT( ULONG ) ? \
+                               TYPE_ALIGNMENT( _s ) : TYPE_ALIGNMENT( ULONG ))
 
 #define PROBE_ALIGNMENT32( _s ) TYPE_ALIGNMENT( ULONG )
 
@@ -121,6 +118,31 @@ Abstract:
 
 #define C_ASSERT(e) typedef char __C_ASSERT__[(e)?1:-1]
 
+#if !defined(_MAC) && (defined(_M_MRX000) || defined(_M_AMD64) || defined(_M_IA64)) && (_MSC_VER >= 1100) && !(defined(MIDL_PASS) || defined(RC_INVOKED))
+#define POINTER_64 __ptr64
+typedef unsigned __int64 POINTER_64_INT;
+#if defined(_WIN64)
+#define POINTER_32 __ptr32
+#else
+#define POINTER_32
+#endif
+#else
+#if defined(_MAC) && defined(_MAC_INT_64)
+#define POINTER_64 __ptr64
+typedef unsigned __int64 POINTER_64_INT;
+#else
+#define POINTER_64
+typedef unsigned long POINTER_64_INT;
+#endif
+#define POINTER_32
+#endif
+
+#if defined(_IA64_) || defined(_AMD64_)
+#define FIRMWARE_PTR
+#else
+#define FIRMWARE_PTR POINTER_32
+#endif
+
 #include <basetsd.h>
 
 // end_winnt
@@ -131,7 +153,7 @@ Abstract:
 
 // begin_winnt
 
-#if (defined(_M_IX86) || defined(_M_AMD64)) && !defined(MIDL_PASS)
+#if (defined(_M_IX86) || defined(_M_IA64) || defined(_M_AMD64)) && !defined(MIDL_PASS)
 #define DECLSPEC_IMPORT __declspec(dllimport)
 #else
 #define DECLSPEC_IMPORT
@@ -153,16 +175,8 @@ Abstract:
 #endif
 #endif
 
-#ifndef SYSTEM_CACHE_ALIGNMENT_SIZE
-#if defined(_AMD64_) || defined(_X86_)
-#define SYSTEM_CACHE_ALIGNMENT_SIZE 64
-#else
-#define SYSTEM_CACHE_ALIGNMENT_SIZE 128
-#endif
-#endif
-
 #ifndef DECLSPEC_CACHEALIGN
-#define DECLSPEC_CACHEALIGN DECLSPEC_ALIGN(SYSTEM_CACHE_ALIGNMENT_SIZE)
+#define DECLSPEC_CACHEALIGN DECLSPEC_ALIGN(128)
 #endif
 
 #ifndef DECLSPEC_UUID
@@ -194,6 +208,14 @@ Abstract:
 #define NOP_FUNCTION __noop
 #else
 #define NOP_FUNCTION (void)0
+#endif
+#endif
+
+#ifndef DECLSPEC_ADDRSAFE
+#if (_MSC_VER >= 1200) && (defined(_M_ALPHA) || defined(_M_AXP64))
+#define DECLSPEC_ADDRSAFE  __declspec(address_safe)
+#else
+#define DECLSPEC_ADDRSAFE
 #endif
 #endif
 
@@ -257,7 +279,7 @@ typedef void * POINTER_64 PVOID64;
 
 // begin_winnt begin_ntndis
 
-#if (_MSC_VER >= 800) || defined(_STDCALL_SUPPORTED)
+#if ((_MSC_VER >= 800) || defined(_STDCALL_SUPPORTED)) && !defined(_M_AMD64)
 #define NTAPI __stdcall
 #else
 #define _cdecl
@@ -273,7 +295,12 @@ typedef void * POINTER_64 PVOID64;
 #define NTSYSCALLAPI DECLSPEC_IMPORT
 #else
 #define NTSYSAPI
+#if defined(_NTDLLBUILD_)
 #define NTSYSCALLAPI
+#else
+#define NTSYSCALLAPI DECLSPEC_ADDRSAFE
+#endif
+
 #endif
 
 // end_winnt end_ntndis
@@ -295,29 +322,33 @@ typedef long LONG;
 // UNICODE (Wide Character) types
 //
 
+#ifndef _MAC
 typedef wchar_t WCHAR;    // wc,   16-bit UNICODE character
+#else
+// some Macintosh compilers don't define wchar_t in a convenient location, or define it as a char
+typedef unsigned short WCHAR;    // wc,   16-bit UNICODE character
+#endif
 
-typedef WCHAR *PWCHAR, *LPWCH, *PWCH;
+typedef WCHAR *PWCHAR;
+typedef WCHAR *LPWCH, *PWCH;
 typedef CONST WCHAR *LPCWCH, *PCWCH;
-typedef __nullterminated WCHAR *NWPSTR, *LPWSTR, *PWSTR;
-typedef __nullterminated PWSTR *PZPWSTR;
-typedef __nullterminated CONST PWSTR *PCZPWSTR;
-typedef __nullterminated WCHAR UNALIGNED *LPUWSTR, *PUWSTR;
-typedef __nullterminated CONST WCHAR *LPCWSTR, *PCWSTR;
-typedef __nullterminated PCWSTR *PZPCWSTR;
-typedef __nullterminated CONST WCHAR UNALIGNED *LPCUWSTR, *PCUWSTR;
+typedef WCHAR *NWPSTR;
+typedef WCHAR *LPWSTR, *PWSTR;
+typedef WCHAR UNALIGNED *LPUWSTR, *PUWSTR;
+
+typedef CONST WCHAR *LPCWSTR, *PCWSTR;
+typedef CONST WCHAR UNALIGNED *LPCUWSTR, *PCUWSTR;
 
 //
 // ANSI (Multi-byte Character) types
 //
-typedef CHAR *PCHAR, *LPCH, *PCH;
-typedef CONST CHAR *LPCCH, *PCCH;
+typedef CHAR *PCHAR;
+typedef CHAR *LPCH, *PCH;
 
-typedef __nullterminated CHAR *NPSTR, *LPSTR, *PSTR;
-typedef __nullterminated PSTR *PZPSTR;
-typedef __nullterminated CONST PSTR *PCZPSTR;
-typedef __nullterminated CONST CHAR *LPCSTR, *PCSTR;
-typedef __nullterminated PCSTR *PZPCSTR;
+typedef CONST CHAR *LPCCH, *PCCH;
+typedef CHAR *NPSTR;
+typedef CHAR *LPSTR, *PSTR;
+typedef CONST CHAR *LPCSTR, *PCSTR;
 
 //
 // Neutral ANSI/UNICODE types and macros
@@ -357,20 +388,13 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 
 // end_winnt
 
-//
-// The type QUAD and UQUAD are intended to use when a 8 byte aligned structure
-// is required, but it is not a floating point number.
-//
-
 typedef double DOUBLE;
 
-typedef struct _QUAD {             
-    union {
-        __int64 UseThisFieldToCopy;
-        double  DoNotUseThisField;
-    };
-                                   
-} QUAD;
+typedef struct _QUAD {              // QUAD is for those times we want
+    double  DoNotUseThisField;      // an 8 byte aligned 8 byte long structure
+} QUAD;                             // which is NOT really a floating point
+                                    // number.  Use DOUBLE if you want an FP
+                                    // number.
 
 //
 // Pointer to Basics
@@ -451,11 +475,15 @@ typedef LONG HRESULT;
     #define EXTERN_C    extern
 #endif
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(_MPPC_)
 
 // Win32 doesn't support __export
 
+#ifdef _68K_
+#define STDMETHODCALLTYPE       __cdecl
+#else
 #define STDMETHODCALLTYPE       __stdcall
+#endif
 #define STDMETHODVCALLTYPE      __cdecl
 
 #define STDAPICALLTYPE          __stdcall
@@ -615,7 +643,8 @@ typedef long SECURITY_STATUS;
 // begin_winnt
 
 //
-// _M_IX86 included so that EM CONTEXT structure compiles with x86 programs.
+// _M_IX86 included so that EM CONTEXT structure compiles with
+// x86 programs. *** TBD should this be for all architectures?
 //
 
 //
@@ -627,6 +656,9 @@ typedef long SECURITY_STATUS;
 // align to 128 bits.
 //
 
+#if defined(_M_IA64) && !defined(MIDL_PASS)
+__declspec(align(16))
+#endif
 typedef struct _FLOAT128 {
     __int64 LowPart;
     __int64 HighPart;
@@ -645,15 +677,22 @@ typedef FLOAT128 *PFLOAT128;
 //
 
 #define _ULONGLONG_
-#if ((!defined(MIDL_PASS) || defined(__midl)) && (!defined(_M_IX86) || (defined(_INTEGRAL_MAX_BITS) && _INTEGRAL_MAX_BITS >= 64)))
+#if (!defined (_MAC) && (!defined(MIDL_PASS) || defined(__midl)) && (!defined(_M_IX86) || (defined(_INTEGRAL_MAX_BITS) && _INTEGRAL_MAX_BITS >= 64)))
 typedef __int64 LONGLONG;
 typedef unsigned __int64 ULONGLONG;
 
 #define MAXLONGLONG                      (0x7fffffffffffffff)
 #else
 
+#if defined(_MAC) && defined(_MAC_INT_64)
+typedef __int64 LONGLONG;
+typedef unsigned __int64 ULONGLONG;
+
+#define MAXLONGLONG                      (0x7fffffffffffffff)
+#else
 typedef double LONGLONG;
 typedef double ULONGLONG;
+#endif //_MAC and int64
 
 #endif
 
@@ -735,7 +774,7 @@ typedef LARGE_INTEGER PHYSICAL_ADDRESS, *PPHYSICAL_ADDRESS;
 // 32-bits by 32-bits to form a 64-bit product.
 //
 
-#if defined(MIDL_PASS) || defined(RC_INVOKED) || defined(_M_CEE_PURE)
+#if defined(MIDL_PASS) || defined(RC_INVOKED)
 
 //
 // Midl does not understand inline assembler. Therefore, the Rtl functions
@@ -786,7 +825,7 @@ Int64ShrlMod32 (
 #if _MSC_VER >= 1200
 #pragma warning(push)
 #endif
-#pragma warning(disable:4035 4793)               // re-enable below
+#pragma warning(disable:4035)               // re-enable below
 
 __inline ULONGLONG
 NTAPI
@@ -839,13 +878,26 @@ Int64ShrlMod32 (
 #if _MSC_VER >= 1200
 #pragma warning(pop)
 #else
-#pragma warning(default:4035 4793)
+#pragma warning(default:4035)
 #endif
 
-#elif defined(_M_AMD64)
+#elif defined(_68K_) || defined(_MPPC_)
 
 //
-// The AMD64 has native 64-bit operations that are just as fast as their
+// The Macintosh 68K and PowerPC compilers do not currently support int64.
+//
+
+#define Int32x32To64(a, b) ((LONGLONG)((LONG)(a)) * (LONGLONG)((LONG)(b)))
+#define UInt32x32To64(a, b) ((DWORDLONG)((DWORD)(a)) * (DWORDLONG)((DWORD)(b)))
+
+#define Int64ShllMod32(a, b) ((DWORDLONG)(a) << (b))
+#define Int64ShraMod32(a, b) ((LONGLONG)(a) >> (b))
+#define Int64ShrlMod32(a, b) ((DWORDLONG)(a) >> (b))
+
+#elif defined(_M_IA64) || defined(_M_AMD64)
+
+//
+// IA64 and AMD64 have native 64-bit operations that are just as fast as their
 // 32-bit counter parts. Therefore, the int64 data type is used directly to form
 // shifts of 0..31 and multiplies of 32-bits times 32-bits to form a 64-bit
 // product.
@@ -864,6 +916,8 @@ Int64ShrlMod32 (
 
 #endif
 
+// end_winnt
+
 //
 // Define rotate intrinsics.
 //
@@ -871,50 +925,6 @@ Int64ShrlMod32 (
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#if defined(_M_AMD64)
-
-#define RotateLeft8 _rotl8
-#define RotateLeft16 _rotl16
-#define RotateRight8 _rotr8
-#define RotateRight16 _rotr16
-
-unsigned char
-__cdecl
-_rotl8 (
-    IN unsigned char Value,
-    IN unsigned char Shift
-    );
-
-unsigned short
-__cdecl
-_rotl16 (
-    IN unsigned short Value,
-    IN unsigned char Shift
-    );
-
-unsigned char
-__cdecl
-_rotr8 (
-    IN unsigned char Value,
-    IN unsigned char Shift
-    );
-
-unsigned short
-__cdecl
-_rotr16 (
-    IN unsigned short Value,
-    IN unsigned char Shift
-    );
-
-#pragma intrinsic(_rotl8)
-#pragma intrinsic(_rotl16)
-#pragma intrinsic(_rotr8)
-#pragma intrinsic(_rotr16)
-
-#endif /* _M_AMD64 */
-
-#if _MSC_VER >= 1300
 
 #define RotateLeft32 _rotl
 #define RotateLeft64 _rotl64
@@ -954,13 +964,9 @@ _rotr64 (
 #pragma intrinsic(_rotr)
 #pragma intrinsic(_rotr64)
 
-#endif	/* _MSC_VER >= 1300 */
-
 #ifdef __cplusplus
 }
 #endif
-
-// end_winnt
 
 //
 // Event type
@@ -1347,97 +1353,7 @@ typedef struct  _OBJECTID {     // size is 20
 //   RTL_NUMBER_OF(Buffer) == 100
 // This is also popularly known as: NUMBER_OF, ARRSIZE, _countof, NELEM, etc.
 //
-#define RTL_NUMBER_OF_V1(A) (sizeof(A)/sizeof((A)[0]))
-
-#if defined(__cplusplus) && \
-    !defined(MIDL_PASS) && \
-    !defined(RC_INVOKED) && \
-    !defined(_PREFAST_) && \
-    (_MSC_FULL_VER >= 13009466) && \
-    !defined(SORTPP_PASS)
-//
-// RtlpNumberOf is a function that takes a reference to an array of N Ts.
-//
-// typedef T array_of_T[N];
-// typedef array_of_T &reference_to_array_of_T;
-//
-// RtlpNumberOf returns a pointer to an array of N chars.
-// We could return a reference instead of a pointer but older compilers do not accept that.
-//
-// typedef char array_of_char[N];
-// typedef array_of_char *pointer_to_array_of_char;
-//
-// sizeof(array_of_char) == N
-// sizeof(*pointer_to_array_of_char) == N
-//
-// pointer_to_array_of_char RtlpNumberOf(reference_to_array_of_T);
-//
-// We never even call RtlpNumberOf, we just take the size of dereferencing its return type.
-// We do not even implement RtlpNumberOf, we just declare it.
-//
-// Attempts to pass pointers instead of arrays to this macro result in compile time errors.
-// That is the point.
-//
-extern "C++" // templates cannot be declared to have 'C' linkage
-template <typename T, size_t N>
-char (*RtlpNumberOf( UNALIGNED T (&)[N] ))[N];
-
-#define RTL_NUMBER_OF_V2(A) (sizeof(*RtlpNumberOf(A)))
-
-//
-// This does not work with:
-//
-// void Foo()
-// {
-//    struct { int x; } y[2];
-//    RTL_NUMBER_OF_V2(y); // illegal use of anonymous local type in template instantiation
-// }
-//
-// You must instead do:
-//
-// struct Foo1 { int x; };
-//
-// void Foo()
-// {
-//    Foo1 y[2];
-//    RTL_NUMBER_OF_V2(y); // ok
-// }
-//
-// OR
-//
-// void Foo()
-// {
-//    struct { int x; } y[2];
-//    RTL_NUMBER_OF_V1(y); // ok
-// }
-//
-// OR
-//
-// void Foo()
-// {
-//    struct { int x; } y[2];
-//    _ARRAYSIZE(y); // ok
-// }
-//
-
-#else
-#define RTL_NUMBER_OF_V2(A) RTL_NUMBER_OF_V1(A)
-#endif
-
-#ifdef ENABLE_RTL_NUMBER_OF_V2
-#define RTL_NUMBER_OF(A) RTL_NUMBER_OF_V2(A)
-#else
-#define RTL_NUMBER_OF(A) RTL_NUMBER_OF_V1(A)
-#endif
-
-//
-// ARRAYSIZE is more readable version of RTL_NUMBER_OF_V2, and uses
-// it regardless of ENABLE_RTL_NUMBER_OF_V2
-//
-// _ARRAYSIZE is a version useful for anonymous types
-//
-#define ARRAYSIZE(A)    RTL_NUMBER_OF_V2(A)
-#define _ARRAYSIZE(A)   RTL_NUMBER_OF_V1(A)
+#define RTL_NUMBER_OF(A) (sizeof(A)/sizeof((A)[0]))
 
 //
 // An expression that yields the type of a field in a struct.
@@ -1563,8 +1479,6 @@ typedef enum _SUITE_TYPE {
     Blade,
     EmbeddedRestricted,
     SecurityAppliance,
-    StorageServer,
-    ComputeServer,
     MaxSuiteType
 } SUITE_TYPE;
 
@@ -1585,8 +1499,6 @@ typedef enum _SUITE_TYPE {
 #define VER_SUITE_BLADE                     0x00000400
 #define VER_SUITE_EMBEDDED_RESTRICTED       0x00000800
 #define VER_SUITE_SECURITY_APPLIANCE        0x00001000
-#define VER_SUITE_STORAGE_SERVER            0x00002000
-#define VER_SUITE_COMPUTE_SERVER            0x00004000
 
 // end_winnt
 
@@ -1921,7 +1833,7 @@ typedef enum _SUITE_TYPE {
 #else // lint
 
 // Note: lint -e530 says don't complain about uninitialized variables for
-// this variable.  Error 527 has to do with unreachable code.
+// this varible.  Error 527 has to do with unreachable code.
 // -restore restores checking to the -save state
 
 #define UNREFERENCED_PARAMETER(P)          \
@@ -1991,4 +1903,3 @@ typedef enum _SUITE_TYPE {
 // end_ntminiport end_ntndis end_ntminitape
 
 #endif // _NTDEF_
-

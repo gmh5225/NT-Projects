@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0005    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -13,6 +9,12 @@ Module Name:
 Abstract:
 
     Constant definitions for the NTSTATUS values.
+
+Author:
+
+    Portable Systems Group 30-Mar-1989
+
+Revision History:
 
 Notes:
 
@@ -32,6 +34,9 @@ Notes:
 
 #ifndef WIN32_NO_STATUS // winnt
 // begin_ntsecapi
+
+/*lint -save -e767 */  // Don't complain about different definitions // winnt
+
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -78,7 +83,6 @@ Notes:
 // Define the facility codes
 //
 #define FACILITY_USB_ERROR_CODE          0x10
-#define FACILITY_TRANSACTION             0x19
 #define FACILITY_TERMINAL_SERVER         0xA
 #define FACILITY_SXS_ERROR_CODE          0x15
 #define FACILITY_RPC_STUBS               0x3
@@ -87,7 +91,6 @@ Notes:
 #define FACILITY_HID_ERROR_CODE          0x11
 #define FACILITY_FIREWIRE_ERROR_CODE     0x12
 #define FACILITY_DEBUGGER                0x1
-#define FACILITY_COMMONLOG_ERROR_CODE    0x1A
 #define FACILITY_CLUSTER_ERROR_CODE      0x13
 #define FACILITY_ACPI_ERROR_CODE         0x14
 
@@ -8270,49 +8273,6 @@ Notes:
 //
 #define STATUS_HUNG_DISPLAY_DRIVER_THREAD ((NTSTATUS)0xC0000415L)
 
-/*++
-
-MessageId=0x0420 Facility=System Severity=ERROR SymbolicName=STATUS_ASSERTION_FAILURE
-Language=English
-An assertion failure has occurred.
-.
-
---*/
-
-#define STATUS_ASSERTION_FAILURE         ((NTSTATUS)0xC0000420L)
-
-/*++
-
- MessageId=0x0423 Facility=System Severity=ERROR SymbolicName=STATUS_CALLBACK_POP_STACK
- Language=English
- An exception has occurred in a user mode callback and the kernel callback frame should be removed.
- .
-
---*/
-
-#define STATUS_CALLBACK_POP_STACK        ((NTSTATUS)0xC0000423L)
-
-/*++
-
- MessageId=0x0424 Facility=System Severity=ERROR SymbolicName=STATUS_INCOMPATIBLE_DRIVER_BLOCKED
- Language=English
- %1 has been blocked from loading due to incompatibility with this system. Please contact your software
- vendor for a compatible version of the driver.
- .
-
---*/
-
-#define STATUS_INCOMPATIBLE_DRIVER_BLOCKED   ((NTSTATUS)0xC0000424L)
-
-//
-// MessageId: STATUS_ENCOUNTERED_WRITE_IN_PROGRESS
-//
-// MessageText:
-//
-//  The attempted write operation encountered a write already in progress for some portion of the range.
-//
-#define STATUS_ENCOUNTERED_WRITE_IN_PROGRESS ((NTSTATUS)0xC0000433L)
-
 //
 // MessageId: STATUS_WOW_ASSERTION
 //
@@ -10359,433 +10319,8 @@ An assertion failure has occurred.
 //
 #define STATUS_CLUSTER_POISONED          ((NTSTATUS)0xC0130017L)
 
-
-//
-// MessageId: STATUS_LOG_SECTOR_INVALID
-//
-// MessageText:
-//
-//  Log service found an invalid log sector.
-//
-#define STATUS_LOG_SECTOR_INVALID        ((NTSTATUS)0xC01A0001L)
-
-//
-// MessageId: STATUS_LOG_SECTOR_PARITY_INVALID
-//
-// MessageText:
-//
-//  Log service encountered a log sector with invalid block parity.
-//
-#define STATUS_LOG_SECTOR_PARITY_INVALID ((NTSTATUS)0xC01A0002L)
-
-//
-// MessageId: STATUS_LOG_SECTOR_REMAPPED
-//
-// MessageText:
-//
-//  Log service encountered a remapped log sector.
-//
-#define STATUS_LOG_SECTOR_REMAPPED       ((NTSTATUS)0xC01A0003L)
-
-//
-// MessageId: STATUS_LOG_BLOCK_INCOMPLETE
-//
-// MessageText:
-//
-//  Log service encountered a partial or incomplete log block.
-//
-#define STATUS_LOG_BLOCK_INCOMPLETE      ((NTSTATUS)0xC01A0004L)
-
-//
-// MessageId: STATUS_LOG_INVALID_RANGE
-//
-// MessageText:
-//
-//  Log service encountered an attempt access data outside the active log range.
-//
-#define STATUS_LOG_INVALID_RANGE         ((NTSTATUS)0xC01A0005L)
-
-//
-// MessageId: STATUS_LOG_BLOCKS_EXHAUSTED
-//
-// MessageText:
-//
-//  Log service user log marshalling buffers are exhausted.
-//
-#define STATUS_LOG_BLOCKS_EXHAUSTED      ((NTSTATUS)0xC01A0006L)
-
-//
-// MessageId: STATUS_LOG_READ_CONTEXT_INVALID
-//
-// MessageText:
-//
-//  Log service encountered an attempt read from a marshalling area with an invalid read context.
-//
-#define STATUS_LOG_READ_CONTEXT_INVALID  ((NTSTATUS)0xC01A0007L)
-
-//
-// MessageId: STATUS_LOG_RESTART_INVALID
-//
-// MessageText:
-//
-//  Log service encountered an invalid log restart area.
-//
-#define STATUS_LOG_RESTART_INVALID       ((NTSTATUS)0xC01A0008L)
-
-//
-// MessageId: STATUS_LOG_BLOCK_VERSION
-//
-// MessageText:
-//
-//  Log service encountered an invalid log block version.
-//
-#define STATUS_LOG_BLOCK_VERSION         ((NTSTATUS)0xC01A0009L)
-
-//
-// MessageId: STATUS_LOG_BLOCK_INVALID
-//
-// MessageText:
-//
-//  Log service encountered an invalid log block.
-//
-#define STATUS_LOG_BLOCK_INVALID         ((NTSTATUS)0xC01A000AL)
-
-//
-// MessageId: STATUS_LOG_READ_MODE_INVALID
-//
-// MessageText:
-//
-//  Log service encountered an attempt to read the log with an invalid read mode.
-//
-#define STATUS_LOG_READ_MODE_INVALID     ((NTSTATUS)0xC01A000BL)
-
-//
-// MessageId: STATUS_LOG_NO_RESTART
-//
-// MessageText:
-//
-//  Log service encountered a log stream with no restart area.
-//
-#define STATUS_LOG_NO_RESTART            ((NTSTATUS)0x401A000CL)
-
-//
-// MessageId: STATUS_LOG_METADATA_CORRUPT
-//
-// MessageText:
-//
-//  Log service encountered a corrupted metadata file.
-//
-#define STATUS_LOG_METADATA_CORRUPT      ((NTSTATUS)0xC01A000DL)
-
-//
-// MessageId: STATUS_LOG_METADATA_INVALID
-//
-// MessageText:
-//
-//  Log service encountered a metadata file that could not be created by the log file system.
-//
-#define STATUS_LOG_METADATA_INVALID      ((NTSTATUS)0xC01A000EL)
-
-//
-// MessageId: STATUS_LOG_METADATA_INCONSISTENT
-//
-// MessageText:
-//
-//  Log service encountered a metadata file with inconsistent data.
-//
-#define STATUS_LOG_METADATA_INCONSISTENT ((NTSTATUS)0xC01A000FL)
-
-//
-// MessageId: STATUS_LOG_RESERVATION_INVALID
-//
-// MessageText:
-//
-//  Log service encountered an attempt to erroneously allocate or dispose reservation space.
-//
-#define STATUS_LOG_RESERVATION_INVALID   ((NTSTATUS)0xC01A0010L)
-
-//
-// MessageId: STATUS_LOG_CANT_DELETE
-//
-// MessageText:
-//
-//  Log service cannot delete log file or file system container.
-//
-#define STATUS_LOG_CANT_DELETE           ((NTSTATUS)0xC01A0011L)
-
-//
-// MessageId: STATUS_LOG_CONTAINER_LIMIT_EXCEEDED
-//
-// MessageText:
-//
-//  Log service has reached the maximum allowable containers allocated to a log file.
-//
-#define STATUS_LOG_CONTAINER_LIMIT_EXCEEDED ((NTSTATUS)0xC01A0012L)
-
-//
-// MessageId: STATUS_LOG_START_OF_LOG
-//
-// MessageText:
-//
-//  Log service has attempted to read or write backwards past the start of the log.
-//
-#define STATUS_LOG_START_OF_LOG          ((NTSTATUS)0xC01A0013L)
-
-//
-// MessageId: STATUS_LOG_POLICY_ALREADY_INSTALLED
-//
-// MessageText:
-//
-//  Log policy could not be installed because a policy of the same type is already present.
-//
-#define STATUS_LOG_POLICY_ALREADY_INSTALLED ((NTSTATUS)0xC01A0014L)
-
-//
-// MessageId: STATUS_LOG_POLICY_NOT_INSTALLED
-//
-// MessageText:
-//
-//  Log policy in question was not installed at the time of the request.
-//
-#define STATUS_LOG_POLICY_NOT_INSTALLED  ((NTSTATUS)0xC01A0015L)
-
-//
-// MessageId: STATUS_LOG_POLICY_INVALID
-//
-// MessageText:
-//
-//  The installed set of policies on the log is invalid.
-//
-#define STATUS_LOG_POLICY_INVALID        ((NTSTATUS)0xC01A0016L)
-
-//
-// MessageId: STATUS_LOG_POLICY_CONFLICT
-//
-// MessageText:
-//
-//  A policy on the log in question prevented the operation from completing.
-//
-#define STATUS_LOG_POLICY_CONFLICT       ((NTSTATUS)0xC01A0017L)
-
-//
-// MessageId: STATUS_LOG_PINNED_ARCHIVE_TAIL
-//
-// MessageText:
-//
-//  Log space cannot be reclaimed because the log is pinned by the archive tail.
-//
-#define STATUS_LOG_PINNED_ARCHIVE_TAIL   ((NTSTATUS)0xC01A0018L)
-
-//
-// MessageId: STATUS_LOG_RECORD_NONEXISTENT
-//
-// MessageText:
-//
-//  Log record is not a record in the log file.
-//
-#define STATUS_LOG_RECORD_NONEXISTENT    ((NTSTATUS)0xC01A0019L)
-
-//
-// MessageId: STATUS_LOG_RECORDS_RESERVED_INVALID
-//
-// MessageText:
-//
-//  Number of reserved log records or the adjustment of the number of reserved log records is invalid.
-//
-#define STATUS_LOG_RECORDS_RESERVED_INVALID ((NTSTATUS)0xC01A001AL)
-
-//
-// MessageId: STATUS_LOG_SPACE_RESERVED_INVALID
-//
-// MessageText:
-//
-//  Reserved log space or the adjustment of the log space is invalid.
-//
-#define STATUS_LOG_SPACE_RESERVED_INVALID ((NTSTATUS)0xC01A001BL)
-
-//
-// MessageId: STATUS_LOG_TAIL_INVALID
-//
-// MessageText:
-//
-//  A new or existing archive tail or base of the active log is invalid.
-//
-#define STATUS_LOG_TAIL_INVALID          ((NTSTATUS)0xC01A001CL)
-
-//
-// MessageId: STATUS_LOG_FULL
-//
-// MessageText:
-//
-//  Log space is exhausted.
-//
-#define STATUS_LOG_FULL                  ((NTSTATUS)0xC01A001DL)
-
-//
-// MessageId: STATUS_LOG_MULTIPLEXED
-//
-// MessageText:
-//
-//  Log is multiplexed, no direct writes to the physical log is allowed.
-//
-#define STATUS_LOG_MULTIPLEXED           ((NTSTATUS)0xC01A001EL)
-
-//
-// MessageId: STATUS_LOG_DEDICATED
-//
-// MessageText:
-//
-//  The operation failed because the log is a dedicated log.
-//
-#define STATUS_LOG_DEDICATED             ((NTSTATUS)0xC01A001FL)
-
-//
-// MessageId: STATUS_LOG_ARCHIVE_NOT_IN_PROGRESS
-//
-// MessageText:
-//
-//  The operation requires an archive context.
-//
-#define STATUS_LOG_ARCHIVE_NOT_IN_PROGRESS ((NTSTATUS)0xC01A0020L)
-
-//
-// MessageId: STATUS_LOG_ARCHIVE_IN_PROGRESS
-//
-// MessageText:
-//
-//  Log archival is in progress.
-//
-#define STATUS_LOG_ARCHIVE_IN_PROGRESS   ((NTSTATUS)0xC01A0021L)
-
-//
-// MessageId: STATUS_LOG_EPHEMERAL
-//
-// MessageText:
-//
-//  The operation requires a non-ephemeral log, but the log is ephemeral.
-//
-#define STATUS_LOG_EPHEMERAL             ((NTSTATUS)0xC01A0022L)
-
-//
-// MessageId: STATUS_LOG_NOT_ENOUGH_CONTAINERS
-//
-// MessageText:
-//
-//  The log must have at least two containers before it can be read from or written to.
-//
-#define STATUS_LOG_NOT_ENOUGH_CONTAINERS ((NTSTATUS)0xC01A0023L)
-
-//
-// MessageId: STATUS_LOG_CLIENT_ALREADY_REGISTERED
-//
-// MessageText:
-//
-//  A log client has already registered on the stream.
-//
-#define STATUS_LOG_CLIENT_ALREADY_REGISTERED ((NTSTATUS)0xC01A0024L)
-
-//
-// MessageId: STATUS_LOG_CLIENT_NOT_REGISTERED
-//
-// MessageText:
-//
-//  A log client has not been registered on the stream.
-//
-#define STATUS_LOG_CLIENT_NOT_REGISTERED ((NTSTATUS)0xC01A0025L)
-
-//
-// MessageId: STATUS_LOG_FULL_HANDLER_IN_PROGRESS
-//
-// MessageText:
-//
-//  A request has already been made to handle the log full condition.
-//
-#define STATUS_LOG_FULL_HANDLER_IN_PROGRESS ((NTSTATUS)0xC01A0026L)
-
-//
-// MessageId: STATUS_LOG_CONTAINER_READ_FAILED
-//
-// MessageText:
-//
-//  Log service enountered an error when attempting to read from a log container.
-//
-#define STATUS_LOG_CONTAINER_READ_FAILED ((NTSTATUS)0xC01A0027L)
-
-//
-// MessageId: STATUS_LOG_CONTAINER_WRITE_FAILED
-//
-// MessageText:
-//
-//  Log service enountered an error when attempting to write to a log container.
-//
-#define STATUS_LOG_CONTAINER_WRITE_FAILED ((NTSTATUS)0xC01A0028L)
-
-//
-// MessageId: STATUS_LOG_CONTAINER_OPEN_FAILED
-//
-// MessageText:
-//
-//  Log service enountered an error when attempting open a log container.
-//
-#define STATUS_LOG_CONTAINER_OPEN_FAILED ((NTSTATUS)0xC01A0029L)
-
-//
-// MessageId: STATUS_LOG_CONTAINER_STATE_INVALID
-//
-// MessageText:
-//
-//  Log service enountered an invalid container state when attempting a requested action.
-//
-#define STATUS_LOG_CONTAINER_STATE_INVALID ((NTSTATUS)0xC01A002AL)
-
-//
-// MessageId: STATUS_LOG_STATE_INVALID
-//
-// MessageText:
-//
-//  Log service is not in the correct state to perform a requested action.
-//
-#define STATUS_LOG_STATE_INVALID         ((NTSTATUS)0xC01A002BL)
-
-//
-// MessageId: STATUS_LOG_PINNED
-//
-// MessageText:
-//
-//  Log space cannot be reclaimed because the log is pinned.
-//
-#define STATUS_LOG_PINNED                ((NTSTATUS)0xC01A002CL)
-
-//
-// MessageId: STATUS_LOG_METADATA_FLUSH_FAILED
-//
-// MessageText:
-//
-//  Log metadata flush failed.
-//
-#define STATUS_LOG_METADATA_FLUSH_FAILED ((NTSTATUS)0xC01A002DL)
-
-//
-// MessageId: STATUS_LOG_INCONSISTENT_SECURITY
-//
-// MessageText:
-//
-//  Security on the log and its containers is inconsistent.
-//
-#define STATUS_LOG_INCONSISTENT_SECURITY ((NTSTATUS)0xC01A002EL)
-
-//
-// MessageId: STATUS_COULD_NOT_RESIZE_LOG
-//
-// MessageText:
-//
-//  The log could not be set to the requested size.
-//
-#define STATUS_COULD_NOT_RESIZE_LOG      ((NTSTATUS)0x80190009L)
-
-
+/*lint -restore */  // Resume checking for different macro definitions // winnt
 // end_ntsecapi
 
 #endif // WIN32_NO_STATUS // winnt
 #endif // _NTSTATUS_
-

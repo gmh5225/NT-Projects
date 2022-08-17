@@ -1,10 +1,6 @@
 /*++ Build Version: 0001    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -14,6 +10,18 @@ Abstract:
 
     Include file for NT runtime routines that are callable by only
     user mode code in various NT subsystems.
+
+Author:
+
+    Steve Wood (stevewo) 10-Aug-1989
+
+Environment:
+
+    These routines are dynamically linked in the caller's executable and
+    are callable only from user mode.  They make use of Nt system
+    services.
+
+Revision History:
 
 --*/
 
@@ -180,28 +188,7 @@ RtlLeaveCriticalSection(
     );
 
 NTSYSAPI
-LOGICAL
-NTAPI
-RtlIsCriticalSectionLocked (
-    IN PRTL_CRITICAL_SECTION CriticalSection
-    );
-
-NTSYSAPI
-LOGICAL
-NTAPI
-RtlIsCriticalSectionLockedByThread (
-    IN PRTL_CRITICAL_SECTION CriticalSection
-    );
-
-NTSYSAPI
-ULONG
-NTAPI
-RtlGetCriticalSectionRecursionCount (
-    IN PRTL_CRITICAL_SECTION CriticalSection
-    );
-
-NTSYSAPI
-LOGICAL
+BOOLEAN
 NTAPI
 RtlTryEnterCriticalSection(
     PRTL_CRITICAL_SECTION CriticalSection
@@ -347,13 +334,6 @@ RtlGetUnloadEventTrace (
     VOID
     );
 
-NTSYSAPI
-ULONG
-NTAPI
-RtlGetCurrentProcessorNumber (
-    VOID
-    );
-
 //
 
 // Application verifier types needed by provider dlls
@@ -462,30 +442,20 @@ typedef struct _RTL_VERIFIER_PROVIDER_DESCRIPTOR {
 #define APPLICATION_VERIFIER_NO_BREAK                     0x20000000
 #define APPLICATION_VERIFIER_CONTINUABLE_BREAK            0x10000000
 
-#define APPLICATION_VERIFIER_UNKNOWN_ERROR                    0x0001
-#define APPLICATION_VERIFIER_ACCESS_VIOLATION                 0x0002
-#define APPLICATION_VERIFIER_UNSYNCHRONIZED_ACCESS            0x0003
-#define APPLICATION_VERIFIER_EXTREME_SIZE_REQUEST             0x0004
-#define APPLICATION_VERIFIER_BAD_HEAP_HANDLE                  0x0005
-#define APPLICATION_VERIFIER_SWITCHED_HEAP_HANDLE             0x0006
-#define APPLICATION_VERIFIER_DOUBLE_FREE                      0x0007
-#define APPLICATION_VERIFIER_CORRUPTED_HEAP_BLOCK             0x0008
-#define APPLICATION_VERIFIER_DESTROY_PROCESS_HEAP             0x0009
-#define APPLICATION_VERIFIER_UNEXPECTED_EXCEPTION             0x000A
-#define APPLICATION_VERIFIER_CORRUPTED_HEAP_BLOCK_EXCEPTION_RAISED_FOR_HEADER 0x000B
-#define APPLICATION_VERIFIER_CORRUPTED_HEAP_BLOCK_EXCEPTION_RAISED_FOR_PROBING 0x000C
-#define APPLICATION_VERIFIER_CORRUPTED_HEAP_BLOCK_HEADER      0x000D
-#define APPLICATION_VERIFIER_CORRUPTED_FREED_HEAP_BLOCK       0x000E
-#define APPLICATION_VERIFIER_CORRUPTED_HEAP_BLOCK_SUFFIX      0x000F
-#define APPLICATION_VERIFIER_CORRUPTED_HEAP_BLOCK_START_STAMP 0x0010
-#define APPLICATION_VERIFIER_CORRUPTED_HEAP_BLOCK_END_STAMP   0x0011
-#define APPLICATION_VERIFIER_CORRUPTED_HEAP_BLOCK_PREFIX      0x0012
-#define APPLICATION_VERIFIER_FIRST_CHANCE_ACCESS_VIOLATION    0x0013
-#define APPLICATION_VERIFIER_CORRUPTED_HEAP_LIST              0x0014
+#define APPLICATION_VERIFIER_UNKNOWN_ERROR                0x0001
+#define APPLICATION_VERIFIER_ACCESS_VIOLATION             0x0002
+#define APPLICATION_VERIFIER_UNSYNCHRONIZED_ACCESS        0x0003
+#define APPLICATION_VERIFIER_EXTREME_SIZE_REQUEST         0x0004
+#define APPLICATION_VERIFIER_BAD_HEAP_HANDLE              0x0005
+#define APPLICATION_VERIFIER_SWITCHED_HEAP_HANDLE         0x0006
+#define APPLICATION_VERIFIER_DOUBLE_FREE                  0x0007
+#define APPLICATION_VERIFIER_CORRUPTED_HEAP_BLOCK         0x0008
+#define APPLICATION_VERIFIER_DESTROY_PROCESS_HEAP         0x0009
+#define APPLICATION_VERIFIER_UNEXPECTED_EXCEPTION         0x000A
+#define APPLICATION_VERIFIER_STACK_OVERFLOW               0x000B
 
 #define APPLICATION_VERIFIER_TERMINATE_THREAD_CALL        0x0100
-#define APPLICATION_VERIFIER_STACK_OVERFLOW               0x0101
-#define APPLICATION_VERIFIER_INVALID_EXIT_PROCESS_CALL    0x0102
+#define APPLICATION_VERIFIER_INVALID_EXIT_PROCESS_CALL    0x0101
 
 #define APPLICATION_VERIFIER_EXIT_THREAD_OWNS_LOCK        0x0200
 #define APPLICATION_VERIFIER_LOCK_IN_UNLOADED_DLL         0x0201
@@ -499,9 +469,6 @@ typedef struct _RTL_VERIFIER_PROVIDER_DESCRIPTOR {
 #define APPLICATION_VERIFIER_LOCK_OVER_RELEASED           0x0209
 #define APPLICATION_VERIFIER_LOCK_NOT_INITIALIZED         0x0210
 #define APPLICATION_VERIFIER_LOCK_ALREADY_INITIALIZED     0x0211
-#define APPLICATION_VERIFIER_LOCK_IN_FREED_VMEM           0x0212
-#define APPLICATION_VERIFIER_LOCK_IN_UNMAPPED_MEM         0x0213
-#define APPLICATION_VERIFIER_THREAD_NOT_LOCK_OWNER        0x0214
 
 #define APPLICATION_VERIFIER_INVALID_HANDLE               0x0300
 #define APPLICATION_VERIFIER_INVALID_TLS_VALUE            0x0301
@@ -537,7 +504,6 @@ typedef struct _RTL_VERIFIER_PROVIDER_DESCRIPTOR {
 #define APPLICATION_VERIFIER_PROBE_GUARD_PAGE             0x0605
 #define APPLICATION_VERIFIER_PROBE_NULL                   0x0606
 #define APPLICATION_VERIFIER_PROBE_INVALID_START_OR_SIZE  0x0607
-#define APPLICATION_VERIFIER_SIZE_HEAP_UNEXPECTED_EXCEPTION 0x0618
 
 
 #define VERIFIER_STOP(Code, Msg, P1, S1, P2, S2, P3, S3, P4, S4) {  \
@@ -552,16 +518,12 @@ typedef struct _RTL_VERIFIER_PROVIDER_DESCRIPTOR {
 VOID
 NTAPI
 RtlApplicationVerifierStop (
-    __in ULONG_PTR Code,
-    __in PSTR Message,
-    __in ULONG_PTR Param1,
-    __in PSTR Description1,
-    __in ULONG_PTR Param2,
-    __in PSTR Description2,
-    __in ULONG_PTR Param3,
-    __in PSTR Description3,
-    __in ULONG_PTR Param4,
-    __in PSTR Description4
+    ULONG_PTR Code,
+    PCHAR Message,
+    ULONG_PTR Param1, PCHAR Description1,
+    ULONG_PTR Param2, PCHAR Description2,
+    ULONG_PTR Param3, PCHAR Description3,
+    ULONG_PTR Param4, PCHAR Description4
     );
 
 // end_winnt
@@ -587,39 +549,16 @@ RtlCallVectoredExceptionHandlers(
 NTSYSAPI
 PVOID
 NTAPI
-RtlAddVectoredExceptionHandler (
-    IN ULONG First,
-    IN PVECTORED_EXCEPTION_HANDLER Handler
+RtlAddVectoredExceptionHandler(
+    IN ULONG FirstHandler,
+    IN PVECTORED_EXCEPTION_HANDLER VectoredHandler
     );
 
 NTSYSAPI
 ULONG
 NTAPI
-RtlRemoveVectoredExceptionHandler (
-    IN PVOID Handle
-    );
-
-NTSYSAPI
-BOOLEAN
-NTAPI
-RtlCallVectoredContinueHandlers (
-    IN PEXCEPTION_RECORD ExceptionRecord,
-    IN PCONTEXT ContextRecord
-    );
-
-NTSYSAPI
-PVOID
-NTAPI
-RtlAddVectoredContinueHandler (
-    IN ULONG First,
-    IN PVECTORED_EXCEPTION_HANDLER Handler
-    );
-
-NTSYSAPI
-ULONG
-NTAPI
-RtlRemoveVectoredContinueHandler (
-    IN PVOID Handle
+RtlRemoveVectoredExceptionHandler(
+    IN PVOID VectoredHandlerHandle
     );
 
 //
@@ -669,10 +608,10 @@ NTSYSAPI
 ULONG
 NTAPI
 RtlGetFullPathName_U(
-    __in PCWSTR lpFileName,
-    __in ULONG nBufferLength,
-    __out_bcount(nBufferLength) PWSTR lpBuffer,
-    __out_opt PWSTR *lpFilePart
+    PCWSTR lpFileName,
+    ULONG nBufferLength,
+    PWSTR lpBuffer,
+    PWSTR *lpFilePart
     );
 
 NTSYSAPI
@@ -694,8 +633,8 @@ NTSYSAPI
 ULONG
 NTAPI
 RtlGetCurrentDirectory_U(
-    __in ULONG nBufferLength,
-    __out_bcount(nBufferLength) PWSTR lpBuffer
+    ULONG nBufferLength,
+    PWSTR lpBuffer
     );
 
 NTSYSAPI
@@ -714,40 +653,20 @@ NTSYSAPI
 BOOLEAN
 NTAPI
 RtlDosPathNameToNtPathName_U(
-    __in PCWSTR DosFileName,
-    __out PUNICODE_STRING NtFileName,
-    __out_opt PWSTR *FilePart,
-    __reserved PVOID Reserved
-    );
-
-NTSYSAPI
-NTSTATUS
-NTAPI
-RtlDosPathNameToNtPathName_U_WithStatus(
-    __in PCWSTR DosFileName,
-    __out PUNICODE_STRING NtFileName,
-    __out_opt PWSTR *FilePart,
-    __reserved PVOID Reserved // Must be NULL
+    PCWSTR DosFileName,
+    PUNICODE_STRING NtFileName,
+    PWSTR *FilePart OPTIONAL,
+    PVOID Reserved // Must be NULL
     );
 
 NTSYSAPI
 BOOLEAN
 NTAPI
 RtlDosPathNameToRelativeNtPathName_U(
-    __in PCWSTR DosFileName,
-    __out PUNICODE_STRING NtFileName,
-    __out_opt PWSTR *FilePart,
-    __out_opt PRTL_RELATIVE_NAME_U RelativeName
-    );
-
-NTSYSAPI
-NTSTATUS
-NTAPI
-RtlDosPathNameToRelativeNtPathName_U_WithStatus(
-    __in PCWSTR DosFileName,
-    __out PUNICODE_STRING NtFileName,
-    __out_opt PWSTR *FilePart,
-    __out_opt PRTL_RELATIVE_NAME_U RelativeName
+    PCWSTR DosFileName,
+    PUNICODE_STRING NtFileName,
+    PWSTR *FilePart OPTIONAL,
+    PRTL_RELATIVE_NAME_U RelativeName OPTIONAL
     );
 
 
@@ -762,12 +681,12 @@ NTSYSAPI
 ULONG
 NTAPI
 RtlDosSearchPath_U(
-    __in PCWSTR lpPath,
-    __in PCWSTR lpFileName,
-    __in_opt PCWSTR lpExtension,
-    __in ULONG nBufferLength,
-    __out_bcount(nBufferLength) PWSTR lpBuffer,
-    __out_opt PWSTR *lpFilePart
+    IN PCWSTR lpPath,
+    IN PCWSTR lpFileName,
+    IN PCWSTR lpExtension,
+    ULONG nBufferLength,
+    PWSTR lpBuffer,
+    PWSTR *lpFilePart
     );
 
 #define RTL_DOS_SEARCH_PATH_FLAG_APPLY_ISOLATION_REDIRECTION        (0x00000001)
@@ -864,6 +783,9 @@ RtlAnalyzeProfile (
 //
 // Structure to hold information about an ACE to be created
 //
+#ifdef _MAC
+#pragma warning( disable : 4121)
+#endif
 
 typedef struct {
     UCHAR AceType;
@@ -872,6 +794,10 @@ typedef struct {
     ACCESS_MASK Mask;
     PSID *Sid;
 } RTL_ACE_DATA, *PRTL_ACE_DATA;
+
+#ifdef _MAC
+#pragma warning( default : 4121 )
+#endif
 
 NTSYSAPI
 NTSTATUS
@@ -925,7 +851,6 @@ RtlNewSecurityObjectWithMultipleInheritance (
 #define SEF_DEFAULT_GROUP_FROM_PARENT     0x40
 // end_winnt
 
-NTSYSAPI
 NTSTATUS
 NTAPI
 RtlConvertToAutoInheritSecurityObject(
@@ -1071,7 +996,7 @@ typedef struct _RTL_PERTHREAD_CURDIR {
 
 
 //
-// See NTRTL.H for heap functions available to both kernel and user mode code.
+// See NTRTL.H for heap functions availble to both kernel and user mode code.
 //
 
 #define RtlProcessHeap() (NtCurrentPeb()->ProcessHeap)
@@ -1347,7 +1272,7 @@ typedef enum _HEAP_INFORMATION_CLASS {
 
 } HEAP_INFORMATION_CLASS;
 
-NTSYSAPI
+
 NTSTATUS
 NTAPI
 RtlSetHeapInformation (
@@ -1357,7 +1282,6 @@ RtlSetHeapInformation (
     IN SIZE_T HeapInformationLength OPTIONAL
     );
 
-NTSYSAPI
 NTSTATUS
 NTAPI
 RtlQueryHeapInformation (
@@ -1590,7 +1514,6 @@ typedef NTSTATUS (NTAPI RTLP_EXIT_THREAD)(
 typedef RTLP_START_THREAD * PRTLP_START_THREAD ;
 typedef RTLP_EXIT_THREAD * PRTLP_EXIT_THREAD ;
 
-NTSYSAPI
 NTSTATUS
 NTAPI
 RtlSetThreadPoolStartFunc(
@@ -1635,7 +1558,6 @@ RtlQueueWorkItem(
     IN  ULONG  Flags
     ) ;
 
-NTSYSAPI
 NTSTATUS
 NTAPI
 RtlSetIoCompletionCallback (
@@ -1703,19 +1625,6 @@ RtlDllShutdownInProgress (
     VOID
     );
 
-typedef struct _FLS_DATA {
-    LIST_ENTRY Entry;
-    PVOID Slots[FLS_MAXIMUM_AVAILABLE];
-} FLS_DATA, *PFLS_DATA;
-
-// begin_winnt
-typedef
-VOID
-(NTAPI *PFLS_CALLBACK_FUNCTION) (
-    IN PVOID lpFlsData
-    );
-// end_winnt
-
 //--------OBSOLETE FUNCTIONS: DONT USE----------//
 
 VOID
@@ -1744,7 +1653,7 @@ RtlSetTimer(
     IN  ULONG  Flags
     ) ;
 
-// dont use the below flag, it is deprecated
+//todo:delete below: dont use the below flag. will be deleted
 #define WT_EXECUTEINLONGTHREAD  0x00000010                           // winnt
 #define WT_EXECUTEDELETEWAIT    0x00000008                           // winnt
 
@@ -2411,6 +2320,7 @@ public:
     CRtlMemoryStream()
     {
         RtlInitMemoryStream(*this);
+        //Data.FinalRelease = FinalReleaseGlue;
     }
 
     ULONG STDMETHODCALLTYPE AddRef()
@@ -2546,9 +2456,19 @@ protected:
 
 public:
 
+    /* This conflicts with DECLSPEC_NOVTABLE
+    static VOID STDMETHODCALLTYPE FinalReleaseGlue(PRTL_OUT_OF_PROCESS_MEMORY_STREAM_WITH_VTABLE This)
+    {
+        return reinterpret_cast<CRtlOutOfProcessMemoryStream*>(This)->FinalRelease();
+    }
+
+    virtual VOID STDMETHODCALLTYPE FinalRelease() { }
+    */
+
     CRtlOutOfProcessMemoryStream()
     {
         RtlInitOutOfProcessMemoryStream(*this);
+        //Data.FinalRelease = FinalReleaseGlue;
     }
 
     ULONG STDMETHODCALLTYPE AddRef()
@@ -2719,7 +2639,7 @@ C_ASSERT(sizeof(RTL_OUT_OF_PROCESS_MEMORY_STREAM_WITH_VTABLE) == sizeof(CRtlOutO
 // (Note that NtCurrentProcess() == -1, NtCurrentThread() == -2, so I avoided
 // those, though this macro picks them up.)
 //
-// We subtract one instead of comparing against NULL separately to avoid
+// We subtract one instead of comparing against NULL seperately to avoid
 // evaluating the macro parameter more than once.
 //
 #define IS_SPECIAL_ACTCTX(x) (((((LONG_PTR)(x)) - 1) | 7) == -1)
@@ -3147,13 +3067,6 @@ RtlFreeThreadActivationContextStack(
     );
 
 NTSYSAPI
-VOID
-NTAPI
-RtlFreeActivationContextStack(
-    IN PACTIVATION_CONTEXT_STACK ActivationContextStackPointer
-    );
-
-NTSYSAPI
 NTSTATUS
 NTAPI
 RtlFindFirstActivationContextSection(
@@ -3225,6 +3138,9 @@ typedef struct _RTL_CALLER_ALLOCATED_ACTIVATION_CONTEXT_STACK_FRAME_EXTENDED {
     PVOID Extra4;
 } RTL_CALLER_ALLOCATED_ACTIVATION_CONTEXT_STACK_FRAME_EXTENDED, *PRTL_CALLER_ALLOCATED_ACTIVATION_CONTEXT_STACK_FRAME_EXTENDED;
 
+// Maybe this should be conditionalized, but we have enough trouble debugging FRE builds that
+// we'll use extended stacks always.  -mgrier 1/4/2002
+
 typedef RTL_CALLER_ALLOCATED_ACTIVATION_CONTEXT_STACK_FRAME_EXTENDED RTL_CALLER_ALLOCATED_ACTIVATION_CONTEXT_STACK_FRAME;
 typedef PRTL_CALLER_ALLOCATED_ACTIVATION_CONTEXT_STACK_FRAME_EXTENDED PRTL_CALLER_ALLOCATED_ACTIVATION_CONTEXT_STACK_FRAME;
 
@@ -3277,13 +3193,6 @@ RtlDeactivateActivationContextUnsafeFast(
     );
 
 NTSYSAPI
-NTSTATUS
-NTAPI
-RtlAllocateActivationContextStack(
-    IN OUT PACTIVATION_CONTEXT_STACK *ActivationContextStackPointer
-    );
-
-NTSYSAPI
 VOID
 NTAPI
 RtlPushFrame(
@@ -3314,7 +3223,6 @@ RtlGetNativeSystemInformation(
     OUT PULONG ReturnLength OPTIONAL
     );
 
-NTSYSAPI
 NTSTATUS
 RtlQueueApcWow64Thread(
     IN HANDLE ThreadHandle,
@@ -3324,26 +3232,12 @@ RtlQueueApcWow64Thread(
     IN PVOID ApcArgument3
     );
 
-NTSYSAPI
 NTSTATUS
 RtlWow64EnableFsRedirection (
-    __in BOOLEAN Wow64FsEnableRedirection
+    IN BOOLEAN Wow64FsEnableRedirection
     );
 
-NTSYSAPI
-NTSTATUS
-RtlWow64EnableFsRedirectionEx (
-    __in PVOID Wow64FsEnableRedirection,
-    __out PVOID *OldFsRedirectionLevel
-    );    
-    
 
-NTSYSAPI
-NTSTATUS
-LdrGetKnownDllSectionHandle (
-    IN PCWSTR DllName,
-    IN BOOLEAN SearchKnownDlls32,
-    OUT PHANDLE Section);
 
 //++
 //
@@ -3370,8 +3264,6 @@ typedef BOOLEAN
 PRTL_IS_THREAD_WITHIN_LOADER_CALLOUT)(
     VOID
     );
-
-NTSYSAPI
 BOOLEAN
 NTAPI
 RtlIsThreadWithinLoaderCallout (
@@ -3399,14 +3291,12 @@ RtlReadMappedMemoryExceptionFilter(
 #define RTL_ERRORMODE_NOGPFAULTERRORBOX  (0x0020)
 #define RTL_ERRORMODE_NOOPENFILEERRORBOX (0x0040)
 
-NTSYSAPI
 ULONG
 NTAPI
 RtlGetThreadErrorMode(
     VOID
     );
 
-NTSYSAPI
 NTSTATUS
 NTAPI
 RtlSetThreadErrorMode(
@@ -3414,45 +3304,12 @@ RtlSetThreadErrorMode(
     OUT PULONG OldMode OPTIONAL
     );
 
-NTSYSAPI
 NTSTATUS
 NTAPI
 RtlSetEnvironmentStrings(
     IN PWCHAR NewEnvironment,
     IN SIZE_T NewEnvironmentSize
     );
-
-PVOID
-RtlEncodePointer (
-     PVOID Ptr
-     );
-
-PVOID
-RtlDecodePointer (
-     PVOID Ptr
-     );
-
-PVOID
-RtlEncodeSystemPointer (
-     PVOID Ptr
-     );
-
-PVOID
-RtlDecodeSystemPointer (
-     PVOID Ptr
-     );
-
-typedef ULONG (NTAPI RTLP_UNHANDLED_EXCEPTION_FILTER) (
-    struct _EXCEPTION_POINTERS *ExceptionInfo
-    );
-
-typedef RTLP_UNHANDLED_EXCEPTION_FILTER *PRTLP_UNHANDLED_EXCEPTION_FILTER;
-
-VOID
-RtlSetUnhandledExceptionFilter (
-    PRTLP_UNHANDLED_EXCEPTION_FILTER UnhandledExceptionFilter
-    );
-
 
 #if defined (_MSC_VER) && ( _MSC_VER >= 800 )
 #if _MSC_VER >= 1200
@@ -3469,4 +3326,3 @@ RtlSetUnhandledExceptionFilter (
 #endif
 
 #endif  // _NTURTL_
-

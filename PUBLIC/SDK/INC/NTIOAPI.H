@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0007    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -13,6 +9,14 @@ Module Name:
 Abstract:
 
     This module contains the user APIs for the NT I/O system.
+
+Author:
+
+    Darryl E. Havens (darrylh) 12-Apr-1989
+
+
+Revision History:
+
 
 --*/
 
@@ -187,10 +191,8 @@ extern "C" {
 #define FILE_OPEN_NO_RECALL                     0x00400000
 #define FILE_OPEN_FOR_FREE_SPACE_QUERY          0x00800000
 
-
 #define FILE_COPY_STRUCTURED_STORAGE            0x00000041
 #define FILE_STRUCTURED_STORAGE                 0x00000441
-
 
 #define FILE_VALID_OPTION_FLAGS                 0x00ffffff
 #define FILE_VALID_PIPE_OPTION_FLAGS            0x00000032
@@ -458,13 +460,12 @@ typedef struct _IO_STATUS_BLOCK {
 } IO_STATUS_BLOCK, *PIO_STATUS_BLOCK;
 
 #if defined(_WIN64)
-
 typedef struct _IO_STATUS_BLOCK32 {
     NTSTATUS Status;
     ULONG Information;
 } IO_STATUS_BLOCK32, *PIO_STATUS_BLOCK32;
-
 #endif
+
 
 //
 // Define an Asynchronous Procedure Call from I/O viewpoint
@@ -477,7 +478,6 @@ VOID
     IN PIO_STATUS_BLOCK IoStatusBlock,
     IN ULONG Reserved
     );
-
 #define PIO_APC_ROUTINE_DEFINED
 
 // end_ntddk end_wdm end_nthal
@@ -804,6 +804,7 @@ typedef struct _FILE_COMPRESSION_INFORMATION {
     UCHAR Reserved[3];
 } FILE_COMPRESSION_INFORMATION, *PFILE_COMPRESSION_INFORMATION;
 
+
 typedef struct _FILE_DISPOSITION_INFORMATION {                  // ntddk nthal
     BOOLEAN DeleteFile;                                         // ntddk nthal
 } FILE_DISPOSITION_INFORMATION, *PFILE_DISPOSITION_INFORMATION; // ntddk nthal
@@ -816,6 +817,10 @@ typedef struct _FILE_VALID_DATA_LENGTH_INFORMATION {                            
     LARGE_INTEGER ValidDataLength;                                                      // ntddk nthal
 } FILE_VALID_DATA_LENGTH_INFORMATION, *PFILE_VALID_DATA_LENGTH_INFORMATION;             // ntddk nthal
 
+#ifdef _MAC
+#pragma warning( disable : 4121)
+#endif
+
 typedef struct _FILE_LINK_INFORMATION {
     BOOLEAN ReplaceIfExists;
     HANDLE RootDirectory;
@@ -824,6 +829,10 @@ typedef struct _FILE_LINK_INFORMATION {
 } FILE_LINK_INFORMATION, *PFILE_LINK_INFORMATION;
 
 
+#ifdef _MAC
+#pragma warning( default : 4121 )
+#endif
+
 typedef struct _FILE_MOVE_CLUSTER_INFORMATION {
     ULONG ClusterCount;
     HANDLE RootDirectory;
@@ -831,12 +840,21 @@ typedef struct _FILE_MOVE_CLUSTER_INFORMATION {
     WCHAR FileName[1];
 } FILE_MOVE_CLUSTER_INFORMATION, *PFILE_MOVE_CLUSTER_INFORMATION;
 
+#ifdef _MAC
+#pragma warning( disable : 4121)
+#endif
+
+
 typedef struct _FILE_RENAME_INFORMATION {
     BOOLEAN ReplaceIfExists;
     HANDLE RootDirectory;
     ULONG FileNameLength;
     WCHAR FileName[1];
 } FILE_RENAME_INFORMATION, *PFILE_RENAME_INFORMATION;
+
+#ifdef _MAC
+#pragma warning( default : 4121 )
+#endif
 
 typedef struct _FILE_STREAM_INFORMATION {
     ULONG NextEntryOffset;
@@ -1026,6 +1044,7 @@ typedef struct _FILE_FS_DRIVER_PATH_INFORMATION {
     WCHAR   DriverName[1];
 } FILE_FS_DRIVER_PATH_INFORMATION, *PFILE_FS_DRIVER_PATH_INFORMATION;
 
+
 //
 // File system control flags
 //
@@ -1059,7 +1078,7 @@ typedef struct _FILE_FS_CONTROL_INFORMATION {
 // begin_winnt begin_ntddk begin_nthal
 
 //
-// Define segment buffer structure for scatter/gather read/write.
+// Define segement buffer structure for scatter/gather read/write.
 //
 
 typedef union _FILE_SEGMENT_ELEMENT {
@@ -1076,104 +1095,104 @@ typedef union _FILE_SEGMENT_ELEMENT {
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtCancelIoFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock
+NtCancelIoFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtCreateNamedPipeFile (
-     __out PHANDLE FileHandle,
-     __in ULONG DesiredAccess,
-     __in POBJECT_ATTRIBUTES ObjectAttributes,
-     __out PIO_STATUS_BLOCK IoStatusBlock,
-     __in ULONG ShareAccess,
-     __in ULONG CreateDisposition,
-     __in ULONG CreateOptions,
-     __in ULONG NamedPipeType,
-     __in ULONG ReadMode,
-     __in ULONG CompletionMode,
-     __in ULONG MaximumInstances,
-     __in ULONG InboundQuota,
-     __in ULONG OutboundQuota,
-     __in_opt PLARGE_INTEGER DefaultTimeout
+NtCreateNamedPipeFile(
+     OUT PHANDLE FileHandle,
+     IN ULONG DesiredAccess,
+     IN POBJECT_ATTRIBUTES ObjectAttributes,
+     OUT PIO_STATUS_BLOCK IoStatusBlock,
+     IN ULONG ShareAccess,
+     IN ULONG CreateDisposition,
+     IN ULONG CreateOptions,
+     IN ULONG NamedPipeType,
+     IN ULONG ReadMode,
+     IN ULONG CompletionMode,
+     IN ULONG MaximumInstances,
+     IN ULONG InboundQuota,
+     IN ULONG OutboundQuota,
+     IN PLARGE_INTEGER DefaultTimeout OPTIONAL
      );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtCreateMailslotFile (
-     __out PHANDLE FileHandle,
-     __in ULONG DesiredAccess,
-     __in POBJECT_ATTRIBUTES ObjectAttributes,
-     __out PIO_STATUS_BLOCK IoStatusBlock,
-     __in ULONG CreateOptions,
-     __in ULONG MailslotQuota,
-     __in ULONG MaximumMessageSize,
-     __in PLARGE_INTEGER ReadTimeout
+NtCreateMailslotFile(
+     OUT PHANDLE FileHandle,
+     IN ULONG DesiredAccess,
+     IN POBJECT_ATTRIBUTES ObjectAttributes,
+     OUT PIO_STATUS_BLOCK IoStatusBlock,
+     ULONG CreateOptions,
+     IN ULONG MailslotQuota,
+     IN ULONG MaximumMessageSize,
+     IN PLARGE_INTEGER ReadTimeout
      );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtDeleteFile (
-    __in POBJECT_ATTRIBUTES ObjectAttributes
+NtDeleteFile(
+    IN POBJECT_ATTRIBUTES ObjectAttributes
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtFlushBuffersFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock
+NtFlushBuffersFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtNotifyChangeDirectoryFile (
-    __in HANDLE FileHandle,
-    __in_opt HANDLE Event,
-    __in_opt PIO_APC_ROUTINE ApcRoutine,
-    __in_opt PVOID ApcContext,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __out_bcount(Length) PVOID Buffer,
-    __in ULONG Length,
-    __in ULONG CompletionFilter,
-    __in BOOLEAN WatchTree
+NtNotifyChangeDirectoryFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID Buffer,
+    IN ULONG Length,
+    IN ULONG CompletionFilter,
+    IN BOOLEAN WatchTree
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryAttributesFile (
-    __in POBJECT_ATTRIBUTES ObjectAttributes,
-    __out PFILE_BASIC_INFORMATION FileInformation
+NtQueryAttributesFile(
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    OUT PFILE_BASIC_INFORMATION FileInformation
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryFullAttributesFile(
-    __in POBJECT_ATTRIBUTES ObjectAttributes,
-    __out PFILE_NETWORK_OPEN_INFORMATION FileInformation
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    OUT PFILE_NETWORK_OPEN_INFORMATION FileInformation
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryEaFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __out_bcount(Length) PVOID Buffer,
-    __in ULONG Length,
-    __in BOOLEAN ReturnSingleEntry,
-    __in_bcount_opt(EaListLength) PVOID EaList,
-    __in ULONG EaListLength,
-    __in_opt PULONG EaIndex OPTIONAL,
-    __in BOOLEAN RestartScan
+NtQueryEaFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID Buffer,
+    IN ULONG Length,
+    IN BOOLEAN ReturnSingleEntry,
+    IN PVOID EaList OPTIONAL,
+    IN ULONG EaListLength,
+    IN PULONG EaIndex OPTIONAL,
+    IN BOOLEAN RestartScan
     );
 
 // begin_ntifs
@@ -1181,262 +1200,293 @@ NtQueryEaFile (
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtCreateFile (
-    __out PHANDLE FileHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in_opt PLARGE_INTEGER AllocationSize,
-    __in ULONG FileAttributes,
-    __in ULONG ShareAccess,
-    __in ULONG CreateDisposition,
-    __in ULONG CreateOptions,
-    __in_bcount_opt(EaLength) PVOID EaBuffer,
-    __in ULONG EaLength
+NtCreateFile(
+    OUT PHANDLE FileHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PLARGE_INTEGER AllocationSize OPTIONAL,
+    IN ULONG FileAttributes,
+    IN ULONG ShareAccess,
+    IN ULONG CreateDisposition,
+    IN ULONG CreateOptions,
+    IN PVOID EaBuffer OPTIONAL,
+    IN ULONG EaLength
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtDeviceIoControlFile (
-    __in HANDLE FileHandle,
-    __in_opt HANDLE Event,
-    __in_opt PIO_APC_ROUTINE ApcRoutine,
-    __in_opt PVOID ApcContext,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in ULONG IoControlCode,
-    __in_bcount_opt(InputBufferLength) PVOID InputBuffer,
-    __in ULONG InputBufferLength,
-    __out_bcount_opt(OutputBufferLength) PVOID OutputBuffer,
-    __in ULONG OutputBufferLength
+NtDeviceIoControlFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN ULONG IoControlCode,
+    IN PVOID InputBuffer OPTIONAL,
+    IN ULONG InputBufferLength,
+    OUT PVOID OutputBuffer OPTIONAL,
+    IN ULONG OutputBufferLength
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtFsControlFile (
-    __in HANDLE FileHandle,
-    __in_opt HANDLE Event,
-    __in_opt PIO_APC_ROUTINE ApcRoutine,
-    __in_opt PVOID ApcContext,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in ULONG FsControlCode,
-    __in_bcount_opt(InputBufferLength) PVOID InputBuffer,
-    __in ULONG InputBufferLength,
-    __out_bcount_opt(OutputBufferLength) PVOID OutputBuffer,
-    __in ULONG OutputBufferLength
+NtFsControlFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN ULONG FsControlCode,
+    IN PVOID InputBuffer OPTIONAL,
+    IN ULONG InputBufferLength,
+    OUT PVOID OutputBuffer OPTIONAL,
+    IN ULONG OutputBufferLength
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtLockFile (
-    __in HANDLE FileHandle,
-    __in_opt HANDLE Event,
-    __in_opt PIO_APC_ROUTINE ApcRoutine,
-    __in_opt PVOID ApcContext,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in PLARGE_INTEGER ByteOffset,
-    __in PLARGE_INTEGER Length,
-    __in ULONG Key,
-    __in BOOLEAN FailImmediately,
-    __in BOOLEAN ExclusiveLock
+NtLockFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PLARGE_INTEGER ByteOffset,
+    IN PLARGE_INTEGER Length,
+    IN ULONG Key,
+    IN BOOLEAN FailImmediately,
+    IN BOOLEAN ExclusiveLock
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtOpenFile (
-    __out PHANDLE FileHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in ULONG ShareAccess,
-    __in ULONG OpenOptions
+NtOpenFile(
+    OUT PHANDLE FileHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN ULONG ShareAccess,
+    IN ULONG OpenOptions
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryDirectoryFile (
-    __in HANDLE FileHandle,
-    __in_opt HANDLE Event,
-    __in_opt PIO_APC_ROUTINE ApcRoutine,
-    __in_opt PVOID ApcContext,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __out_bcount(Length) PVOID FileInformation,
-    __in ULONG Length,
-    __in FILE_INFORMATION_CLASS FileInformationClass,
-    __in BOOLEAN ReturnSingleEntry,
-    __in_opt PUNICODE_STRING FileName,
-    __in BOOLEAN RestartScan
+NtQueryDirectoryFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID FileInformation,
+    IN ULONG Length,
+    IN FILE_INFORMATION_CLASS FileInformationClass,
+    IN BOOLEAN ReturnSingleEntry,
+    IN PUNICODE_STRING FileName OPTIONAL,
+    IN BOOLEAN RestartScan
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryInformationFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __out_bcount(Length) PVOID FileInformation,
-    __in ULONG Length,
-    __in FILE_INFORMATION_CLASS FileInformationClass
+NtQueryInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID FileInformation,
+    IN ULONG Length,
+    IN FILE_INFORMATION_CLASS FileInformationClass
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryQuotaInformationFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __out_bcount(Length) PVOID Buffer,
-    __in ULONG Length,
-    __in BOOLEAN ReturnSingleEntry,
-    __in_bcount_opt(SidListLength) PVOID SidList,
-    __in ULONG SidListLength,
-    __in_opt PSID StartSid,
-    __in BOOLEAN RestartScan
+NtQueryQuotaInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID Buffer,
+    IN ULONG Length,
+    IN BOOLEAN ReturnSingleEntry,
+    IN PVOID SidList OPTIONAL,
+    IN ULONG SidListLength,
+    IN PSID StartSid OPTIONAL,
+    IN BOOLEAN RestartScan
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryVolumeInformationFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __out_bcount(Length) PVOID FsInformation,
-    __in ULONG Length,
-    __in FS_INFORMATION_CLASS FsInformationClass
+NtQueryVolumeInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID FsInformation,
+    IN ULONG Length,
+    IN FS_INFORMATION_CLASS FsInformationClass
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtReadFile (
-    __in HANDLE FileHandle,
-    __in_opt HANDLE Event,
-    __in_opt PIO_APC_ROUTINE ApcRoutine,
-    __in_opt PVOID ApcContext,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __out_bcount(Length) PVOID Buffer,
-    __in ULONG Length,
-    __in_opt PLARGE_INTEGER ByteOffset,
-    __in_opt PULONG Key
+NtReadFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID Buffer,
+    IN ULONG Length,
+    IN PLARGE_INTEGER ByteOffset OPTIONAL,
+    IN PULONG Key OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetInformationFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in_bcount(Length) PVOID FileInformation,
-    __in ULONG Length,
-    __in FILE_INFORMATION_CLASS FileInformationClass
+NtSetInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PVOID FileInformation,
+    IN ULONG Length,
+    IN FILE_INFORMATION_CLASS FileInformationClass
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetQuotaInformationFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in_bcount(Length) PVOID Buffer,
-    __in ULONG Length
+NtSetQuotaInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PVOID Buffer,
+    IN ULONG Length
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetVolumeInformationFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in_bcount(Length) PVOID FsInformation,
-    __in ULONG Length,
-    __in FS_INFORMATION_CLASS FsInformationClass
+NtSetVolumeInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PVOID FsInformation,
+    IN ULONG Length,
+    IN FS_INFORMATION_CLASS FsInformationClass
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtWriteFile (
-    __in HANDLE FileHandle,
-    __in_opt HANDLE Event,
-    __in_opt PIO_APC_ROUTINE ApcRoutine,
-    __in_opt PVOID ApcContext,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in_bcount(Length) PVOID Buffer,
-    __in ULONG Length,
-    __in_opt PLARGE_INTEGER ByteOffset,
-    __in_opt PULONG Key
+NtWriteFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PVOID Buffer,
+    IN ULONG Length,
+    IN PLARGE_INTEGER ByteOffset OPTIONAL,
+    IN PULONG Key OPTIONAL
     );
+
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtUnlockFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in PLARGE_INTEGER ByteOffset,
-    __in PLARGE_INTEGER Length,
-    __in ULONG Key
+NtUnlockFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PLARGE_INTEGER ByteOffset,
+    IN PLARGE_INTEGER Length,
+    IN ULONG Key
     );
 // end_ntifs
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtReadFileScatter (
-    __in HANDLE FileHandle,
-    __in_opt HANDLE Event,
-    __in_opt PIO_APC_ROUTINE ApcRoutine,
-    __in_opt PVOID ApcContext,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in PFILE_SEGMENT_ELEMENT SegmentArray,
-    __in ULONG Length,
-    __in_opt PLARGE_INTEGER ByteOffset,
-    __in_opt PULONG Key
+NtReadFile64(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID64 *Buffer,
+    IN ULONG Length,
+    IN PLARGE_INTEGER ByteOffset OPTIONAL,
+    IN PULONG Key OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetEaFile (
-    __in HANDLE FileHandle,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in_bcount(Length) PVOID Buffer,
-    __in ULONG Length
+NtReadFileScatter(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PFILE_SEGMENT_ELEMENT SegmentArray,
+    IN ULONG Length,
+    IN PLARGE_INTEGER ByteOffset OPTIONAL,
+    IN PULONG Key OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtWriteFileGather (
-    __in HANDLE FileHandle,
-    __in_opt HANDLE Event,
-    __in_opt PIO_APC_ROUTINE ApcRoutine,
-    __in_opt PVOID ApcContext,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in PFILE_SEGMENT_ELEMENT SegmentArray,
-    __in ULONG Length,
-    __in_opt PLARGE_INTEGER ByteOffset,
-    __in_opt PULONG Key
+NtSetEaFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PVOID Buffer,
+    IN ULONG Length
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtLoadDriver (
-    __in PUNICODE_STRING DriverServiceName
+NtWriteFile64(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PVOID64 *Buffer,
+    IN ULONG Length,
+    IN PLARGE_INTEGER ByteOffset OPTIONAL,
+    IN PULONG Key OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtUnloadDriver (
-    __in PUNICODE_STRING DriverServiceName
+NtWriteFileGather(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PFILE_SEGMENT_ELEMENT SegmentArray,
+    IN ULONG Length,
+    IN PLARGE_INTEGER ByteOffset OPTIONAL,
+    IN PULONG Key OPTIONAL
     );
 
+NTSYSCALLAPI
+NTSTATUS
+NTAPI
+NtLoadDriver(
+    IN PUNICODE_STRING DriverServiceName
+    );
+
+NTSYSCALLAPI
+NTSTATUS
+NTAPI
+NtUnloadDriver(
+    IN PUNICODE_STRING DriverServiceName
+    );
+
 // begin_ntifs
 //
 // Macro definition for defining IOCTL and FSCTL function control codes.  Note
@@ -1509,7 +1559,7 @@ NtUnloadDriver (
 #define FSCTL_GET_RETRIEVAL_POINTERS    CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 28,  METHOD_NEITHER, FILE_ANY_ACCESS) // STARTING_VCN_INPUT_BUFFER, RETRIEVAL_POINTERS_BUFFER
 #define FSCTL_MOVE_FILE                 CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 29, METHOD_BUFFERED, FILE_SPECIAL_ACCESS) // MOVE_FILE_DATA,
 #define FSCTL_IS_VOLUME_DIRTY           CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 30, METHOD_BUFFERED, FILE_ANY_ACCESS)
-// decommissioned fsctl value                                              31
+// decomissioned fsctl value                                              31
 #define FSCTL_ALLOW_EXTENDED_DASD_IO    CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 32, METHOD_NEITHER,  FILE_ANY_ACCESS)
 #endif /* _WIN32_WINNT >= 0x0400 */
 
@@ -1557,7 +1607,7 @@ NtUnloadDriver (
 #endif /* _WIN32_WINNT >= 0x0500 */
 
 //
-// The following long list of structs are associated with the preceding
+// The following long list of structs are associated with the preceeding
 // file system fsctls.
 //
 
@@ -1922,17 +1972,8 @@ typedef struct {
 //  MARK_HANDLE_PROTECT_CLUSTERS - disallow any defragmenting (FSCTL_MOVE_FILE) until the
 //      the handle is closed
 //
-//  MARK_HANDLE_TXF_SYSTEM_LOG - indicates that this stream is being used as the Txf
-//      log for an RM on the volume.  Must be called in the kernel using
-//      IRP_MN_KERNEL_CALL.
-//
-//  MARK_HANDLE_NOT_TXF_SYSTEM_LOG - indicates that this user is no longer using this
-//      object as a log file.
-//
 
 #define MARK_HANDLE_PROTECT_CLUSTERS        (0x00000001)
-#define MARK_HANDLE_TXF_SYSTEM_LOG          (0x00000004)
-#define MARK_HANDLE_NOT_TXF_SYSTEM_LOG      (0x00000008)
 
 #endif /* _WIN32_WINNT >= 0x0500 */
 
@@ -1980,7 +2021,7 @@ typedef struct _FILESYSTEM_STATISTICS {
     USHORT FileSystemType;
     USHORT Version;                     // currently version 1
 
-    ULONG SizeOfCompleteStructure;      // must by a multiple of 64 bytes
+    ULONG SizeOfCompleteStructure;      // must by a mutiple of 64 bytes
 
     ULONG UserFileReads;
     ULONG UserFileReadBytes;
@@ -2117,7 +2158,7 @@ typedef struct _NTFS_STATISTICS {
         ULONG Clusters;             // number of clusters allocated
         ULONG Hints;                // number of times a hint was specified
 
-        ULONG RunsReturned;         // number of runs used to satisfy all the requests
+        ULONG RunsReturned;         // number of runs used to satisify all the requests
 
         ULONG HintsHonored;         // number of times the hint was useful
         ULONG HintsClusters;        // number of clusters allocated via the hint
@@ -2648,7 +2689,7 @@ typedef struct _REPARSE_POINT_INFORMATION {
 #define IO_REPARSE_TAG_SIS                      (0x80000007L)       // winnt ntifs
 
 //
-// The reparse tag 0x80000008 is reserved for Microsoft internal use
+// The reparse tag 0x80000008 is reserved for Microsoft internal use 
 // (may be published in the future)
 //
 
@@ -2663,13 +2704,6 @@ typedef struct _REPARSE_POINT_INFORMATION {
 //
 
 #define IO_REPARSE_TAG_FILTER_MANAGER           (0x8000000BL)       // winnt ntifs
-
-//
-//      Tag allocated to Microsoft for FRS Ghosting support
-//
-
-#define IO_REPARSE_TAG_FRS_GHOST                (0x80000012L)
-
 
 
 //
@@ -2694,42 +2728,12 @@ typedef struct _REPARSE_POINT_INFORMATION {
 
 #define IO_REPARSE_TAG_SOLUTIONSOFT             (0x2000000DL)
 
+
 //
 //  Tag allocated to COMMVAULT
 //
 
 #define IO_REPARSE_TAG_COMMVAULT                (0x0000000EL)
-
-//
-//      Tag allocated to Overtone Software
-//
-
-#define IO_REPARSE_TAG_OVERTONE                 (0x0000000FL)
-
-//
-//      Tag allocated to Enigma Data for HSM
-//
-
-#define IO_REPARSE_TAG_ENIGMA_HSM               (0x00000011L)
-
-//
-//      Tag allocated to INTERCOPE for HSM
-//
-
-#define IO_REPARSE_TAG_INTERCOPE_HSM            (0x00000013L)
-
-//
-//      Tag allocated to KOM Networks for HSM
-//
-
-#define IO_REPARSE_TAG_KOM_NETWORKS_HSM         (0x00000014L)
-
-//
-//      Tag allocated to MEMORY_TECH for HSM
-//
-
-#define IO_REPARSE_TAG_MEMORY_TECH_HSM          (0x00000015L)
-
 
 
 //
@@ -2737,7 +2741,7 @@ typedef struct _REPARSE_POINT_INFORMATION {
 // between the redirector and the IO subsystem
 //
 // This FSCTL is used to garner the link tracking information for a file.
-// The data structures used for retrieving the information are
+// The data structures used for retreving the information are
 // LINK_TRACKING_INFORMATION defined further down in this file.
 //
 
@@ -2953,59 +2957,60 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateIoCompletion (
-    __out PHANDLE IoCompletionHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes,
-    __in ULONG Count OPTIONAL
+    OUT PHANDLE IoCompletionHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN ULONG Count OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenIoCompletion (
-    __out PHANDLE IoCompletionHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes
+    OUT PHANDLE IoCompletionHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryIoCompletion (
-    __in HANDLE IoCompletionHandle,
-    __in IO_COMPLETION_INFORMATION_CLASS IoCompletionInformationClass,
-    __out_bcount(IoCompletionInformation) PVOID IoCompletionInformation,
-    __in ULONG IoCompletionInformationLength,
-    __out_opt PULONG ReturnLength
+    IN HANDLE IoCompletionHandle,
+    IN IO_COMPLETION_INFORMATION_CLASS IoCompletionInformationClass,
+    OUT PVOID IoCompletionInformation,
+    IN ULONG IoCompletionInformationLength,
+    OUT PULONG ReturnLength OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetIoCompletion (
-    __in HANDLE IoCompletionHandle,
-    __in PVOID KeyContext,
-    __in_opt PVOID ApcContext,
-    __in NTSTATUS IoStatus,
-    __in ULONG_PTR IoStatusInformation
+    IN HANDLE IoCompletionHandle,
+    IN PVOID KeyContext,
+    IN PVOID ApcContext,
+    IN NTSTATUS IoStatus,
+    IN ULONG_PTR IoStatusInformation
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtRemoveIoCompletion (
-    __in HANDLE IoCompletionHandle,
-    __out PVOID *KeyContext,
-    __out PVOID *ApcContext,
-    __out PIO_STATUS_BLOCK IoStatusBlock,
-    __in_opt PLARGE_INTEGER Timeout
+    IN HANDLE IoCompletionHandle,
+    OUT PVOID *KeyContext,
+    OUT PVOID *ApcContext,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PLARGE_INTEGER Timeout
     );
 
+
 //
 // Defines that are used to access the registry, but are not registry
 // specific.
 //
-
+
 // begin_ntddk begin_wdm begin_nthal begin_ntminiport begin_ntndis begin_ntifs
 //
 // Define the I/O bus interface types.
@@ -3094,4 +3099,3 @@ typedef enum _BUS_DATA_TYPE {
 #endif
 
 #endif // _NTIOAPI_
-

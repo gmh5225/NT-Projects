@@ -2,10 +2,6 @@
 
 Copyright (c) Microsoft Corporation. All rights reserved.
 
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
 Module Name:
 
     ntdddisk.h
@@ -14,6 +10,8 @@ Abstract:
 
     This is the include file that defines all constants and types for
     accessing the Disk device.
+
+Revision History:
 
 --*/
 
@@ -102,14 +100,6 @@ extern "C" {
 
 #endif /* _WIN32_WINNT >= 0x0500 */
 
-#if (_WIN32_WINNT >= 0x0502)
-
-//
-// New IOCTL for disk devices that support 8 byte LBA
-//
-#define IOCTL_DISK_REASSIGN_BLOCKS_EX       CTL_CODE(IOCTL_DISK_BASE, 0x0029, METHOD_BUFFERED, FILE_READ_ACCESS | FILE_WRITE_ACCESS)
-
-#endif //_WIN32_WINNT >= 0x0502
 
 #if(_WIN32_WINNT >= 0x0500)
 #define IOCTL_DISK_UPDATE_DRIVE_SIZE        CTL_CODE(IOCTL_DISK_BASE, 0x0032, METHOD_BUFFERED, FILE_READ_ACCESS | FILE_WRITE_ACCESS)
@@ -517,19 +507,6 @@ typedef struct _REASSIGN_BLOCKS {
     ULONG BlockNumber[1];
 } REASSIGN_BLOCKS, *PREASSIGN_BLOCKS;
 
-//
-// The following structure is passed in on an IOCTL_DISK_REASSIGN_BLOCKS_EX
-// request.
-//
-
-#include <pshpack1.h>
-typedef struct _REASSIGN_BLOCKS_EX {
-    USHORT Reserved;
-    USHORT Count;
-    LARGE_INTEGER BlockNumber[1];
-} REASSIGN_BLOCKS_EX, *PREASSIGN_BLOCKS_EX;
-#include <poppack.h>
-
 
 #if(_WIN32_WINNT >= 0x500)
 
@@ -542,7 +519,7 @@ typedef struct _REASSIGN_BLOCKS_EX {
 // AT-style master boot record (PARTITION_STYLE_MBR) and with a new, GPT
 // partition table (PARTITION_STYLE_GPT). RAW is for an unrecognizable
 // partition style. There are a very limited number of things you can
-// do with a RAW partition.
+// do with a RAW partititon.
 //
 
 typedef enum _PARTITION_STYLE {
@@ -578,7 +555,6 @@ typedef struct _PARTITION_INFORMATION_GPT {
 
 #define GPT_BASIC_DATA_ATTRIBUTE_NO_DRIVE_LETTER    (0x8000000000000000)
 #define GPT_BASIC_DATA_ATTRIBUTE_HIDDEN             (0x4000000000000000)
-#define GPT_BASIC_DATA_ATTRIBUTE_SHADOW_COPY        (0x2000000000000000)
 #define GPT_BASIC_DATA_ATTRIBUTE_READ_ONLY          (0x1000000000000000)
 
 //
@@ -622,7 +598,7 @@ typedef struct _SET_PARTITION_INFORMATION_EX {
 
 typedef struct _CREATE_DISK_GPT {
     GUID DiskId;                    // Unique disk id for the disk.
-    ULONG MaxPartitionCount;        // Maximum number of partitions allowable.
+    ULONG MaxPartitionCount;        // Maximim number of partitions allowable.
 } CREATE_DISK_GPT, *PCREATE_DISK_GPT;
 
 //
@@ -886,7 +862,7 @@ typedef struct _DISK_CACHE_INFORMATION {
     // Contains the minimum and maximum amount of data which will be
     // will be prefetched into the cache on a disk operation.  This value
     // may either be a scalar multiplier of the transfer length of the request,
-    // or an absolute number of disk blocks.  PrefetchScalar (above) indicates
+    // or an abolute number of disk blocks.  PrefetchScalar (above) indicates
     // which interpretation is used.
     //
 
@@ -970,7 +946,7 @@ typedef struct _DISK_HISTOGRAM {
 // capabilities. The IOCTLs are directed to one of   //
 // the two disk filter drivers.                      //
 //                                                   //
-// DISKPERF is a utility for collecting disk request //
+// DISKPERF is a utilty for collecting disk request  //
 // statistics.                                       //
 //                                                   //
 // SIMBAD is a utility for injecting faults in       //
@@ -1052,7 +1028,7 @@ typedef struct _DISK_LOGGING {
 //
 // DISKPERF will keep counters for IO that falls in each of these ranges.
 // The application determines the number and size of the ranges.
-// We keep it as flexible as possible, for instance, IO
+// Joe Lin wanted me to keep it flexible as possible, for instance, IO
 // sizes are interesting in ranges like 0-4096, 4097-16384, 16385-65536, 65537+.
 //
 
@@ -1284,4 +1260,3 @@ typedef struct _MAPPED_ADDRESS {
 #endif
 
 #endif // _NTDDDISK_H_
-

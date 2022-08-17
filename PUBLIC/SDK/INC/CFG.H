@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -14,6 +10,12 @@ Abstract:
 
     This module contains the common Configuration Manager definitions for
     both user mode and kernel mode code.
+
+Author:
+
+    Paula Tomlinson (paulat) 06/19/1995
+
+Revision History:
 
 --*/
 

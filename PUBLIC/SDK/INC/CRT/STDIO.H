@@ -1,25 +1,16 @@
-/*++
-
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
-Module:
-
-    stdio.h
-
-Abstract:
-
-    Definitions/declarations for standard I/O routines
-
-    This file defines the structures, values, macros, and functions
-    used by the level 2 I/O ("standard I/O") routines.
-    [ANSI/System V]
-    [Public]
-
---*/
+/***
+*stdio.h - definitions/declarations for standard I/O routines
+*
+*       Copyright (c) 1985-2001, Microsoft Corporation. All rights reserved.
+*
+*Purpose:
+*       This file defines the structures, values, macros, and functions
+*       used by the level 2 I/O ("standard I/O") routines.
+*       [ANSI/System V]
+*
+*       [Public]
+*
+****/
 
 #if     _MSC_VER > 1000
 #pragma once
@@ -27,6 +18,11 @@ Abstract:
 
 #ifndef _INC_STDIO
 #define _INC_STDIO
+
+#if     !defined(_WIN32)
+#error ERROR: Only Win32 target supported!
+#endif
+
 
 #ifdef  _MSC_VER
 /*
@@ -77,7 +73,7 @@ typedef _W64 unsigned int   size_t;
 #endif
 
 
-#ifndef _WCHAR_T_DEFINED
+#if !defined(_WCHAR_T_DEFINED) && !defined(_NATIVE_WCHAR_T_DEFINED)
 typedef unsigned short wchar_t;
 #define _WCHAR_T_DEFINED
 #endif
@@ -91,17 +87,7 @@ typedef unsigned short wctype_t;
 
 
 #ifndef _VA_LIST_DEFINED
-#ifdef _M_CEE_PURE
-typedef struct
-{
-    void* ArgCookie;
-    void* SigPtr;
-    void* ArgPtr;
-    int RemainingArgs;
-}va_list;
-#else
 typedef char *  va_list;
-#endif /* _M_CEE_PURE */
 #define _VA_LIST_DEFINED
 #endif
 
@@ -453,4 +439,3 @@ _CRTIMP int __cdecl unlink(const char *);
 #endif  /* _MSC_VER */
 
 #endif  /* _INC_STDIO */
-

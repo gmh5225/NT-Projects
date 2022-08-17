@@ -1,28 +1,19 @@
-/*++
+/***
+*tchar.h - definitions for generic international text functions
+*
+*       Copyright (c) 1991-2001, Microsoft Corporation. All rights reserved.
+*
+*Purpose:
+*       Definitions for generic international functions, mostly defines
+*       which map string/formatted-io/ctype functions to char, wchar_t, or
+*       MBCS versions.  To be used for compatibility between single-byte,
+*       multi-byte and Unicode text models.
+*
+*       [Public]
+*
+****/
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
-Module:
-
-    tchar.h
-
-Abstract:
-
-    Definitions for generic international text functions
-
-    Definitions for generic international functions, mostly defines
-    which map string/formatted-io/ctype functions to char, wchar_t, or
-    MBCS versions.  To be used for compatibility between single-byte,
-    multi-byte and Unicode text models.
-    [Public]
-
---*/
-
-#if     _MSC_VER > 1000
+#if     _MSC_VER > 1000 /*IFSTRIP=IGN*/
 #pragma once
 #endif
 
@@ -49,11 +40,15 @@ extern "C" {
 /* Define _CRTIMP */
 
 #ifndef _CRTIMP
+#ifdef  CRTDLL
+#define _CRTIMP __declspec(dllexport)
+#else   /* ndef CRTDLL */
 #ifdef  _DLL
 #define _CRTIMP __declspec(dllimport)
 #else   /* ndef _DLL */
 #define _CRTIMP
 #endif  /* _DLL */
+#endif  /* CRTDLL */
 #endif  /* _CRTIMP */
 
 
@@ -390,12 +385,7 @@ typedef wchar_t     TCHAR;
 #define _tccpy(_pc1,_cpc2) ((*(_pc1) = *(_cpc2)))
 #define _tccmp(_cpc1,_cpc2) ((*(_cpc1))-(*(_cpc2)))
 #else   /* __STDC__ */
-__inline size_t __cdecl _tclen(const wchar_t *_cpc)
-{ 
-    /* avoid compiler warning */
-    (void *)_cpc;
-    return 1;
-}
+__inline size_t __cdecl _tclen(const wchar_t *_cpc) { _cpc; return (1); }
 __inline void __cdecl _tccpy(wchar_t *_pc1, const wchar_t *_cpc2) { *_pc1 = (wchar_t)*_cpc2; }
 __inline int __cdecl _tccmp(const wchar_t *_cpc1, const wchar_t *_cpc2) { return (int) ((*_cpc1)-(*_cpc2)); }
 #endif  /* __STDC__ */
@@ -436,14 +426,7 @@ __inline wchar_t * __cdecl _wcsdec(const wchar_t * _cpc1, const wchar_t * _cpc2)
 __inline wchar_t * __cdecl _wcsinc(const wchar_t * _pc) { return (wchar_t *)(_pc+1); }
 __inline unsigned int __cdecl _wcsnextc(const wchar_t * _cpc) { return (unsigned int)*_cpc; }
 __inline wchar_t * __cdecl _wcsninc(const wchar_t * _pc, size_t _sz) { return (wchar_t *)(_pc+_sz); }
-__inline size_t __cdecl _wcsncnt( const wchar_t * string, size_t cnt) 
-{ 
-	size_t n = cnt; 
-	wchar_t *cp = (wchar_t *)string; 
-	while (n-- && *cp) 
-		cp++; 
-	return cnt - n - 1; 
-}
+__inline size_t __cdecl _wcsncnt( const wchar_t * _cpc, size_t _sz) { size_t len; len = wcslen(_cpc); return (len>_sz) ? _sz : len; }
 __inline wchar_t * __cdecl _wcsspnp( const wchar_t * _cpc1, const wchar_t * _cpc2) { return (*(_cpc1 += wcsspn(_cpc1,_cpc2))!='\0') ? (wchar_t*)_cpc1 : NULL; }
 #endif  /* __STDC__ */
 
@@ -902,24 +885,7 @@ __inline void _tccpy(_PC _s1,_CPC _s2) {_mbccpy((_PUC)_s1,(_CPUC)_s2); return;}
 
 
 /* inline helper */
-__inline _UI _tcsnextc(_CPC _s1)
-{
-    _UI _n=0; 
-    if (_ismbblead((_UI)*(_PUC)_s1)) 
-    {
-        /*  for a dud MBCS string (leadbyte, EOS), we don't move forward 2
-            We do not assert here because this routine is too low-level
-        */
-        if(_s1[1]!='\0')
-        {
-            _n=((_UI)*(_PUC)_s1)<<8; 
-            _s1++;
-        }
-    } 
-    _n+=(_UI)*(_PUC)_s1; 
-    
-    return(_n);
-}
+__inline _UI _tcsnextc(_CPC _s1) {_UI _n=0; if (_ismbblead((_UI)*(_PUC)_s1)) {_n=((_UI)*(_PUC)_s1)<<8; _s1++;} _n+=(_UI)*(_PUC)_s1; return(_n);}
 
 
 #endif  /* __STDC__ */
@@ -1034,12 +1000,7 @@ typedef char            TCHAR;
 #define _tccpy(_pc1,_cpc2) (*(_pc1) = *(_cpc2))
 #define _tccmp(_cpc1,_cpc2) (((unsigned char)*(_cpc1))-((unsigned char)*(_cpc2)))
 #else   /* __STDC__ */
-__inline size_t __cdecl _tclen(const char *_cpc)
-{ 
-    /* avoid compiler warning */
-    (void *)_cpc;
-    return 1;
-}
+__inline size_t __cdecl _tclen(const char *_cpc) { _cpc; return (1); }
 __inline void __cdecl _tccpy(char *_pc1, const char *_cpc2) { *_pc1 = *_cpc2; }
 __inline int __cdecl _tccmp(const char *_cpc1, const char *_cpc2) { return (int) (((unsigned char)*_cpc1)-((unsigned char)*_cpc2)); }
 #endif  /* __STDC__ */
@@ -1088,20 +1049,12 @@ __inline char * __cdecl _strdec(const char * _cpc1, const char * _cpc2) { return
 __inline char * __cdecl _strinc(const char * _pc) { return (char *)(_pc+1); }
 __inline unsigned int __cdecl _strnextc(const char * _cpc) { return (unsigned int)*(const unsigned char *)_cpc; }
 __inline char * __cdecl _strninc(const char * _pc, size_t _sz) { return (char *)(_pc+_sz); }
-__inline size_t __cdecl _strncnt( const char * string, size_t cnt) 
-{ 
-	size_t n = cnt; 
-	char *cp = (char *)string; 
-	while (n-- && *cp) 
-		cp++; 
-	return cnt - n - 1; 
-}
+__inline size_t __cdecl _strncnt( const char * _cpc, size_t _sz) { size_t len; len = strlen(_cpc); return (len>_sz) ? _sz : len; }
 __inline char * __cdecl _strspnp( const char * _cpc1, const char * _cpc2) { return (*(_cpc1 += strspn(_cpc1,_cpc2))!='\0') ? (char*)_cpc1 : NULL; }
 #endif  /* __STDC__ */
 
 
 #endif  /* _MBCS */
-
 
 #endif  /* _UNICODE */
 
@@ -1118,4 +1071,3 @@ __inline char * __cdecl _strspnp( const char * _cpc1, const char * _cpc2) { retu
 #endif
 
 #endif  /* _INC_TCHAR */
-

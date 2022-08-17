@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -156,7 +152,7 @@ typedef struct tagWNODE_ALL_DATA
                                     /* [InstanceCount] */
     };
 
-    // padding so that first data block begins on a 8 byte boundary
+    // padding so that first data block begins on a 8 byte boundry
 
     // data blocks and instance names for all instances
 
@@ -181,7 +177,7 @@ typedef struct tagWNODE_SINGLE_INSTANCE
     ULONG SizeDataBlock;    // Size of data block for instance
 
     UCHAR VariableData[];
-    // instance names and padding so data block begins on 8 byte boundary
+    // instance names and padding so data block begins on 8 byte boundry
 
     // data block
 } WNODE_SINGLE_INSTANCE, *PWNODE_SINGLE_INSTANCE;
@@ -207,7 +203,7 @@ typedef struct tagWNODE_SINGLE_ITEM
     ULONG SizeDataItem;     // Size of data item
 
     UCHAR VariableData[];
-    // instance names and padding so data value begins on 8 byte boundary
+    // instance names and padding so data value begins on 8 byte boundry
 
     // data item value
 } WNODE_SINGLE_ITEM, *PWNODE_SINGLE_ITEM;
@@ -237,7 +233,7 @@ typedef struct tagWNODE_METHOD_ITEM
                             //            data
 
     UCHAR VariableData[];
-    // instance names and padding so data value begins on 8 byte boundary
+    // instance names and padding so data value begins on 8 byte boundry
 
     // data item value
 } WNODE_METHOD_ITEM, *PWNODE_METHOD_ITEM;

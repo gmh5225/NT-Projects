@@ -1,22 +1,15 @@
-/*++
-
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
-Module:
-
-    ctype.h
-
-Abstract:
-
-    Defines macros for character classification/conversion (i.e conversion and ctyp macros).
-    [ANSI/System V]
-    [Public]
-
---*/
+/***
+*ctype.h - character conversion macros and ctype macros
+*
+*       Copyright (c) 1985-2001, Microsoft Corporation. All rights reserved.
+*
+*Purpose:
+*       Defines macros for character classification/conversion.
+*       [ANSI/System V]
+*
+*       [Public]
+*
+****/
 
 #if     _MSC_VER > 1000
 #pragma once
@@ -25,9 +18,15 @@ Abstract:
 #ifndef _INC_CTYPE
 #define _INC_CTYPE
 
+#if     !defined(_WIN32)
+#error ERROR: Only Win32 target supported!
+#endif
+
+
 #ifdef  __cplusplus
 extern "C" {
 #endif
+
 
 
 /* Define _CRTIMP */
@@ -199,8 +198,35 @@ _CRTIMP int __cdecl _chvalidator(int, int);
 #define isprint(_c)     (MB_CUR_MAX > 1 ? _isctype(_c,_BLANK|_PUNCT|_ALPHA|_DIGIT) : __chvalidchk(_c, (_BLANK|_PUNCT|_ALPHA|_DIGIT)))
 #define isgraph(_c)     (MB_CUR_MAX > 1 ? _isctype(_c,_PUNCT|_ALPHA|_DIGIT) : __chvalidchk(_c, (_PUNCT|_ALPHA|_DIGIT)))
 #define iscntrl(_c)     (MB_CUR_MAX > 1 ? _isctype(_c,_CONTROL) : __chvalidchk(_c, _CONTROL))
-#endif  /* !__cplusplus */
-#endif  /* !_MT */
+#elif   0         /* Pending ANSI C++ integration */
+inline int isalpha(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_ALPHA) : __chvalidchk(_C, _ALPHA)); }
+inline int isupper(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_UPPER) : __chvalidchk(_C, _UPPER)); }
+inline int islower(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_LOWER) : __chvalidchk(_C, _LOWER)); }
+inline int isdigit(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_DIGIT) : __chvalidchk(_C, _DIGIT)); }
+inline int isxdigit(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_HEX)   : __chvalidchk(_C, _HEX)); }
+inline int isspace(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_SPACE) : __chvalidchk(_C, _SPACE)); }
+inline int ispunct(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_PUNCT) : __chvalidchk(_C, _PUNCT)); }
+inline int isalnum(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_ALPHA|_DIGIT)
+                : __chvalidchk(_C) , (_ALPHA|_DIGIT)); }
+inline int isprint(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_BLANK|_PUNCT|_ALPHA|_DIGIT)
+                : __chvalidchk(_C , (_BLANK|_PUNCT|_ALPHA|_DIGIT))); }
+inline int isgraph(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_PUNCT|_ALPHA|_DIGIT)
+                : __chvalidchk(_C , (_PUNCT|_ALPHA|_DIGIT))); }
+inline int iscntrl(int _C)
+        {return (MB_CUR_MAX > 1 ? _isctype(_C,_CONTROL)
+                : __chvalidchk(_C , _CONTROL)); }
+#endif  /* __cplusplus */
+#endif  /* _MT */
 
 
 #define _tolower(_c)    ( (_c)-'A'+'a' )
@@ -224,7 +250,25 @@ _CRTIMP int __cdecl _chvalidator(int, int);
 #define iswcntrl(_c)    ( iswctype(_c,_CONTROL) )
 #define iswascii(_c)    ( (unsigned)(_c) < 0x80 )
 #define isleadbyte(_c)  ( __PCTYPE_FUNC[(unsigned char)(_c)] & _LEADBYTE)
-#endif  /* !__cplusplus */
+#elif   0         /* __cplusplus */
+inline int iswalpha(wint_t _C) {return (iswctype(_C,_ALPHA)); }
+inline int iswupper(wint_t _C) {return (iswctype(_C,_UPPER)); }
+inline int iswlower(wint_t _C) {return (iswctype(_C,_LOWER)); }
+inline int iswdigit(wint_t _C) {return (iswctype(_C,_DIGIT)); }
+inline int iswxdigit(wint_t _C) {return (iswctype(_C,_HEX)); }
+inline int iswspace(wint_t _C) {return (iswctype(_C,_SPACE)); }
+inline int iswpunct(wint_t _C) {return (iswctype(_C,_PUNCT)); }
+inline int iswalnum(wint_t _C) {return (iswctype(_C,_ALPHA|_DIGIT)); }
+inline int iswprint(wint_t _C)
+        {return (iswctype(_C,_BLANK|_PUNCT|_ALPHA|_DIGIT)); }
+inline int iswgraph(wint_t _C)
+        {return (iswctype(_C,_PUNCT|_ALPHA|_DIGIT)); }
+inline int iswcntrl(wint_t _C) {return (iswctype(_C,_CONTROL)); }
+inline int iswascii(wint_t _C) {return ((unsigned)(_C) < 0x80); }
+
+inline int isleadbyte(int _C)
+        {return (__PCTYPE_FUNC[(unsigned char)(_C)] & _LEADBYTE); }
+#endif  /* __cplusplus */
 #define _WCTYPE_INLINE_DEFINED
 #endif  /* _WCTYPE_INLINE_DEFINED */
 
@@ -260,5 +304,5 @@ _CRTIMP int __cdecl iscsym(int);
 }
 #endif
 
-#endif  /* _INC_CTYPE */
 
+#endif  /* _INC_CTYPE */

@@ -1,20 +1,10 @@
-/*++
-
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-  
-Module:
-
-    winderror.h
-
-Abstract:
-
-    Win32 API functions
-  
---*/
-
+/************************************************************************
+*                                                                       *
+*   winerror.h --  error code definitions for the Win32 API functions   *
+*                                                                       *
+*   Copyright (c) Microsoft Corp.  All rights reserved.                 *
+*                                                                       *
+************************************************************************/
 
 #ifndef _WINERROR_
 #define _WINERROR_
@@ -52,7 +42,6 @@ Abstract:
 //
 // Define the facility codes
 //
-#define FACILITY_WINDOWSUPDATE           36
 #define FACILITY_WINDOWS_CE              24
 #define FACILITY_WINDOWS                 8
 #define FACILITY_URT                     19
@@ -76,7 +65,6 @@ Abstract:
 #define FACILITY_HTTP                    25
 #define FACILITY_DPLAY                   21
 #define FACILITY_DISPATCH                2
-#define FACILITY_DIRECTORYSERVICE        37
 #define FACILITY_CONFIGURATION           33
 #define FACILITY_COMPLUS                 17
 #define FACILITY_CERT                    11
@@ -5271,15 +5259,6 @@ Abstract:
 //  Invalid monitor handle.
 //
 #define ERROR_INVALID_MONITOR_HANDLE     1461L
-
-//
-// MessageId: ERROR_INCORRECT_SIZE
-//
-// MessageText:
-//
-//  Incorrect size argument.
-//
-#define ERROR_INCORRECT_SIZE             1462L
 
 // End of WinUser error codes
 
@@ -11465,7 +11444,7 @@ Abstract:
 //
 // MessageText:
 //
-//  Schema deletion failed: class is used as poss-superior.
+//  Schema deletion failed: class is used as poss superior.
 //
 #define ERROR_DS_EXISTS_IN_POSS_SUP      8395L
 
@@ -13435,7 +13414,7 @@ Abstract:
 // MessageText:
 //
 //  The Active Directory detected an Active Directory child partition below the
-//  requested new partition name.  The Active Directory's partition hierarchy must
+//  requested new partition name.  The Active Directory's partition heiarchy must
 //  be created in a top down method.
 //
 #define ERROR_DS_EXISTING_AD_CHILD_NC    8613L
@@ -15762,7 +15741,7 @@ Abstract:
 //
 // MessageText:
 //
-//  Manifest Parse Error : Invalid character for hexadecimal digit.
+//  Manifest Parse Error : Invalid character for hexidecimal digit.
 //
 #define ERROR_SXS_XML_E_INVALID_HEXIDECIMAL 14048L
 
@@ -16500,7 +16479,7 @@ Abstract:
 //
 // MessageText:
 //
-//  Failure in Diffie-Hellman computation
+//  Failure in Diffie-Helman computation
 //
 #define ERROR_IPSEC_IKE_DH_FAIL          13822L
 
@@ -17057,7 +17036,7 @@ Abstract:
 // with several fields encoded in the value.  The parts of an
 // HRESULT are shown below.
 //
-// Many of the macros and functions below were originally defined to
+// Many of the macros and functions below were orginally defined to
 // operate on SCODEs.  SCODEs are no longer used.  The macros are
 // still present for compatibility and easy porting of Win16 code.
 // Newly written code should use the HRESULT macros and functions.
@@ -17110,13 +17089,13 @@ Abstract:
 // indicate success).
 //
 
-#define SUCCEEDED(hr) ((HRESULT)(hr) >= 0)
+#define SUCCEEDED(Status) ((HRESULT)(Status) >= 0)
 
 //
 // and the inverse
 //
 
-#define FAILED(hr) ((HRESULT)(hr) < 0)
+#define FAILED(Status) ((HRESULT)(Status)<0)
 
 
 //
@@ -17815,7 +17794,7 @@ __inline HRESULT HRESULT_FROM_WIN32(long x) { return x <= 0 ? (HRESULT)x : (HRES
 
 
 //
-// Generic OLE errors that may be returned by many interfaces
+// Generic OLE errors that may be returned by many inerfaces
 //
 
 #define OLE_E_FIRST ((HRESULT)0x80040000L)
@@ -27388,4 +27367,3 @@ __inline HRESULT HRESULT_FROM_WIN32(long x) { return x <= 0 ? (HRESULT)x : (HRES
 #define COMADMIN_E_PARTITIONS_DISABLED   _HRESULT_TYPEDEF_(0x80110824L)
 
 #endif//_WINERROR_
-

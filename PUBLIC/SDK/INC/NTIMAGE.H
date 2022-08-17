@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0004    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -13,6 +9,12 @@ Module Name:
 Abstract:
 
     This is the include file that describes all image structures.
+
+Author:
+
+    Mike O'Leary (mikeol) 21-Mar-1991
+
+Revision History:
 
 --*/
 
@@ -38,6 +40,9 @@ Abstract:
 // Image Format
 //
 
+
+#ifndef _MAC
+
 #include "pshpack4.h"                   // 4 byte packing is the default
 
 #define IMAGE_DOS_SIGNATURE                 0x5A4D      // MZ
@@ -47,6 +52,16 @@ Abstract:
 #define IMAGE_NT_SIGNATURE                  0x00004550  // PE00
 
 #include "pshpack2.h"                   // 16 bit headers are 2 byte packed
+
+#else
+
+#include "pshpack1.h"
+
+#define IMAGE_DOS_SIGNATURE                 0x4D5A      // MZ
+#define IMAGE_OS2_SIGNATURE                 0x4E45      // NE
+#define IMAGE_OS2_SIGNATURE_LE              0x4C45      // LE
+#define IMAGE_NT_SIGNATURE                  0x50450000  // PE00
+#endif
 
 typedef struct _IMAGE_DOS_HEADER {      // DOS .EXE header
     USHORT e_magic;                     // Magic number
@@ -157,7 +172,9 @@ typedef struct _IMAGE_VXD_HEADER {      // Windows VXD header
     USHORT e32_ddkver;                  // DDK version for VxD
   } IMAGE_VXD_HEADER, *PIMAGE_VXD_HEADER;
 
+#ifndef _MAC
 #include "poppack.h"                    // Back to 4 byte packing
+#endif
 
 //
 // File header format.
@@ -177,7 +194,7 @@ typedef struct _IMAGE_FILE_HEADER {
 
 
 #define IMAGE_FILE_RELOCS_STRIPPED           0x0001  // Relocation info stripped from file.
-#define IMAGE_FILE_EXECUTABLE_IMAGE          0x0002  // File is executable  (i.e. no unresolved external references).
+#define IMAGE_FILE_EXECUTABLE_IMAGE          0x0002  // File is executable  (i.e. no unresolved externel references).
 #define IMAGE_FILE_LINE_NUMS_STRIPPED        0x0004  // Line nunbers stripped from file.
 #define IMAGE_FILE_LOCAL_SYMS_STRIPPED       0x0008  // Local symbols stripped from file.
 #define IMAGE_FILE_AGGRESIVE_WS_TRIM         0x0010  // Agressively trim working set
@@ -540,11 +557,13 @@ typedef struct _IMAGE_SECTION_HEADER {
 #define IMAGE_SCN_MEM_WRITE                  0x80000000  // Section is writeable.
 
 //
-// TLS Characteristic Flags
+// TLS Chaacteristic Flags
 //
 #define IMAGE_SCN_SCALE_INDEX                0x00000001  // Tls index is scaled
 
+#ifndef _MAC
 #include "pshpack2.h"                       // Symbols, relocs, and linenumbers are 2 byte packed
+#endif
 
 //
 // Symbol format.
@@ -807,7 +826,7 @@ typedef IMAGE_RELOCATION UNALIGNED *PIMAGE_RELOCATION;
 #define IMAGE_REL_MIPS_LITERAL          0x0007
 #define IMAGE_REL_MIPS_SECTION          0x000A
 #define IMAGE_REL_MIPS_SECREL           0x000B
-#define IMAGE_REL_MIPS_SECRELLO         0x000C  // Low 16-bit section relative reference (used for >32k TLS)
+#define IMAGE_REL_MIPS_SECRELLO         0x000C  // Low 16-bit section relative referemce (used for >32k TLS)
 #define IMAGE_REL_MIPS_SECRELHI         0x000D  // High 16-bit section relative reference (used for >32k TLS)
 #define IMAGE_REL_MIPS_TOKEN            0x000E  // clr token
 #define IMAGE_REL_MIPS_JMPADDR16        0x0010
@@ -927,7 +946,7 @@ typedef IMAGE_RELOCATION UNALIGNED *PIMAGE_RELOCATION;
 #define IMAGE_REL_AM_TOKEN              0x0009
 
 //
-// x64 relocations
+// X86-64 relocations
 //
 #define IMAGE_REL_AMD64_ABSOLUTE        0x0000  // Reference is absolute, no relocation is necessary
 #define IMAGE_REL_AMD64_ADDR64          0x0001  // 64-bit address (VA).
@@ -1035,88 +1054,39 @@ typedef IMAGE_RELOCATION UNALIGNED *PIMAGE_RELOCATION;
 
 #define EMARCH_ENC_I17_IMM9D_INST_WORD_X         3  // Intel-IA64-Filler
 #define EMARCH_ENC_I17_IMM9D_SIZE_X              9  // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IMM9D_INST_WORD_POS_X     18 // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IMM9D_INST_WORD_POS_X     18  // Intel-IA64-Filler
 #define EMARCH_ENC_I17_IMM9D_VAL_POS_X           7  // Intel-IA64-Filler
 
 #define EMARCH_ENC_I17_IMM5C_INST_WORD_X         3  // Intel-IA64-Filler
 #define EMARCH_ENC_I17_IMM5C_SIZE_X              5  // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IMM5C_INST_WORD_POS_X     13 // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IMM5C_VAL_POS_X           16 // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IMM5C_INST_WORD_POS_X     13  // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IMM5C_VAL_POS_X           16  // Intel-IA64-Filler
 
 #define EMARCH_ENC_I17_IC_INST_WORD_X            3  // Intel-IA64-Filler
 #define EMARCH_ENC_I17_IC_SIZE_X                 1  // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IC_INST_WORD_POS_X        12 // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IC_VAL_POS_X              21 // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IC_INST_WORD_POS_X        12  // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IC_VAL_POS_X              21  // Intel-IA64-Filler
 
 #define EMARCH_ENC_I17_IMM41a_INST_WORD_X        1  // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IMM41a_SIZE_X             10 // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IMM41a_INST_WORD_POS_X    14 // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IMM41a_VAL_POS_X          22 // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IMM41a_SIZE_X             10  // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IMM41a_INST_WORD_POS_X    14  // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IMM41a_VAL_POS_X          22  // Intel-IA64-Filler
 
 #define EMARCH_ENC_I17_IMM41b_INST_WORD_X        1  // Intel-IA64-Filler
 #define EMARCH_ENC_I17_IMM41b_SIZE_X             8  // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IMM41b_INST_WORD_POS_X    24 // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IMM41b_VAL_POS_X          32 // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IMM41b_INST_WORD_POS_X    24  // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IMM41b_VAL_POS_X          32  // Intel-IA64-Filler
 
 #define EMARCH_ENC_I17_IMM41c_INST_WORD_X        2  // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IMM41c_SIZE_X             23 // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IMM41c_SIZE_X             23  // Intel-IA64-Filler
 #define EMARCH_ENC_I17_IMM41c_INST_WORD_POS_X    0  // Intel-IA64-Filler
-#define EMARCH_ENC_I17_IMM41c_VAL_POS_X          40 // Intel-IA64-Filler
+#define EMARCH_ENC_I17_IMM41c_VAL_POS_X          40  // Intel-IA64-Filler
 
 #define EMARCH_ENC_I17_SIGN_INST_WORD_X          3  // Intel-IA64-Filler
 #define EMARCH_ENC_I17_SIGN_SIZE_X               1  // Intel-IA64-Filler
-#define EMARCH_ENC_I17_SIGN_INST_WORD_POS_X      27 // Intel-IA64-Filler
-#define EMARCH_ENC_I17_SIGN_VAL_POS_X            63 // Intel-IA64-Filler
+#define EMARCH_ENC_I17_SIGN_INST_WORD_POS_X      27  // Intel-IA64-Filler
+#define EMARCH_ENC_I17_SIGN_VAL_POS_X            63  // Intel-IA64-Filler
 
-#define X3_OPCODE_INST_WORD_X                    3  // Intel-IA64-Filler
-#define X3_OPCODE_SIZE_X                         4  // Intel-IA64-Filler
-#define X3_OPCODE_INST_WORD_POS_X                28 // Intel-IA64-Filler
-#define X3_OPCODE_SIGN_VAL_POS_X                 0  // Intel-IA64-Filler
-
-#define X3_I_INST_WORD_X                         3  // Intel-IA64-Filler
-#define X3_I_SIZE_X                              1  // Intel-IA64-Filler
-#define X3_I_INST_WORD_POS_X                     27 // Intel-IA64-Filler
-#define X3_I_SIGN_VAL_POS_X                      59 // Intel-IA64-Filler
-
-#define X3_D_WH_INST_WORD_X                      3  // Intel-IA64-Filler
-#define X3_D_WH_SIZE_X                           3  // Intel-IA64-Filler
-#define X3_D_WH_INST_WORD_POS_X                  24 // Intel-IA64-Filler
-#define X3_D_WH_SIGN_VAL_POS_X                   0  // Intel-IA64-Filler
-
-#define X3_IMM20_INST_WORD_X                     3  // Intel-IA64-Filler
-#define X3_IMM20_SIZE_X                          20 // Intel-IA64-Filler
-#define X3_IMM20_INST_WORD_POS_X                 4  // Intel-IA64-Filler
-#define X3_IMM20_SIGN_VAL_POS_X                  0  // Intel-IA64-Filler
-
-#define X3_IMM39_1_INST_WORD_X                   2  // Intel-IA64-Filler
-#define X3_IMM39_1_SIZE_X                        23 // Intel-IA64-Filler
-#define X3_IMM39_1_INST_WORD_POS_X               0  // Intel-IA64-Filler
-#define X3_IMM39_1_SIGN_VAL_POS_X                36 // Intel-IA64-Filler
-
-#define X3_IMM39_2_INST_WORD_X                   1  // Intel-IA64-Filler
-#define X3_IMM39_2_SIZE_X                        16 // Intel-IA64-Filler
-#define X3_IMM39_2_INST_WORD_POS_X               16 // Intel-IA64-Filler
-#define X3_IMM39_2_SIGN_VAL_POS_X                20 // Intel-IA64-Filler
-
-#define X3_P_INST_WORD_X                         3  // Intel-IA64-Filler
-#define X3_P_SIZE_X                              4  // Intel-IA64-Filler
-#define X3_P_INST_WORD_POS_X                     0  // Intel-IA64-Filler
-#define X3_P_SIGN_VAL_POS_X                      0  // Intel-IA64-Filler
-
-#define X3_TMPLT_INST_WORD_X                     0  // Intel-IA64-Filler
-#define X3_TMPLT_SIZE_X                          4  // Intel-IA64-Filler
-#define X3_TMPLT_INST_WORD_POS_X                 0  // Intel-IA64-Filler
-#define X3_TMPLT_SIGN_VAL_POS_X                  0  // Intel-IA64-Filler
-
-#define X3_BTYPE_QP_INST_WORD_X                  2  // Intel-IA64-Filler
-#define X3_BTYPE_QP_SIZE_X                       9  // Intel-IA64-Filler
-#define X3_BTYPE_QP_INST_WORD_POS_X              23 // Intel-IA64-Filler
-#define X3_BTYPE_QP_INST_VAL_POS_X               0  // Intel-IA64-Filler
-
-#define X3_EMPTY_INST_WORD_X                     1  // Intel-IA64-Filler
-#define X3_EMPTY_SIZE_X                          2  // Intel-IA64-Filler
-#define X3_EMPTY_INST_WORD_POS_X                 14 // Intel-IA64-Filler
-#define X3_EMPTY_INST_VAL_POS_X                  0  // Intel-IA64-Filler
 
 //
 // Line number format.
@@ -1133,7 +1103,9 @@ typedef IMAGE_LINENUMBER UNALIGNED *PIMAGE_LINENUMBER;
 
 #define IMAGE_SIZEOF_LINENUMBER              6
 
+#ifndef _MAC
 #include "poppack.h"                        // Back to 4 byte packing
+#endif
 
 //
 // Based relocation format.
@@ -1535,8 +1507,24 @@ typedef struct _IMAGE_RUNTIME_FUNCTION_ENTRY {
 typedef  _IMAGE_RUNTIME_FUNCTION_ENTRY  IMAGE_IA64_RUNTIME_FUNCTION_ENTRY;
 typedef _PIMAGE_RUNTIME_FUNCTION_ENTRY PIMAGE_IA64_RUNTIME_FUNCTION_ENTRY;
 
+#if defined(_AXP64_)
+
+typedef  IMAGE_ALPHA64_RUNTIME_FUNCTION_ENTRY  IMAGE_AXP64_RUNTIME_FUNCTION_ENTRY;
+typedef PIMAGE_ALPHA64_RUNTIME_FUNCTION_ENTRY PIMAGE_AXP64_RUNTIME_FUNCTION_ENTRY;
+typedef  IMAGE_ALPHA64_RUNTIME_FUNCTION_ENTRY  IMAGE_RUNTIME_FUNCTION_ENTRY;
+typedef PIMAGE_ALPHA64_RUNTIME_FUNCTION_ENTRY PIMAGE_RUNTIME_FUNCTION_ENTRY;
+
+#elif defined(_ALPHA_)
+
+typedef  IMAGE_ALPHA_RUNTIME_FUNCTION_ENTRY  IMAGE_RUNTIME_FUNCTION_ENTRY;
+typedef PIMAGE_ALPHA_RUNTIME_FUNCTION_ENTRY PIMAGE_RUNTIME_FUNCTION_ENTRY;
+
+#else
+
 typedef  _IMAGE_RUNTIME_FUNCTION_ENTRY  IMAGE_RUNTIME_FUNCTION_ENTRY;
 typedef _PIMAGE_RUNTIME_FUNCTION_ENTRY PIMAGE_RUNTIME_FUNCTION_ENTRY;
+
+#endif
 
 //
 // Debug Format
@@ -1682,10 +1670,17 @@ typedef struct _NON_PAGED_DEBUG_INFO {
     ULONG       CheckSum;
     ULONG       SizeOfImage;
     ULONGLONG   ImageBase;
+    //DebugDirectorySize
+    //IMAGE_DEBUG_DIRECTORY
 } NON_PAGED_DEBUG_INFO, *PNON_PAGED_DEBUG_INFO;
 
+#ifndef _MAC
 #define IMAGE_SEPARATE_DEBUG_SIGNATURE 0x4944
 #define NON_PAGED_DEBUG_SIGNATURE      0x494E
+#else
+#define IMAGE_SEPARATE_DEBUG_SIGNATURE 0x4449  // DI
+#define NON_PAGED_DEBUG_SIGNATURE      0x4E49  // NI
+#endif
 
 #define IMAGE_SEPARATE_DEBUG_FLAGS_MASK 0x8000
 #define IMAGE_SEPARATE_DEBUG_MISMATCH   0x8000  // when DBG was updated, the
@@ -1694,7 +1689,7 @@ typedef struct _NON_PAGED_DEBUG_INFO {
 //
 //  The .arch section is made up of headers, each describing an amask position/value
 //  pointing to an array of IMAGE_ARCHITECTURE_ENTRY's.  Each "array" (both the header
-//  and entry arrays) are terminated by a quadword of 0xffffffffL.
+//  and entry arrays) are terminiated by a quadword of 0xffffffffL.
 //
 //  NOTE: There may be quadwords of 0 sprinkled around and must be skipped.
 //
@@ -1801,6 +1796,7 @@ typedef enum ReplacesCorHdrNumericDefines
     IMAGE_COR_EATJ_THUNK_SIZE           =32,            // Size of a jump thunk reserved range.
 
 // Max name lengths    
+    //@todo: Change to unlimited name lengths.
     MAX_CLASS_NAME                      =1024,
     MAX_PACKAGE_NAME                    =1024,
 } ReplacesCorHdrNumericDefines;
@@ -1855,4 +1851,3 @@ typedef CONST IMAGE_EXPORT_DIRECTORY        *PCIMAGE_EXPORT_DIRECTORY;
 typedef CONST IMAGE_SECTION_HEADER          *PCIMAGE_SECTION_HEADER;
 
 #endif // _NTIMAGE_
-

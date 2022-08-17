@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0001    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -13,6 +9,10 @@ Module Name:
 Abstract:
 
     This module contains the user APIs for the NT Power Management.
+
+Author:
+
+Revision History:
 
 --*/
 
@@ -257,11 +257,11 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtPowerInformation(
-    __in POWER_INFORMATION_LEVEL InformationLevel,
-    __in_bcount_opt(InputBufferLength) PVOID InputBuffer,
-    __in ULONG InputBufferLength,
-    __out_bcount_opt(OutputBufferLength) PVOID OutputBuffer,
-    __in ULONG OutputBufferLength
+    IN POWER_INFORMATION_LEVEL InformationLevel,
+    IN PVOID InputBuffer OPTIONAL,
+    IN ULONG InputBufferLength,
+    OUT PVOID OutputBuffer OPTIONAL,
+    IN ULONG OutputBufferLength
     );
 
 // processor idle functions
@@ -509,25 +509,25 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetThreadExecutionState(
-    __in EXECUTION_STATE esFlags,               // ES_xxx flags
-    __out EXECUTION_STATE *PreviousFlags
+    IN EXECUTION_STATE esFlags,               // ES_xxx flags
+    OUT EXECUTION_STATE *PreviousFlags
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtRequestWakeupLatency(
-    __in LATENCY_TIME latency
+    IN LATENCY_TIME latency
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtInitiatePowerAction(
-    __in POWER_ACTION SystemAction,
-    __in SYSTEM_POWER_STATE MinSystemState,
-    __in ULONG Flags,                 // POWER_ACTION_xxx flags
-    __in BOOLEAN Asynchronous
+    IN POWER_ACTION SystemAction,
+    IN SYSTEM_POWER_STATE MinSystemState,
+    IN ULONG Flags,                 // POWER_ACTION_xxx flags
+    IN BOOLEAN Asynchronous
     );
 
 
@@ -535,24 +535,24 @@ NTSYSCALLAPI                        // only called by WinLogon
 NTSTATUS
 NTAPI
 NtSetSystemPowerState(
-    __in POWER_ACTION SystemAction,
-    __in SYSTEM_POWER_STATE MinSystemState,
-    __in ULONG Flags                  // POWER_ACTION_xxx flags
+    IN POWER_ACTION SystemAction,
+    IN SYSTEM_POWER_STATE MinSystemState,
+    IN ULONG Flags                  // POWER_ACTION_xxx flags
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtGetDevicePowerState(
-    __in HANDLE Device,
-    __out DEVICE_POWER_STATE *State
+    IN HANDLE Device,
+    OUT DEVICE_POWER_STATE *State
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCancelDeviceWakeupRequest(
-    __in HANDLE Device
+    IN HANDLE Device
     );
 
 NTSYSCALLAPI
@@ -566,7 +566,7 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtRequestDeviceWakeup(
-    __in HANDLE Device
+    IN HANDLE Device
     );
 
 
@@ -693,4 +693,3 @@ typedef struct _SYSTEM_POWER_INFORMATION {
 #endif
 
 #endif // _NTPOAPI_
-

@@ -1,26 +1,17 @@
-/*++
-
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
-Module:
-
-    stdlib.h
-
-Abstract:
-
-    Declarations/definitions for commonly used library functions
-
-    This include file contains the function declarations for commonly
-    used library functions which either don't fit somewhere else, or,
-    cannot be declared in the normal place for other reasons.
-    [ANSI]
-    [Public]
-
---*/
+/***
+*stdlib.h - declarations/definitions for commonly used library functions
+*
+*       Copyright (c) 1985-2001, Microsoft Corporation. All rights reserved.
+*
+*Purpose:
+*       This include file contains the function declarations for commonly
+*       used library functions which either don't fit somewhere else, or,
+*       cannot be declared in the normal place for other reasons.
+*       [ANSI]
+*
+*       [Public]
+*
+****/
 
 #if     _MSC_VER > 1000
 #pragma once
@@ -28,6 +19,11 @@ Abstract:
 
 #ifndef _INC_STDLIB
 #define _INC_STDLIB
+
+#if     !defined(_WIN32)
+#error ERROR: Only Win32 target supported!
+#endif
+
 
 #ifdef  _MSC_VER
 /*
@@ -193,16 +189,13 @@ _CRTIMP int __cdecl ___mb_cur_max_func(void);
 #define _OUT_TO_MSGBOX  2
 #define _REPORT_ERRMODE 3
 
+#if     defined(_M_IX86)
 /*
  * Typedefs and argument values for _set_security_error_handler()
  */
 #define _SECERR_BUFFER_OVERRUN 1        /* void* arg ignored */
 typedef void (__cdecl * _secerr_handler_func)(int, void *);
-
-/* a purecall handler procedure. Never returns normally */
-typedef void (__cdecl *_purecall_handler)(void); 
-/* establishes a purecall handler for the process */
-_CRTIMP _purecall_handler __cdecl _set_purecall_handler(_purecall_handler);
+#endif
 
 /* External variable declarations */
 
@@ -439,4 +432,3 @@ _CRTIMP char * __cdecl ultoa(unsigned long, char *, int);
 #endif  /* _MSC_VER */
 
 #endif  /* _INC_STDLIB */
-

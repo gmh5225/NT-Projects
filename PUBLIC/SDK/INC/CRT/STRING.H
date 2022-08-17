@@ -1,25 +1,16 @@
-/*++
-
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
-Module:
-
-    string.h
-
-Abstract:
-
-    Declarations for string manipulation functions
-
-    This file contains the function declarations for the string
-    manipulation functions.
-    [ANSI/System V]
-    [Public]
-
---*/
+/***
+*string.h - declarations for string manipulation functions
+*
+*       Copyright (c) 1985-2001, Microsoft Corporation. All rights reserved.
+*
+*Purpose:
+*       This file contains the function declarations for the string
+*       manipulation functions.
+*       [ANSI/System V]
+*
+*       [Public]
+*
+****/
 
 #if     _MSC_VER > 1000
 #pragma once
@@ -27,6 +18,11 @@ Abstract:
 
 #ifndef _INC_STRING
 #define _INC_STRING
+
+#if     !defined(_WIN32)
+#error ERROR: Only Win32 target supported!
+#endif
+
 
 #ifdef  __cplusplus
 extern "C" {
@@ -68,7 +64,7 @@ typedef _W64 unsigned int   size_t;
 #endif
 
 
-#ifndef _WCHAR_T_DEFINED
+#if !defined(_WCHAR_T_DEFINED) && !defined(_NATIVE_WCHAR_T_DEFINED)
 typedef unsigned short wchar_t;
 #define _WCHAR_T_DEFINED
 #endif
@@ -91,9 +87,7 @@ typedef unsigned short wchar_t;
 
 /* Function prototypes */
 
-#ifndef _MEMCPY_INLINE_
         void *  __cdecl memcpy(void *, const void *, size_t);
-#endif
         int     __cdecl memcmp(const void *, const void *, size_t);
         void *  __cdecl memset(void *, int, size_t);
         char *  __cdecl _strset(char *, int);
@@ -105,11 +99,12 @@ _CRTIMP void *  __cdecl _memccpy(void *, const void *, int, size_t);
 _CRTIMP void *  __cdecl memchr(const void *, int, size_t);
 _CRTIMP int     __cdecl _memicmp(const void *, const void *, size_t);
 
-#if defined(_M_AMD64)
+#if     defined(_M_IA64)
         void *  __cdecl memmove(void *, const void *, size_t);
 #else
 _CRTIMP void *  __cdecl memmove(void *, const void *, size_t);
 #endif
+
 
 _CRTIMP char *  __cdecl strchr(const char *, int);
 _CRTIMP int     __cdecl _strcmpi(const char *, const char *);
@@ -213,33 +208,9 @@ _CRTIMP int __cdecl wcsicoll(const wchar_t *, const wchar_t *);
 #define _WSTRING_DEFINED
 #endif
 
-#if _DBG_MEMCPY_INLINE_ && !defined(MIDL_PASS) && !defined(_MEMCPY_INLINE_) && !defined(_CRTBLD)
-#define _MEMCPY_INLINE_
-__forceinline
-void *
-__cdecl 
-memcpy_inline (
-    void *dst,
-    const void *src,
-    size_t size
-    )
-{
-    //
-    // Make sure the source and destination do not overlap such that the
-    // move destroys the destination.
-    //
-    if (((char *)dst > (char *)src) &&
-        ((char *)dst < ((char *)src + size))) {
-        __debugbreak();
-    }
-    return memcpy(dst, src, size);
-}
-#define memcpy memcpy_inline
-#endif
 
 #ifdef  __cplusplus
 }
 #endif
 
 #endif  /* _INC_STRING */
-

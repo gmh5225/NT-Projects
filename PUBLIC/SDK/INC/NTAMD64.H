@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -13,6 +9,12 @@ Module Name:
 Abstract:
 
     User mode visible AMD64 specific structures and constants.
+
+Author:
+
+    David N. Cutler (davec) 4-May-2000
+
+Revision History:
 
 --*/
 
@@ -78,7 +80,7 @@ typedef enum _DEBUG_CONTROL_SPACE_ITEM {
 
 #define CSR_SYSTEM_SHARED_ADDRESS (WOW64_COMPATIBILITY_AREA_ADDRESS)
 
-// begin_winnt begin_ntddk begin_wdm begin_nthal begin_ntndis begin_ntosp begin_ntminiport
+// begin_winnt begin_ntddk begin_wdm begin_nthal begin_ntndis begin_ntosp
 
 #if defined(_M_AMD64) && !defined(RC_INVOKED) && !defined(MIDL_PASS)
 
@@ -106,7 +108,7 @@ extern "C" {
 
 BOOLEAN
 _bittest (
-    IN LONG const *Base,
+    IN LONG *Base,
     IN LONG Offset
     );
 
@@ -142,7 +144,7 @@ _interlockedbittestandreset (
 
 BOOLEAN
 _bittest64 (
-    IN LONG64 const *Base,
+    IN LONG64 *Base,
     IN LONG64 Offset
     );
 
@@ -229,230 +231,6 @@ _BitScanReverse64 (
 #pragma intrinsic(_BitScanReverse64)
 
 //
-// Interlocked intrinsic functions.
-//
-
-#define InterlockedIncrement16 _InterlockedIncrement16
-#define InterlockedDecrement16 _InterlockedDecrement16
-#define InterlockedCompareExchange16 _InterlockedCompareExchange16
-
-#define InterlockedAnd _InterlockedAnd
-#define InterlockedOr _InterlockedOr
-#define InterlockedXor _InterlockedXor
-#define InterlockedIncrement _InterlockedIncrement
-#define InterlockedIncrementAcquire InterlockedIncrement
-#define InterlockedIncrementRelease InterlockedIncrement
-#define InterlockedDecrement _InterlockedDecrement
-#define InterlockedDecrementAcquire InterlockedDecrement
-#define InterlockedDecrementRelease InterlockedDecrement
-#define InterlockedAdd _InterlockedAdd
-#define InterlockedExchange _InterlockedExchange
-#define InterlockedExchangeAdd _InterlockedExchangeAdd
-#define InterlockedCompareExchange _InterlockedCompareExchange
-#define InterlockedCompareExchangeAcquire InterlockedCompareExchange
-#define InterlockedCompareExchangeRelease InterlockedCompareExchange
-
-#define InterlockedAnd64 _InterlockedAnd64
-#define InterlockedAndAffinity InterlockedAnd64
-#define InterlockedOr64 _InterlockedOr64
-#define InterlockedOrAffinity InterlockedOr64
-#define InterlockedXor64 _InterlockedXor64
-#define InterlockedIncrement64 _InterlockedIncrement64
-#define InterlockedDecrement64 _InterlockedDecrement64
-#define InterlockedAdd64 _InterlockedAdd64
-#define InterlockedExchange64 _InterlockedExchange64
-#define InterlockedExchangeAcquire64 InterlockedExchange64
-#define InterlockedExchangeAdd64 _InterlockedExchangeAdd64
-#define InterlockedCompareExchange64 _InterlockedCompareExchange64
-#define InterlockedCompareExchangeAcquire64 InterlockedCompareExchange64
-#define InterlockedCompareExchangeRelease64 InterlockedCompareExchange64
-
-#define InterlockedExchangePointer _InterlockedExchangePointer
-#define InterlockedCompareExchangePointer _InterlockedCompareExchangePointer
-#define InterlockedCompareExchangePointerAcquire _InterlockedCompareExchangePointer
-#define InterlockedCompareExchangePointerRelease _InterlockedCompareExchangePointer
-
-#define InterlockedExchangeAddSizeT(a, b) InterlockedExchangeAdd64((LONG64 *)a, b)
-#define InterlockedIncrementSizeT(a) InterlockedIncrement64((LONG64 *)a)
-#define InterlockedDecrementSizeT(a) InterlockedDecrement64((LONG64 *)a)
-
-SHORT
-InterlockedIncrement16 (
-    IN OUT SHORT volatile *Addend
-    );
-
-SHORT
-InterlockedDecrement16 (
-    IN OUT SHORT volatile *Addend
-    );
-
-SHORT
-InterlockedCompareExchange16 (
-    IN OUT SHORT volatile *Destination,
-    IN SHORT ExChange,
-    IN SHORT Comperand
-    );
-
-LONG
-InterlockedAnd (
-    IN OUT LONG volatile *Destination,
-    IN LONG Value
-    );
-
-LONG
-InterlockedOr (
-    IN OUT LONG volatile *Destination,
-    IN LONG Value
-    );
-
-LONG
-InterlockedXor (
-    IN OUT LONG volatile *Destination,
-    IN LONG Value
-    );
-
-LONG64
-InterlockedAnd64 (
-    IN OUT LONG64 volatile *Destination,
-    IN LONG64 Value
-    );
-
-LONG64
-InterlockedOr64 (
-    IN OUT LONG64 volatile *Destination,
-    IN LONG64 Value
-    );
-
-LONG64
-InterlockedXor64 (
-    IN OUT LONG64 volatile *Destination,
-    IN LONG64 Value
-    );
-
-LONG
-InterlockedIncrement(
-    IN OUT LONG volatile *Addend
-    );
-
-LONG
-InterlockedDecrement(
-    IN OUT LONG volatile *Addend
-    );
-
-LONG
-InterlockedExchange(
-    IN OUT LONG volatile *Target,
-    IN LONG Value
-    );
-
-LONG
-InterlockedExchangeAdd(
-    IN OUT LONG volatile *Addend,
-    IN LONG Value
-    );
-
-#if !defined(_X86AMD64_)
-
-__forceinline
-LONG
-InterlockedAdd(
-    IN OUT LONG volatile *Addend,
-    IN LONG Value
-    )
-
-{
-    return InterlockedExchangeAdd(Addend, Value) + Value;
-}
-
-#endif
-
-LONG
-InterlockedCompareExchange (
-    IN OUT LONG volatile *Destination,
-    IN LONG ExChange,
-    IN LONG Comperand
-    );
-
-LONG64
-InterlockedIncrement64(
-    IN OUT LONG64 volatile *Addend
-    );
-
-LONG64
-InterlockedDecrement64(
-    IN OUT LONG64 volatile *Addend
-    );
-
-LONG64
-InterlockedExchange64(
-    IN OUT LONG64 volatile *Target,
-    IN LONG64 Value
-    );
-
-LONG64
-InterlockedExchangeAdd64(
-    IN OUT LONG64 volatile *Addend,
-    IN LONG64 Value
-    );
-
-#if !defined(_X86AMD64_)
-
-__forceinline
-LONG64
-InterlockedAdd64(
-    IN OUT LONG64 volatile *Addend,
-    IN LONG64 Value
-    )
-
-{
-    return InterlockedExchangeAdd64(Addend, Value) + Value;
-}
-
-#endif
-
-LONG64
-InterlockedCompareExchange64 (
-    IN OUT LONG64 volatile *Destination,
-    IN LONG64 ExChange,
-    IN LONG64 Comperand
-    );
-
-PVOID
-InterlockedCompareExchangePointer (
-    IN OUT PVOID volatile *Destination,
-    IN PVOID Exchange,
-    IN PVOID Comperand
-    );
-
-PVOID
-InterlockedExchangePointer(
-    IN OUT PVOID volatile *Target,
-    IN PVOID Value
-    );
-
-#pragma intrinsic(_InterlockedIncrement16)
-#pragma intrinsic(_InterlockedDecrement16)
-#pragma intrinsic(_InterlockedCompareExchange16)
-#pragma intrinsic(_InterlockedAnd)
-#pragma intrinsic(_InterlockedOr)
-#pragma intrinsic(_InterlockedXor)
-#pragma intrinsic(_InterlockedIncrement)
-#pragma intrinsic(_InterlockedDecrement)
-#pragma intrinsic(_InterlockedExchange)
-#pragma intrinsic(_InterlockedExchangeAdd)
-#pragma intrinsic(_InterlockedCompareExchange)
-#pragma intrinsic(_InterlockedAnd64)
-#pragma intrinsic(_InterlockedOr64)
-#pragma intrinsic(_InterlockedXor64)
-#pragma intrinsic(_InterlockedIncrement64)
-#pragma intrinsic(_InterlockedDecrement64)
-#pragma intrinsic(_InterlockedExchange64)
-#pragma intrinsic(_InterlockedExchangeAdd64)
-#pragma intrinsic(_InterlockedCompareExchange64)
-#pragma intrinsic(_InterlockedExchangePointer)
-#pragma intrinsic(_InterlockedCompareExchangePointer)
-
-//
 // Define function to flush a cache line.
 //
 
@@ -460,31 +238,18 @@ InterlockedExchangePointer(
 
 VOID
 _mm_clflush (
-    VOID const *Address
+    PVOID Address
     );
 
 #pragma intrinsic(_mm_clflush)
-
-VOID
-_ReadWriteBarrier (
-    VOID
-    );
-
-#pragma intrinsic(_ReadWriteBarrier)
 
 //
 // Define memory fence intrinsics
 //
 
-#define FastFence __faststorefence
 #define LoadFence _mm_lfence
 #define MemoryFence _mm_mfence
 #define StoreFence _mm_sfence
-
-VOID
-__faststorefence (
-    VOID
-    );
 
 VOID
 _mm_lfence (
@@ -500,87 +265,34 @@ VOID
 _mm_sfence (
     VOID
     );
-
-VOID
-_mm_pause (
-    VOID
-    );
-
-VOID 
-_mm_prefetch (
+        
+void 
+_mm_prefetch(
     CHAR CONST *a, 
     int sel
     );
 
-VOID
-_m_prefetchw (
-    volatile CONST VOID *Source
-    );
-
-//
-// Define constants for use with _mm_prefetch.
-//
-
+/* constants for use with _mm_prefetch */
 #define _MM_HINT_T0     1
 #define _MM_HINT_T1     2
 #define _MM_HINT_T2     3
 #define _MM_HINT_NTA    0
 
-#pragma intrinsic(__faststorefence)
-#pragma intrinsic(_mm_pause)
 #pragma intrinsic(_mm_prefetch)
 #pragma intrinsic(_mm_lfence)
 #pragma intrinsic(_mm_mfence)
 #pragma intrinsic(_mm_sfence)
-#pragma intrinsic(_m_prefetchw)
 
-#define YieldProcessor _mm_pause
-#define MemoryBarrier __faststorefence
+#define YieldProcessor() 
+#define MemoryBarrier _mm_mfence
 #define PreFetchCacheLine(l, a)  _mm_prefetch((CHAR CONST *) a, l)
-#define PrefetchForWrite(p) _m_prefetchw(p)
-#define ReadForWriteAccess(p) (_m_prefetchw(p), *(p))
 
 //
 // PreFetchCacheLine level defines.
 //
 
-#define PF_TEMPORAL_LEVEL_1 _MM_HINT_T0
-#define PF_TEMPORAL_LEVEL_2 _MM_HINT_T1
-#define PF_TEMPORAL_LEVEL_3 _MM_HINT_T2
+#define PF_TEMPORAL_LEVEL_1  _MM_HINT_T0
 #define PF_NON_TEMPORAL_LEVEL_ALL _MM_HINT_NTA
-
-//
-// Define get/set MXCSR intrinsics.
-//
-
-#define ReadMxCsr _mm_getcsr
-#define WriteMxCsr _mm_setcsr
-
-unsigned int
-_mm_getcsr (
-    VOID
-    );
-
-VOID
-_mm_setcsr (
-    unsigned int MxCsr
-    );
-
-#pragma intrinsic(_mm_getcsr)
-#pragma intrinsic(_mm_setcsr)
-
-//
-// Assert exception.
-//
-
-VOID
-__int2c (
-    VOID
-    );
-
-#pragma intrinsic(__int2c)
-
-#define DbgRaiseAssertionFailure() __int2c()
 
 //
 // Define function to get the caller's EFLAGs value.
@@ -595,19 +307,6 @@ __getcallerseflags (
 
 #pragma intrinsic(__getcallerseflags)
 
-//
-// Define function to get segment limit.
-//
-
-#define GetSegmentLimit __segmentlimit
-
-ULONG
-__segmentlimit (
-    IN ULONG Selector
-    );
-
-#pragma intrinsic(__segmentlimit)
-    
 //
 // Define function to read the value of the time stamp counter
 //
@@ -628,28 +327,28 @@ __rdtsc (
 VOID
 __movsb (
     IN PUCHAR Destination,
-    IN UCHAR const *Source,
+    IN PUCHAR Source,
     IN SIZE_T Count
     );
 
 VOID
 __movsw (
     IN PUSHORT Destination,
-    IN USHORT const *Source,
+    IN PUSHORT Source,
     IN SIZE_T Count
     );
 
 VOID
 __movsd (
     IN PULONG Destination,
-    IN ULONG const *Source,
+    IN PULONG Source,
     IN SIZE_T Count
     );
 
 VOID
 __movsq (
-    IN PULONG64 Destination,
-    IN ULONG64 const *Source,
+    IN PULONGLONG Destination,
+    IN PULONGLONG Source,
     IN SIZE_T Count
     );
 
@@ -718,100 +417,6 @@ UnsignedMultiplyHigh (
 #pragma intrinsic(__umulh)
 
 //
-// Define functions to perform 128-bit shifts
-//
-
-#define ShiftLeft128 __shiftleft128
-#define ShiftRight128 __shiftright128
-
-ULONG64
-ShiftLeft128 (
-    IN ULONG64 LowPart,
-    IN ULONG64 HighPart,
-    IN UCHAR Shift
-    );
-
-ULONG64
-ShiftRight128 (
-    IN ULONG64 LowPart,
-    IN ULONG64 HighPart,
-    IN UCHAR Shift
-    );
-
-#pragma intrinsic(__shiftleft128)
-#pragma intrinsic(__shiftright128)
-
-//
-// Define functions to perform 128-bit multiplies.
-//
-
-#define Multiply128 _mul128
-
-LONG64
-Multiply128 (
-    IN  LONG64  Multiplier,
-    IN  LONG64  Multiplicand,
-    OUT LONG64 *HighProduct
-    );
-
-#pragma intrinsic(_mul128)
-
-#define UnsignedMultiply128 _umul128
-
-ULONG64
-UnsignedMultiply128 (
-    IN  ULONG64  Multiplier,
-    IN  ULONG64  Multiplicand,
-    OUT ULONG64 *HighProduct
-    );
-
-#pragma intrinsic(_umul128)
-
-__forceinline
-LONG64
-MultiplyExtract128 (
-    IN LONG64 Multiplier,
-    IN LONG64 Multiplicand,
-    IN UCHAR Shift
-    )
-{
-    LONG64 extractedProduct;
-    LONG64 highProduct;
-    LONG64 lowProduct;
-
-    lowProduct = Multiply128( Multiplier,
-                              Multiplicand,
-                              &highProduct );
-
-    extractedProduct = (LONG64)ShiftRight128( (LONG64)lowProduct,
-                                              (LONG64)highProduct,
-                                              Shift );
-    return extractedProduct;
-}
-
-__forceinline
-ULONG64
-UnsignedMultiplyExtract128 (
-    IN ULONG64 Multiplier,
-    IN ULONG64 Multiplicand,
-    IN UCHAR Shift
-    )
-{
-    ULONG64 extractedProduct;
-    ULONG64 highProduct;
-    ULONG64 lowProduct;
-
-    lowProduct = UnsignedMultiply128( Multiplier,
-                                      Multiplicand,
-                                      &highProduct );
-
-    extractedProduct = ShiftRight128( lowProduct,
-                                      highProduct,
-                                      Shift );
-    return extractedProduct;
-}
-
-//
 // Define functions to read and write the uer TEB and the system PCR/PRCB.
 //
 
@@ -874,7 +479,7 @@ __writegsqword (
 
 #endif // defined(_M_AMD64) && !defined(RC_INVOKED) && !defined(MIDL_PASS)
 
-// end_winnt end_ntddk end_wdm end_nthal end_ntndis end_ntosp end_ntminiport
+// end_winnt end_ntddk end_wdm end_nthal end_ntndis end_ntosp
 
 // begin_ntddk begin_nthal
 //
@@ -887,13 +492,13 @@ __writegsqword (
 // Define size of large kernel mode stack for callbacks.
 //
 
-#define KERNEL_LARGE_STACK_SIZE 0x12000
+#define KERNEL_LARGE_STACK_SIZE 0xf000
 
 //
 // Define number of pages to initialize in a large kernel stack.
 //
 
-#define KERNEL_LARGE_STACK_COMMIT KERNEL_STACK_SIZE
+#define KERNEL_LARGE_STACK_COMMIT 0x5000
 
 //
 // Define the size of the stack used for processing an MCA exception.
@@ -905,7 +510,6 @@ __writegsqword (
 
 #define DOUBLE_FAULT_STACK_SIZE 0x2000
 
-#define NMI_STACK_SIZE 0x2000
 
 // begin_nthal
 //              
@@ -923,18 +527,7 @@ __writegsqword (
 #define MAXIMUM_PRIMARY_VECTOR 0xff
 #define PRIMARY_VECTOR_BASE 0x30        // 0-2f are AMD64 trap vectors
 
-// begin_winnt begin_ntddk 
-//
-// The following values specify the type of access in the first parameter
-// of the exception record whan the exception code specifies an access
-// violation.
-//
-
-#define EXCEPTION_READ_FAULT 0          // exception caused by a read
-#define EXCEPTION_WRITE_FAULT 1         // exception caused by a write
-#define EXCEPTION_EXECUTE_FAULT 8       // exception caused by an instruction fetch
-
-// begin_wx86
+// begin_winnt begin_ntddk begin_wx86
 //
 // The following flags control the contents of the CONTEXT structure.
 //
@@ -955,55 +548,48 @@ __writegsqword (
 
 #define CONTEXT_ALL (CONTEXT_CONTROL | CONTEXT_INTEGER | CONTEXT_SEGMENTS | CONTEXT_FLOATING_POINT | CONTEXT_DEBUG_REGISTERS)
 
-#define CONTEXT_EXCEPTION_ACTIVE 0x8000000
-#define CONTEXT_SERVICE_ACTIVE 0x10000000
-#define CONTEXT_EXCEPTION_REQUEST 0x40000000
-#define CONTEXT_EXCEPTION_REPORTING 0x80000000
-
 // begin_wx86
 
 #endif // !defined(RC_INVOKED)
 
 //
-// Define initial MxCsr and FpCsr control.
+// Define initial MxCsr control.
 //
 
 #define INITIAL_MXCSR 0x1f80            // initial MXCSR value
-#define INITIAL_FPCSR 0x027f            // initial FPCSR value
 
 //
 // Define 128-bit 16-byte aligned xmm register type.
 //
 
-typedef struct DECLSPEC_ALIGN(16) _M128A {
+typedef struct DECLSPEC_ALIGN(16) _M128 {
     ULONGLONG Low;
     LONGLONG High;
-} M128A, *PM128A;
+} M128, *PM128;
 
 //
-// Format of data for 32-bit fxsave/fxrstor instructions.
+// Format of data for fnsave/frstor instructions.
+//
+// This structure is used to store the legacy floating point state.
 //
 
-typedef struct _XMM_SAVE_AREA32 {
+typedef struct _LEGACY_SAVE_AREA {
     USHORT ControlWord;
+    USHORT Reserved0;
     USHORT StatusWord;
-    UCHAR TagWord;
-    UCHAR Reserved1;
-    USHORT ErrorOpcode;
+    USHORT Reserved1;
+    USHORT TagWord;
+    USHORT Reserved2;
     ULONG ErrorOffset;
     USHORT ErrorSelector;
-    USHORT Reserved2;
+    USHORT ErrorOpcode;
     ULONG DataOffset;
     USHORT DataSelector;
     USHORT Reserved3;
-    ULONG MxCsr;
-    ULONG MxCsr_Mask;
-    M128A FloatRegisters[8];
-    M128A XmmRegisters[16];
-    UCHAR Reserved4[96];
-} XMM_SAVE_AREA32, *PXMM_SAVE_AREA32;
+    UCHAR FloatRegisters[8 * 10];
+} LEGACY_SAVE_AREA, *PLEGACY_SAVE_AREA;
 
-#define LEGACY_SAVE_AREA_LENGTH sizeof(XMM_SAVE_AREA32)
+#define LEGACY_SAVE_AREA_LENGTH  ((sizeof(LEGACY_SAVE_AREA) + 15) & ~15)
 
 //
 // Context Frame
@@ -1042,9 +628,6 @@ typedef struct DECLSPEC_ALIGN(16) _CONTEXT {
 
     //
     // Register parameter home addresses.
-    //
-    // N.B. These fields are for convenience - they could be used to extend the
-    //      context record in the future.
     //
 
     ULONG64 P1Home;
@@ -1112,39 +695,32 @@ typedef struct DECLSPEC_ALIGN(16) _CONTEXT {
     ULONG64 Rip;
 
     //
-    // Floating point state.
+    // MMX/floating point state.
     //
 
-    union {
-        XMM_SAVE_AREA32 FltSave;
-        struct {
-            M128A Header[2];
-            M128A Legacy[8];
-            M128A Xmm0;
-            M128A Xmm1;
-            M128A Xmm2;
-            M128A Xmm3;
-            M128A Xmm4;
-            M128A Xmm5;
-            M128A Xmm6;
-            M128A Xmm7;
-            M128A Xmm8;
-            M128A Xmm9;
-            M128A Xmm10;
-            M128A Xmm11;
-            M128A Xmm12;
-            M128A Xmm13;
-            M128A Xmm14;
-            M128A Xmm15;
-        };
-    };
+    M128 Xmm0;
+    M128 Xmm1;
+    M128 Xmm2;
+    M128 Xmm3;
+    M128 Xmm4;
+    M128 Xmm5;
+    M128 Xmm6;
+    M128 Xmm7;
+    M128 Xmm8;
+    M128 Xmm9;
+    M128 Xmm10;
+    M128 Xmm11;
+    M128 Xmm12;
+    M128 Xmm13;
+    M128 Xmm14;
+    M128 Xmm15;
 
     //
-    // Vector registers.
+    // Legacy floating point state.
     //
 
-    M128A VectorRegister[26];
-    ULONG64 VectorControl;
+    LEGACY_SAVE_AREA FltSave;
+    ULONG Fill;
 
     //
     // Special debug control registers.
@@ -1155,6 +731,7 @@ typedef struct DECLSPEC_ALIGN(16) _CONTEXT {
     ULONG64 LastBranchFromRip;
     ULONG64 LastExceptionToRip;
     ULONG64 LastExceptionFromRip;
+    ULONG64 Fill1;
 } CONTEXT, *PCONTEXT;
 
 // end_ntddk end_nthal end_winnt end_wx86
@@ -1164,7 +741,7 @@ typedef struct DECLSPEC_ALIGN(16) _CONTEXT {
     ((Context)->Rip = (ProgramCounter))
 
 #define CONTEXT_ALIGN STACK_ALIGN
-#define CONTEXT_LENGTH sizeof(CONTEXT)
+#define CONTEXT_LENGTH ((sizeof(CONTEXT) + STACK_ROUND) & ~STACK_ROUND)
 
 //
 // Nonvolatile context pointer record.
@@ -1172,24 +749,24 @@ typedef struct DECLSPEC_ALIGN(16) _CONTEXT {
 
 typedef struct _KNONVOLATILE_CONTEXT_POINTERS {
     union {
-        PM128A FloatingContext[16];
+        PM128 FloatingContext[16];
         struct {
-            PM128A Xmm0;
-            PM128A Xmm1;
-            PM128A Xmm2;
-            PM128A Xmm3;
-            PM128A Xmm4;
-            PM128A Xmm5;
-            PM128A Xmm6;
-            PM128A Xmm7;
-            PM128A Xmm8;
-            PM128A Xmm9;
-            PM128A Xmm10;
-            PM128A Xmm11;
-            PM128A Xmm12;
-            PM128A Xmm13;
-            PM128A Xmm14;
-            PM128A Xmm15;
+            PM128 Xmm0;
+            PM128 Xmm1;
+            PM128 Xmm2;
+            PM128 Xmm3;
+            PM128 Xmm4;
+            PM128 Xmm5;
+            PM128 Xmm6;
+            PM128 Xmm7;
+            PM128 Xmm8;
+            PM128 Xmm9;
+            PM128 Xmm10;
+            PM128 Xmm11;
+            PM128 Xmm12;
+            PM128 Xmm13;
+            PM128 Xmm14;
+            PM128 Xmm15;
         };
     };
 
@@ -1235,18 +812,17 @@ typedef struct _KNONVOLATILE_CONTEXT_POINTERS {
 #define KGDT64_R3_CODE (3 * 16)         // user mode 64-bit code
 #define KGDT64_SYS_TSS (4 * 16)         // kernel mode system task state
 #define KGDT64_R3_CMTEB (5 * 16)        // user mode 32-bit TEB
-#define KGDT64_R0_CMCODE (6 * 16)       // kernel mode 32-bit code
-#define KGDT64_LAST (7 * 16)            // last entry
+#define KGDT64_LAST (6 * 16)
 
 #define KGDT_NUMBER KGDT_LAST
 
 // end_wx86 end_nthal
 
-// begin_ntddk begin_wdm begin_nthal begin_ntminiport
+// begin_ntddk begin_wdm begin_nthal
 
 #endif // _AMD64_
 
-// end_ntddk end_wdm end_nthal end_ntminiport
+// end_ntddk end_wdm end_nthal
 
 //
 // Define AMD64 exception handling structures and function prototypes.
@@ -1261,8 +837,8 @@ typedef enum _UNWIND_OP_CODES {
     UWOP_SET_FPREG,
     UWOP_SAVE_NONVOL,
     UWOP_SAVE_NONVOL_FAR,
-    UWOP_SPARE_CODE1,
-    UWOP_SPARE_CODE2,
+    UWOP_SAVE_XMM,
+    UWOP_SAVE_XMM_FAR,
     UWOP_SAVE_XMM128,
     UWOP_SAVE_XMM128_FAR,
     UWOP_PUSH_MACHFRAME
@@ -1306,19 +882,16 @@ typedef struct _UNWIND_INFO {
 
 //
 // The unwind codes are followed by an optional DWORD aligned field that
-// contains the exception handler address or a function table entry if
-// chained unwind information is specified. If an exception handler address
-// is specified, then it is followed by the language specified exception
-// handler data.
+// contains the exception handler address or the address of chained unwind
+// information. If an exception handler address is specified, then it is
+// followed by the language specified exception handler data.
 //
 //  union {
-//      struct {
-//          ULONG ExceptionHandler;
-//          ULONG ExceptionData[];
-//      };
-//
-//      RUNTIME_FUNCTION FunctionEntry;
+//      ULONG ExceptionHandler;
+//      ULONG FunctionEntry;
 //  };
+//
+//  ULONG ExceptionData[];
 //
 
 } UNWIND_INFO, *PUNWIND_INFO;
@@ -1328,8 +901,6 @@ typedef struct _UNWIND_INFO {
 // Define function table entry - a function table entry is generated for
 // each frame function.
 //
-
-#define RUNTIME_FUNCTION_INDIRECT 0x1
 
 typedef struct _RUNTIME_FUNCTION {
     ULONG BeginAddress;
@@ -1439,8 +1010,6 @@ typedef struct _DISPATCHER_CONTEXT {
     PEXCEPTION_ROUTINE LanguageHandler;
     PVOID HandlerData;
     PUNWIND_HISTORY_TABLE HistoryTable;
-    ULONG ScopeIndex;
-    ULONG Fill0;
 } DISPATCHER_CONTEXT, *PDISPATCHER_CONTEXT;
 
 // begin_winnt
@@ -1448,9 +1017,7 @@ typedef struct _DISPATCHER_CONTEXT {
 // Define runtime exception handling prototypes.
 //
 
-NTSYSAPI
 VOID
-__cdecl
 RtlRestoreContext (
     IN PCONTEXT ContextRecord,
     IN struct _EXCEPTION_RECORD *ExceptionRecord OPTIONAL
@@ -1463,7 +1030,6 @@ RtlInitializeHistoryTable (
     VOID
     );
 
-NTSYSAPI
 PRUNTIME_FUNCTION
 RtlLookupFunctionEntry (
     IN ULONG64 ControlPc,
@@ -1471,7 +1037,6 @@ RtlLookupFunctionEntry (
     IN OUT PUNWIND_HISTORY_TABLE HistoryTable OPTIONAL
     );
 
-NTSYSAPI
 PRUNTIME_FUNCTION
 RtlLookupFunctionTable (
     IN PVOID ControlPc,
@@ -1479,28 +1044,22 @@ RtlLookupFunctionTable (
     OUT PULONG SizeOfTable
     );
 
-NTSYSAPI
 PLIST_ENTRY
 RtlGetFunctionTableListHead (
     VOID
     );
 
 #if defined(_AMD64_)
-
 // begin_winnt
 
-NTSYSAPI
 BOOLEAN
-__cdecl
 RtlAddFunctionTable (
     IN PRUNTIME_FUNCTION FunctionTable,
     IN ULONG EntryCount,
     IN ULONG64 BaseAddress
     );
 
-NTSYSAPI
 BOOLEAN
-__cdecl
 RtlInstallFunctionTableCallback (
     IN ULONG64 TableIdentifier,
     IN ULONG64 BaseAddress,
@@ -1510,9 +1069,7 @@ RtlInstallFunctionTableCallback (
     IN PCWSTR OutOfProcessCallbackDll OPTIONAL
     );
 
-NTSYSAPI
 BOOLEAN
-__cdecl
 RtlDeleteFunctionTable (
     IN PRUNTIME_FUNCTION FunctionTable
     );
@@ -1521,7 +1078,6 @@ RtlDeleteFunctionTable (
 
 // end_winnt
 
-NTSYSAPI
 PEXCEPTION_ROUTINE
 RtlVirtualUnwind (
     IN ULONG HandlerType,
@@ -1563,4 +1119,3 @@ VOID
 #endif
 
 #endif // _NTAMD64_  
-

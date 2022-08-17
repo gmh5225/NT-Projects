@@ -1,25 +1,16 @@
-/*++
-
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
-Module:
-
-    excpt.h
-
-Abstract:
-
-    Defines exception values, types and routines
-
-    This file contains the definitions and prototypes for the compiler-
-    dependent intrinsics, support functions and keywords which implement
-    the structured exception handling extensions.
-    [Public]
-
---*/
+/***
+*excpt.h - defines exception values, types and routines
+*
+*       Copyright (c) 1990-2001, Microsoft Corporation. All rights reserved.
+*
+*Purpose:
+*       This file contains the definitions and prototypes for the compiler-
+*       dependent intrinsics, support functions and keywords which implement
+*       the structured exception handling extensions.
+*
+*       [Public]
+*
+****/
 
 #if     _MSC_VER > 1000
 #pragma once
@@ -27,6 +18,11 @@ Abstract:
 
 #ifndef _INC_EXCPT
 #define _INC_EXCPT
+
+#if     !defined(_WIN32)
+#error ERROR: Only Win32 target supported!
+#endif
+
 
 #ifdef  _MSC_VER
 /*
@@ -89,6 +85,17 @@ EXCEPTION_DISPOSITION __cdecl _except_handler (
     void * DispatcherContext
     );
 
+#elif   defined(_M_IA64)
+
+_CRTIMP EXCEPTION_DISPOSITION __C_specific_handler (
+    struct _EXCEPTION_RECORD *ExceptionRecord,
+    unsigned __int64 MemoryStackFp,
+    unsigned __int64 BackingStoreFp,
+    struct _CONTEXT *ContextRecord,
+    struct _DISPATCHER_CONTEXT *DispatcherContext,
+    unsigned __int64 GlobalPointer
+    );
+
 #elif   defined(_M_AMD64)
 
 _CRTIMP EXCEPTION_DISPOSITION __C_specific_handler (
@@ -140,4 +147,3 @@ int           __cdecl _abnormal_termination(void);
 #endif  /* _MSC_VER */
 
 #endif  /* _INC_EXCPT */
-

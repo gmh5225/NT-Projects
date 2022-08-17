@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0005    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -15,6 +11,17 @@ Abstract:
     Include file for NT runtime routines that are callable by both
     kernel mode code in the executive and user mode code in various
     NT subsystems.
+
+Author:
+
+    Steve Wood (stevewo) 31-Mar-1989
+
+Environment:
+
+    These routines are dynamically linked in the caller's executable and
+    are callable in either kernel mode or user mode.
+
+Revision History:
 
 --*/
 
@@ -40,7 +47,13 @@ Abstract:
 //
 // for move macros
 //
+#ifdef _MAC
+#ifndef _INC_STRING
 #include <string.h>
+#endif /* _INC_STRING */
+#else
+#include <string.h>
+#endif // _MAC
 
 // end_ntddk end_wdm end_winnt end_ntifs end_nthal
 
@@ -54,7 +67,7 @@ extern "C" {
 // These routines are called by kernel and user code and are not exported.
 //
 
-#if defined(_AMD64_)
+#if defined(_AMD64_) || defined(_IA64_)
 
 #define MAXIMUM_INVERTED_FUNCTION_TABLE_SIZE 160
 
@@ -63,6 +76,13 @@ typedef struct _INVERTED_FUNCTION_TABLE_ENTRY {
     PVOID ImageBase;
     ULONG SizeOfImage;
     ULONG SizeOfTable;
+
+#if defined(_IA64_)
+
+    ULONG64 Gp;
+
+#endif
+
 } INVERTED_FUNCTION_TABLE_ENTRY, *PINVERTED_FUNCTION_TABLE_ENTRY;
 
 typedef struct _INVERTED_FUNCTION_TABLE {
@@ -85,7 +105,7 @@ RtlRemoveInvertedFunctionTable (
     PVOID ImageBase
     );
 
-#endif // defined(_AMD64_)
+#endif // defined(_AMD64_) || defined(_IA64_)
 
 //
 // Define interlocked sequenced list structure.
@@ -164,7 +184,6 @@ RtlInitializeSListHead (
 
 NTSYSAPI
 PSLIST_ENTRY
-NTAPI
 RtlFirstEntrySList (
     IN const SLIST_HEADER *ListHead
     );
@@ -222,10 +241,10 @@ NTSYSAPI
 VOID
 NTAPI
 RtlAssert(
-    __in PVOID VoidFailedAssertion,
-    __in PVOID VoidFileName,
-    __in ULONG LineNumber,
-    __in_opt PSTR MutableMessage
+    PVOID FailedAssertion,
+    PVOID FileName,
+    ULONG LineNumber,
+    PCHAR Message
     );
 
 #if DBG
@@ -250,32 +269,6 @@ RtlAssert(
         (DbgPrint("%s(%d): Soft assertion failed\n   Expression: %s\n   Message: %s\n", __FILE__, __LINE__, #_exp, (_msg)),FALSE) : \
         TRUE)
 
-#if _MSC_VER >= 1300
-
-#define NT_ASSERT(_exp) \
-    ((!(_exp)) ? \
-        (__annotation(L"Debug", L"AssertFail", L#_exp), \
-         DbgRaiseAssertionFailure(), FALSE) : \
-        TRUE)
-
-#define NT_ASSERTMSG(_msg, _exp) \
-    ((!(_exp)) ? \
-        (__annotation(L"Debug", L"AssertFail", L##_msg), \
-         DbgRaiseAssertionFailure(), FALSE) : \
-        TRUE)
-
-#define NT_ASSERTMSGW(_msg, _exp) \
-    ((!(_exp)) ? \
-        (__annotation(L"Debug", L"AssertFail", _msg), \
-         DbgRaiseAssertionFailure(), FALSE) : \
-        TRUE)
-
-#define NT_VERIFY     NT_ASSERT
-#define NT_VERIFYMSG  NT_ASSERTMSG
-#define NT_VERIFYMSGW NT_ASSERTMSGW
-
-#endif // #if _MSC_VER >= 1300
-
 #define RTL_VERIFY         ASSERT
 #define RTL_VERIFYMSG      ASSERTMSG
 
@@ -285,18 +278,6 @@ RtlAssert(
 #else
 #define ASSERT( exp )         ((void) 0)
 #define ASSERTMSG( msg, exp ) ((void) 0)
-
-#if _MSC_VER >= 1300
-
-#define NT_ASSERT(_exp)           ((void) 0)
-#define NT_ASSERTMSG(_msg, _exp)  ((void) 0)
-#define NT_ASSERTMSGW(_msg, _exp) ((void) 0)
-
-#define NT_VERIFY(_exp)           ((_exp) ? TRUE : FALSE)
-#define NT_VERIFYMSG(_msg, _exp ) ((_exp) ? TRUE : FALSE)
-#define NT_VERIFYMSGW(_msg, _exp) ((_exp) ? TRUE : FALSE)
-
-#endif // #if _MSC_VER >= 1300
 
 #define RTL_SOFT_ASSERT(_exp)          ((void) 0)
 #define RTL_SOFT_ASSERTMSG(_msg, _exp) ((void) 0)
@@ -803,7 +784,7 @@ RtlEnumerateGenericTableAvl (
 //  table, otherwise it will start from the last entry returned.
 //
 //  NOTE:   This routine does not modify either the structure of the tree
-//          or the generic table itself, but must ensure that no deletes
+//          or the generic table itself, but must insure that no deletes
 //          occur for the duration of the enumeration, typically by having
 //          at least shared access to the table for the duration.
 //
@@ -949,7 +930,7 @@ RtlIsGenericTableEmptyAvl (
 
 
 //
-//  Define the splay links and the associated manipulation macros and
+//  Define the splay links and the associated manipuliation macros and
 //  routines.  Note that the splay_links should be an opaque type.
 //  Routine are provided to traverse and manipulate the structure.
 //
@@ -1166,7 +1147,7 @@ RtlDeleteNoSplay (
 //
 //  The SubtreeSuccessor function takes as input a pointer to a splay link
 //  in a tree and returns a pointer to the successor of the input node of
-//  the subtree rooted at the input node.  If there is not a successor, the
+//  the substree rooted at the input node.  If there is not a successor, the
 //  return value is NULL.
 //
 
@@ -1180,7 +1161,7 @@ RtlSubtreeSuccessor (
 //
 //  The SubtreePredecessor function takes as input a pointer to a splay link
 //  in a tree and returns a pointer to the predecessor of the input node of
-//  the subtree rooted at the input node.  If there is not a predecessor,
+//  the substree rooted at the input node.  If there is not a predecessor,
 //  the return value is NULL.
 //
 
@@ -1592,7 +1573,6 @@ RtlCreateHeap(
 
 #define HEAP_CREATE_ALIGN_16            0x00010000      // winnt Create heap with 16 byte alignment (obsolete)
 #define HEAP_CREATE_ENABLE_TRACING      0x00020000      // winnt Create heap call tracing enabled (obsolete)
-#define HEAP_CREATE_ENABLE_EXECUTE      0x00040000      // winnt Create heap with executable pages
 
 #define HEAP_SETTABLE_USER_VALUE        0x00000100
 #define HEAP_SETTABLE_USER_FLAG1        0x00000200
@@ -1628,8 +1608,7 @@ RtlCreateHeap(
                                         HEAP_DISABLE_COALESCE_ON_FREE | \
                                         HEAP_CLASS_MASK |               \
                                         HEAP_CREATE_ALIGN_16 |          \
-                                        HEAP_CREATE_ENABLE_TRACING |    \
-                                        HEAP_CREATE_ENABLE_EXECUTE)
+                                        HEAP_CREATE_ENABLE_TRACING)
 
 NTSYSAPI
 PVOID
@@ -1746,7 +1725,7 @@ _ReturnAddress (
 
 #endif
 
-#if (defined(_M_AMD64) && !defined(_REALLY_GET_CALLERS_CALLER_))
+#if (defined(_M_AMD64) || defined(_M_IA64)) && !defined(_REALLY_GET_CALLERS_CALLER_)
 
 #define RtlGetCallersAddress(CallersAddress, CallersCaller) \
     *CallersAddress = (PVOID)_ReturnAddress(); \
@@ -1957,12 +1936,208 @@ RtlTraceDatabaseUnlock (
     );
 
 
+
+#if defined(_IA64_)
+
 VOID
-RtlpGetStackLimits (
-    OUT PULONG_PTR LowLimit,
-    OUT PULONG_PTR HighLimit
+RtlCopyIa64FloatRegisterContext(
+    IN PFLOAT128 Destination,
+    IN PFLOAT128 Source,
+    IN ULONGLONG Length
     );
 
+VOID
+RtlpCaptureRnats (
+   IN OUT PCONTEXT ContextRecord
+   );
+
+#if !defined(MIDL_PASS)
+
+FORCEINLINE
+ULONGLONG
+RtlpRseShrinkByNumber(
+    ULONGLONG Bsp,
+    LONGLONG NumReg
+    )
+ /*++
+
+ Routine Description:
+
+    This function calculates a new bsp by shrinking the current frame
+    by a given number.
+
+    Algorithm:
+
+     a new bsp = (bsp - num_registers*8 - ((62 - bsp [8:3] + num_registers)/63)*8)
+
+     (62 - bsp [8:3] + numbers)/63 could be translated to:
+        if ((62 - bsp [8:3] + num_registers) >= 63) then 1 extra shrink
+        if (((62 - bsp [8:3] + num_registers) - 63) >= 63) then 2 extra shrink
+        otherwise 0 bsp shrink
+
+     ((62 - bsp [8:3] + num_register) >= 63) is equal to (num_registers - bsp [8:3] > 0)
+     (((62 - bsp [8:3] + num_registers) - 63) >= 63) is equal to (num_registers - bsp [8:3] > 63)
+
+    therefore,
+
+       if (number_registers - bsp [8:3] > 0) then bsp - num_registers*8 - 1*8
+       if (number_registers - bsp [8:3] > 63) then bsp - num_registers*8 - 2*8
+       otherwise bsp - num_registers*8
+
+  Arguments:
+
+     Bsp - Supplies the BSP value
+
+     NumReg - Supplies the number of register to shrink
+
+  Return Value:
+
+     A new BSP value is returned.
+
+ --*/
+ {
+     ULONGLONG NewBsp;
+     IA64_BSP TempBsp;
+     LONGLONG Bsp83;
+
+     TempBsp.ull = Bsp;
+     NewBsp = Bsp - (NumReg << 3);
+     Bsp83 = (LONGLONG)TempBsp.sb.bsp83;
+     if ((NumReg - Bsp83) > 0) {
+         NewBsp -= 8;
+     }
+     if ((NumReg - Bsp83) > 63) {
+         NewBsp -= 8;
+     }
+     return NewBsp;
+ }
+
+FORCEINLINE
+ULONGLONG
+RtlpRseGrowByNumber(
+    ULONGLONG Bsp,
+    LONGLONG NumReg
+    )
+ /*++
+
+ Routine Description:
+
+     This function calculates a new BSP by growing the current frame by
+     the SOF (Size of Frame) of a given frame maker.
+
+ Algorithm:
+
+     a new bsp = (bsp + (num_registers*8) + ((bsp [8:3] + num_registers)/63)*8)
+
+     (bsp [8:3] + num_registers)/63 could be translated to:
+
+        if bsp [8:3] + num_registers >= 63 then grows 1 extra
+        if bsp [8:3] + num_registers >= 126 then grows 2 extra
+        otherwise grows 0 extra
+
+ Arguments:
+
+     Bsp - Supplies the BSP value
+
+     NumReg - Supplies the number of register to grow
+
+ Return Value:
+
+     A new BSP value is returned.
+
+ --*/
+{
+    ULONGLONG NewBsp;
+    IA64_BSP TempBsp;
+     LONGLONG Bsp83;
+
+    TempBsp.ull = Bsp;
+    NewBsp = Bsp + (NumReg << 3);
+    Bsp83 = (LONGLONG)TempBsp.sb.bsp83;
+    if ((NumReg + Bsp83) >= 63) {
+        NewBsp += 8;
+    }
+    if ((NumReg + Bsp83) >= 126) {
+        NewBsp += 8;
+    }
+    return NewBsp;
+}
+
+FORCEINLINE
+ULONGLONG
+RtlpRseShrinkBySOF (
+    ULONGLONG BSP,
+    ULONGLONG PFS
+    )
+{
+    IA64_PFS TempPfs;
+
+    TempPfs.ull = PFS;
+    return RtlpRseShrinkByNumber(BSP, TempPfs.sb.pfs_sof);
+}
+
+FORCEINLINE
+ULONGLONG
+RtlpRseShrinkBySOL (
+    ULONGLONG BSP,
+    ULONGLONG PFS
+    )
+{
+    IA64_PFS TempPfs;
+    TempPfs.ull = PFS;
+    return RtlpRseShrinkByNumber(BSP, TempPfs.sb.pfs_sol);
+}
+
+FORCEINLINE
+ULONGLONG
+RtlpRseGrowBySOF (
+    ULONGLONG BSP,
+    ULONGLONG PFS
+    )
+{
+    IA64_PFS TempPfs;
+    TempPfs.ull = PFS ;
+    return RtlpRseGrowByNumber(BSP, TempPfs.sb.pfs_sof);
+}
+
+FORCEINLINE
+ULONGLONG
+RtlpRseGrowBySOL (
+    ULONGLONG BSP,
+    ULONGLONG PFS
+    )
+{
+    IA64_PFS TempPfs;
+    TempPfs.ull = PFS;
+    return RtlpRseGrowByNumber(BSP, TempPfs.sb.pfs_sol);
+ }
+
+FORCEINLINE
+ULONGLONG
+RtlpRseRNatCollectOffset(
+    ULONGLONG BSP
+    )
+{
+    IA64_BSP TempBsp;
+    TempBsp.ull = BSP;
+    return (TempBsp.sb.bsp83);
+}
+
+FORCEINLINE
+PULONGLONG
+RtlpRseRNatAddress(
+    ULONGLONG BSP
+    )
+{
+    IA64_BSP TempBsp;
+    TempBsp.ull = BSP;
+    TempBsp.sb.bsp83 = 63;
+    return ((PULONGLONG)TempBsp.ull);
+}
+
+#endif // MIDL_PASS
+
+#endif // _IA64_
 
 //
 // Subroutines for dealing with Win32 ATOMs.  Used by kernel mode window
@@ -2009,18 +2184,18 @@ NTSYSAPI
 NTSTATUS
 NTAPI
 RtlAddAtomToAtomTable(
-    __in PVOID AtomTableHandle,
-    __in PWSTR AtomName,
-    __inout_opt PRTL_ATOM Atom
+    IN PVOID AtomTableHandle,
+    IN PWSTR AtomName OPTIONAL,
+    IN OUT PRTL_ATOM Atom OPTIONAL
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlLookupAtomInAtomTable(
-    __in PVOID AtomTableHandle,
-    __in PWSTR AtomName,
-    __out_opt PRTL_ATOM Atom
+    IN PVOID AtomTableHandle,
+    IN PWSTR AtomName,
+    OUT PRTL_ATOM Atom OPTIONAL
     );
 
 NTSYSAPI
@@ -2043,12 +2218,12 @@ NTSYSAPI
 NTSTATUS
 NTAPI
 RtlQueryAtomInAtomTable(
-    __in PVOID AtomTableHandle,
-    __in RTL_ATOM Atom,
-    __out_opt PULONG AtomUsage,
-    __out_opt PULONG AtomFlags,
-    __inout_bcount_part_opt(*AtomNameLength, *AtomNameLength) PWSTR AtomName,
-    __inout_opt PULONG AtomNameLength
+    IN PVOID AtomTableHandle,
+    IN RTL_ATOM Atom,
+    OUT PULONG AtomUsage OPTIONAL,
+    OUT PULONG AtomFlags OPTIONAL,
+    IN OUT PWSTR AtomName OPTIONAL,
+    IN OUT PULONG AtomNameLength OPTIONAL
     );
 
 NTSYSAPI
@@ -2188,16 +2363,16 @@ NTSYSAPI
 NTSTATUS
 NTAPI
 RtlCreateRegistryKey(
-    __in ULONG RelativeTo,
-    __in PWSTR Path
+    IN ULONG RelativeTo,
+    IN PWSTR Path
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlCheckRegistryKey(
-    __in ULONG RelativeTo,
-    __in PWSTR Path
+    IN ULONG RelativeTo,
+    IN PWSTR Path
     );
 
 // begin_wdm
@@ -2240,16 +2415,15 @@ RtlRandom (                                         // ntifs
 NTSYSAPI                                            // ntifs
 ULONG                                               // ntifs
 NTAPI                                               // ntifs
-RtlRandomEx (                                       // ntifs
+RtlRandomEx (                                         // ntifs
     PULONG Seed                                     // ntifs
     );                                              // ntifs
 
-NTSYSAPI
 NTSTATUS
 RtlComputeImportTableHash(
-    __in HANDLE hFile,
-    __out_bcount(16) PCHAR Hash,
-    __in ULONG ImportTableHashRevision
+    IN  HANDLE hFile,
+    IN  PCHAR Hash,
+    IN  ULONG ImportTableHashRevision
     );
 
 NTSYSAPI
@@ -2315,74 +2489,74 @@ NTSYSAPI
 PSTR
 NTAPI
 RtlIpv4AddressToStringA (
-    __in const struct in_addr *Addr,
-    __out_ecount(16) PSTR S
+    IN const struct in_addr *Addr,
+    OUT PSTR S
     );
 
 NTSYSAPI
 PSTR
 NTAPI
 RtlIpv6AddressToStringA (
-    __in const struct in6_addr *Addr,
-    __out_ecount(65) PSTR S
+    IN const struct in6_addr *Addr,
+    OUT PSTR S
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlIpv4AddressToStringExA(
-    __in const struct in_addr *Address,
-    __in USHORT Port,
-    __out_ecount_part(*AddressStringLength, *AddressStringLength) PSTR AddressString,
-    __inout PULONG AddressStringLength
+    IN const struct in_addr *Address,
+    IN USHORT Port,
+    OUT PSTR AddressString,
+    IN OUT PULONG AddressStringLength
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlIpv6AddressToStringExA(
-    __in const struct in6_addr *Address,
-    __in ULONG ScopeId,
-    __in USHORT Port,
-    __out_ecount_part(*AddressStringLength, *AddressStringLength) PSTR AddressString,
-    __inout PULONG AddressStringLength
+    IN const struct in6_addr *Address,
+    IN ULONG ScopeId,
+    IN USHORT Port,
+    OUT PSTR AddressString,
+    IN OUT PULONG AddressStringLength
     );
 
 NTSYSAPI
 PWSTR
 NTAPI
 RtlIpv4AddressToStringW (
-    __in const struct in_addr *Addr,
-    __out_ecount(16) PWSTR S
+    IN const struct in_addr *Addr,
+    OUT PWSTR S
     );
 
 NTSYSAPI
 PWSTR
 NTAPI
 RtlIpv6AddressToStringW (
-    __in const struct in6_addr *Addr,
-    __out_ecount(65) PWSTR S
+    IN const struct in6_addr *Addr,
+    OUT PWSTR S
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlIpv4AddressToStringExW(
-    __in const struct in_addr *Address,
-    __in USHORT Port,
-    __out_ecount_part(*AddressStringLength, *AddressStringLength) PWSTR AddressString,
-    __inout PULONG AddressStringLength
+    IN const struct in_addr *Address,
+    IN USHORT Port,
+    OUT PWSTR AddressString,
+    IN OUT PULONG AddressStringLength
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlIpv6AddressToStringExW(
-    __in const struct in6_addr *Address,
-    __in ULONG ScopeId,
-    __in USHORT Port,
-    __out_ecount_part(*AddressStringLength, *AddressStringLength) PWSTR AddressString,
-    __inout PULONG AddressStringLength
+    IN const struct in6_addr *Address,
+    IN ULONG ScopeId,
+    IN USHORT Port,
+    OUT PWSTR AddressString,
+    IN OUT PULONG AddressStringLength
     );
 
 NTSYSAPI
@@ -2613,7 +2787,6 @@ RtlEqualComputerName(
     IN PCUNICODE_STRING String2
     );
 
-NTSYSAPI
 NTSTATUS
 RtlDnsHostNameToComputerName(
     OUT PUNICODE_STRING ComputerNameString,
@@ -3098,11 +3271,11 @@ NTSYSAPI
 NTSTATUS
 NTAPI
 RtlMultiByteToUnicodeN(
-    __out_bcount_part(MaxBytesInUnicodeString, *BytesInUnicodeString) PWCH UnicodeString,
-    __in ULONG MaxBytesInUnicodeString,
-    __out_opt PULONG BytesInUnicodeString,
-    __in_bcount(BytesInMultiByteString) PCSTR MultiByteString,
-    __in ULONG BytesInMultiByteString
+    PWSTR UnicodeString,
+    ULONG MaxBytesInUnicodeString,
+    PULONG BytesInUnicodeString,
+    PCSTR MultiByteString,
+    ULONG BytesInMultiByteString
     );
 
 NTSYSAPI
@@ -3118,64 +3291,64 @@ NTSYSAPI
 NTSTATUS
 NTAPI
 RtlUnicodeToMultiByteSize(
-    __out PULONG BytesInMultiByteString,
-    __in_bcount(BytesInUnicodeString) PWCH UnicodeString,
-    __in ULONG BytesInUnicodeString
+    PULONG BytesInMultiByteString,
+    IN PWSTR UnicodeString,
+    ULONG BytesInUnicodeString
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlUnicodeToMultiByteN(
-    __out_bcount_part(MaxBytesInMultiByteString, *BytesInMultiByteString) PCHAR MultiByteString,
-    __in ULONG MaxBytesInMultiByteString,
-    __out_opt PULONG BytesInMultiByteString,
-    __in_bcount(BytesInUnicodeString) PWCH UnicodeString,
-    __in ULONG BytesInUnicodeString
+    PCHAR MultiByteString,
+    ULONG MaxBytesInMultiByteString,
+    PULONG BytesInMultiByteString,
+    PWSTR UnicodeString,
+    ULONG BytesInUnicodeString
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlUpcaseUnicodeToMultiByteN(
-    __out_bcount_part(MaxBytesInMultiByteString, *BytesInMultiByteString) PCHAR MultiByteString,
-    __in ULONG MaxBytesInMultiByteString,
-    __out_opt PULONG BytesInMultiByteString,
-    __in_bcount(BytesInUnicodeString) PWCH UnicodeString,
-    __in ULONG BytesInUnicodeString
+    PCHAR MultiByteString,
+    ULONG MaxBytesInMultiByteString,
+    PULONG BytesInMultiByteString,
+    PWSTR UnicodeString,
+    ULONG BytesInUnicodeString
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlOemToUnicodeN(
-    __out_bcount_part(MaxBytesInUnicodeString, *BytesInUnicodeString) PWSTR UnicodeString,
-    __in ULONG MaxBytesInUnicodeString,
-    __out_opt PULONG BytesInUnicodeString,
-    __in_bcount(BytesInOemString) PCH OemString,
-    __in ULONG BytesInOemString
+    PWSTR UnicodeString,
+    ULONG MaxBytesInUnicodeString,
+    PULONG BytesInUnicodeString,
+    IN PCHAR OemString,
+    ULONG BytesInOemString
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlUnicodeToOemN(
-    __out_bcount_part(MaxBytesInOemString, *BytesInOemString) PCHAR OemString,
-    __in ULONG MaxBytesInOemString,
-    __out_opt PULONG BytesInOemString,
-    __in_bcount(BytesInUnicodeString) PWCH UnicodeString,
-    __in ULONG BytesInUnicodeString
+    PCHAR OemString,
+    ULONG MaxBytesInOemString,
+    PULONG BytesInOemString,
+    PWSTR UnicodeString,
+    ULONG BytesInUnicodeString
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlUpcaseUnicodeToOemN(
-    __out_bcount_part(MaxBytesInOemString, *BytesInOemString) PCHAR OemString,
-    __in ULONG MaxBytesInOemString,
-    __out_opt PULONG BytesInOemString,
-    __in_bcount(BytesInUnicodeString) PWCH UnicodeString,
-    __in ULONG BytesInUnicodeString
+    PCHAR OemString,
+    ULONG MaxBytesInOemString,
+    PULONG BytesInOemString,
+    PWSTR UnicodeString,
+    ULONG BytesInUnicodeString
     );
 
 // end_ntifs
@@ -3184,12 +3357,12 @@ NTSYSAPI
 NTSTATUS
 NTAPI
 RtlConsoleMultiByteToUnicodeN(
-    __out_bcount_part(MaxBytesInUnicodeString, *BytesInUnicodeString) PWCH UnicodeString,
-    __in ULONG MaxBytesInUnicodeString,
-    __out_opt PULONG BytesInUnicodeString OPTIONAL,
-    __in_bcount(BytesInMultiByteString) PCH MultiByteString,
-    __in ULONG BytesInMultiByteString,
-    __out PULONG pdwSpecialChar );
+    OUT PWCH UnicodeString,
+    IN ULONG MaxBytesInUnicodeString,
+    OUT PULONG BytesInUnicodeString OPTIONAL,
+    IN PCH MultiByteString,
+    IN ULONG BytesInMultiByteString,
+    OUT PULONG pdwSpecialChar );
 
 // begin_winnt
 
@@ -3348,7 +3521,7 @@ RtlIsNameLegalDOS8Dot3 (
 
 BOOLEAN
 RtlIsValidOemCharacter (
-    __inout PWCHAR Char
+    IN PWCHAR Char
     );
 
 // end_ntifs
@@ -3855,106 +4028,6 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS {
     RTL_DRIVE_LETTER_CURDIR CurrentDirectores[ RTL_MAX_DRIVE_LETTERS ];
 } RTL_USER_PROCESS_PARAMETERS, *PRTL_USER_PROCESS_PARAMETERS;
 
-#if defined(_WIN64)
-typedef struct _RTL_DRIVE_LETTER_CURDIR32 {
-    USHORT Flags;
-    USHORT Length;
-    ULONG TimeStamp;
-    STRING32 DosPath;
-} RTL_DRIVE_LETTER_CURDIR32, *PRTL_DRIVE_LETTER_CURDIR32;
-
-typedef struct _CURDIR32 {
-    UNICODE_STRING32 DosPath;
-    ULONG Handle;
-} CURDIR32, *PCURDIR32;
-
-typedef struct _RTL_USER_PROCESS_PARAMETERS32 {
-    ULONG MaximumLength;
-    ULONG Length;
-
-    ULONG Flags;
-    ULONG DebugFlags;
-
-    ULONG ConsoleHandle;
-    ULONG  ConsoleFlags;
-    ULONG StandardInput;
-    ULONG StandardOutput;
-    ULONG StandardError;
-
-    CURDIR32 CurrentDirectory;        // ProcessParameters
-    UNICODE_STRING32 DllPath;         // ProcessParameters
-    UNICODE_STRING32 ImagePathName;   // ProcessParameters
-    UNICODE_STRING32 CommandLine;     // ProcessParameters
-    ULONG Environment;              // NtAllocateVirtualMemory
-
-    ULONG StartingX;
-    ULONG StartingY;
-    ULONG CountX;
-    ULONG CountY;
-    ULONG CountCharsX;
-    ULONG CountCharsY;
-    ULONG FillAttribute;
-
-    ULONG WindowFlags;
-    ULONG ShowWindowFlags;
-    UNICODE_STRING32 WindowTitle;     // ProcessParameters
-    UNICODE_STRING32 DesktopInfo;     // ProcessParameters
-    UNICODE_STRING32 ShellInfo;       // ProcessParameters
-    UNICODE_STRING32 RuntimeData;     // ProcessParameters
-    RTL_DRIVE_LETTER_CURDIR32 CurrentDirectores[ RTL_MAX_DRIVE_LETTERS ];
-} RTL_USER_PROCESS_PARAMETERS32, *PRTL_USER_PROCESS_PARAMETERS32;
-#endif
-
-#if defined(_X86_)
-typedef struct _RTL_DRIVE_LETTER_CURDIR64 {
-    USHORT Flags;
-    USHORT Length;
-    ULONG TimeStamp;
-    STRING64 DosPath;
-} RTL_DRIVE_LETTER_CURDIR64, *PRTL_DRIVE_LETTER_CURDIR64;
-
-typedef struct _CURDIR64 {
-    UNICODE_STRING64 DosPath;
-    LONGLONG Handle;
-} CURDIR64, *PCURDIR64;
-
-typedef struct _RTL_USER_PROCESS_PARAMETERS64 {
-    ULONG MaximumLength;
-    ULONG Length;
-
-    ULONG Flags;
-    ULONG DebugFlags;
-
-    LONGLONG ConsoleHandle;
-    ULONG  ConsoleFlags;
-    LONGLONG StandardInput;
-    LONGLONG StandardOutput;
-    LONGLONG StandardError;
-
-    CURDIR64 CurrentDirectory;        // ProcessParameters
-    UNICODE_STRING64 DllPath;         // ProcessParameters
-    UNICODE_STRING64 ImagePathName;   // ProcessParameters
-    UNICODE_STRING64 CommandLine;     // ProcessParameters
-    ULONGLONG Environment;              // NtAllocateVirtualMemory
-
-    ULONG StartingX;
-    ULONG StartingY;
-    ULONG CountX;
-    ULONG CountY;
-    ULONG CountCharsX;
-    ULONG CountCharsY;
-    ULONG FillAttribute;
-
-    ULONG WindowFlags;
-    ULONG ShowWindowFlags;
-    UNICODE_STRING64 WindowTitle;     // ProcessParameters
-    UNICODE_STRING64 DesktopInfo;     // ProcessParameters
-    UNICODE_STRING64 ShellInfo;       // ProcessParameters
-    UNICODE_STRING64 RuntimeData;     // ProcessParameters
-    RTL_DRIVE_LETTER_CURDIR64 CurrentDirectores[ RTL_MAX_DRIVE_LETTERS ];
-} RTL_USER_PROCESS_PARAMETERS64, *PRTL_USER_PROCESS_PARAMETERS64;
-#endif
-
 //
 // Possible bit values for Flags field.
 //
@@ -3969,8 +4042,6 @@ typedef struct _RTL_USER_PROCESS_PARAMETERS64 {
 #define RTL_USER_PROC_DISABLE_HEAP_DECOMMIT 0x00000100
 #define RTL_USER_PROC_DLL_REDIRECTION_LOCAL 0x00001000
 #define RTL_USER_PROC_APP_MANIFEST_PRESENT  0x00002000
-#define RTL_USER_PROC_IMAGE_KEY_MISSING     0x00004000
-#define RTL_USER_PROC_OPTIN_PROCESS         0x00020000
 
 NTSYSAPI
 NTSTATUS
@@ -4141,10 +4212,11 @@ Return Value:
 
 {
     PIMAGE_NT_HEADERS NtHeaders = NULL;
+#ifndef _MAC
     if (Base != NULL && Base != (PVOID)-1) {
         __try {
             if ((((PIMAGE_DOS_HEADER)Base)->e_magic == IMAGE_DOS_SIGNATURE) &&
-                (((ULONG)((PIMAGE_DOS_HEADER)Base)->e_lfanew) < RTLP_IMAGE_MAX_DOS_HEADER)) {
+                ((ULONG)((PIMAGE_DOS_HEADER)Base)->e_lfanew < RTLP_IMAGE_MAX_DOS_HEADER)) {
                 NtHeaders = (PIMAGE_NT_HEADERS)((PCHAR)Base + ((PIMAGE_DOS_HEADER)Base)->e_lfanew);
                 if (NtHeaders->Signature != IMAGE_NT_SIGNATURE) {
                     NtHeaders = NULL;
@@ -4155,6 +4227,7 @@ Return Value:
             NtHeaders = NULL;
         }
     }
+#endif //_MAC
     return NtHeaders;
 }
 #endif
@@ -4227,30 +4300,6 @@ RtlImageRvaToVa(
 
 // begin_winnt begin_ntndis
 
-#if _DBG_MEMCPY_INLINE_ && !defined(MIDL_PASS) && !defined(_MEMCPY_INLINE_) && !defined(_CRTBLD)
-#define _MEMCPY_INLINE_
-FORCEINLINE
-PVOID
-__cdecl
-memcpy_inline (
-    void *dst,
-    const void *src,
-    size_t size
-    )
-{
-    //
-    // Make sure the source and destination do not overlap such that the
-    // move destroys the destination.
-    //
-    if (((char *)dst > (char *)src) &&
-        ((char *)dst < ((char *)src + size))) {
-        __debugbreak();
-    }
-    return memcpy(dst, src, size);
-}
-#define memcpy memcpy_inline
-#endif
-
 NTSYSAPI
 SIZE_T
 NTAPI
@@ -4260,16 +4309,55 @@ RtlCompareMemory (
     SIZE_T Length
     );
 
-
 #define RtlEqualMemory(Destination,Source,Length) (!memcmp((Destination),(Source),(Length)))
+
+#if defined(_M_AMD64)
+
+NTSYSAPI
+VOID
+NTAPI
+RtlCopyMemory (
+    VOID UNALIGNED *Destination,
+    CONST VOID UNALIGNED *Source,
+    SIZE_T Length
+    );
+
+NTSYSAPI
+VOID
+NTAPI
+RtlMoveMemory (
+    VOID UNALIGNED *Destination,
+    CONST VOID UNALIGNED *Source,
+    SIZE_T Length
+    );
+
+NTSYSAPI
+VOID
+NTAPI
+RtlFillMemory (
+    VOID UNALIGNED *Destination,
+    SIZE_T Length,
+    IN UCHAR Fill
+    );
+
+NTSYSAPI
+VOID
+NTAPI
+RtlZeroMemory (
+    VOID UNALIGNED *Destination,
+    SIZE_T Length
+    );
+
+#else
+
 #define RtlMoveMemory(Destination,Source,Length) memmove((Destination),(Source),(Length))
 #define RtlCopyMemory(Destination,Source,Length) memcpy((Destination),(Source),(Length))
 #define RtlFillMemory(Destination,Length,Fill) memset((Destination),(Fill),(Length))
 #define RtlZeroMemory(Destination,Length) memset((Destination),0,(Length))
 
+#endif
 
 #if !defined(MIDL_PASS)
-
 FORCEINLINE
 PVOID
 RtlSecureZeroMemory(
@@ -4278,24 +4366,13 @@ RtlSecureZeroMemory(
     )
 {
     volatile char *vptr = (volatile char *)ptr;
-
-#if defined(_M_AMD64)
-
-        __stosb((PUCHAR)((ULONG64)vptr), 0, cnt);
-
-#else
-
     while (cnt) {
         *vptr = 0;
         vptr++;
         cnt--;
     }
-
-#endif
-
     return ptr;
 }
-
 #endif
 
 // end_ntndis end_winnt
@@ -4342,63 +4419,12 @@ RtlCompareMemoryUlong (
 
 #if defined(_M_AMD64)
 
-#if !defined(MIDL_PASS)
-
-FORCEINLINE
-VOID
-RtlFillMemoryUlong (
-    PVOID Destination,
-    SIZE_T Length,
-    ULONG Pattern
-    )
-
-{
-
-    PULONG Address = (PULONG)Destination;
-
-    //
-    // If the number of DWORDs is not zero, then fill the specified buffer
-    // with the specified pattern.
-    //
-
-    if ((Length /= 4) != 0) {
-
-        //
-        // If the destination is not quadword aligned (ignoring low bits),
-        // then align the destination by storing one DWORD.
-        //
-
-        if (((ULONG64)Address & 4) != 0) {
-            *Address = Pattern;
-            if ((Length -= 1) == 0) {
-                return;
-            }
-
-            Address += 1;
-        }
-
-        //
-        // If the number of QWORDs is not zero, then fill the destination
-        // buffer a QWORD at a time.
-        //
-
-         __stosq((PULONG64)(Address),
-                 Pattern | ((ULONG64)Pattern << 32),
-                 Length / 2);
-
-        if ((Length & 1) != 0) {
-            Address[Length - 1] = Pattern;
-        }
-    }
-
-    return;
-}
-
+#define RtlFillMemoryUlong(Destination, Length, Pattern)                    \
+    __stosd((PULONG)(Destination), Pattern, (Length) / 4)
+     
 #define RtlFillMemoryUlonglong(Destination, Length, Pattern)                \
     __stosq((PULONG64)(Destination), Pattern, (Length) / 8)
-
-#endif
-
+     
 #else
 
 NTSYSAPI
@@ -4458,7 +4484,7 @@ typedef struct _RTL_PROCESS_LOCKS {
 } RTL_PROCESS_LOCKS, *PRTL_PROCESS_LOCKS;
 
 
-#if defined(_AMD64_)
+#if defined(_AMD64_) || defined(_IA64_)
 #include "pshpck16.h"        // CONTEXT is 16-byte aligned on win64
 #endif
 
@@ -4484,7 +4510,7 @@ typedef struct _LAST_EXCEPTION_LOG {
 
 #pragma warning(pop)
 
-#if defined(_AMD64_)
+#if defined(_AMD64_) || defined(_IA64_)
 #include "poppack.h"
 #endif
 
@@ -4507,11 +4533,10 @@ NTSYSAPI
 LONG
 NTAPI
 RtlUnhandledExceptionFilter2(
-    __in struct _EXCEPTION_POINTERS *ExceptionInfo,
-    __in PCSTR Function
+    IN struct _EXCEPTION_POINTERS *ExceptionInfo,
+    IN CONST CHAR*                 Function
     );
 
-NTSYSAPI
 VOID
 NTAPI
 DbgUserBreakPoint(
@@ -4589,71 +4614,63 @@ DbgBreakPointWithStatus(
 
 ULONG
 __cdecl
-DbgPrint (
-    __in PCH Format,
+DbgPrint(
+    PCH Format,
     ...
     );
 
 // end_wdm
 
-NTSYSAPI
 ULONG
 __cdecl
-DbgPrintEx (
-    __in ULONG ComponentId,
-    __in ULONG Level,
-    __in PCH Format,
+DbgPrintEx(
+    IN ULONG ComponentId,
+    IN ULONG Level,
+    IN PCH Format,
     ...
     );
 
 #ifdef _VA_LIST_DEFINED
 
-NTSYSAPI
 ULONG
-NTAPI
 vDbgPrintEx(
-    __in ULONG ComponentId,
-    __in ULONG Level,
-    __in PCH Format,
-    __in va_list arglist
+    IN ULONG ComponentId,
+    IN ULONG Level,
+    IN PCH Format,
+    va_list arglist
     );
 
-NTSYSAPI
 ULONG
-NTAPI
-vDbgPrintExWithPrefix (
-    __in PCH Prefix,
-    __in ULONG ComponentId,
-    __in ULONG Level,
-    __in PCH Format,
-    __in va_list arglist
+vDbgPrintExWithPrefix(
+    IN PCH Prefix,
+    IN ULONG ComponentId,
+    IN ULONG Level,
+    IN PCH Format,
+    va_list arglist
     );
 
 #endif
 
-NTSYSAPI
 ULONG
 __cdecl
-DbgPrintReturnControlC (
-    __in PCHAR Format,
+DbgPrintReturnControlC(
+    PCH Format,
     ...
     );
 
 NTSYSAPI
 NTSTATUS
-NTAPI
-DbgQueryDebugFilterState (
-    __in ULONG ComponentId,
-    __in ULONG Level
+DbgQueryDebugFilterState(
+    IN ULONG ComponentId,
+    IN ULONG Level
     );
 
 NTSYSAPI
 NTSTATUS
-NTAPI
-DbgSetDebugFilterState (
-    __in ULONG ComponentId,
-    __in ULONG Level,
-    __in BOOLEAN State
+DbgSetDebugFilterState(
+    IN ULONG ComponentId,
+    IN ULONG Level,
+    IN BOOLEAN State
     );
 
 // begin_wdm
@@ -4665,48 +4682,47 @@ DbgSetDebugFilterState (
 NTSYSAPI
 ULONG
 NTAPI
-DbgPrompt (
-    __in PCH Prompt,
-    __out_bcount(Length) PCH Response,
-    __in ULONG Length
+DbgPrompt(
+    PCH Prompt,
+    PCH Response,
+    ULONG MaximumResponseLength
     );
 
 NTSYSAPI
 VOID
 NTAPI
-DbgLoadImageSymbols (
-    __in PSTRING FileName,
-    __in PVOID ImageBase,
-    __in ULONG_PTR ProcessId
+DbgLoadImageSymbols(
+    PSTRING FileName,
+    PVOID ImageBase,
+    ULONG_PTR ProcessId
     );
 
 NTSYSAPI
 VOID
 NTAPI
-DbgUnLoadImageSymbols (
-    __in PSTRING FileName,
-    __in PVOID ImageBase,
-    __in ULONG_PTR ProcessId
+DbgUnLoadImageSymbols(
+    PSTRING FileName,
+    PVOID ImageBase,
+    ULONG_PTR ProcessId
     );
 
 NTSYSAPI
 VOID
 NTAPI
-DbgCommandString (
-    __in PCH Name,
-    __in PCH Command
+DbgCommandString(
+    PCH Name,
+    PCH Command
     );
 
 // internal only
-
 VOID
-NTAPI
-DebugService2 (
+DebugService2(
     PVOID Arg1,
     PVOID Arg2,
     ULONG Service
     );
 
+
 // begin_ntddk begin_wdm begin_nthal begin_ntifs
 //
 // Large integer arithmetic routines.
@@ -4871,7 +4887,7 @@ RtlExtendedMagicDivide (
 
 #endif // defined(_AMD64_)
 
-#if defined(_X86_)
+#if defined(_X86_) || defined(_IA64_)
 
 DECLSPEC_DEPRECATED_DDK         // Use native __int64 math
 NTSYSAPI
@@ -4883,9 +4899,9 @@ RtlExtendedMagicDivide (
     CCHAR ShiftCount
     );
 
-#endif // defined(_X86_)
+#endif // defined(_X86_) || defined(_IA64_)
 
-#if defined(_AMD64_)
+#if defined(_AMD64_) || defined(_IA64_)
 
 //
 // Large Integer divide - 64-bits / 32-bits -> 64-bits
@@ -5001,7 +5017,7 @@ RtlExtendedIntegerMultiply (
     LONG Multiplier
     );
 
-#endif // defined(_AMD64_)
+#endif // defined(_AMD64_) || defined(_IA64_)
 
 //
 // Large integer and - 64-bite & 64-bits -> 64-bits.
@@ -5395,13 +5411,6 @@ RtlSetActiveTimeBias(
 //
 //--
 
-#if defined(_AMD64_)
-
-#define RtlStoreUshort(ADDRESS,VALUE)                           \
-        *(USHORT UNALIGNED *)(ADDRESS) = (VALUE)
-
-#else
-
 #define RtlStoreUshort(ADDRESS,VALUE)                     \
          if ((ULONG_PTR)(ADDRESS) & SHORT_MASK) {         \
              ((PUCHAR) (ADDRESS))[SHORT_LEAST_SIGNIFICANT_BIT] = (UCHAR)(FIRSTBYTE(VALUE));    \
@@ -5411,7 +5420,6 @@ RtlSetActiveTimeBias(
              *((PUSHORT) (ADDRESS)) = (USHORT) VALUE;     \
          }
 
-#endif
 
 //++
 //
@@ -5441,14 +5449,6 @@ RtlSetActiveTimeBias(
 //
 //--
 
-
-#if defined(_AMD64_)
-
-#define RtlStoreUlong(ADDRESS,VALUE)                        \
-        *(ULONG UNALIGNED *)(ADDRESS) = (VALUE)
-
-#else
-
 #define RtlStoreUlong(ADDRESS,VALUE)                      \
          if ((ULONG_PTR)(ADDRESS) & LONG_MASK) {          \
              ((PUCHAR) (ADDRESS))[LONG_LEAST_SIGNIFICANT_BIT      ] = (UCHAR)(FIRSTBYTE(VALUE));    \
@@ -5459,8 +5459,6 @@ RtlSetActiveTimeBias(
          else {                                           \
              *((PULONG) (ADDRESS)) = (ULONG) (VALUE);     \
          }
-
-#endif
 
 //++
 //
@@ -5486,13 +5484,6 @@ RtlSetActiveTimeBias(
 //
 //--
 
-#if defined(_AMD64_)
-
-#define RtlStoreUlonglong(ADDRESS,VALUE)                        \
-        *(ULONGLONG UNALIGNED *)(ADDRESS) = (VALUE)
-
-#else
-
 #define RtlStoreUlonglong(ADDRESS,VALUE)                        \
          if ((ULONG_PTR)(ADDRESS) & LONGLONG_MASK) {            \
              RtlStoreUlong((ULONG_PTR)(ADDRESS),                \
@@ -5502,8 +5493,6 @@ RtlSetActiveTimeBias(
          } else {                                               \
              *((PULONGLONG)(ADDRESS)) = (ULONGLONG)(VALUE);     \
          }
-
-#endif
 
 //++
 //
@@ -5565,13 +5554,6 @@ RtlSetActiveTimeBias(
 //
 //--
 
-#if defined(_AMD64_)
-
-#define RtlRetrieveUshort(DEST_ADDRESS,SRC_ADDRESS)                     \
-         *(USHORT UNALIGNED *)(DEST_ADDRESS) = *(PUSHORT)(SRC_ADDRESS)
-
-#else
-
 #define RtlRetrieveUshort(DEST_ADDRESS,SRC_ADDRESS)                   \
          if ((ULONG_PTR)SRC_ADDRESS & SHORT_MASK) {                       \
              ((PUCHAR) DEST_ADDRESS)[0] = ((PUCHAR) SRC_ADDRESS)[0];  \
@@ -5580,8 +5562,6 @@ RtlSetActiveTimeBias(
          else {                                                       \
              *((PUSHORT) DEST_ADDRESS) = *((PUSHORT) SRC_ADDRESS);    \
          }                                                            \
-
-#endif
 
 //++
 //
@@ -5611,13 +5591,6 @@ RtlSetActiveTimeBias(
 //
 //--
 
-#if defined(_AMD64_)
-
-#define RtlRetrieveUlong(DEST_ADDRESS,SRC_ADDRESS)                     \
-         *(ULONG UNALIGNED *)(DEST_ADDRESS) = *(PULONG)(SRC_ADDRESS)
-
-#else
-
 #define RtlRetrieveUlong(DEST_ADDRESS,SRC_ADDRESS)                    \
          if ((ULONG_PTR)SRC_ADDRESS & LONG_MASK) {                        \
              ((PUCHAR) DEST_ADDRESS)[0] = ((PUCHAR) SRC_ADDRESS)[0];  \
@@ -5628,9 +5601,6 @@ RtlSetActiveTimeBias(
          else {                                                       \
              *((PULONG) DEST_ADDRESS) = *((PULONG) SRC_ADDRESS);      \
          }
-
-#endif
-
 // end_ntddk end_wdm
 
 //++
@@ -5926,25 +5896,7 @@ RtlFindFirstRunClear (
 //  low order bit position and masks out all other bits.
 //
 
-#if defined(_M_AMD64) && !defined(MIDL_PASS)
-
-FORCEINLINE
-BOOLEAN
-RtlCheckBit (
-    PRTL_BITMAP BitMapHeader,
-    ULONG BitPosition
-    )
-
-{
-
-    return BitTest((LONG const *)BitMapHeader->Buffer, BitPosition);
-}
-
-#else
-
 #define RtlCheckBit(BMH,BP) ((((BMH)->Buffer[(BP) / 32]) >> ((BP) % 32)) & 0x1)
-
-#endif
 
 //
 //  The following two procedures return to the caller the total number of
@@ -6327,8 +6279,6 @@ RtlSetInformationAcl (
     ACL_INFORMATION_CLASS AclInformationClass
     );
 
-// begin_ntifs
-
 NTSYSAPI
 NTSTATUS
 NTAPI
@@ -6340,7 +6290,6 @@ RtlAddAce (
     ULONG AceListLength
     );
 
-
 NTSYSAPI
 NTSTATUS
 NTAPI
@@ -6349,6 +6298,7 @@ RtlDeleteAce (
     ULONG AceIndex
     );
 
+// begin_ntifs
 
 NTSYSAPI
 NTSTATUS
@@ -6621,7 +6571,6 @@ RtlSetSaclSecurityDescriptor (
     BOOLEAN SaclDefaulted
     );
 
-// begin_ntifs
 
 NTSYSAPI
 NTSTATUS
@@ -6633,7 +6582,6 @@ RtlGetSaclSecurityDescriptor (
     OUT PBOOLEAN SaclDefaulted
     );
 
-// end_ntifs
 
 NTSYSAPI                                        // ntifs
 NTSTATUS                                        // ntifs
@@ -6655,16 +6603,17 @@ RtlGetOwnerSecurityDescriptor (                     // ntifs
     OUT PBOOLEAN OwnerDefaulted                     // ntifs
     );                                              // ntifs
 
-// begin_ntifs
+
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlSetGroupSecurityDescriptor (
-    IN OUT PSECURITY_DESCRIPTOR SecurityDescriptor,
-    IN PSID Group OPTIONAL,
-    IN BOOLEAN GroupDefaulted OPTIONAL
+    PSECURITY_DESCRIPTOR SecurityDescriptor,
+    PSID Group,
+    BOOLEAN GroupDefaulted
     );
+
 
 NTSYSAPI
 NTSTATUS
@@ -6675,59 +6624,54 @@ RtlGetGroupSecurityDescriptor (
     OUT PBOOLEAN GroupDefaulted
     );
 
-// end_ntifs
 
 NTSYSAPI
 NTSTATUS
 NTAPI
-RtlMakeSelfRelativeSD (
-    __in PSECURITY_DESCRIPTOR AbsoluteSecurityDescriptor,
-    __out_bcount(*BufferLength) PSECURITY_DESCRIPTOR SelfRelativeSecurityDescriptor,
-    __inout PULONG BufferLength
-    );
-
-// begin_ntifs
-
-NTSYSAPI
-NTSTATUS
-NTAPI
-RtlAbsoluteToSelfRelativeSD (
-    __in PSECURITY_DESCRIPTOR AbsoluteSecurityDescriptor,
-    __out_bcount(*BufferLength) PSECURITY_DESCRIPTOR SelfRelativeSecurityDescriptor,
-    __inout PULONG BufferLength
+RtlMakeSelfRelativeSD(
+    IN  PSECURITY_DESCRIPTOR AbsoluteSecurityDescriptor,
+    OUT PSECURITY_DESCRIPTOR SelfRelativeSecurityDescriptor,
+    OUT PULONG BufferLength
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
-RtlSelfRelativeToAbsoluteSD (
-    __in PSECURITY_DESCRIPTOR SelfRelativeSecurityDescriptor,
-    __out_bcount_part_opt(*AbsoluteSecurityDescriptorSize, *AbsoluteSecurityDescriptorSize) PSECURITY_DESCRIPTOR AbsoluteSecurityDescriptor,
-    __inout PULONG AbsoluteSecurityDescriptorSize,
-    __out_bcount_part_opt(*DaclSize, *DaclSize) PACL Dacl,
-    __inout PULONG DaclSize,
-    __out_bcount_part_opt(*SaclSize, *SaclSize) PACL Sacl,
-    __inout PULONG SaclSize,
-    __out_bcount_part_opt(*OwnerSize, *OwnerSize) PSID Owner,
-    __inout PULONG OwnerSize,
-    __out_bcount_part_opt(*PrimaryGroupSize, *PrimaryGroupSize) PSID PrimaryGroup,
-    __inout PULONG PrimaryGroupSize
-    );
-
-// end_ntifs
-
-NTSYSAPI
-NTSTATUS
-NTAPI
-RtlSelfRelativeToAbsoluteSD2 (
-    __inout_bcount(*pBufferSize) PSECURITY_DESCRIPTOR pSelfRelativeSecurityDescriptor,
-    __inout PULONG pBufferSize
+RtlAbsoluteToSelfRelativeSD(
+    PSECURITY_DESCRIPTOR AbsoluteSecurityDescriptor,
+    PSECURITY_DESCRIPTOR SelfRelativeSecurityDescriptor,
+    PULONG BufferLength
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
-RtlNewSecurityGrantedAccess (
+RtlSelfRelativeToAbsoluteSD(
+    PSECURITY_DESCRIPTOR SelfRelativeSecurityDescriptor,
+    PSECURITY_DESCRIPTOR AbsoluteSecurityDescriptor,
+    PULONG AbsoluteSecurityDescriptorSize,
+    PACL Dacl,
+    PULONG DaclSize,
+    PACL Sacl,
+    PULONG SaclSize,
+    PSID Owner,
+    PULONG OwnerSize,
+    PSID PrimaryGroup,
+    PULONG PrimaryGroupSize
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+RtlSelfRelativeToAbsoluteSD2(
+    PSECURITY_DESCRIPTOR pSelfRelativeSecurityDescriptor,
+    PULONG               pBufferSize
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+RtlNewSecurityGrantedAccess(
     ACCESS_MASK DesiredAccess,
     PPRIVILEGE_SET Privileges,
     PULONG Length,
@@ -6739,46 +6683,30 @@ RtlNewSecurityGrantedAccess (
 NTSYSAPI
 NTSTATUS
 NTAPI
-RtlMapSecurityErrorToNtStatus (
+RtlMapSecurityErrorToNtStatus(
     SECURITY_STATUS Error
     );
 
-NTSYSAPI
-NTSTATUS
-NTAPI
-RtlImpersonateSelf (
-    IN SECURITY_IMPERSONATION_LEVEL ImpersonationLevel
-    );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
-RtlAdjustPrivilege (
+RtlImpersonateSelf(
+    IN SECURITY_IMPERSONATION_LEVEL ImpersonationLevel
+    );
+
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+RtlAdjustPrivilege(
     ULONG Privilege,
     BOOLEAN Enable,
     BOOLEAN Client,
     PBOOLEAN WasEnabled
     );
 
-#define RTL_ACQUIRE_PRIVILEGE_REVERT  0x00000001UL
-#define RTL_ACQUIRE_PRIVILEGE_PROCESS 0x00000002UL
 
-NTSYSAPI
-NTSTATUS
-NTAPI
-RtlAcquirePrivilege (
-    PULONG Privilege,
-    ULONG NumPriv,
-    ULONG Flags,
-    PVOID *ReturnedState
-    );
-
-NTSYSAPI
-VOID
-NTAPI
-RtlReleasePrivilege (
-    PVOID StatePointer
-    );
 
 NTSYSAPI
 VOID
@@ -6865,8 +6793,10 @@ RtlGetPrimaryDomain(
     OUT PULONG           RequiredSidLength
     );
 
-/////////////////////////////////////////////////////////////////////////
-// Temporary user mode Registry system services                        //
+//!!!!!!!!!!!!!!!  Temporary user mode Registry system services  !!!!!!//
+//                                                                     //
+//  These services will be eliminted when BryanWi implements the real  //
+//  registry object.                                                   //
                                                                        //
 NTSTATUS                                                               //
 RtlpNtOpenKey(                                                         //
@@ -6967,56 +6897,18 @@ NTSYSAPI
 NTSTATUS
 NTAPI
 RtlFormatMessage(
-    __in PWSTR MessageFormat,
-    __in ULONG MaximumWidth,
-    __in BOOLEAN IgnoreInserts,
-    __in BOOLEAN ArgumentsAreAnsi,
-    __in BOOLEAN ArgumentsAreAnArray,
-    __in va_list *Arguments,
-    __out_bcount_part(Length, *ReturnLength) PWSTR Buffer,
-    __in ULONG Length,
-    __out_opt PULONG ReturnLength
+    IN PWSTR MessageFormat,
+    IN ULONG MaximumWidth OPTIONAL,
+    IN BOOLEAN IgnoreInserts,
+    IN BOOLEAN ArgumentsAreAnsi,
+    IN BOOLEAN ArgumentsAreAnArray,
+    IN va_list *Arguments,
+    OUT PWSTR Buffer,
+    IN ULONG Length,
+    OUT PULONG ReturnLength OPTIONAL
     );
 
-typedef struct _PARSE_MESSAGE_CONTEXT {
-    ULONG fFlags;
-    ULONG cwSavColumn;
-    SIZE_T iwSrc;
-    SIZE_T iwDst;
-    SIZE_T iwDstSpace;
-    va_list lpvArgStart;
-} PARSE_MESSAGE_CONTEXT, *PPARSE_MESSAGE_CONTEXT;
-
-//
-// Prior to the initial call to RtlFormatMessageEx, this macro must be
-// used.
-//
-
-#define INIT_PARSE_MESSAGE_CONTEXT(ctx) \
-{ \
-    (ctx)->fFlags = 0; \
-}
-
-#define TEST_PARSE_MESSAGE_CONTEXT_FLAG(ctx, flag) ((ctx)->fFlags & (flag))
-#define SET_PARSE_MESSAGE_CONTEXT_FLAG(ctx, flag) ((ctx)->fFlags |= (flag))
-#define CLEAR_PARSE_MESSAGE_CONTEXT_FLAG(ctx, flag) ((ctx)->fFlags &= ~(flag))
-
-NTSYSAPI
-NTSTATUS
-NTAPI
-RtlFormatMessageEx(
-    __in PWSTR MessageFormat,
-    __in ULONG MaximumWidth,
-    __in BOOLEAN IgnoreInserts,
-    __in BOOLEAN ArgumentsAreAnsi,
-    __in BOOLEAN ArgumentsAreAnArray,
-    __in va_list *Arguments,
-    __out_bcount_part(Length, *ReturnLength) PWSTR Buffer,
-    __in ULONG Length,
-    __out_opt PULONG ReturnLength,
-    __out_opt PPARSE_MESSAGE_CONTEXT ParseContext
-    );
-
+
 //
 // Services providing a simple transaction capability for operations on
 // the registration database.
@@ -7045,12 +6937,21 @@ typedef struct _RTL_RXACT_LOG {
 //    UCHAR LogData[ ANYSIZE_ARRAY ]
 } RTL_RXACT_LOG, *PRTL_RXACT_LOG;
 
+#ifdef _MAC
+#pragma warning( disable : 4121)
+#endif
+
 typedef struct _RTL_RXACT_CONTEXT {
     HANDLE RootRegistryKey;
     HANDLE RXactKey;
     BOOLEAN HandlesValid;             // Handles found in Log entries are legit
     PRTL_RXACT_LOG RXactLog;
 } RTL_RXACT_CONTEXT, *PRTL_RXACT_CONTEXT;
+
+
+#ifdef _MAC
+#pragma warning( default : 4121 )
+#endif
 
 
 NTSYSAPI
@@ -7147,36 +7048,36 @@ NTSYSAPI
 NTSTATUS
 NTAPI
 RtlCustomCPToUnicodeN(
-    __in PCPTABLEINFO CustomCP,
-    __out_bcount_part(MaxBytesInUnicodeString, *BytesInUnicodeString) PWCH UnicodeString,
-    __in ULONG MaxBytesInUnicodeString,
-    __out_opt PULONG BytesInUnicodeString,
-    __in_bcount(BytesInCustomCPString) PCH CustomCPString,
-    __in ULONG BytesInCustomCPString
+    IN PCPTABLEINFO CustomCP,
+    OUT PWCH UnicodeString,
+    IN ULONG MaxBytesInUnicodeString,
+    OUT PULONG BytesInUnicodeString OPTIONAL,
+    IN PCH CustomCPString,
+    IN ULONG BytesInCustomCPString
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlUnicodeToCustomCPN(
-    __in PCPTABLEINFO CustomCP,
-    __out_bcount_part(MaxBytesInCustomCPString, *BytesInCustomCPString) PCH CustomCPString,
-    __in ULONG MaxBytesInCustomCPString,
-    __out_opt PULONG BytesInCustomCPString,
-    __in_bcount(BytesInUnicodeString) PWCH UnicodeString,
-    __in ULONG BytesInUnicodeString
+    IN PCPTABLEINFO CustomCP,
+    OUT PCH CustomCPString,
+    IN ULONG MaxBytesInCustomCPString,
+    OUT PULONG BytesInCustomCPString OPTIONAL,
+    IN PWCH UnicodeString,
+    IN ULONG BytesInUnicodeString
     );
 
 NTSYSAPI
 NTSTATUS
 NTAPI
 RtlUpcaseUnicodeToCustomCPN(
-    __in PCPTABLEINFO CustomCP,
-    __out_bcount_part(MaxBytesInCustomCPString, *BytesInCustomCPString) PCH CustomCPString,
-    __in ULONG MaxBytesInCustomCPString,
-    __out_opt PULONG BytesInCustomCPString,
-    __in_bcount(BytesInUnicodeString) PWCH UnicodeString,
-    __in ULONG BytesInUnicodeString
+    IN PCPTABLEINFO CustomCP,
+    OUT PCH CustomCPString,
+    IN ULONG MaxBytesInCustomCPString,
+    OUT PULONG BytesInCustomCPString OPTIONAL,
+    IN PWCH UnicodeString,
+    IN ULONG BytesInUnicodeString
     );
 
 NTSYSAPI
@@ -7468,7 +7369,7 @@ RtlInvertRangeList(
 // big-endian and vice-versa.
 //
 
-#if (defined(_M_IX86) && (_MSC_FULL_VER > 13009037)) || ((defined(_M_AMD64)) && (_MSC_FULL_VER > 13009175))
+#if (defined(_M_IX86) && (_MSC_FULL_VER > 13009037)) || ((defined(_M_AMD64) || defined(_M_IA64)) && (_MSC_FULL_VER > 13009175))
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -7662,7 +7563,6 @@ typedef LPOSVERSIONINFOEXA LPOSVERSIONINFOEX;
 #define VER_SET_CONDITION(_m_,_t_,_c_)  \
         ((_m_)=VerSetConditionMask((_m_),(_t_),(_c_)))
 
-NTSYSAPI
 ULONGLONG
 NTAPI
 VerSetConditionMask(
@@ -7704,12 +7604,12 @@ RtlRegisterSecureMemoryCacheCallback(
     IN PRTL_SECURE_MEMORY_CACHE_CALLBACK CallBack
     );
 
-NTSYSAPI
 BOOLEAN
 RtlFlushSecureMemoryCache(
     PVOID   lpAddr,
     SIZE_T  size
     );
+
 
 ULONG32
 RtlComputeCrc32(
@@ -7993,16 +7893,6 @@ RTLP_ADD_WITH_OVERFLOW_OUT_SIGNED_PTR(RtlAddWithOverflowOutSsizet, SSIZE_T)
 #undef RTLP_ADD_WITH_OVERFLOW_OUT_SIGNED64
 #undef RTLP_ADD_WITH_OVERFLOW_OUT_SIGNED_PTR
 
-typedef struct _RTL_BACKOFF {
-   ULONG Delay;
-   ULONG Salt;
-} RTL_BACKOFF, *PRTL_BACKOFF;
-
-VOID
-RtlBackoff (
-    IN PRTL_BACKOFF Backoff
-    );
-
 #endif // !defined(MIDL_PASS) && !defined(SORTPP_PASS)
 
 //
@@ -8140,13 +8030,8 @@ typedef enum _DPFLTR_TYPE {
     DPFLTR_VDSDYNDR_ID = 96,
     DPFLTR_VDSUTIL_ID = 97,
     DPFLTR_DFRGIFC_ID = 98,
-    DPFLTR_DEFAULT_ID = 99,
-    DPFLTR_MM_ID = 100,
-    DPFLTR_DFSC_ID = 101,
-    DPFLTR_WOW64_ID = 102,
     DPFLTR_ENDOFTABLE_ID
 } DPFLTR_TYPE;
 
 // end_ntddk end_wdm end_nthal end_ntifs end_ntndis
 #endif // _NTRTL_
-

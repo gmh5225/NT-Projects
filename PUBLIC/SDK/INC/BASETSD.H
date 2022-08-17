@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -14,35 +10,14 @@ Abstract:
 
     Type definitions for the basic sized types.
 
+Author:
+
+Revision History:
+
 --*/
 
 #ifndef _BASETSD_H_
 #define _BASETSD_H_
-
-#if (defined(_M_AMD64)) && (_MSC_VER >= 1100) && !(defined(MIDL_PASS) || defined(RC_INVOKED))
-#define POINTER_64 __ptr64
-typedef unsigned __int64 POINTER_64_INT;
-#if defined(_WIN64)
-#define POINTER_32 __ptr32
-#else
-#define POINTER_32
-#endif
-#else
-#if (_MSC_VER >= 1300) && !(defined(MIDL_PASS) || defined(RC_INVOKED))
-#define POINTER_64 __ptr64
-#else
-#define POINTER_64
-#endif
-typedef unsigned long POINTER_64_INT;
-#define POINTER_32
-#endif
-
-#if defined(_AMD64_)
-#define FIRMWARE_PTR
-#else
-#define FIRMWARE_PTR POINTER_32
-#endif
-
 
 #if _MSC_VER > 1000
 #pragma once
@@ -270,40 +245,6 @@ ULongToPtr(
     return( (void *)(ULONG_PTR)ul );
 }
 
-#define PtrToPtr64( p )         ((void * POINTER_64) p)
-#define Ptr64ToPtr( p )         ((void *) p)
-#define HandleToHandle64( h )   (PtrToPtr64( h ))
-#define Handle64ToHandle( h )   (Ptr64ToPtr( h ))
-
-__inline
-void *
-Ptr32ToPtr(
-    const void * POINTER_32 p
-    )
-{
-    return((void *) (ULONG_PTR) (unsigned long) p);
-}
-
-__inline
-void *
-Handle32ToHandle(
-    const void * POINTER_32 h
-    )
-{
-    return((void *) h);
-}
-
-__inline
-void * POINTER_32
-PtrToPtr32(
-    const void *p
-    )
-{
-    return((void * POINTER_32) (unsigned long) (ULONG_PTR) p);
-}
-
-#define HandleToHandle32( h )       (PtrToPtr32( h ))
-
 #endif // !_midl
 
 #else  // !_WIN64
@@ -329,49 +270,6 @@ typedef _W64 unsigned long HANDLE_PTR;
 #define UIntToPtr( ui )  ((VOID *)(UINT_PTR)((unsigned int)ui))
 #define LongToPtr( l )   ((VOID *)(LONG_PTR)((long)l))
 #define ULongToPtr( ul ) ((VOID *)(ULONG_PTR)((unsigned long)ul))
-
-#if !defined(__midl)
-__inline
-void * POINTER_64
-PtrToPtr64(
-    const void *p
-    )
-{
-    return((void * POINTER_64) (unsigned __int64) (ULONG_PTR)p );
-}
-
-__inline
-void *
-Ptr64ToPtr(
-    const void * POINTER_64 p
-    )
-{
-    return((void *) (ULONG_PTR) (unsigned __int64) p);
-}
-
-__inline
-void * POINTER_64
-HandleToHandle64(
-    const void *h
-    )
-{
-    return((void * POINTER_64) h );
-}
-
-__inline
-void *
-Handle64ToHandle(
-    const void * POINTER_64 h
-    )
-{
-    return((void *) (ULONG_PTR) (unsigned __int64) h );
-}
-#endif
-
-#define Ptr32ToPtr( p )         ((void *) p)
-#define Handle32ToHandle( h )   (Ptr32ToPtr( h ))
-#define PtrToPtr32( p )         ((void * POINTER_32) p)
-#define HandleToHandle32( h )   (PtrToPtr32( h ))
 
 #endif // !_WIN64
 
@@ -432,4 +330,3 @@ typedef KAFFINITY *PKAFFINITY;
 #endif
 
 #endif // _BASETSD_H_
-

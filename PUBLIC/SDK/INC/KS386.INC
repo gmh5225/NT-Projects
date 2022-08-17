@@ -1,9 +1,3 @@
-;
-; Copyright (c) Microsoft Corporation. All rights reserved.
-;
-; You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-; If you do not agree to the terms, do not use the code.
-;
 
 ;
 ;  Pointer size in bytes
@@ -53,7 +47,7 @@ AsKernelApcPending equ 00015H
 AsUserApcPending equ 00016H
 
 ;
-;  Bugcheck Code Definitions
+;  Bug Check Code Definitions
 ;
 
 APC_INDEX_MISMATCH equ 00001H
@@ -82,14 +76,12 @@ TRAP_CAUSE_UNKNOWN equ 00012H
 UNEXPECTED_KERNEL_MODE_TRAP equ 0007FH
 HARDWARE_INTERRUPT_STORM equ 000F2H
 RECURSIVE_MACHINE_CHECK equ 000FBH
-RECURSIVE_NMI equ 00111H
 
 ;
 ;  Breakpoint type definitions
 ;
 
 DBG_STATUS_CONTROL_C equ 00001H
-STATUS_ASSERTION_FAILURE equ 0C0000420H
 
 ;
 ;  Client Id Structure Offset Definitions
@@ -158,7 +150,7 @@ ExceptionRecordLength equ 00050H
 FmCount equ 00000H
 FmOwner equ 00004H
 FmContention equ 00008H
-FmGate equ 0000CH
+FmEvent equ 0000CH
 FmOldIrql equ 0001CH
 
 ;
@@ -211,47 +203,10 @@ StHigh1Time equ 00004H
 StHigh2Time equ 00008H
 
 ;
-;  User Shared Data Structure Offset Definitions
+;  Tick Count Offset Definitions
 ;
 
-UsTickCountMultiplier equ 00004H
-UsInterruptTime equ 00008H
-UsSystemTime equ 00014H
-UsTimeZoneBias equ 00020H
-UsImageNumberLow equ 0002CH
-UsImageNumberHigh equ 0002EH
-UsNtSystemRoot equ 00030H
-UsMaxStackTraceDepth equ 00238H
-UsCryptoExponent equ 0023CH
-UsTimeZoneId equ 00240H
-UsLargePageMinimum equ 00244H
-UsReserved2 equ 00248H
-UsNtProductType equ 00264H
-UsProductTypeIsValid equ 00268H
-UsNtMajorVersion equ 0026CH
-UsNtMinorVersion equ 00270H
-UsProcessorFeatures equ 00274H
-UsReserved1 equ 002B4H
-UsReserved3 equ 002B8H
-UsTimeSlip equ 002BCH
-UsAlternativeArchitecture equ 002C0H
-UsSystemExpirationDate equ 002C8H
-UsSuiteMask equ 002D0H
-UsKdDebuggerEnabled equ 002D4H
-UsActiveConsoleId equ 002D8H
-UsDismountCount equ 002DCH
-UsComPlusPackage equ 002E0H
-UsLastSystemRITEventTickCount equ 002E4H
-UsNumberOfPhysicalPages equ 002E8H
-UsSafeBootMode equ 002ECH
-UsTraceLogging equ 002F0H
-UsTestRetInstruction equ 002F8H
-UsSystemCall equ 00300H
-UsSystemCallReturn equ 00304H
-UsSystemCallPad equ 00308H
 UsTickCount equ 00320H
-UsTickCountQuad equ 00320H
-UsWow64SharedInformation equ 00334H
 
 ;
 ;  Time Structure Offset Definitions
@@ -284,7 +239,6 @@ STATUS_ACCESS_VIOLATION equ 0C0000005H
 STATUS_ARRAY_BOUNDS_EXCEEDED equ 0C000008CH
 STATUS_BAD_COMPRESSION_BUFFER equ 0C0000242H
 STATUS_BREAKPOINT equ 080000003H
-STATUS_CALLBACK_POP_STACK equ 0C0000423H
 STATUS_DATATYPE_MISALIGNMENT equ 080000002H
 STATUS_FLOAT_DENORMAL_OPERAND equ 0C000008DH
 STATUS_FLOAT_DIVIDE_BY_ZERO equ 0C000008EH
@@ -302,7 +256,6 @@ STATUS_INSTRUCTION_MISALIGNMENT equ 0C00000AAH
 STATUS_INVALID_HANDLE equ 0C0000008H
 STATUS_INVALID_LOCK_SEQUENCE equ 0C000001EH
 STATUS_INVALID_OWNER equ 0C000005AH
-STATUS_INVALID_PARAMETER equ 0C000000DH
 STATUS_INVALID_PARAMETER_1 equ 0C00000EFH
 STATUS_INVALID_SYSTEM_SERVICE equ 0C000001CH
 STATUS_INTEGER_DIVIDE_BY_ZERO equ 0C0000094H
@@ -314,14 +267,12 @@ STATUS_NO_CALLBACK_ACTIVE equ 0C0000258H
 STATUS_NO_EVENT_PAIR equ 0C000014EH
 STATUS_PRIVILEGED_INSTRUCTION equ 0C0000096H
 STATUS_SINGLE_STEP equ 080000004H
-STATUS_STACK_BUFFER_OVERRUN equ 0C0000409H
 STATUS_STACK_OVERFLOW equ 0C00000FDH
 STATUS_SUCCESS equ 00000H
 STATUS_THREAD_IS_TERMINATING equ 0C000004BH
 STATUS_TIMEOUT equ 00102H
 STATUS_UNWIND equ 0C0000027H
 STATUS_UNWIND_CONSOLIDATE equ 080000029H
-STATUS_USER_APC equ 000C0H
 STATUS_WAKE_SYSTEM_DEBUGGER equ 080000007H
 
 ;
@@ -349,7 +300,7 @@ ApcObjectLength equ 00030H
 
 DpType equ 00000H
 DpNumber equ 00002H
-DpImportance equ 00001H
+DpImportance equ 00003H
 DpDpcListEntry equ 00004H
 DpDeferredRoutine equ 0000CH
 DpDeferredContext equ 00010H
@@ -443,8 +394,8 @@ PrIopmOffset equ 00030H
 PrInt21Descriptor equ 00028H
 PrIopl equ 00032H
 PrVdmTrapcHandler equ 0004CH
-PrVdmObjects equ 00144H
-PrFlags equ 00240H
+PrVdmObjects equ 00134H
+PrFlags equ 00248H
 PrActiveProcessors equ 00034H
 PrKernelTime equ 00038H
 PrUserTime equ 0003CH
@@ -453,13 +404,13 @@ PrSwapListEntry equ 00048H
 PrThreadListHead equ 00050H
 PrProcessLock equ 00058H
 PrAffinity equ 0005CH
-PrProcessFlags equ 00060H
-PrBasePriority equ 00064H
-PrQuantumReset equ 00065H
-PrState equ 00066H
-PrStackCount equ 0006CH
-KernelProcessObjectLength equ 00078H
-ExecutiveProcessObjectLength equ 00278H
+PrStackCount equ 00060H
+PrBasePriority equ 00062H
+PrThreadQuantum equ 00063H
+PrAutoAlignment equ 00064H
+PrState equ 00065H
+ProcessObjectLength equ 00070H
+ExtendedProcessObjectLength equ 00280H
 
 ;
 ;  Profile Object Structure Offset Definitions
@@ -497,33 +448,28 @@ QueueObjectLength equ 00028H
 ;
 
 EeKernelEventPair equ 00000H
-EtCid equ 001E4H
+EtCid equ 001F4H
+EtEthreadLength equ 00260H
 
 ThType equ 00000H
-ThNpxIrql equ 00001H
 ThSize equ 00002H
 ThDebugActive equ 00003H
 ThSignalState equ 00004H
 ThMutantListHead equ 00010H
 ThInitialStack equ 00018H
+ThThreadLock equ 00024H
 ThStackLimit equ 0001CH
 ThKernelStack equ 00020H
-ThThreadLock equ 00024H
-ThApcState equ 00028H
-ThApcQueueable equ 0003FH
-ThNextProcessor equ 00040H
-ThDeferredProcessor equ 00041H
-ThAdjustReason equ 00042H
-ThAdjustIncrement equ 00043H
-ThApcQueueLock equ 00044H
-ThContextSwitches equ 00048H
-ThState equ 0004CH
-ThNpxState equ 0004DH
-ThWaitIrql equ 0004EH
-ThWaitMode equ 0004FH
+ThContextSwitches equ 00028H
+ThState equ 0002CH
+ThNpxState equ 0002DH
+ThWaitIrql equ 0002EH
+ThWaitMode equ 0002FH
+ThTeb equ 00030H
+ThApcState equ 00034H
+ThApcQueueLock equ 0004CH
 ThWaitStatus equ 00050H
 ThWaitBlockList equ 00054H
-ThGateObject equ 00054H
 ThAlertable equ 00058H
 ThWaitNext equ 00059H
 ThWaitReason equ 0005AH
@@ -532,63 +478,58 @@ ThEnableStackSwap equ 0005CH
 ThSwapBusy equ 0005DH
 ThAlerted equ 0005EH
 ThWaitListEntry equ 00060H
-ThSwapListEntry equ 00060H
 ThQueue equ 00068H
 ThWaitTime equ 0006CH
 ThCombinedApcDisable equ 00070H
 ThKernelApcDisable equ 00070H
 ThSpecialApcDisable equ 00072H
-ThTeb equ 00074H
 ThTimer equ 00078H
-ThThreadFlags equ 000A0H
-ThWaitBlock equ 000A8H
-ThSystemAffinityActive equ 000BFH
-ThPreviousMode equ 000D7H
-ThResourceIndex equ 000EFH
-ThLargeStack equ 00107H
-ThQueueListEntry equ 00108H
-ThTrapFrame equ 00110H
-ThCallbackStack equ 00114H
-ThServiceTable equ 00118H
-ThApcStateIndex equ 0011CH
-ThIdealProcessor equ 0011DH
-ThPreempted equ 0011EH
-ThProcessReadyQueue equ 0011FH
-ThKernelStackResident equ 00120H
-ThBasePriority equ 00121H
-ThPriorityDecrement equ 00122H
-ThSaturation equ 00123H
-ThUserAffinity equ 00124H
-ThProcess equ 00128H
-ThAffinity equ 0012CH
-ThApcStatePointer equ 00130H
-ThSavedApcState equ 00138H
-ThFreezeCount equ 0014FH
-ThSuspendCount equ 00150H
-ThUserIdealProcessor equ 00151H
-ThCalloutActive equ 00152H
-ThIopl equ 00153H
-ThWin32Thread equ 00154H
-ThStackBase equ 00158H
-ThSuspendApc equ 0015CH
-ThQuantum equ 0015DH
-ThQuantumReset equ 0015FH
-ThKernelTime equ 00160H
-ThTlsArray equ 00180H
-ThBBTData equ 00184H
-ThPowerState equ 0018BH
-ThUserTime equ 0018CH
+ThWaitBlock equ 000A0H
+ThQueueListEntry equ 00100H
+ThApcStateIndex equ 00108H
+ThApcQueueable equ 00109H
+ThPreempted equ 0010AH
+ThProcessReadyQueue equ 0010BH
+ThKernelStackResident equ 0010CH
+ThSaturation equ 0010DH
+ThIdealProcessor equ 0010EH
+ThNextProcessor equ 0010FH
+ThBasePriority equ 00110H
+ThPriorityDecrement equ 00112H
+ThQuantum equ 00113H
+ThSystemAffinityActive equ 00114H
+ThPreviousMode equ 00115H
+ThResourceIndex equ 00116H
+ThDisableBoost equ 00117H
+ThUserAffinity equ 00118H
+ThProcess equ 0011CH
+ThAffinity equ 00120H
+ThServiceTable equ 00124H
+ThApcStatePointer equ 00128H
+ThSavedApcState equ 00130H
+ThCallbackStack equ 00148H
+ThWin32Thread equ 0014CH
+ThTrapFrame equ 00150H
+ThKernelTime equ 00154H
+ThUserTime equ 00158H
+ThStackBase equ 0015CH
+ThSuspendApc equ 00160H
 ThSuspendSemaphore equ 00190H
-ThSListFaultCount equ 001A4H
-ThThreadListEntry equ 001A8H
-ThSListFaultAddress equ 001B0H
+ThTlsArray equ 001A4H
+ThLegoData equ 001A8H
+ThThreadListEntry equ 001ACH
+ThLargeStack equ 001B4H
+ThPowerState equ 001B5H
+ThNpxIrql equ 001B6H
+ThAutoAlignment equ 001B8H
+ThIopl equ 001B9H
+ThFreezeCount equ 001BAH
+ThSuspendCount equ 001BBH
+ThUserIdealProcessor equ 001BDH
+ThreadObjectLength equ 001D0H
+ExtendedThreadObjectLength equ 00260H
 
-KI_SLIST_FAULT_COUNT_MAXIMUM equ 00400H
-KTHREAD_AUTO_ALIGNMENT_BIT equ 00000H
-
-KernelThreadObjectLength equ 001B8H
-ExecutiveThreadObjectLength equ 00250H
-
+EVENT_WAIT_BLOCK_OFFSET equ 000D0H
 NPX_STATE_NOT_LOADED equ 0000AH
 NPX_STATE_LOADED equ 00000H
 
@@ -606,15 +547,7 @@ TiDpc equ 00020H
 TiPeriod equ 00024H
 TimerObjectLength equ 00028H
 
-
-;
-;  Timer Table Entry Structure Offset Definitions
-;
-
-TtEntry equ 00000H
-TtTime equ 00008H
-TIMER_ENTRY_SIZE equ 00010H
-TIMER_TABLE_SIZE equ 00200H
+TIMER_TABLE_SIZE equ 00100H
 
 ;
 ;  Wait Block Structure Offset Definitions
@@ -638,9 +571,7 @@ FbStackLimit equ 0000CH
 FbDeallocationStack equ 00010H
 FbFiberContext equ 00014H
 FbWx86Tib equ 002E0H
-FbActivationContextStackPointer equ 002E4H
-FbFlsData equ 002E8H
-FbGuaranteedStackBytes equ 002ECH
+FbFlsData equ 002E4H
 
 ;
 ;  Process Environment Block Structure Offset Definitions
@@ -653,17 +584,16 @@ ProcessEnvironmentBlockLength equ 00230H
 ;  System Service Descriptor Table Structure Definitions
 ;
 
-NUMBER_SERVICE_TABLES equ 00002H
+NUMBER_SERVICE_TABLES equ 00004H
 SERVICE_NUMBER_MASK equ 00FFFH
 SERVICE_TABLE_SHIFT equ 00008H
-SERVICE_TABLE_MASK equ 00010H
+SERVICE_TABLE_MASK equ 00030H
 SERVICE_TABLE_TEST equ 00010H
 
 SdBase equ 00000H
 SdCount equ 00004H
 SdLimit equ 00008H
 SdNumber equ 0000CH
-SdLength equ 00010H
 
 ;
 ;  Thread Environment Block Structure Offset Definitions
@@ -684,7 +614,6 @@ TeCsrClientThread equ 0003CH
 TeWOW32Reserved equ 000C0H
 TeSoftFpcr equ 000C8H
 TeExceptionCode equ 001A4H
-TeActivationContextStackPointer equ 001A8H
 TeGdiClientPID equ 006C0H
 TeGdiClientTID equ 006C4H
 TeGdiThreadLocalInfo equ 006C8H
@@ -698,18 +627,12 @@ TeglCurrentRC equ 00BECH
 TeglContext equ 00BF0H
 TeDeallocationStack equ 00E0CH
 TeTlsSlots equ 00E10H
-TeTlsExpansionSlots equ 00F94H
-TeLastErrorValue equ 00034H
 TeVdm equ 00F18H
-TeInstrumentation equ 00F2CH
 TeGdiBatchCount equ 00F70H
-TeGuaranteedStackBytes equ 00F78H
-TeSafeThunkCall equ 00FB8H
+TeInstrumentation equ 00F2CH
 TeFlsData equ 00FB4H
-ThreadEnvironmentBlockLength equ 00FBCH
+ThreadEnvironmentBlockLength equ 00FB8H
 CmThreadEnvironmentBlockOffset equ 01000H
-TLS_MINIMUM_AVAILABLE equ 00040H
-TLS_EXPANSION_SLOTS equ 00400H
 
 ;
 ;  Lock Queue Structure Offset Definitions
@@ -736,8 +659,6 @@ PERF_CONTEXTSWAP_OFFSET equ 00004H
 PERF_CONTEXTSWAP_FLAG equ 00004H
 PERF_INTERRUPT_OFFSET equ 00004H
 PERF_INTERRUPT_FLAG equ 04000H
-PERF_PROFILE_OFFSET equ 00004H
-PERF_PROFILE_FLAG equ 00002H
 
 ;
 ;  Apc Record Structure Offset Definitions
@@ -784,7 +705,7 @@ PcSetMember equ 00048H
 PcStallScaleFactor equ 0004CH
 PcHal equ 00094H
 PcPrcbData equ 00120H
-ProcessorControlRegisterLength equ 00FE0H
+ProcessorControlRegisterLength equ 00EF0H
 TebPeb equ 00030H
 PebBeingDebugged equ 00002H
 PebKernelCallbackTable equ 0002CH
@@ -801,7 +722,6 @@ UsInterruptTime equ 00008H
 UsSystemTime equ 00014H
 UsProcessorFeatures equ 00274H
 UsSystemCall equ 00300H
-UsSystemCallReturn equ 00304H
 
 PF_XMMI_INSTRUCTIONS_AVAILABLE equ 00006H
 
@@ -875,66 +795,63 @@ PbCpuStep equ 0001AH
 PbProcessorState equ 0001CH
 PbHalReserved equ 0037CH
 PbLockQueue equ 00418H
-PbNpxThread equ 00520H
-PbInterruptCount equ 00524H
-PbKernelTime equ 00528H
-PbUserTime equ 0052CH
-PbDpcTime equ 00530H
-PbDebugDpcTime equ 00534H
-PbInterruptTime equ 00538H
-PbAdjustDpcThreshold equ 0053CH
-PbPageColor equ 00540H
-PbSkipTick equ 00544H
-PbNodeShiftedColor equ 00548H
-PbParentNode equ 0054CH
-PbMultiThreadProcessorSet equ 00550H
-PbMultiThreadSetMaster equ 00554H
-PbSecondaryColorMask equ 00558H
-PbAlignmentFixupCount equ 00578H
-PbDcacheFlushCount equ 00580H
-PbExceptionDispatchCount equ 00584H
-PbFirstLevelTbFills equ 00588H
-PbFloatingEmulationCount equ 0058CH
-PbIcacheFlushCount equ 00590H
-PbSecondLevelTbFills equ 00594H
-PbSystemCalls equ 00598H
-PbPPLookasideList equ 005E0H
-PbPPNPagedLookasideList equ 00660H
-PbPPPagedLookasideList equ 00760H
-PbPacketBarrier equ 00860H
-PbReverseStall equ 00864H
-PbIpiFrame equ 00868H
-PbCurrentPacket equ 008A0H
-PbTargetSet equ 008ACH
-PbWorkerRoutine equ 008B0H
-PbIpiFrozen equ 008B4H
-PbRequestSummary equ 008E0H
-PbSignalDone equ 008E4H
-PbDpcListHead equ 00920H
-PbDpcLock equ 00928H
-PbDpcQueueDepth equ 0092CH
-PbDpcCount equ 00930H
-PbDpcStack equ 00948H
-PbMaximumDpcQueueDepth equ 0094CH
-PbDpcRequestRate equ 00950H
-PbMinimumDpcRate equ 00954H
-PbDpcInterruptRequested equ 00958H
-PbDpcThreadRequested equ 00959H
-PbDpcRoutineActive equ 0095AH
-PbDpcThreadActive equ 0095BH
-PbPrcbLock equ 0095CH
-PbDpcLastCount equ 00960H
-PbTimerHand equ 00964H
-PbTimerRequest equ 00968H
-PbQuantumEnd equ 00981H
-PbIdleSchedule equ 00983H
-PbReadySummary equ 009E8H
-PbDispatcherReadyListHead equ 009F0H
-PbDeferredReadyListHead equ 00AF0H
-PbNpxSaveArea equ 00B90H
-PbChainedInterruptList equ 00B20H
-PbPowerState equ 00DA0H
-ProcessorBlockLength equ 00EC0H
+PbNpxThread equ 004A0H
+PbInterruptCount equ 004A4H
+PbKernelTime equ 004A8H
+PbUserTime equ 004ACH
+PbDpcTime equ 004B0H
+PbDebugDpcTime equ 004B4H
+PbInterruptTime equ 004B8H
+PbAdjustDpcThreshold equ 004BCH
+PbPageColor equ 004C0H
+PbSkipTick equ 004C4H
+PbMultiThreadProcessorSet equ 004D0H
+PbThreadStartCount equ 004D8H
+PbAlignmentFixupCount equ 004F8H
+PbDcacheFlushCount equ 00500H
+PbExceptionDispatchCount equ 00504H
+PbFirstLevelTbFills equ 00508H
+PbFloatingEmulationCount equ 0050CH
+PbIcacheFlushCount equ 00510H
+PbSecondLevelTbFills equ 00514H
+PbSystemCalls equ 00518H
+PbPPLookasideList equ 00520H
+PbPPNPagedLookasideList equ 005A0H
+PbPPPagedLookasideList equ 006A0H
+PbPacketBarrier equ 007A0H
+PbReverseStall equ 007A4H
+PbIpiFrame equ 007A8H
+PbCurrentPacket equ 007E0H
+PbTargetSet equ 007ECH
+PbWorkerRoutine equ 007F0H
+PbIpiFrozen equ 007F4H
+PbRequestSummary equ 00820H
+PbSignalDone equ 00824H
+PbDpcListHead equ 00860H
+PbDpcLock equ 00868H
+PbDpcQueueDepth equ 0086CH
+PbDpcCount equ 00870H
+PbDpcStack equ 00888H
+PbMaximumDpcQueueDepth equ 0088CH
+PbDpcRequestRate equ 00890H
+PbMinimumDpcRate equ 00894H
+PbDpcInterruptRequested equ 00898H
+PbDpcThreadRequested equ 00899H
+PbDpcRoutineActive equ 0089AH
+PbDpcThreadActive equ 0089BH
+PbPrcbLock equ 0089CH
+PbDpcLastCount equ 008A0H
+PbTimerHand equ 008A4H
+PbTimerRequest equ 008A8H
+PbQuantumEnd equ 008C1H
+PbIdleSchedule equ 008C3H
+PbReadySummary equ 00928H
+PbDispatcherReadyListHead equ 00930H
+PbDeferredReadyListHead equ 00A30H
+PbNpxSaveArea equ 00AA0H
+PbChainedInterruptList equ 00A60H
+PbPowerState equ 00CB0H
+ProcessorBlockLength equ 00DD0H
 
 ;
 ;  Processor Power State Offset Definitions
@@ -1063,7 +980,6 @@ READY_SKIP_QUANTUM equ 00002H
 THREAD_QUANTUM equ 00006H
 WAIT_QUANTUM_DECREMENT equ 00001H
 ROUND_TRIP_DECREMENT_COUNT equ 00010H
-KI_EXCEPTION_ACCESS_VIOLATION equ 010000004H
 
 ;
 ;  Trap Frame Offset Definitions and Length
@@ -1152,16 +1068,11 @@ CsEsp equ 000C4H
 CsSegSs equ 000C8H
 CsExtendedRegisters equ 000CCH
 ContextFrameLength equ 002D0H
-CONTEXT_ALIGNED_SIZE equ 002CCH
-
 DR6_LEGAL equ 0E00FH
 DR7_LEGAL equ 0FFFF0155H
 DR7_ACTIVE equ 00055H
-DR7_RESERVED_MASK equ 0DC00H
-
 ErrHandler equ 00004H
 ErrNext equ 00000H
-ErrLength equ 00008H
 
 ;
 ;  Floating save area field offset definitions
@@ -1223,8 +1134,8 @@ ProcessorStateLength equ 00320H
 ;  EPROCESS
 ;
 
-EpDebugPort equ 000CCH
-EpVdmObjects equ 00144H
+EpDebugPort equ 000BCH
+EpVdmObjects equ 00134H
 
 ;
 ;  Machine type definitions (Temporarily)
@@ -1345,70 +1256,3 @@ CuOutLn equ 00024H
 ;
 
 VpVdmTib equ 00098H
-
-;
-;  Wow64 turbo dispatch system call types
-;
-
-ServiceNoTurbo equ 00000H
-
-;
-;  No arguments system call
-;
-
-Service0Arg equ 00001H
-Service0ArgReloadState equ 00002H
-
-;
-;  One argument system call types
-;
-
-Service1ArgSp equ 00003H
-Service1ArgNSp equ 00004H
-
-;
-;  Two arguments system call types
-;
-
-Service2ArgNSpNSp equ 00005H
-Service2ArgNSpNSpReloadState equ 00006H
-Service2ArgSpNSp equ 00007H
-Service2ArgSpSp equ 00008H
-Service2ArgNSpSp equ 00009H
-
-;
-;  Three arguments system call types
-;
-
-Service3ArgNSpNSpNSp equ 0000AH
-Service3ArgSpSpSp equ 0000BH
-Service3ArgSpNSpNSp equ 0000CH
-Service3ArgSpNSpNSpReloadState equ 0000DH
-Service3ArgSpSpNSp equ 0000EH
-Service3ArgSpSpSp equ 0000BH
-Service3ArgSpNSpSp equ 00010H
-
-;
-;  Four arguments system call types
-;
-
-Service4ArgNSpNSpNSpNSp equ 00011H
-Service4ArgSpSpNSpNSp equ 00012H
-Service4ArgSpSpNSpNSpReloadState equ 00013H
-Service4ArgSpNSpNSpNSp equ 00014H
-Service4ArgSpNSpNSpNSpReloadState equ 00015H
-Service4ArgNSpSpNSpNSp equ 00016H
-Service4ArgSpSpSpNSp equ 00017H
-
-;
-;  Special system calls
-;
-
-ServiceCpupTdQuerySystemTime equ 00018H
-ServiceCpupTdGetCurrentProcessorNumber equ 00019H
-ServiceCpupTdReadWriteFile equ 0001AH
-ServiceCpupTdDeviceIoControlFile equ 0001BH
-ServiceCpupTdRemoveIoCompletion equ 0001CH
-ServiceCpupTdWaitForMultipleObjects equ 0001DH
-ServiceCpupTdWaitForMultipleObjects32 equ 0001EH
-Wow64ServiceTypesCount equ 0001FH

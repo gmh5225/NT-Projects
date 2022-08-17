@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0003    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -14,6 +10,16 @@ Abstract:
 
     This module contains the include file for data types that are exported
     by kernel for general use.
+
+Author:
+
+    David N. Cutler (davec) 27-Jul-1989
+
+Environment:
+
+    Any mode.
+
+Revision History:
 
 --*/
 
@@ -88,42 +94,7 @@ typedef KSPIN_LOCK *PKSPIN_LOCK;
 //
 
 #define LOCK_QUEUE_WAIT 1
-#define LOCK_QUEUE_WAIT_BIT 0
-
 #define LOCK_QUEUE_OWNER 2
-#define LOCK_QUEUE_OWNER_BIT 1
-
-#if defined(_AMD64_)
-
-#define LOCK_QUEUE_TIMER_LOCK_SHIFT 4
-#define LOCK_QUEUE_TIMER_TABLE_LOCKS (1 << (8 - LOCK_QUEUE_TIMER_LOCK_SHIFT))
-
-typedef ULONG64 KSPIN_LOCK_QUEUE_NUMBER;
-
-#define LockQueueDispatcherLock 0
-#define LockQueueUnusedSpare1 1
-#define LockQueuePfnLock 2
-#define LockQueueSystemSpaceLock 3
-#define LockQueueVacbLock 4
-#define LockQueueMasterLock 5
-#define LockQueueNonPagedPoolLock 6
-#define LockQueueIoCancelLock 7
-#define LockQueueWorkQueueLock 8
-#define LockQueueIoVpbLock 9
-#define LockQueueIoDatabaseLock 10
-#define LockQueueIoCompletionLock 11
-#define LockQueueNtfsStructLock 12
-#define LockQueueAfdWorkQueueLock 13
-#define LockQueueBcbLock 14
-#define LockQueueMmNonPagedPoolLock 15
-#define LockQueueUnusedSpare16 16
-#define LockQueueTimerTableLock 17
-#define LockQueueMaximumLock (LockQueueTimerTableLock + LOCK_QUEUE_TIMER_TABLE_LOCKS)
-
-#else
-
-#define LOCK_QUEUE_TIMER_LOCK_SHIFT 4
-#define LOCK_QUEUE_TIMER_TABLE_LOCKS (1 << (8 - LOCK_QUEUE_TIMER_LOCK_SHIFT))
 
 typedef enum _KSPIN_LOCK_QUEUE_NUMBER {
     LockQueueDispatcherLock,
@@ -142,12 +113,8 @@ typedef enum _KSPIN_LOCK_QUEUE_NUMBER {
     LockQueueAfdWorkQueueLock,
     LockQueueBcbLock,
     LockQueueMmNonPagedPoolLock,
-    LockQueueUnusedSpare16,
-    LockQueueTimerTableLock,
-    LockQueueMaximumLock = LockQueueTimerTableLock + LOCK_QUEUE_TIMER_TABLE_LOCKS
+    LockQueueMaximumLock
 } KSPIN_LOCK_QUEUE_NUMBER, *PKSPIN_LOCK_QUEUE_NUMBER;
-
-#endif
 
 typedef struct _KSPIN_LOCK_QUEUE {
     struct _KSPIN_LOCK_QUEUE * volatile Next;
@@ -211,26 +178,37 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCallbackReturn (
-    __in_bcount_opt(OutputLength) PVOID OutputBuffer,
-    __in ULONG OutputLength,
-    __in NTSTATUS Status
+    IN PVOID OutputBuffer OPTIONAL,
+    IN ULONG OutputLength,
+    IN NTSTATUS Status
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryDebugFilterState (
-    __in ULONG ComponentId,
-    __in ULONG Level
+    IN ULONG ComponentId,
+    IN ULONG Level
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetDebugFilterState (
-    __in ULONG ComponentId,
-    __in ULONG Level,
-    __in BOOLEAN State
+    IN ULONG ComponentId,
+    IN ULONG Level,
+    IN BOOLEAN State
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+NtW32Call (
+    IN ULONG ApiNumber,
+    IN PVOID InputBuffer,
+    IN ULONG InputLength,
+    OUT PVOID *OutputBuffer,
+    OUT PULONG OutputLength
     );
 
 NTSYSCALLAPI
@@ -244,5 +222,4 @@ NtYieldExecution (
 }
 #endif
 
-#endif // _NTKEAPI_
-
+#endif  // _NTKEAPI_

@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0002    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -13,6 +9,16 @@ Module Name:
 Abstract:
 
     User-mode visible i386 specific i386 structures and constants
+
+Author:
+
+    Mark Lucovsky (markl) 30-Nov-1989
+
+Revision History:
+
+    Bryan Willman (bryanwi) 8-Jan-90
+
+        port to the 386
 
 --*/
 
@@ -33,7 +39,7 @@ extern "C" {
 
 //
 // Disable these two pragmas that evaluate to "sti" "cli" on x86 so that driver
-// writers to not leave them inadvertently in their code.
+// writers to not leave them inadvertantly in their code.
 //
 
 #if !defined(MIDL_PASS)
@@ -59,158 +65,39 @@ extern "C" {
 #endif
 
 
-#if defined(_M_IX86) && !defined(RC_INVOKED) && !defined(MIDL_PASS)
+#if !defined(MIDL_PASS) || defined(_M_IX86)
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#if (_MSC_FULL_VER >= 14000101)
-
-//
-// Define bit test intrinsics.
-//
-
-#define BitTest _bittest
-#define BitTestAndComplement _bittestandcomplement
-#define BitTestAndSet _bittestandset
-#define BitTestAndReset _bittestandreset
-#define InterlockedBitTestAndSet _interlockedbittestandset
-#define InterlockedBitTestAndReset _interlockedbittestandreset
-
-BOOLEAN
-_bittest (
-    IN LONG const *Base,
-    IN LONG Offset
-    );
-
-BOOLEAN
-_bittestandcomplement (
-    IN LONG *Base,
-    IN LONG Offset
-    );
-
-BOOLEAN
-_bittestandset (
-    IN LONG *Base,
-    IN LONG Offset
-    );
-
-BOOLEAN
-_bittestandreset (
-    IN LONG *Base,
-    IN LONG Offset
-    );
-
-BOOLEAN
-_interlockedbittestandset (
-    IN LONG *Base,
-    IN LONG Offset
-    );
-
-BOOLEAN
-_interlockedbittestandreset (
-    IN LONG *Base,
-    IN LONG Offset
-    );
-
-#pragma intrinsic(_bittest)
-#pragma intrinsic(_bittestandcomplement)
-#pragma intrinsic(_bittestandset)
-#pragma intrinsic(_bittestandreset)
-#pragma intrinsic(_interlockedbittestandset)
-#pragma intrinsic(_interlockedbittestandreset)
+#if (_MSC_FULL_VER >= 13012035)
 
 //
 // Define bit scan intrinsics.
 //
 
-#define BitScanForward _BitScanForward
-#define BitScanReverse _BitScanReverse
+//#define BitScanForward _BitScanForward
+//#define BitScanReverse _BitScanReverse
 
-BOOLEAN
-_BitScanForward (
-    OUT ULONG *Index,
-    IN ULONG Mask
-    );
+//BOOLEAN
+//_BitScanForward (
+//    OUT ULONG *Index,
+//    IN ULONG Mask
+//    );
 
-BOOLEAN
-_BitScanReverse (
-    OUT ULONG *Index,
-    IN ULONG Mask
-    );
+//BOOLEAN
+//_BitScanReverse (
+//    OUT ULONG *Index,
+//    IN ULONG Mask
+//    );
 
-#pragma intrinsic(_BitScanForward)
-#pragma intrinsic(_BitScanReverse)
 
-#else
-
-#pragma warning(push)
-#pragma warning(disable:4035 4793)
-
-BOOLEAN
-FORCEINLINE
-InterlockedBitTestAndSet (
-    IN LONG *Base,
-    IN LONG Bit
-    )
-{
-    __asm {
-           mov eax, Bit
-           mov ecx, Base
-           lock bts [ecx], eax
-           setc al
-    };
-}
-
-BOOLEAN
-FORCEINLINE
-InterlockedBitTestAndReset (
-    IN LONG *Base,
-    IN LONG Bit
-    )
-{
-    __asm {
-           mov eax, Bit
-           mov ecx, Base
-           lock btr [ecx], eax
-           setc al
-    };
-}
-#pragma warning(pop)
-
-#endif	/* _MSC_FULL_VER >= 14000101 */
-
-#if !defined(_M_CEE_PURE)
-#pragma warning(push)
-#pragma warning(disable:4035 4793)
-
-BOOLEAN
-FORCEINLINE
-InterlockedBitTestAndComplement (
-    IN LONG *Base,
-    IN LONG Bit
-    )
-{
-    __asm {
-           mov eax, Bit
-           mov ecx, Base
-           lock btc [ecx], eax
-           setc al
-    };
-}
-#pragma warning(pop)
-#endif	/* _M_CEE_PURE */
-
-//
-// [pfx_parse]
-// guard against __readfsbyte parsing error
-//
-#if (_MSC_FULL_VER >= 13012035) || defined(_PREFIX_) || defined(_PREFAST_)
+//#pragma intrinsic(_BitScanForward)
+//#pragma intrinsic(_BitScanReverse)
 
 //
 // Define FS referencing intrinsics
 //
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 UCHAR
 __readfsbyte (
@@ -245,6 +132,10 @@ __writefsdword (
     IN ULONG Data
     );
 
+#ifdef __cplusplus
+}
+#endif
+ 
 #pragma intrinsic(__readfsbyte)
 #pragma intrinsic(__readfsword)
 #pragma intrinsic(__readfsdword)
@@ -252,13 +143,9 @@ __writefsdword (
 #pragma intrinsic(__writefsword)
 #pragma intrinsic(__writefsdword)
 
-#endif	/* _MSC_FULL_VER >= 13012035 */
-
-#ifdef __cplusplus
-}
 #endif
 
-#endif  /* !defined(MIDL_PASS) || defined(_M_IX86) */
+#endif
 
 // end_ntddk end_wdm end_nthal end_winnt end_ntminiport end_wx86
 
@@ -294,6 +181,42 @@ __writefsdword (
 #ifndef SetNEC_98
 #define SetNEC_98
 #endif
+
+#if defined(MIDL_PASS) || !defined(_M_IX86)
+
+struct _TEB *
+NTAPI
+NtCurrentTeb( void );
+#else
+
+
+#define PcTeb 0x18
+
+#if (_MSC_FULL_VER >= 13012035)
+
+_inline struct _TEB * NtCurrentTeb( void ) { return (struct _TEB *) (ULONG_PTR) __readfsdword (PcTeb); }
+
+#else
+
+#if _MSC_VER >= 1200
+#pragma warning(push)
+#endif
+
+#pragma warning (disable:4035)        // disable 4035 (function must return something)
+
+_inline struct _TEB * NtCurrentTeb( void ) { __asm mov eax, fs:[PcTeb] }
+
+#if _MSC_VER >= 1200
+#pragma warning(pop)
+#else
+#pragma warning (default:4035)        // reenable it
+#endif
+
+#endif
+
+
+
+#endif // defined(MIDL_PASS) || defined(__cplusplus) || !defined(_M_IX86)
 
 // begin_ntddk begin_nthal
 //
@@ -352,9 +275,7 @@ typedef EXCEPTION_REGISTRATION_RECORD *PEXCEPTION_REGISTRATION_RECORD;
 // begin_ntddk begin_winnt 
 
 #if !defined(MIDL_PASS) && defined(_M_IX86)
-#if !defined(_M_CEE_PURE)
-#pragma warning( push )
-#pragma warning( disable : 4793 )
+
 FORCEINLINE
 VOID
 MemoryBarrier (
@@ -366,16 +287,14 @@ MemoryBarrier (
         xchg Barrier, eax
     }
 }
-#pragma warning( pop )
 
 #define YieldProcessor() __asm { rep nop }
-#endif /* _M_CEE_PURE */
+
 //
-// Prefetch is not supported on all x86 processors.
+// Prefetch is not supported on all x86 procssors.
 //
 
 #define PreFetchCacheLine(l, a)
-#define ReadForWriteAccess(p) (*(p))
 
 //
 // PreFetchCacheLine level defines.
@@ -383,64 +302,34 @@ MemoryBarrier (
 
 #define PF_TEMPORAL_LEVEL_1 
 #define PF_NON_TEMPORAL_LEVEL_ALL
-
-//
-// Cause a STATUS_ASSERTION_FAILURE exception to be raised.
-//
-
-#if _MSC_FULL_VER >= 140030222
-
-VOID
-__int2c (
-    VOID
-    );
-
-#pragma intrinsic(__int2c)
-#define DbgRaiseAssertionFailure() __int2c()
-
-#else
-#pragma warning( push )
-#pragma warning( disable : 4793 )
-FORCEINLINE VOID DbgRaiseAssertionFailure(void) { __asm int 0x2c }
-#pragma warning( pop )
-#endif
 // end_ntddk
 
 #if (_MSC_FULL_VER >= 13012035)
 
-__inline PVOID GetFiberData( void )    { return *(PVOID *) (ULONG_PTR) __readfsdword (0x10);}
-__inline PVOID GetCurrentFiber( void ) { return (PVOID) (ULONG_PTR) __readfsdword (0x10);}
+_inline PVOID GetFiberData( void )    { return *(PVOID *) (ULONG_PTR) __readfsdword (0x10);}
+_inline PVOID GetCurrentFiber( void ) { return (PVOID) (ULONG_PTR) __readfsdword (0x10);}
 
 #else
 #if _MSC_VER >= 1200
 #pragma warning(push)
 #endif
-#pragma warning (disable:4035 4793)        // disable 4035 (function must return something)
-__inline PVOID GetFiberData( void ) { __asm {
+#pragma warning (disable:4035)        // disable 4035 (function must return something)
+_inline PVOID GetFiberData( void ) { __asm {
                                         mov eax, fs:[0x10]
                                         mov eax,[eax]
                                         }
                                      }
-__inline PVOID GetCurrentFiber( void ) { __asm mov eax, fs:[0x10] }
+_inline PVOID GetCurrentFiber( void ) { __asm mov eax, fs:[0x10] }
 
 #if _MSC_VER >= 1200
 #pragma warning(pop)
 #else
-#pragma warning (default:4035 4793)        // Reenable it
+#pragma warning (default:4035)        // Reenable it
 #endif
 #endif
 
 // begin_ntddk 
 #endif
-
-//
-// The following values specify the type of failing access when the status is 
-// STATUS_ACCESS_VIOLATION and the first parameter in the execpetion record.
-//
-
-#define EXCEPTION_READ_FAULT          0 // Access violation was caused by a read
-#define EXCEPTION_WRITE_FAULT         1 // Access violation was caused by a write
-#define EXCEPTION_EXECUTE_FAULT       8 // Access violation was caused by an instruction fetch
 
 // begin_wx86
 
@@ -540,14 +429,14 @@ typedef struct _CONTEXT {
 
     //
     // This section is specified/returned if the
-    // ContextFlags word contains the flag CONTEXT_FLOATING_POINT.
+    // ContextFlags word contians the flag CONTEXT_FLOATING_POINT.
     //
 
     FLOATING_SAVE_AREA FloatSave;
 
     //
     // This section is specified/returned if the
-    // ContextFlags word contains the flag CONTEXT_SEGMENTS.
+    // ContextFlags word contians the flag CONTEXT_SEGMENTS.
     //
 
     ULONG   SegGs;
@@ -557,7 +446,7 @@ typedef struct _CONTEXT {
 
     //
     // This section is specified/returned if the
-    // ContextFlags word contains the flag CONTEXT_INTEGER.
+    // ContextFlags word contians the flag CONTEXT_INTEGER.
     //
 
     ULONG   Edi;
@@ -569,7 +458,7 @@ typedef struct _CONTEXT {
 
     //
     // This section is specified/returned if the
-    // ContextFlags word contains the flag CONTEXT_CONTROL.
+    // ContextFlags word contians the flag CONTEXT_CONTROL.
     //
 
     ULONG   Ebp;
@@ -687,6 +576,11 @@ typedef struct _FX_SAVE_AREA {
 
 #ifdef ABIOS
 
+//
+// raid 72661 shielint Should be NEW os2ldr.  The ABIOS ifdef will be
+//        removed once we switch to new os2ldr.
+//
+
 #define KGDT_ALIAS      0x70
 #define KGDT_NUMBER     11
 #else
@@ -792,4 +686,3 @@ RtlLookupFunctionTable (
 #endif
 
 #endif // _NTI386_
-

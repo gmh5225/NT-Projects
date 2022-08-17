@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) 1988-1992  Microsoft Corporation
 
 Module Name:
 
@@ -12,9 +8,30 @@ Module Name:
 
 Abstract:
 
+
+Author:
+
+    John Rogers (JohnRo) 15-May-1991
+
 Environment:
 
     This code assumes that sizeof(DWORD) >= sizeof(LPVOID).
+
+Revision History:
+
+    15-May-1991 JohnRo
+        Created align.h for NT/LAN from OS/2 1.2 HPFS pbmacros.h.
+    19-Jun-1991 JohnRo
+        Make sure pointer-to-wider-then-byte doesn't get messed up.
+    10-Jul-1991 JohnRo
+        Added ALIGN_BYTE and ALIGN_CHAR for completeness.
+    21-Aug-1991 CliffV
+        Fix ROUND_DOWN_* to include ~
+    03-Dec-1991 JohnRo
+        Worst-case on MIPS is 8-byte alignment.
+        Added COUNT_IS_ALIGNED() and POINTER_IS_ALIGNED() macros.
+    26-Jun-1992 JohnRo
+        RAID 9933: ALIGN_WORST should be 8 for x86 builds.
 
 --*/
 
@@ -102,6 +119,26 @@ Environment:
 
 #define ALIGN_WORST             8
 
+#elif defined(_ALPHA_)
+
+//
+// Worst-case alignment on ALPHA is 8 bytes (for double).  Specify this here,
+// in case our allocator is used for structures containing this.  (That is,
+// even though NT/LAN doesn't need this for our data structures, let's be
+// permissive.) The alignment requirements apply to Alpha.
+//
+
+#define ALIGN_WORST             8
+
+#elif defined(_IA64_)
+
+//
+// IA64 note for QUAD: The NT QUAD type definition is NOT the EM 16byte quad type.
+//                     Because of some NT constraints, QUAD type size cannot be changed.
+//
+
+#define ALIGN_WORST             16
+
 #else  // none of the above
 
 #error "Unknown alignment requirements for align.h"
@@ -109,4 +146,3 @@ Environment:
 #endif  // none of the above
 
 #endif  // _ALIGN_
-

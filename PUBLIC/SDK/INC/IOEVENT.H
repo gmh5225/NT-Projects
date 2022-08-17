@@ -2,10 +2,6 @@
 
 Copyright (c) Microsoft Corporation. All rights reserved.
 
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
 Module Name:
 
     ioevent.h
@@ -16,17 +12,25 @@ Abstract:
     initiated events.  These events are reported in kernel mode and are
     available to both user mode and kernel mode clients.
 
+Author:
+
+    Mark Zbikowski (markz) 3/18/98
+
+
+Revision History:
+
+
 --*/
 
 //
-//  Label change event.  This event is signaled upon successful completion
+//  Label change event.  This event is signalled upon successful completion
 //  of a label change.  There is no additional data.
 //
 
 DEFINE_GUID( GUID_IO_VOLUME_CHANGE, 0x7373654aL, 0x812a, 0x11d0, 0xbe, 0xc7, 0x08, 0x00, 0x2b, 0xe2, 0x09, 0x2f );
 
 //
-//  Volume dismount event.  This event is signaled when an attempt is made to
+//  Volume dismount event.  This event is signalled when an attempt is made to
 //  dismount a volume.  There is no additional data.  Note that this will not
 //  necessarily be preceded by a GUID_IO_VOLUME_LOCK notification.
 //
@@ -34,28 +38,28 @@ DEFINE_GUID( GUID_IO_VOLUME_CHANGE, 0x7373654aL, 0x812a, 0x11d0, 0xbe, 0xc7, 0x0
 DEFINE_GUID( GUID_IO_VOLUME_DISMOUNT, 0xd16a55e8L, 0x1059, 0x11d2, 0x8f, 0xfd, 0x00, 0xa0, 0xc9, 0xa0, 0x6d, 0x32 );
 
 //
-//  Volume dismount failed event.  This event is signaled when a volume dismount fails.
+//  Volume dismount failed event.  This event is signalled when a volume dismount fails.
 //  There is no additional data.
 //
 
 DEFINE_GUID( GUID_IO_VOLUME_DISMOUNT_FAILED, 0xe3c5b178L, 0x105d, 0x11d2, 0x8f, 0xfd, 0x00, 0xa0, 0xc9, 0xa0, 0x6d, 0x32 );
 
 //
-//  Volume mount event.  This event is signaled when a volume mount occurs.
+//  Volume mount event.  This event is signalled when a volume mount occurs.
 //  There is no additional data.
 //
 
 DEFINE_GUID( GUID_IO_VOLUME_MOUNT, 0xb5804878L, 0x1a96, 0x11d2, 0x8f, 0xfd, 0x00, 0xa0, 0xc9, 0xa0, 0x6d, 0x32 );
 
 //
-//  Volume lock event.  This event is signaled when an attempt is made to
+//  Volume lock event.  This event is signalled when an attempt is made to
 //  lock a volume.  There is no additional data.
 //
 
 DEFINE_GUID( GUID_IO_VOLUME_LOCK, 0x50708874L, 0xc9af, 0x11d1, 0x8f, 0xef, 0x00, 0xa0, 0xc9, 0xa0, 0x6d, 0x32 );
 
 //
-//  Volume lock failed event.  This event is signaled when an attempt is made to
+//  Volume lock failed event.  This event is signalled when an attempt is made to
 //  lock a volume, but it fails.  There is no additional data.
 //
 
@@ -63,7 +67,7 @@ DEFINE_GUID( GUID_IO_VOLUME_LOCK_FAILED, 0xae2eed10L, 0x0ba8, 0x11d2, 0x8f, 0xfb
 
 
 //
-//  Volume unlock event.  This event is signaled when an attempt is made to
+//  Volume unlock event.  This event is signalled when an attempt is made to
 //  unlock a volume.  There is no additional data.
 //
 
@@ -71,7 +75,7 @@ DEFINE_GUID( GUID_IO_VOLUME_UNLOCK, 0x9a8c3d68L, 0xd0cb, 0x11d1, 0x8f, 0xef, 0x0
 
 
 //
-//  Volume name change.  This event is signaled when the list of persistent
+//  Volume name change.  This event is signalled when the list of persistent
 //  names (like drive letters) for a volume changes.  There is no additional
 //  data.
 //
@@ -80,7 +84,7 @@ DEFINE_GUID( GUID_IO_VOLUME_NAME_CHANGE, 0x2de97f83, 0x4c06, 0x11d2, 0xa5, 0x32,
 
 
 //
-//  Volume physical configuration change.  This event is signaled when the
+//  Volume physical configuration change.  This event is signalled when the
 //  physical makeup or current physical state of the volume changes.
 //
 
@@ -184,4 +188,3 @@ typedef struct _GUID_IO_DISK_CLONE_ARRIVAL_INFORMATION {
 //
 
 DEFINE_GUID( GUID_IO_DISK_LAYOUT_CHANGE, 0x11dff54c, 0x8469, 0x41f9, 0xb3, 0xde, 0xef, 0x83, 0x64, 0x87, 0xc5, 0x4a);
-

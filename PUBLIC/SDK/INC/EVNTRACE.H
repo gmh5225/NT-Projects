@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -162,12 +158,6 @@ typedef ULONG64 TRACEHANDLE, *PTRACEHANDLE;
 #define EVENT_TRACE_TYPE_RETRANSMIT            0x0E     // ReTransmit
 #define EVENT_TRACE_TYPE_ACCEPT                0x0F     // Accept
 #define EVENT_TRACE_TYPE_RECONNECT             0x10     // ReConnect
-#define EVENT_TRACE_TYPE_CONNFAIL              0x11     // Fail
-#define EVENT_TRACE_TYPE_COPY_TCP              0x12     // Copy in PendData
-#define EVENT_TRACE_TYPE_COPY_ARP              0x13     // NDIS_STATUS_RESOURCES Copy
-#define EVENT_TRACE_TYPE_ACKFULL               0x14     // A full data ACK
-#define EVENT_TRACE_TYPE_ACKPART               0x15     // A Partial data ACK
-#define EVENT_TRACE_TYPE_ACKDUP                0x16     // A Duplicate data ACK
 
 
 //
@@ -207,7 +197,6 @@ typedef ULONG64 TRACEHANDLE, *PTRACEHANDLE;
 #define EVENT_TRACE_TYPE_CONFIG_VIDEO           0x0E     // Video Adapter Configuration
 #define EVENT_TRACE_TYPE_CONFIG_SERVICES        0x0F     // Active Services
 #define EVENT_TRACE_TYPE_CONFIG_POWER           0x10     // ACPI Configuration
-#define EVENT_TRACE_TYPE_CONFIG_NETINFO         0x11     // Networking Configuration
 
 //
 // Enable flags for SystemControlGuid only
@@ -226,9 +215,6 @@ typedef ULONG64 TRACEHANDLE, *PTRACEHANDLE;
 
 #define EVENT_TRACE_FLAG_REGISTRY           0x00020000  // registry calls
 #define EVENT_TRACE_FLAG_DBGPRINT           0x00040000  // DbgPrint(ex) Calls
-
-#define EVENT_TRACE_FLAG_VOLMGR             0x00200000  // volume manager traces
-
 //
 // Pre-defined Enable flags for everybody else
 //
@@ -580,7 +566,7 @@ struct _EVENT_TRACE_LOGFILEW {
     ULONG                   Filled;
     ULONG                   EventsLost;
     //
-    // following needs to be propagated to each buffer
+    // following needs to be propaged to each buffer
     //
 
     PEVENT_CALLBACK         EventCallback;  // callback for every event
@@ -608,7 +594,7 @@ struct _EVENT_TRACE_LOGFILEA {
     ULONG                   Filled;
     ULONG                   EventsLost;
     //
-    // following needs to be propagated to each buffer
+    // following needs to be propaged to each buffer
     //
 
     PEVENT_CALLBACK         EventCallback;  // callback for every event
@@ -669,18 +655,18 @@ EXTERN_C
 ULONG
 WMIAPI
 StartTraceW(
-    __out PTRACEHANDLE TraceHandle,
-    __in LPCWSTR InstanceName,
-    __inout OUT PEVENT_TRACE_PROPERTIES Properties
+    OUT PTRACEHANDLE TraceHandle,
+    IN LPCWSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 StartTraceA(
-    __out PTRACEHANDLE TraceHandle,
-    __in LPCSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties
+    OUT PTRACEHANDLE TraceHandle,
+    IN LPCSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties
     );
 
 //
@@ -699,18 +685,18 @@ EXTERN_C
 ULONG
 WMIAPI
 StopTraceW(
-    __in TRACEHANDLE TraceHandle,
-    __in_opt LPCWSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties
+    IN TRACEHANDLE TraceHandle,
+    IN LPCWSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 StopTraceA(
-    __in TRACEHANDLE TraceHandle,
-    __in_opt LPCSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties
+    IN TRACEHANDLE TraceHandle,
+    IN LPCSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties
     );
 
 
@@ -729,18 +715,18 @@ EXTERN_C
 ULONG
 WMIAPI
 QueryTraceW(
-    __in TRACEHANDLE TraceHandle,
-    __in_opt LPCWSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties
+    IN TRACEHANDLE TraceHandle,
+    IN LPCWSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 QueryTraceA(
-    __in TRACEHANDLE TraceHandle,
-    __in_opt LPCSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties
+    IN TRACEHANDLE TraceHandle,
+    IN LPCSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties
     );
 
 //
@@ -758,18 +744,18 @@ EXTERN_C
 ULONG
 WMIAPI
 UpdateTraceW(
-    __in TRACEHANDLE TraceHandle,
-    __in_opt LPCWSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties
+    IN TRACEHANDLE TraceHandle,
+    IN LPCWSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 UpdateTraceA(
-    __in TRACEHANDLE TraceHandle,
-    __in_opt LPCSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties
+    IN TRACEHANDLE TraceHandle,
+    IN LPCSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties
     );
 
 //
@@ -789,18 +775,18 @@ EXTERN_C
 ULONG
 WMIAPI
 FlushTraceW(
-    __in TRACEHANDLE TraceHandle,
-    __in_opt LPCWSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties
+    IN TRACEHANDLE TraceHandle,
+    IN LPCWSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 FlushTraceA(
-    __in TRACEHANDLE TraceHandle,
-    __in_opt LPCSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties
+    IN TRACEHANDLE TraceHandle,
+    IN LPCSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties
     );
 
 #endif
@@ -812,20 +798,20 @@ EXTERN_C
 ULONG
 WMIAPI
 ControlTraceW(
-    __in TRACEHANDLE TraceHandle,
-    __in_opt LPCWSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties,
-    __in ULONG ControlCode
+    IN TRACEHANDLE TraceHandle,
+    IN LPCWSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties,
+    IN ULONG ControlCode
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 ControlTraceA(
-    __in TRACEHANDLE TraceHandle,
-    __in_opt LPCSTR InstanceName,
-    __inout PEVENT_TRACE_PROPERTIES Properties,
-    __in ULONG ControlCode
+    IN TRACEHANDLE TraceHandle,
+    IN LPCSTR InstanceName,
+    IN OUT PEVENT_TRACE_PROPERTIES Properties,
+    IN ULONG ControlCode
     );
 
 //
@@ -841,18 +827,18 @@ EXTERN_C
 ULONG
 WMIAPI
 QueryAllTracesW(
-    __out_ecount(PropertyArrayCount) PEVENT_TRACE_PROPERTIES *PropertyArray,
-    __in  ULONG PropertyArrayCount,
-    __out PULONG LoggerCount
+    OUT PEVENT_TRACE_PROPERTIES *PropertyArray,
+    IN ULONG PropertyArrayCount,
+    OUT PULONG LoggerCount
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 QueryAllTracesA(
-    __out_ecount(PropertyArrayCount) PEVENT_TRACE_PROPERTIES *PropertyArray,
-    __in  ULONG PropertyArrayCount,
-    __out PULONG LoggerCount
+    OUT PEVENT_TRACE_PROPERTIES *PropertyArray,
+    IN ULONG PropertyArrayCount,
+    OUT PULONG LoggerCount
     );
 
 
@@ -864,19 +850,19 @@ EXTERN_C
 ULONG
 WMIAPI
 CreateTraceInstanceId(
-    __in HANDLE RegHandle,
-    __inout PEVENT_INSTANCE_INFO pInstInfo
+    IN HANDLE RegHandle,
+    IN OUT PEVENT_INSTANCE_INFO pInstInfo
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 EnableTrace(
-    __in ULONG Enable,
-    __in ULONG EnableFlag,
-    __in ULONG EnableLevel,
-    __in LPCGUID ControlGuid,
-    __in TRACEHANDLE TraceHandle
+    IN ULONG Enable,
+    IN ULONG EnableFlag,
+    IN ULONG EnableLevel,
+    IN LPCGUID ControlGuid,
+    IN TRACEHANDLE TraceHandle
     );
 
 //
@@ -888,18 +874,18 @@ EXTERN_C
 ULONG
 WMIAPI
 TraceEvent(
-    __in TRACEHANDLE  TraceHandle,
-    __inout PEVENT_TRACE_HEADER EventTrace
+    IN TRACEHANDLE  TraceHandle,
+    IN PEVENT_TRACE_HEADER EventTrace
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 TraceEventInstance(
-    __in TRACEHANDLE TraceHandle,
-    __in PEVENT_INSTANCE_HEADER EventTrace,
-    __in PEVENT_INSTANCE_INFO pInstInfo,
-    __in_opt PEVENT_INSTANCE_INFO pParentInstInfo
+    IN TRACEHANDLE TraceHandle,
+    IN PEVENT_INSTANCE_HEADER EventTrace,
+    IN PEVENT_INSTANCE_INFO pInstInfo,
+    IN PEVENT_INSTANCE_INFO pParentInstInfo
     );
 
 //
@@ -924,28 +910,28 @@ EXTERN_C
 ULONG
 WMIAPI
 RegisterTraceGuidsW(
-    __in WMIDPREQUEST  RequestAddress,
-    __in_opt PVOID     RequestContext,
-    __in LPCGUID       ControlGuid,
-    __in ULONG         GuidCount,
-    __in_ecount_opt(GuidCount) PTRACE_GUID_REGISTRATION TraceGuidReg,
-    __in_opt LPCWSTR       MofImagePath,
-    __in_opt LPCWSTR       MofResourceName,
-    __out PTRACEHANDLE RegistrationHandle
+    IN WMIDPREQUEST  RequestAddress,
+    IN PVOID         RequestContext,
+    IN LPCGUID       ControlGuid,
+    IN ULONG         GuidCount,
+    IN PTRACE_GUID_REGISTRATION TraceGuidReg,
+    IN LPCWSTR       MofImagePath,
+    IN LPCWSTR       MofResourceName,
+    OUT PTRACEHANDLE RegistrationHandle
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 RegisterTraceGuidsA(
-    __in WMIDPREQUEST  RequestAddress,
-    __in_opt PVOID     RequestContext,
-    __in LPCGUID       ControlGuid,
-    __in ULONG         GuidCount,
-    __in_ecount_opt(GuidCount) PTRACE_GUID_REGISTRATION TraceGuidReg,
-    __in_opt LPCSTR        MofImagePath,
-    __in_opt LPCSTR        MofResourceName,
-    __out PTRACEHANDLE RegistrationHandle
+    IN WMIDPREQUEST  RequestAddress,
+    IN PVOID         RequestContext,
+    IN LPCGUID       ControlGuid,
+    IN ULONG         GuidCount,
+    IN PTRACE_GUID_REGISTRATION TraceGuidReg,
+    IN LPCSTR        MofImagePath,
+    IN LPCSTR        MofResourceName,
+    OUT PTRACEHANDLE RegistrationHandle
     );
 
 #if (WINVER >= 0x0501)
@@ -953,9 +939,9 @@ EXTERN_C
 ULONG
 WMIAPI
 EnumerateTraceGuids(
-    __inout_ecount(PropertyArrayCount) PTRACE_GUID_PROPERTIES *GuidPropertiesArray,
-    __in ULONG PropertyArrayCount,
-    __out PULONG GuidCount
+    IN OUT PTRACE_GUID_PROPERTIES *GuidPropertiesArray,
+    IN ULONG PropertyArrayCount,
+    OUT PULONG GuidCount
     );
 #endif
 
@@ -963,28 +949,28 @@ EXTERN_C
 ULONG
 WMIAPI
 UnregisterTraceGuids(
-    __in TRACEHANDLE RegistrationHandle
+    IN TRACEHANDLE RegistrationHandle
     );
 
 EXTERN_C
 TRACEHANDLE
 WMIAPI
 GetTraceLoggerHandle(
-    __in PVOID Buffer
+    IN PVOID Buffer
     );
 
 EXTERN_C
 UCHAR
 WMIAPI
 GetTraceEnableLevel(
-    __in TRACEHANDLE TraceHandle
+    IN TRACEHANDLE TraceHandle
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 GetTraceEnableFlags(
-    __in TRACEHANDLE TraceHandle
+    IN TRACEHANDLE TraceHandle
     );
 
 //
@@ -1002,46 +988,46 @@ EXTERN_C
 TRACEHANDLE
 WMIAPI
 OpenTraceA(
-    __inout PEVENT_TRACE_LOGFILEA Logfile
+    IN OUT PEVENT_TRACE_LOGFILEA Logfile
     );
 
 EXTERN_C
 TRACEHANDLE
 WMIAPI
 OpenTraceW(
-    __inout PEVENT_TRACE_LOGFILEW Logfile
+    IN OUT PEVENT_TRACE_LOGFILEW Logfile
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 ProcessTrace(
-    __in_ecount(HandleCount) PTRACEHANDLE HandleArray,
-    __in ULONG HandleCount,
-    __in_opt LPFILETIME StartTime,
-    __in_opt LPFILETIME EndTime
+    IN PTRACEHANDLE HandleArray,
+    IN ULONG HandleCount,
+    IN LPFILETIME StartTime,
+    IN LPFILETIME EndTime
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 CloseTrace(
-    __in TRACEHANDLE TraceHandle
+    IN TRACEHANDLE TraceHandle
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 SetTraceCallback(
-    __in LPCGUID pGuid,
-    __in PEVENT_CALLBACK EventCallback
+    IN LPCGUID pGuid,
+    IN PEVENT_CALLBACK EventCallback
     );
 
 EXTERN_C
 ULONG
 WMIAPI
 RemoveTraceCallback (
-    __in LPCGUID pGuid
+    IN LPCGUID pGuid
     );
 
 //
@@ -1051,21 +1037,21 @@ EXTERN_C
 ULONG 
 __cdecl
 TraceMessage(
-    __in TRACEHANDLE  LoggerHandle,
-    __in ULONG        MessageFlags,
-    __in LPGUID       MessageGuid,
-    __in USHORT       MessageNumber,
+    IN TRACEHANDLE  LoggerHandle,
+    IN ULONG        MessageFlags,
+    IN LPGUID       MessageGuid,
+    IN USHORT       MessageNumber,
     ...
 );
 
 EXTERN_C
 ULONG 
 TraceMessageVa(
-    __in TRACEHANDLE  LoggerHandle,
-    __in ULONG        MessageFlags,
-    __in LPGUID       MessageGuid,
-    __in USHORT       MessageNumber,
-    __in va_list      MessageArgList
+    IN TRACEHANDLE  LoggerHandle,
+    IN ULONG        MessageFlags,
+    IN LPGUID       MessageGuid,
+    IN USHORT       MessageNumber,
+    IN va_list      MessageArgList
 );
 
 #ifdef __cplusplus
@@ -1125,4 +1111,3 @@ TraceMessageVa(
 
 #endif // WINNT
 #endif /* _EVNTRACE_ */
-

@@ -2,10 +2,6 @@
 
 Copyright (c) Microsoft Corporation. All rights reserved.
 
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
 Module Name:
 
     ntddstor.h
@@ -14,6 +10,12 @@ Abstract:
 
     This is the include file that defines all common constants and types
     accessing the storage class drivers
+
+Author:
+
+    Peter Wieland 19-Jun-1996
+
+Revision History:
 
 --*/
 
@@ -111,7 +113,6 @@ extern "C" {
 
 #define IOCTL_STORAGE_GET_DEVICE_NUMBER       CTL_CODE(IOCTL_STORAGE_BASE, 0x0420, METHOD_BUFFERED, FILE_ANY_ACCESS)
 #define IOCTL_STORAGE_PREDICT_FAILURE         CTL_CODE(IOCTL_STORAGE_BASE, 0x0440, METHOD_BUFFERED, FILE_ANY_ACCESS)
-#define IOCTL_STORAGE_READ_CAPACITY           CTL_CODE(IOCTL_STORAGE_BASE, 0x0450, METHOD_BUFFERED, FILE_READ_ACCESS)
 
 // end_winioctl
 
@@ -122,7 +123,7 @@ extern "C" {
 // begin_winioctl
 
 //
-// These ioctl codes are obsolete.  They are defined here to avoid rescuing them
+// These ioctl codes are obsolete.  They are defined here to avoid resuing them
 // and to allow class drivers to respond to them more easily.
 //
 
@@ -150,7 +151,7 @@ typedef struct _STORAGE_HOTPLUG_INFO {
 // output - STORAGE_DEVICE_NUMBER structure
 //          The values in the STORAGE_DEVICE_NUMBER structure are guaranteed
 //          to remain unchanged until the system is rebooted.  They are not
-//          guaranteed to be persistent across boots.
+//          guaranteed to be persistant across boots.
 //
 
 typedef struct _STORAGE_DEVICE_NUMBER {
@@ -188,13 +189,13 @@ typedef struct _STORAGE_BUS_RESET_REQUEST {
 //
 
 typedef struct STORAGE_BREAK_RESERVATION_REQUEST {
-        ULONG Length;
-        UCHAR _unused;
+	ULONG Length;
+	UCHAR _unused;
     UCHAR PathId;
     UCHAR TargetId;
     UCHAR Lun;
 } STORAGE_BREAK_RESERVATION_REQUEST, *PSTORAGE_BREAK_RESERVATION_REQUEST;
-
+			
 
 //
 // IOCTL_STORAGE_MEDIA_REMOVAL disables the mechanism
@@ -218,7 +219,7 @@ typedef struct _PREVENT_MEDIA_REMOVAL {
 //
 typedef struct _CLASS_MEDIA_CHANGE_CONTEXT {
         ULONG MediaChangeCount;
-        ULONG NewState;         // see MEDIA_CHANGE_DETECTION_STATE enum in classpnp.h in DDK
+        ULONG NewState;		// see MEDIA_CHANGE_DETECTION_STATE enum in classpnp.h in DDK
 } CLASS_MEDIA_CHANGE_CONTEXT, *PCLASS_MEDIA_CHANGE_CONTEXT;
 
 
@@ -345,9 +346,8 @@ typedef enum _STORAGE_MEDIA_TYPE {
     DVD_RAM,                   // Opt_Disk - DVD-RAM
     AIT_8mm,                   // AIT2 or higher
     ADR_1,                     // OnStream ADR Mediatypes
-    ADR_2,
-    STK_9940,                  // STK 9940
-    SAIT                       // SAIT Tapes
+    ADR_2,                     
+    STK_9940                   // STK 9940
 } STORAGE_MEDIA_TYPE, *PSTORAGE_MEDIA_TYPE;
 
 #define MEDIA_ERASEABLE         0x00000001
@@ -373,9 +373,6 @@ typedef enum _STORAGE_BUS_TYPE {
     BusTypeFibre,
     BusTypeUsb,
     BusTypeRAID,
-    BusTypeiScsi,
-    BusTypeSas,
-    BusTypeSata,
     BusTypeMaxReserved = 0x7F
 } STORAGE_BUS_TYPE, *PSTORAGE_BUS_TYPE;
 
@@ -679,8 +676,7 @@ typedef struct _STORAGE_ADAPTER_DESCRIPTOR {
 typedef enum _STORAGE_IDENTIFIER_CODE_SET {
     StorageIdCodeSetReserved = 0,
     StorageIdCodeSetBinary = 1,
-    StorageIdCodeSetAscii = 2,
-    StorageIdCodeSetUtf8 = 3
+    StorageIdCodeSetAscii = 2
 } STORAGE_IDENTIFIER_CODE_SET, *PSTORAGE_IDENTIFIER_CODE_SET;
 
 typedef enum _STORAGE_IDENTIFIER_TYPE {
@@ -688,8 +684,7 @@ typedef enum _STORAGE_IDENTIFIER_TYPE {
     StorageIdTypeVendorId = 1,
     StorageIdTypeEUI64 = 2,
     StorageIdTypeFCPHName = 3,
-    StorageIdTypePortRelative = 4,
-    StorageIdTypeScsiNameString = 8
+    StorageIdTypePortRelative = 4
 } STORAGE_IDENTIFIER_TYPE, *PSTORAGE_IDENTIFIER_TYPE;
 
 typedef enum _STORAGE_ASSOCIATION_TYPE {
@@ -755,48 +750,14 @@ typedef struct _STORAGE_MEDIA_SERIAL_NUMBER_DATA {
 
     //
     // the following data is binary, and is not guaranteed
-    // to be NULL terminated.  this is an exercise for the
+    // to be NULL terminated.  this is an excercise for the
     // caller.
     //
 
     UCHAR SerialNumber[0];
 
 } STORAGE_MEDIA_SERIAL_NUMBER_DATA, *PSTORAGE_MEDIA_SERIAL_NUMBER_DATA;
-
-typedef struct _STORAGE_READ_CAPACITY {
-
-    //
-    // The version number, size of the STORAGE_READ_CAPACITY structure
-    //
-    ULONG Version;
-
-    //
-    // The size of the date returned, size of the STORAGE_READ_CAPACITY structure
-    //
-    ULONG Size;
-
-    //
-    // Number of bytes per block
-    //
-
-    ULONG BlockLength;
-
-    //
-    // Total number of blocks in the disk
-    // This will have the last LBA + 1
-    //
-
-    LARGE_INTEGER NumberOfBlocks;
-
-    //
-    // Disk size in bytes
-    //
-
-    LARGE_INTEGER DiskLength;
-
-} STORAGE_READ_CAPACITY, *PSTORAGE_READ_CAPACITY;
-
-#pragma warning(pop)
+#pragma warning(push)
 
 
 
@@ -808,4 +769,3 @@ typedef struct _STORAGE_READ_CAPACITY {
 
 #endif // _NTDDSTOR_H_
 // end_winioctl
-//

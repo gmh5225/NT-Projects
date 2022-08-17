@@ -1,10 +1,6 @@
 /*++ BUILD Version: 0001    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -16,6 +12,14 @@ Abstract:
     with any public data structures needed to call these APIs.
 
     This module should be included by including "nt.h".
+
+Author:
+
+    Lonny McMichael (lonnym) 02/06/1995
+
+
+Revision History:
+
 
 --*/
 
@@ -109,7 +113,7 @@ typedef struct _PLUGPLAY_EVENT_BLOCK {
 
 
 //
-// Define the Target Structure for PNP Notifications
+//Define the Target Structure for PNP Notifications
 //
 typedef struct _PLUGPLAY_NOTIFY_HDR {
     USHORT Version;
@@ -119,7 +123,7 @@ typedef struct _PLUGPLAY_NOTIFY_HDR {
 
 //
 // Define the custom notification for the u-mode
-// recipient of ReportTargetDeviceChange.
+// receipient of ReportTargetDeviceChange.
 // The following structure header is used for all other (i.e., 3rd-party)
 // target device change events.  The structure accommodates both a
 // variable-length binary data buffer, and a variable-length unicode text
@@ -484,20 +488,20 @@ typedef struct _PLUGPLAY_CONTROL_BLOCKED_DRIVER_DATA {
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtGetPlugPlayEvent (
-    __in HANDLE EventHandle,
-    __in_opt PVOID Context,
-    __out_bcount(EventBufferSize) PPLUGPLAY_EVENT_BLOCK EventBlock,
-    __in  ULONG EventBufferSize
+NtGetPlugPlayEvent(
+    IN  HANDLE EventHandle,
+    IN  PVOID Context OPTIONAL,
+    OUT PPLUGPLAY_EVENT_BLOCK EventBlock,
+    IN  ULONG EventBufferLength
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtPlugPlayControl(
-    __in PLUGPLAY_CONTROL_CLASS PnPControlClass,
-    __inout_bcount(PnPControlDataLength) PVOID PnPControlData,
-    __in ULONG PnPControlDataLength
+    IN     PLUGPLAY_CONTROL_CLASS PnPControlClass,
+    IN OUT PVOID PnPControlData,
+    IN     ULONG PnPControlDataLength
     );
 
 #ifdef __cplusplus
@@ -505,4 +509,3 @@ NtPlugPlayControl(
 #endif
 
 #endif // _NTPNPAPI_
-

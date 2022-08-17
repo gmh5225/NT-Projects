@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -12,7 +8,14 @@ Module Name:
 
 Abstract:
 
-    Defines GUIDs for function device classes and device events used in Plug & Play.
+    Defines GUIDs for function device classes and device events used in
+    Plug & Play.
+
+Author:
+
+    Paula Tomlinson (paulat) 03-Dec-1996
+
+Revision History:
 
 --*/
 
@@ -21,7 +24,7 @@ Abstract:
 #endif
 
 //
-// Device events that can be broadcast to drivers and user-mode apps.
+// Device events that can be broadcasted to drivers and user-mode apps.
 //
 DEFINE_GUID( GUID_HWPROFILE_QUERY_CHANGE,          0xcb3a4001L, 0x46f0, 0x11d0, 0xb0, 0x8f, 0x00, 0x60, 0x97, 0x13, 0x05, 0x3f );
 DEFINE_GUID( GUID_HWPROFILE_CHANGE_CANCELLED,      0xcb3a4002L, 0x46f0, 0x11d0, 0xb0, 0x8f, 0x00, 0x60, 0x97, 0x13, 0x05, 0x3f );
@@ -83,4 +86,3 @@ DEFINE_GUID( GUID_BUS_TYPE_SD,                     0xe700cc04L, 0x4036, 0x4e89, 
 DEFINE_GUID( GUID_POWER_DEVICE_ENABLE,             0x827c0a6fL, 0xfeb0, 0x11d0, 0xbd, 0x26, 0x00, 0xaa, 0x00, 0xb7, 0xb3, 0x2a );
 DEFINE_GUID( GUID_POWER_DEVICE_TIMEOUTS,           0xa45da735L, 0xfeb0, 0x11d0, 0xbd, 0x26, 0x00, 0xaa, 0x00, 0xb7, 0xb3, 0x2a );
 DEFINE_GUID( GUID_POWER_DEVICE_WAKE_ENABLE,        0xa9546a82L, 0xfeb0, 0x11d0, 0xbd, 0x26, 0x00, 0xaa, 0x00, 0xb7, 0xb3, 0x2a );
-

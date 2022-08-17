@@ -1,25 +1,16 @@
-/*++
-
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
-
-Module:
-
-    stdarg.h
-
-Abstract:
-
-    Defines ANSI-style macros for variable argument functions
-
-    This file defines ANSI-style macros for accessing arguments
-    of functions which take a variable number of arguments.
-    [ANSI]
-    [Public]
-
---*/
+/***
+*stdarg.h - defines ANSI-style macros for variable argument functions
+*
+*       Copyright (c) 1985-2001, Microsoft Corporation. All rights reserved.
+*
+*Purpose:
+*       This file defines ANSI-style macros for accessing arguments
+*       of functions which take a variable number of arguments.
+*       [ANSI]
+*
+*       [Public]
+*
+****/
 
 #if     _MSC_VER > 1000
 #pragma once
@@ -27,6 +18,11 @@ Abstract:
 
 #ifndef _INC_STDARG
 #define _INC_STDARG
+
+#if     !defined(_WIN32)
+#error ERROR: Only Win32 target supported!
+#endif
+
 
 #ifdef  _MSC_VER
 /*
@@ -89,7 +85,33 @@ extern void __cdecl __va_end(va_list*);
 #define va_arg(ap,t)    ( *(t *)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)) )
 #define va_end(ap)      ( ap = (va_list)0 )
 
+#elif defined(_M_IA64)
+
+#define _VA_STRUCT_ALIGN  16 
+
+#define _VA_ALIGN       8
+
+#define _ALIGNOF(ap) ((((ap)+_VA_STRUCT_ALIGN - 1) & ~(_VA_STRUCT_ALIGN -1)) \
+                            - (ap))
+#define _APALIGN(t,ap)  (__alignof(t) > 8 ? _ALIGNOF((uintptr_t) ap) : 0)
+
+#define _SLOTSIZEOF(t)   ( (sizeof(t) + _VA_ALIGN - 1) & ~(_VA_ALIGN - 1) )
+
+#ifdef  __cplusplus
+extern void __cdecl __va_start(va_list*, ...);
+#define va_start(ap,v)  ( __va_start(&ap, _ADDRESSOF(v), _SLOTSIZEOF(v), \
+                          _ADDRESSOF(v)) )
+#else
+#define va_start(ap,v)  ( ap = (va_list)_ADDRESSOF(v) + _SLOTSIZEOF(v) )
+#endif
+
+#define va_arg(ap,t)    (*(t *)((ap += _SLOTSIZEOF(t)+ _APALIGN(t,ap)) \
+                                                     -_SLOTSIZEOF(t)))
+
+#define va_end(ap)      ( ap = (va_list)0 )
+
 #elif defined(_M_AMD64)
+
 
 extern void __cdecl __va_start(va_list *, ...);
 
@@ -121,4 +143,3 @@ extern void __cdecl __va_start(va_list *, ...);
 #endif  /* _MSC_VER */
 
 #endif  /* _INC_STDARG */
-

@@ -1,11 +1,7 @@
 
 /*++ BUILD Version: 0008    // Increment this if a change has global effects
 
-Copyright (c) Microsoft Corporation. All rights reserved.
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Module Name:
 
@@ -15,6 +11,12 @@ Abstract:
 
     This module is the header file for the all the system services that
     are contained in the "ex" directory.
+
+Author:
+
+    David N. Cutler (davec) 5-May-1989
+
+Revision History:
 
 --*/
 
@@ -29,6 +31,7 @@ Abstract:
 extern "C" {
 #endif
 
+
 //
 // Delay thread execution.
 //
@@ -37,10 +40,10 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtDelayExecution (
-    __in BOOLEAN Alertable,
-    __in PLARGE_INTEGER DelayInterval
+    IN BOOLEAN Alertable,
+    IN PLARGE_INTEGER DelayInterval
     );
-
+
 //
 // Query and set system environment variables.
 //
@@ -49,49 +52,49 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQuerySystemEnvironmentValue (
-    __in PUNICODE_STRING VariableName,
-    __out_bcount(ValueLength) PWSTR VariableValue,
-    __in USHORT ValueLength,
-    __out_opt PUSHORT ReturnLength
+    IN PUNICODE_STRING VariableName,
+    OUT PWSTR VariableValue,
+    IN USHORT ValueLength,
+    OUT PUSHORT ReturnLength OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetSystemEnvironmentValue (
-    __in PUNICODE_STRING VariableName,
-    __in PUNICODE_STRING VariableValue
+    IN PUNICODE_STRING VariableName,
+    IN PUNICODE_STRING VariableValue
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQuerySystemEnvironmentValueEx (
-    __in PUNICODE_STRING VariableName,
-    __in LPGUID VendorGuid,
-    __out_bcount_opt(*ValueLength) PVOID Value,
-    __inout PULONG ValueLength,
-    __out_opt PULONG Attributes
+    IN PUNICODE_STRING VariableName,
+    IN LPGUID VendorGuid,
+    OUT PVOID Value,
+    IN OUT PULONG ValueLength,
+    OUT PULONG Attributes OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetSystemEnvironmentValueEx (
-    __in PUNICODE_STRING VariableName,
-    __in LPGUID VendorGuid,
-    __in_bcount_opt(ValueLength) PVOID Value,
-    __in ULONG ValueLength,
-    __in ULONG Attributes
+    IN PUNICODE_STRING VariableName,
+    IN LPGUID VendorGuid,
+    IN PVOID Value,
+    IN ULONG ValueLength,
+    IN ULONG Attributes
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtEnumerateSystemEnvironmentValuesEx (
-    __in ULONG InformationClass,
-    __out PVOID Buffer,
-    __inout PULONG BufferLength
+    IN ULONG InformationClass,
+    OUT PVOID Buffer,
+    IN OUT PULONG BufferLength
     );
 
 // begin_nthal
@@ -118,7 +121,7 @@ typedef struct _VARIABLE_NAME_AND_VALUE {
 } VARIABLE_NAME_AND_VALUE, *PVARIABLE_NAME_AND_VALUE;
 
 // end_nthal
-
+
 //
 // Boot entry management APIs.
 //
@@ -197,30 +200,30 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAddBootEntry (
-    __in PBOOT_ENTRY BootEntry,
-    __out_opt PULONG Id
+    IN PBOOT_ENTRY BootEntry,
+    OUT PULONG Id OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtDeleteBootEntry (
-    __in ULONG Id
+    IN ULONG Id
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtModifyBootEntry (
-    __in PBOOT_ENTRY BootEntry
+    IN PBOOT_ENTRY BootEntry
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtEnumerateBootEntries (
-    __out_bcount_opt(*BufferLength) PVOID Buffer,
-    __inout PULONG BufferLength
+    OUT PVOID Buffer,
+    IN OUT PULONG BufferLength
     );
 
 typedef struct _BOOT_ENTRY_LIST {
@@ -232,32 +235,32 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryBootEntryOrder (
-    __out_ecount_opt(*Count) PULONG Ids,
-    __inout PULONG Count
+    OUT PULONG Ids,
+    IN OUT PULONG Count
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetBootEntryOrder (
-    __in_ecount(Count) PULONG Ids,
-    __in ULONG Count
+    IN PULONG Ids,
+    IN ULONG Count
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryBootOptions (
-    __out_bcount_opt(*BootOptionsLength) PBOOT_OPTIONS BootOptions,
-    __inout PULONG BootOptionsLength
+    OUT PBOOT_OPTIONS BootOptions,
+    IN OUT PULONG BootOptionsLength
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetBootOptions (
-    __in PBOOT_OPTIONS BootOptions,
-    __in ULONG FieldsToChange
+    IN PBOOT_OPTIONS BootOptions,
+    IN ULONG FieldsToChange
     );
 
 #define BOOT_OPTIONS_FIELD_COUNTDOWN            0x00000001
@@ -268,10 +271,10 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtTranslateFilePath (
-    __in PFILE_PATH InputFilePath,
-    __in ULONG OutputType,
-    __out_bcount_opt(*OutputFilePathLength) PFILE_PATH OutputFilePath,
-    __inout_opt PULONG OutputFilePathLength
+    IN PFILE_PATH InputFilePath,
+    IN ULONG OutputType,
+    OUT PFILE_PATH OutputFilePath,
+    IN OUT PULONG OutputFilePathLength
     );
 
 //
@@ -299,78 +302,49 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtAddDriverEntry (
-    __in PEFI_DRIVER_ENTRY DriverEntry,
-    __out_opt PULONG Id
+    IN PEFI_DRIVER_ENTRY DriverEntry,
+    OUT PULONG Id OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtDeleteDriverEntry (
-    __in ULONG Id
+    IN ULONG Id
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtModifyDriverEntry (
-    __in PEFI_DRIVER_ENTRY DriverEntry
+    IN PEFI_DRIVER_ENTRY DriverEntry
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtEnumerateDriverEntries (
-    __out_bcount(*BufferLength) PVOID Buffer,
-    __inout PULONG BufferLength
+    OUT PVOID Buffer,
+    IN OUT PULONG BufferLength
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryDriverEntryOrder (
-    __out_ecount(*Count) PULONG Ids,
-    __inout PULONG Count
+    OUT PULONG Ids,
+    IN OUT PULONG Count
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetDriverEntryOrder (
-    __in_ecount(Count) PULONG Ids,
-    __in ULONG Count
+    IN PULONG Ids,
+    IN ULONG Count
     );
 
-// begin_ntddk 
-
-//
-// Firmware Table provider definitions 
-//
-
-typedef enum _SYSTEM_FIRMWARE_TABLE_ACTION {
-    SystemFirmwareTable_Enumerate,
-    SystemFirmwareTable_Get
-} SYSTEM_FIRMWARE_TABLE_ACTION;
-
-typedef struct _SYSTEM_FIRMWARE_TABLE_INFORMATION {
-    ULONG                           ProviderSignature;
-    SYSTEM_FIRMWARE_TABLE_ACTION    Action;
-    ULONG                           TableID;
-    ULONG                           TableBufferLength;
-    UCHAR                           TableBuffer[ANYSIZE_ARRAY];
-} SYSTEM_FIRMWARE_TABLE_INFORMATION, *PSYSTEM_FIRMWARE_TABLE_INFORMATION;
-
-typedef NTSTATUS (__cdecl *PFNFTH)(PSYSTEM_FIRMWARE_TABLE_INFORMATION);
-
-typedef struct _SYSTEM_FIRMWARE_TABLE_HANDLER {
-    ULONG       ProviderSignature;
-    BOOLEAN     Register;
-    PFNFTH      FirmwareTableHandler;
-    PVOID       DriverObject;
-} SYSTEM_FIRMWARE_TABLE_HANDLER, *PSYSTEM_FIRMWARE_TABLE_HANDLER;
-
-// end_ntddk
-
+
 // begin_ntifs begin_wdm begin_ntddk
 //
 // Event Specific Access Rights.
@@ -388,7 +362,7 @@ typedef struct _SYSTEM_FIRMWARE_TABLE_HANDLER {
 
 typedef enum _EVENT_INFORMATION_CLASS {
     EventBasicInformation
-} EVENT_INFORMATION_CLASS;
+    } EVENT_INFORMATION_CLASS;
 
 //
 // Event Information Structures.
@@ -407,77 +381,79 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtClearEvent (
-    __in HANDLE EventHandle
+    IN HANDLE EventHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateEvent (
-    __out PHANDLE EventHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes,
-    __in EVENT_TYPE EventType,
-    __in BOOLEAN InitialState
+    OUT PHANDLE EventHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN EVENT_TYPE EventType,
+    IN BOOLEAN InitialState
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenEvent (
-    __out PHANDLE EventHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes
+    OUT PHANDLE EventHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtPulseEvent (
-    __in HANDLE EventHandle,
-    __out_opt PLONG PreviousState
+    IN HANDLE EventHandle,
+    OUT PLONG PreviousState OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryEvent (
-    __in HANDLE EventHandle,
-    __in EVENT_INFORMATION_CLASS EventInformationClass,
-    __out_bcount(EventInformationLength) PVOID EventInformation,
-    __in ULONG EventInformationLength,
-    __out_opt PULONG ReturnLength
+    IN HANDLE EventHandle,
+    IN EVENT_INFORMATION_CLASS EventInformationClass,
+    OUT PVOID EventInformation,
+    IN ULONG EventInformationLength,
+    OUT PULONG ReturnLength OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtResetEvent (
-    __in HANDLE EventHandle,
-    __out_opt PLONG PreviousState
+    IN HANDLE EventHandle,
+    OUT PLONG PreviousState OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetEvent (
-    __in HANDLE EventHandle,
-    __out_opt PLONG PreviousState
+    IN HANDLE EventHandle,
+    OUT PLONG PreviousState OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetEventBoostPriority (
-    __in HANDLE EventHandle
+    IN HANDLE EventHandle
     );
 
+
 //
 // Event Specific Access Rights.
 //
 
 #define EVENT_PAIR_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED|SYNCHRONIZE)
 
+
 //
 // Event pair object function definitions.
 //
@@ -486,67 +462,68 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateEventPair (
-    __out PHANDLE EventPairHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes
+    OUT PHANDLE EventPairHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtOpenEventPair (
-    __out PHANDLE EventPairHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes
+NtOpenEventPair(
+    OUT PHANDLE EventPairHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtWaitLowEventPair ( 
-    __in HANDLE EventPairHandle
+NtWaitLowEventPair(
+    IN HANDLE EventPairHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtWaitHighEventPair (
-    __in HANDLE EventPairHandle
+NtWaitHighEventPair(
+    IN HANDLE EventPairHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetLowWaitHighEventPair (
-    __in HANDLE EventPairHandle
+NtSetLowWaitHighEventPair(
+    IN HANDLE EventPairHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetHighWaitLowEventPair (
-    __in HANDLE EventPairHandle
+NtSetHighWaitLowEventPair(
+    IN HANDLE EventPairHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetLowEventPair (
-    __in HANDLE EventPairHandle
+NtSetLowEventPair(
+    IN HANDLE EventPairHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetHighEventPair (
-    __in HANDLE EventPairHandle
+NtSetHighEventPair(
+    IN HANDLE EventPairHandle
     );
 
+
 //
 // Mutant Specific Access Rights.
 //
-// begin_winnt
 
+// begin_winnt
 #define MUTANT_QUERY_STATE      0x0001
 
 #define MUTANT_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED|SYNCHRONIZE|\
@@ -559,7 +536,7 @@ NtSetHighEventPair (
 
 typedef enum _MUTANT_INFORMATION_CLASS {
     MutantBasicInformation
-} MUTANT_INFORMATION_CLASS;
+    } MUTANT_INFORMATION_CLASS;
 
 //
 // Mutant Information Structures.
@@ -579,40 +556,40 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateMutant (
-    __out PHANDLE MutantHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes,
-    __in BOOLEAN InitialOwner
+    OUT PHANDLE MutantHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN BOOLEAN InitialOwner
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenMutant (
-    __out PHANDLE MutantHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes
+    OUT PHANDLE MutantHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryMutant (
-    __in HANDLE MutantHandle,
-    __in MUTANT_INFORMATION_CLASS MutantInformationClass,
-    __out_bcount(MutantInformationLength) PVOID MutantInformation,
-    __in ULONG MutantInformationLength,
-    __out_opt PULONG ReturnLength
+    IN HANDLE MutantHandle,
+    IN MUTANT_INFORMATION_CLASS MutantInformationClass,
+    OUT PVOID MutantInformation,
+    IN ULONG MutantInformationLength,
+    OUT PULONG ReturnLength OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtReleaseMutant (
-    __in HANDLE MutantHandle,
-    __out_opt PLONG PreviousCount
+    IN HANDLE MutantHandle,
+    OUT PLONG PreviousCount OPTIONAL
     );
-
+
 // begin_ntifs begin_wdm begin_ntddk
 //
 // Semaphore Specific Access Rights.
@@ -631,7 +608,7 @@ NtReleaseMutant (
 
 typedef enum _SEMAPHORE_INFORMATION_CLASS {
     SemaphoreBasicInformation
-} SEMAPHORE_INFORMATION_CLASS;
+    } SEMAPHORE_INFORMATION_CLASS;
 
 //
 // Semaphore Information Structures.
@@ -650,42 +627,43 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateSemaphore (
-    __out PHANDLE SemaphoreHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes,
-    __in LONG InitialCount,
-    __in LONG MaximumCount
+    OUT PHANDLE SemaphoreHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN LONG InitialCount,
+    IN LONG MaximumCount
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenSemaphore(
-    __out PHANDLE SemaphoreHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes
+    OUT PHANDLE SemaphoreHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQuerySemaphore (
-    __in HANDLE SemaphoreHandle,
-    __in SEMAPHORE_INFORMATION_CLASS SemaphoreInformationClass,
-    __out_bcount(SemaphoreInformationLength) PVOID SemaphoreInformation,
-    __in ULONG SemaphoreInformationLength,
-    __out_opt PULONG ReturnLength
+    IN HANDLE SemaphoreHandle,
+    IN SEMAPHORE_INFORMATION_CLASS SemaphoreInformationClass,
+    OUT PVOID SemaphoreInformation,
+    IN ULONG SemaphoreInformationLength,
+    OUT PULONG ReturnLength OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtReleaseSemaphore(
-    __in HANDLE SemaphoreHandle,
-    __in LONG ReleaseCount,
-    __out_opt PLONG PreviousCount
+    IN HANDLE SemaphoreHandle,
+    IN LONG ReleaseCount,
+    OUT PLONG PreviousCount OPTIONAL
     );
 
+
 // begin_winnt
 //
 // Timer Specific Access Rights.
@@ -697,6 +675,7 @@ NtReleaseSemaphore(
 #define TIMER_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED|SYNCHRONIZE|\
                           TIMER_QUERY_STATE|TIMER_MODIFY_STATE)
 
+
 // end_winnt
 //
 // Timer Information Classes.
@@ -704,7 +683,7 @@ NtReleaseSemaphore(
 
 typedef enum _TIMER_INFORMATION_CLASS {
     TimerBasicInformation
-} TIMER_INFORMATION_CLASS;
+    } TIMER_INFORMATION_CLASS;
 
 //
 // Timer Information Structures.
@@ -723,9 +702,9 @@ typedef struct _TIMER_BASIC_INFORMATION {
 typedef
 VOID
 (*PTIMER_APC_ROUTINE) (
-    __in PVOID TimerContext,
-    __in ULONG TimerLowValue,
-    __in LONG TimerHighValue
+    IN PVOID TimerContext,
+    IN ULONG TimerLowValue,
+    IN LONG TimerHighValue
     );
 
 // end_ntddk
@@ -738,53 +717,53 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateTimer (
-    __out PHANDLE TimerHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes,
-    __in TIMER_TYPE TimerType
+    OUT PHANDLE TimerHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN TIMER_TYPE TimerType
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenTimer (
-    __out PHANDLE TimerHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes
+    OUT PHANDLE TimerHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCancelTimer (
-    __in HANDLE TimerHandle,
-    __out_opt PBOOLEAN CurrentState
+    IN HANDLE TimerHandle,
+    OUT PBOOLEAN CurrentState OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryTimer (
-    __in HANDLE TimerHandle,
-    __in TIMER_INFORMATION_CLASS TimerInformationClass,
-    __out_bcount(TimerInformationLength) PVOID TimerInformation,
-    __in ULONG TimerInformationLength,
-    __out_opt PULONG ReturnLength
+    IN HANDLE TimerHandle,
+    IN TIMER_INFORMATION_CLASS TimerInformationClass,
+    OUT PVOID TimerInformation,
+    IN ULONG TimerInformationLength,
+    OUT PULONG ReturnLength OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetTimer (
-    __in HANDLE TimerHandle,
-    __in PLARGE_INTEGER DueTime,
-    __in_opt PTIMER_APC_ROUTINE TimerApcRoutine,
-    __in_opt PVOID TimerContext,
-    __in BOOLEAN ResumeTimer,
-    __in_opt LONG Period,
-    __out_opt PBOOLEAN PreviousState
+    IN HANDLE TimerHandle,
+    IN PLARGE_INTEGER DueTime,
+    IN PTIMER_APC_ROUTINE TimerApcRoutine OPTIONAL,
+    IN PVOID TimerContext OPTIONAL,
+    IN BOOLEAN ResumeTimer,
+    IN LONG Period OPTIONAL,
+    OUT PBOOLEAN PreviousState OPTIONAL
     );
-
+
 //
 // System Time and Timer function definitions
 //
@@ -793,35 +772,35 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQuerySystemTime (
-    __out PLARGE_INTEGER SystemTime
+    OUT PLARGE_INTEGER SystemTime
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetSystemTime (
-    __in_opt PLARGE_INTEGER SystemTime,
-    __out_opt PLARGE_INTEGER PreviousTime
+    IN PLARGE_INTEGER SystemTime,
+    OUT PLARGE_INTEGER PreviousTime OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryTimerResolution (
-    __out PULONG MaximumTime,
-    __out PULONG MinimumTime,
-    __out PULONG CurrentTime
+    OUT PULONG MaximumTime,
+    OUT PULONG MinimumTime,
+    OUT PULONG CurrentTime
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetTimerResolution (
-    __in ULONG DesiredTime,
-    __in BOOLEAN SetResolution,
-    __out PULONG ActualTime
+    IN ULONG DesiredTime,
+    IN BOOLEAN SetResolution,
+    OUT PULONG ActualTime
     );
-
+
 //
 //  Locally Unique Identifier (LUID) allocation
 //
@@ -829,31 +808,32 @@ NtSetTimerResolution (
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtAllocateLocallyUniqueId (
-    __out PLUID Luid
+NtAllocateLocallyUniqueId(
+    OUT PLUID Luid
     );
 
+
 //
 //  Universally Unique Identifier (UUID) time allocation
 //
-
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetUuidSeed (
-    __in PCHAR Seed
+    IN PCHAR Seed
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtAllocateUuids (
-    __out PULARGE_INTEGER Time,
-    __out PULONG Range,
-    __out PULONG Sequence,
-    __out PCHAR Seed
+NtAllocateUuids(
+    OUT PULARGE_INTEGER Time,
+    OUT PULONG Range,
+    OUT PULONG Sequence,
+    OUT PCHAR Seed
     );
 
+
 //
 // Profile Object Definitions
 //
@@ -865,47 +845,48 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateProfile (
-    __out PHANDLE ProfileHandle,
-    __in HANDLE Process OPTIONAL,
-    __in PVOID ProfileBase,
-    __in SIZE_T ProfileSize,
-    __in ULONG BucketSize,
-    __in PULONG Buffer,
-    __in ULONG BufferSize,
-    __in KPROFILE_SOURCE ProfileSource,
-    __in KAFFINITY Affinity
+    OUT PHANDLE ProfileHandle,
+    IN HANDLE Process OPTIONAL,
+    IN PVOID ProfileBase,
+    IN SIZE_T ProfileSize,
+    IN ULONG BucketSize,
+    IN PULONG Buffer,
+    IN ULONG BufferSize,
+    IN KPROFILE_SOURCE ProfileSource,
+    IN KAFFINITY Affinity
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtStartProfile (
-    __in HANDLE ProfileHandle
+    IN HANDLE ProfileHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtStopProfile (
-    __in HANDLE ProfileHandle
+    IN HANDLE ProfileHandle
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetIntervalProfile (
-    __in ULONG Interval,
-    __in KPROFILE_SOURCE Source
+    IN ULONG Interval,
+    IN KPROFILE_SOURCE Source
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryIntervalProfile (
-    __in KPROFILE_SOURCE ProfileSource,
-    __out PULONG Interval
+    IN KPROFILE_SOURCE ProfileSource,
+    OUT PULONG Interval
     );
 
+
 //
 // Performance Counter Definitions
 //
@@ -914,55 +895,58 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryPerformanceCounter (
-    __out PLARGE_INTEGER PerformanceCounter,
-    __out_opt PLARGE_INTEGER PerformanceFrequency
+    OUT PLARGE_INTEGER PerformanceCounter,
+    OUT PLARGE_INTEGER PerformanceFrequency OPTIONAL
     );
 
-#define KEYEDEVENT_WAIT 0x0001
-#define KEYEDEVENT_WAKE 0x0002
+
+#define KEYEDEVENT_WAIT  0x0001
+#define KEYEDEVENT_WAKE  0x0002
 #define KEYEDEVENT_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED | KEYEDEVENT_WAIT | KEYEDEVENT_WAKE)
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtCreateKeyedEvent (
-    __out PHANDLE KeyedEventHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in_opt POBJECT_ATTRIBUTES ObjectAttributes,
-    __in ULONG Flags
+    OUT PHANDLE KeyedEventHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN ULONG Flags
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtOpenKeyedEvent (
-    __out PHANDLE KeyedEventHandle,
-    __in ACCESS_MASK DesiredAccess,
-    __in POBJECT_ATTRIBUTES ObjectAttributes
+    OUT PHANDLE KeyedEventHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtReleaseKeyedEvent (
-    __in HANDLE KeyedEventHandle,
-    __in PVOID KeyValue,
-    __in BOOLEAN Alertable,
-    __in_opt PLARGE_INTEGER Timeout
+    IN HANDLE KeyedEventHandle,
+    IN PVOID KeyValue,
+    IN BOOLEAN Alertable,
+    IN PLARGE_INTEGER Timeout OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtWaitForKeyedEvent (
-    __in HANDLE KeyedEventHandle,
-    __in PVOID KeyValue,
-    __in BOOLEAN Alertable,
-    __in_opt PLARGE_INTEGER Timeout
+    IN HANDLE KeyedEventHandle,
+    IN PVOID KeyValue,
+    IN BOOLEAN Alertable,
+    IN PLARGE_INTEGER Timeout OPTIONAL
     );
-
+
 //
 // Nt Api Profile Definitions
+//
+
 //
 // Nt Api Profiling data structure
 //
@@ -1004,6 +988,8 @@ NapResume (
     VOID
     );
 
+
+
 // begin_ntifs begin_ntddk
 
 //
@@ -1043,6 +1029,7 @@ typedef struct _DRIVER_VERIFIER_THUNK_PAIRS {
 #define DRIVER_VERIFIER_SYSTEM_BIOS_VERIFICATION    0x0200
 #define DRIVER_VERIFIER_EXPOSE_IRP_HISTORY          0x0400
 
+
 //
 // System Information Classes.
 //
@@ -1122,14 +1109,6 @@ typedef enum _SYSTEM_INFORMATION_CLASS {
     SystemWatchdogTimerHandler,
     SystemWatchdogTimerInformation,
     SystemLogicalProcessorInformation,
-    SystemWow64SharedInformation,
-    SystemRegisterFirmwareTableInformationHandler,
-    SystemFirmwareTableInformation,
-    SystemModuleInformationEx,
-    SystemVerifierTriageInformation,
-    SystemSuperfetchInformation,
-    SystemMemoryListInformation,
-    SystemFileCacheInformationEx,
     MaxSystemInfoClass  // MaxSystemInfoClass should always be the last enum
 } SYSTEM_INFORMATION_CLASS;
 
@@ -1190,7 +1169,7 @@ typedef struct _SYSTEM_TIMEOFDAY_INFORMATION {
     ULONGLONG SleepTimeBias;
 } SYSTEM_TIMEOFDAY_INFORMATION, *PSYSTEM_TIMEOFDAY_INFORMATION;
 
-#if defined(_WIN64)
+#if defined(_IA64_)
 typedef ULONG SYSINF_PAGE_COUNT;
 #else
 typedef SIZE_T SYSINF_PAGE_COUNT;
@@ -1253,28 +1232,10 @@ typedef struct _SYSTEM_NUMA_INFORMATION {
 
 typedef enum _LOGICAL_PROCESSOR_RELATIONSHIP {
     RelationProcessorCore,
-    RelationNumaNode,
-    RelationCache
+    RelationNumaNode
 } LOGICAL_PROCESSOR_RELATIONSHIP;
 
 #define LTP_PC_SMT 0x1
-
-typedef enum _PROCESSOR_CACHE_TYPE {
-    CacheUnified,
-    CacheInstruction,
-    CacheData,
-    CacheTrace
-} PROCESSOR_CACHE_TYPE;
-
-#define CACHE_FULLY_ASSOCIATIVE 0xFF
-
-typedef struct _CACHE_DESCRIPTOR {
-    UCHAR  Level;
-    UCHAR  Associativity;
-    USHORT LineSize;
-    ULONG  Size;
-    PROCESSOR_CACHE_TYPE Type;
-} CACHE_DESCRIPTOR, *PCACHE_DESCRIPTOR;
 
 typedef struct _SYSTEM_LOGICAL_PROCESSOR_INFORMATION {
     ULONG_PTR   ProcessorMask;
@@ -1286,7 +1247,6 @@ typedef struct _SYSTEM_LOGICAL_PROCESSOR_INFORMATION {
         struct {
             ULONG NodeNumber;
         } NumaNode;
-        CACHE_DESCRIPTOR Cache;
         ULONGLONG  Reserved[2];
     };
 } SYSTEM_LOGICAL_PROCESSOR_INFORMATION, *PSYSTEM_LOGICAL_PROCESSOR_INFORMATION;
@@ -1487,6 +1447,8 @@ typedef struct _SYSTEM_MEMORY_INFORMATION {
 typedef struct _SYSTEM_CALL_COUNT_INFORMATION {
     ULONG Length;
     ULONG NumberOfTables;
+    //ULONG NumberOfEntries[NumberOfTables];
+    //ULONG CallCounts[NumberOfTables][NumberOfEntries];
 } SYSTEM_CALL_COUNT_INFORMATION, *PSYSTEM_CALL_COUNT_INFORMATION;
 
 typedef struct _SYSTEM_DEVICE_INFORMATION {
@@ -1498,12 +1460,14 @@ typedef struct _SYSTEM_DEVICE_INFORMATION {
     ULONG NumberOfParallelPorts;
 } SYSTEM_DEVICE_INFORMATION, *PSYSTEM_DEVICE_INFORMATION;
 
+
 typedef struct _SYSTEM_EXCEPTION_INFORMATION {
     ULONG AlignmentFixupCount;
     ULONG ExceptionDispatchCount;
     ULONG FloatingEmulationCount;
     ULONG ByteWordEmulationCount;
 } SYSTEM_EXCEPTION_INFORMATION, *PSYSTEM_EXCEPTION_INFORMATION;
+
 
 typedef struct _SYSTEM_KERNEL_DEBUGGER_INFORMATION {
     BOOLEAN KernelDebuggerEnabled;
@@ -1641,11 +1605,6 @@ typedef struct _SYSTEM_VERIFIER_INFORMATION {
 
 } SYSTEM_VERIFIER_INFORMATION, *PSYSTEM_VERIFIER_INFORMATION;
 
-#define MM_WORKING_SET_MAX_HARD_ENABLE      0x1
-#define MM_WORKING_SET_MAX_HARD_DISABLE     0x2
-#define MM_WORKING_SET_MIN_HARD_ENABLE      0x4
-#define MM_WORKING_SET_MIN_HARD_DISABLE     0x8
-
 typedef struct _SYSTEM_FILECACHE_INFORMATION {
     SIZE_T CurrentSize;
     SIZE_T PeakSize;
@@ -1655,15 +1614,15 @@ typedef struct _SYSTEM_FILECACHE_INFORMATION {
     SIZE_T CurrentSizeIncludingTransitionInPages;
     SIZE_T PeakSizeIncludingTransitionInPages;
     ULONG TransitionRePurposeCount;
-    ULONG Flags;
+    ULONG spare[1];
 } SYSTEM_FILECACHE_INFORMATION, *PSYSTEM_FILECACHE_INFORMATION;
+
 
 #define FLG_HOTPATCH_KERNEL             0x80000000
 #define FLG_HOTPATCH_RELOAD_NTDLL       0x40000000
 #define FLG_HOTPATCH_NAME_INFO          0x20000000
 #define FLG_HOTPATCH_RENAME_INFO        0x10000000
 #define FLG_HOTPATCH_MAP_ATOMIC_SWAP    0x08000000
-#define FLG_HOTPATCH_WOW64              0x04000000
 
 #define FLG_HOTPATCH_ACTIVE             0x00000001
 #define FLG_HOTPATCH_STATUS_FLAGS       FLG_HOTPATCH_ACTIVE
@@ -1678,7 +1637,8 @@ typedef struct _HOTPATCH_HOOK_DESCRIPTOR{
     ULONG OrigCodeOffset;
     ULONG ValidationOffset;
     ULONG ValidationSize;
-} HOTPATCH_HOOK_DESCRIPTOR, *PHOTPATCH_HOOK_DESCRIPTOR;
+}HOTPATCH_HOOK_DESCRIPTOR, *PHOTPATCH_HOOK_DESCRIPTOR;
+
 
 typedef struct _SYSTEM_HOTPATCH_CODE_INFORMATION {
 
@@ -1788,6 +1748,7 @@ typedef struct _SYSTEM_WATCHDOG_TIMER_INFORMATION {
     WATCHDOG_INFORMATION_CLASS  WdInfoClass;
     ULONG                       DataValue;
 } SYSTEM_WATCHDOG_TIMER_INFORMATION, *PSYSTEM_WATCHDOG_TIMER_INFORMATION;
+
 
 #if _MSC_VER >= 1200
 #pragma warning(push)
@@ -1965,24 +1926,26 @@ typedef struct _SYSTEM_LEGACY_DRIVER_INFORMATION {
 
 // end_winnt
 
+
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQuerySystemInformation (
-    __in SYSTEM_INFORMATION_CLASS SystemInformationClass,
-    __out_bcount_opt(SystemInformationLength) PVOID SystemInformation,
-    __in ULONG SystemInformationLength,
-    __out_opt PULONG ReturnLength
+    IN SYSTEM_INFORMATION_CLASS SystemInformationClass,
+    OUT PVOID SystemInformation,
+    IN ULONG SystemInformationLength,
+    OUT PULONG ReturnLength OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetSystemInformation (
-    __in SYSTEM_INFORMATION_CLASS SystemInformationClass,
-    __in_bcount_opt(SystemInformationLength) PVOID SystemInformation,
-    __in ULONG SystemInformationLength
+    IN SYSTEM_INFORMATION_CLASS SystemInformationClass,
+    IN PVOID SystemInformation,
+    IN ULONG SystemInformationLength
     );
+
 
 //
 // SysDbg APIs are available to user-mode processes via
@@ -2019,9 +1982,6 @@ typedef enum _SYSDBG_COMMAND {
     SysDbgSetPrintBufferSize,
     SysDbgGetKdUmExceptionEnable,
     SysDbgSetKdUmExceptionEnable,
-    SysDbgGetTriageDump,
-    SysDbgGetKdBlockEnable,
-    SysDbgSetKdBlockEnable,
 } SYSDBG_COMMAND, *PSYSDBG_COMMAND;
 
 typedef struct _SYSDBG_VIRTUAL {
@@ -2070,12 +2030,12 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSystemDebugControl (
-    __in SYSDBG_COMMAND Command,
-    __inout_bcount_opt(InputBufferLength) PVOID InputBuffer,
-    __in ULONG InputBufferLength,
-    __out_bcount_opt(OutputBufferLength) PVOID OutputBuffer,
-    __in ULONG OutputBufferLength,
-    __out_opt PULONG ReturnLength
+    IN SYSDBG_COMMAND Command,
+    IN PVOID InputBuffer,
+    IN ULONG InputBufferLength,
+    OUT PVOID OutputBuffer,
+    IN ULONG OutputBufferLength,
+    OUT PULONG ReturnLength
     );
 
 typedef enum _HARDERROR_RESPONSE_OPTION {
@@ -2125,13 +2085,13 @@ typedef struct _HARDERROR_MSG {
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtRaiseHardError (
-    __in NTSTATUS ErrorStatus,
-    __in ULONG NumberOfParameters,
-    __in ULONG UnicodeStringParameterMask,
-    __in_ecount(NumberOfParameters) PULONG_PTR Parameters,
-    __in ULONG ValidResponseOptions,
-    __out PULONG Response
+NtRaiseHardError(
+    IN NTSTATUS ErrorStatus,
+    IN ULONG NumberOfParameters,
+    IN ULONG UnicodeStringParameterMask,
+    IN PULONG_PTR Parameters,
+    IN ULONG ValidResponseOptions,
+    OUT PULONG Response
     );
 
 // begin_wdm begin_ntddk begin_nthal begin_ntifs
@@ -2151,8 +2111,6 @@ NtRaiseHardError (
 #define PF_RDTSC_INSTRUCTION_AVAILABLE      8   // winnt
 #define PF_PAE_ENABLED                      9   // winnt
 #define PF_XMMI64_INSTRUCTIONS_AVAILABLE   10   // winnt
-#define PF_SSE_DAZ_MODE_AVAILABLE          11   // winnt
-#define PF_NX_ENABLED                      12   // winnt
 
 typedef enum _ALTERNATIVE_ARCHITECTURE_TYPE {
     StandardDesign,                 // None == 0 == standard design
@@ -2201,29 +2159,23 @@ typedef enum _ALTERNATIVE_ARCHITECTURE_TYPE {
 //
 // N.B. User mode has read only access to this data
 //
-
-#define MAX_WOW64_SHARED_ENTRIES 16
+#ifdef _MAC
+#pragma warning( disable : 4121)
+#endif
 
 //
 // WARNING: This structure must have exactly the same layout for 32- and
 //    64-bit systems. The layout of this structure cannot change and new
-//    fields can only be added at the end of the structure (unless a gap
-//    can be exploited). Deprecated fields cannot be deleted. Platform
-//    specific fields are included on all systems.
+//    fields can only be added to the end of the structure. Deprecated
+//    fields cannot be deleted. Platform specific fields are included on
+//    all systems.
 //
-//    Layout exactness is required for Wow64 support of 32-bit applications
+//    Layout exactness is required for Wow64 support of 32bit applications
 //    on Win64 systems.
 //
-//    The layout itself cannot change since this structure has been exported
+//    The layout itself cannot change since this sturcture has been exported
 //    in ntddk, ntifs.h, and nthal.h for some time.
 //
-// Define NX support policy values.
-//
-
-#define NX_SUPPORT_POLICY_ALWAYSOFF 0
-#define NX_SUPPORT_POLICY_ALWAYSON 1
-#define NX_SUPPORT_POLICY_OPTIN 2
-#define NX_SUPPORT_POLICY_OPTOUT 3
 
 typedef struct _KUSER_SHARED_DATA {
 
@@ -2264,10 +2216,10 @@ typedef struct _KUSER_SHARED_DATA {
     USHORT ImageNumberHigh;
 
     //
-    // Copy of system root in unicode.
+    // Copy of system root in Unicode
     //
 
-    WCHAR NtSystemRoot[260];
+    WCHAR NtSystemRoot[ 260 ];
 
     //
     // Maximum stack trace depth if tracing enabled.
@@ -2276,59 +2228,56 @@ typedef struct _KUSER_SHARED_DATA {
     ULONG MaxStackTraceDepth;
 
     //
-    // Crypto exponent value.
+    // Crypto Exponent
     //
 
     ULONG CryptoExponent;
 
     //
-    // Time zone ID.
+    // TimeZoneId
     //
 
     ULONG TimeZoneId;
+
     ULONG LargePageMinimum;
-    ULONG Reserved2[7];
+    ULONG Reserved2[ 7 ];
 
     //
-    // Product type.
+    // product type
     //
 
     NT_PRODUCT_TYPE NtProductType;
     BOOLEAN ProductTypeIsValid;
 
     //
-    // The NT Version.
-    //
-    // N. B. Note that each process sees a version from its PEB, but if the
-    //       process is running with an altered view of the system version,
-    //       the following two fields are used to correctly identify the
-    //       version
+    // NT Version. Note that each process sees a version from its PEB, but
+    // if the process is running with an altered view of the system version,
+    // the following two fields are used to correctly identify the version
     //
 
     ULONG NtMajorVersion;
     ULONG NtMinorVersion;
 
     //
-    // Processor features.
+    // Processor Feature Bits
     //
 
     BOOLEAN ProcessorFeatures[PROCESSOR_FEATURE_MAX];
 
     //
-    // Reserved fields - do not use.
+    // Reserved fields - do not use
     //
-
     ULONG Reserved1;
     ULONG Reserved3;
 
     //
-    // Time slippage while in debugger.
+    // Time slippage while in debugger
     //
 
     volatile ULONG TimeSlip;
 
     //
-    // Alternative system architecture, e.g., NEC PC98xx on x86.
+    // Alternative system architecture.  Example: NEC PC98xx on x86
     //
 
     ALTERNATIVE_ARCHITECTURE_TYPE AlternativeArchitecture;
@@ -2343,56 +2292,53 @@ typedef struct _KUSER_SHARED_DATA {
     LARGE_INTEGER SystemExpirationDate;
 
     //
-    // Suite support.
+    // Suite Support
     //
 
     ULONG SuiteMask;
 
     //
-    // TRUE if a kernel debugger is connected/enabled.
+    // TRUE if a kernel debugger is connected/enabled
     //
 
     BOOLEAN KdDebuggerEnabled;
 
-    //
-    // NX support policy.
-    //
-
-    UCHAR NXSupportPolicy;
 
     //
-    // Current console session Id. Always zero on non-TS systems.
+    // Current console session Id. Always zero on non-TS systems
     //
-
     volatile ULONG ActiveConsoleId;
 
     //
-    // Force-dismounts cause handles to become invalid. Rather than always
-    // probe handles, a serial number of dismounts is maintained that clients
-    // can use to see if they need to probe handles.
+    // Force-dismounts cause handles to become invalid. Rather than
+    // always probe handles, we maintain a serial number of
+    // dismounts that clients can use to see if they need to probe
+    // handles.
     //
 
     volatile ULONG DismountCount;
 
     //
-    // This field indicates the status of the 64-bit COM+ package on the
-    // system. It indicates whether the Intermediate Language (IL) COM+
-    // images need to use the 64-bit COM+ runtime or the 32-bit COM+ runtime.
+    // This field indicates the status of the 64-bit COM+ package on the system.
+    // It indicates whether the Itermediate Language (IL) COM+ images need to
+    // use the 64-bit COM+ runtime or the 32-bit COM+ runtime.
     //
 
     ULONG ComPlusPackage;
 
     //
-    // Time in tick count for system-wide last user input across all terminal
-    // sessions. For MP performance, it is not updated all the time (e.g. once
-    // a minute per session). It is used for idle detection.
+    // Time in tick count for system-wide last user input across all
+    // terminal sessions. For MP performance, it is not updated all
+    // the time (e.g. once a minute per session). It is used for idle
+    // detection.
     //
 
     ULONG LastSystemRITEventTickCount;
 
     //
-    // Number of physical pages in the system. This can dynamically change as
-    // physical memory can be added or removed from a running system.
+    // Number of physical pages in the system.  This can dynamically
+    // change as physical memory can be added or removed from a running
+    // system.
     //
 
     ULONG NumberOfPhysicalPages;
@@ -2404,24 +2350,26 @@ typedef struct _KUSER_SHARED_DATA {
     BOOLEAN SafeBootMode;
 
     //
-    // The following field is used for heap and critcial sectionc tracing. The
-    // last bit is set for critical section collision tracing and second last
-    // bit is for heap tracing.  Also the first 16 bits are used as counter.
+    // The following field is used for Heap  and  CritSec Tracing
+    // The last bit is set for Critical Sec Collision tracing and
+    // second Last bit is for Heap Tracing
+    // Also the first 16 bits are used as counter.
     //
 
     ULONG TraceLogging;
 
     //
-    // Depending on the processor, the code for fast system call will differ,
-    // Stub code is provided pointers below to access the appropriate code.
+    // Depending on the processor, the code for fast system call
+    // will differ, the following buffer is filled with the appropriate
+    // code sequence and user mode code will branch through it.
+    //
+    // (32 bytes, using ULONGLONG for alignment).
     //
     // N.B. The following two fields are only used on 32-bit systems.
     //
 
-    ULONGLONG TestRetInstruction;
-    ULONG SystemCall;
-    ULONG SystemCallReturn;
-    ULONGLONG SystemCallPad[3];
+    ULONGLONG   Fill0;          // alignment
+    ULONGLONG   SystemCall[4];
 
     //
     // The 64-bit tick count.
@@ -2432,65 +2380,13 @@ typedef struct _KUSER_SHARED_DATA {
         volatile ULONG64 TickCountQuad;
     };
 
-    //
-    // Cookie for encoding pointers system wide.
-    //
-
-    ULONG Cookie;
-    
-    //
-    // Shared information for Wow64 processes.
-    //
-    
-    ULONG Wow64SharedInformation[MAX_WOW64_SHARED_ENTRIES];
-
 } KUSER_SHARED_DATA, *PKUSER_SHARED_DATA;
 
-// end_ntddk end_nthal end_ntifs
-
-#if !defined(SORTPP_PASS) && !defined(MIDL_PASS) && !defined(RC_INVOKED) && !defined(_X86AMD64_)
-
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, TickCountMultiplier) == 0x4);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, InterruptTime) == 0x8);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, SystemTime) == 0x14);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, TimeZoneBias) == 0x20);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, ImageNumberLow) == 0x2C);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, ImageNumberHigh) == 0x2E);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, NtSystemRoot) == 0x30);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, MaxStackTraceDepth) == 0x238);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, CryptoExponent) == 0x23C);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, TimeZoneId) == 0x240);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, LargePageMinimum) == 0x244);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, Reserved2) == 0x248);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, NtProductType) == 0x264);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, ProductTypeIsValid) == 0x268);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, NtMajorVersion) == 0x26C);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, NtMinorVersion) == 0x270);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, ProcessorFeatures) == 0x274);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, Reserved1) == 0x2B4);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, Reserved3) == 0x2B8);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, TimeSlip) == 0x2BC);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, AlternativeArchitecture) == 0x2C0);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, SystemExpirationDate) == 0x2C8);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, SuiteMask) == 0x2D0);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, KdDebuggerEnabled) == 0x2D4);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, NXSupportPolicy) == 0x2D5);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, ActiveConsoleId) == 0x2D8);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, DismountCount) == 0x2DC);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, ComPlusPackage) == 0x2E0);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, LastSystemRITEventTickCount) == 0x2E4);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, NumberOfPhysicalPages) == 0x2E8);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, SafeBootMode) == 0x2EC);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, TraceLogging) == 0x2F0);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, TestRetInstruction) == 0x2F8);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, SystemCall) == 0x300);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, SystemCallReturn) == 0x304);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, SystemCallPad) == 0x308);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, TickCount) == 0x320);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, TickCountQuad) == 0x320);
-C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, Wow64SharedInformation) == 0x334);
-
+#ifdef _MAC
+#pragma warning( default : 4121 )
 #endif
+
+// end_ntddk end_nthal end_ntifs
 
 #define DOSDEVICE_DRIVE_UNKNOWN     0
 #define DOSDEVICE_DRIVE_CALCULATE   1
@@ -2504,7 +2400,7 @@ C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, Wow64SharedInformation) == 0x334);
 
 FORCEINLINE
 ULONGLONG
-NtGetTickCount64 (
+NtGetTickCount64(
     VOID
     )
 
@@ -2543,7 +2439,7 @@ NtGetTickCount64 (
 
 FORCEINLINE
 ULONG
-NtGetTickCount (
+NtGetTickCount(
     VOID
     )
 
@@ -2576,7 +2472,7 @@ NtGetTickCount (
 
     return (ULONG) ((UInt32x32To64(TickCount.LowPart,
 	                           USER_SHARED_DATA->TickCountMultiplier) >> 24)
-        	    + UInt32x32To64((TickCount.HighPart << 8) & 0xffffffff,
+        	    + UInt32x32To64(TickCount.HighPart << 8,
               		            USER_SHARED_DATA->TickCountMultiplier));
 
 #endif
@@ -2588,45 +2484,45 @@ NtGetTickCount (
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryDefaultLocale (
-    __in BOOLEAN UserProfile,
-    __out PLCID DefaultLocaleId
+NtQueryDefaultLocale(
+    IN BOOLEAN UserProfile,
+    OUT PLCID DefaultLocaleId
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetDefaultLocale (
-    __in BOOLEAN UserProfile,
-    __in LCID DefaultLocaleId
+NtSetDefaultLocale(
+    IN BOOLEAN UserProfile,
+    IN LCID DefaultLocaleId
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryInstallUILanguage (
-    __out LANGID *InstallUILanguageId
+NtQueryInstallUILanguage(
+    OUT LANGID *InstallUILanguageId
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtQueryDefaultUILanguage (
-    __out LANGID *DefaultUILanguageId
+NtQueryDefaultUILanguage(
+    OUT LANGID *DefaultUILanguageId
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtSetDefaultUILanguage (
-    __in LANGID DefaultUILanguageId
+NtSetDefaultUILanguage(
+    IN LANGID DefaultUILanguageId
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtSetDefaultHardErrorPort(
-    __in HANDLE DefaultHardErrorPort
+    IN HANDLE DefaultHardErrorPort
     );
 
 typedef enum _SHUTDOWN_ACTION {
@@ -2638,16 +2534,17 @@ typedef enum _SHUTDOWN_ACTION {
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtShutdownSystem (
-    __in SHUTDOWN_ACTION Action
+NtShutdownSystem(
+    IN SHUTDOWN_ACTION Action
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtDisplayString (
-    __in PUNICODE_STRING String
+NtDisplayString(
+    IN PUNICODE_STRING String
     );
+
 
 //
 // Global flags that can be set to control system behavior.
@@ -2731,7 +2628,7 @@ NtDisplayString (
                                         FLG_DISABLE_DBGPRINT            | \
                                         FLG_ENABLE_HANDLE_EXCEPTIONS      \
                                        )
-
+
 //
 // Routines for manipulating global atoms stored in kernel space
 //
@@ -2741,26 +2638,26 @@ typedef USHORT RTL_ATOM, *PRTL_ATOM;
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtAddAtom (
-    __in_bcount_opt(Length) PWSTR AtomName,
-    __in ULONG Length,
-    __out_opt PRTL_ATOM Atom
+NtAddAtom(
+    IN PWSTR AtomName OPTIONAL,
+    IN ULONG Length OPTIONAL,
+    OUT PRTL_ATOM Atom OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtFindAtom (
-    __in_bcount_opt(Length) PWSTR AtomName,
-    __in ULONG Length,
-    __out_opt PRTL_ATOM Atom
+NtFindAtom(
+    IN PWSTR AtomName,
+    IN ULONG Length,
+    OUT PRTL_ATOM Atom OPTIONAL
     );
 
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
-NtDeleteAtom (
-    __in RTL_ATOM Atom
+NtDeleteAtom(
+    IN RTL_ATOM Atom
     );
 
 typedef enum _ATOM_INFORMATION_CLASS {
@@ -2784,11 +2681,11 @@ NTSYSCALLAPI
 NTSTATUS
 NTAPI
 NtQueryInformationAtom(
-    __in RTL_ATOM Atom,
-    __in ATOM_INFORMATION_CLASS AtomInformationClass,
-    __out_bcount(AtomInformationLength) PVOID AtomInformation,
-    __in ULONG AtomInformationLength,
-    __out_opt PULONG ReturnLength
+    IN RTL_ATOM Atom,
+    IN ATOM_INFORMATION_CLASS AtomInformationClass,
+    OUT PVOID AtomInformation,
+    IN ULONG AtomInformationLength,
+    OUT PULONG ReturnLength OPTIONAL
     );
 
 
@@ -2797,4 +2694,3 @@ NtQueryInformationAtom(
 #endif
 
 #endif // _NTEXAPI_
-

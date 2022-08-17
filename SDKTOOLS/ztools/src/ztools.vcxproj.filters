@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source FIles">
+      <UniqueIdentifier>{2801da55-e9d5-4aaa-8bdd-dc5ff3c1f06b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ctime2l.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="curdir.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="cvtoem.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="dodel.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="error.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="exetype.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="fappend.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="fastcopy.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="fcopy.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="fdelete.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="fexpunge.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="fgetl.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="find.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="fmove.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="forfile.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="forsemi.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="fputl.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="freespac.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="init.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="match.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="mgetl.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="ntoi.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="pathcat.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="pathchr.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="pathopen.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="pname.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="re_mi.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="reparse.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="root.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="strcmps.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="string.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="swchng.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="update.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="vector.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="xtab.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="zalloc.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="ztoolasm.c">
+      <Filter>Source FIles</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sources">
+      <Filter>Source FIles</Filter>
+    </None>
+  </ItemGroup>
+</Project>
